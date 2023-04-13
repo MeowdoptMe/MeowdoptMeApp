@@ -1,2 +1,3 @@
-# SE-project
-This repository will hold our SE project.
+# MeowdoptMe
+
+This repository will hold our adoption app.
