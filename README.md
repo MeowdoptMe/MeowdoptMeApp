@@ -4,7 +4,9 @@ This repository will hold our adoption app.
 
 ## Install
 
-Run `yarn` in root directory.
+1. Clone repo with: `git clone https://github.com/tjzel/MeowdoptMe <directory>`
+1. Make sure you have [Node.JS](https://nodejs.org/en) installed!
+1. Run `yarn` in project's root directory.
 
 ## Testing
 
