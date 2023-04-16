@@ -1,3 +1,11 @@
-**/.git
-**/.vscode
+# OSX
 **/.DS_Store
+
+# git
+**/.git
+
+# vscode
+**/.vscode
+
+# node
+**/node_modules
