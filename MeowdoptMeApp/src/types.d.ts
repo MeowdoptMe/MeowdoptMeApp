@@ -1,0 +1,44 @@
+interface Ad {
+  adId: number;
+  pet: Pet;
+  active: boolean;
+  shelter: Shelter;
+  photoAlbum: PhotoAlbum;
+
+  setPet: (pet: Pet) => void;
+  setActive: (active: boolean) => void;
+  setShelter: (shelter: Shelter) => void;
+  getContact: () => ContactInfo;
+  share: () => string;
+  render: () => void;
+}
+
+interface Pet {
+  name: string;
+  petCharacteristics: PetCharacteristics;
+}
+
+interface PetCharacteristics {
+  species: string;
+  subSpecies?: string;
+  age: number;
+  gender: string;
+  color: string;
+}
+
+interface PhotoAlbum {
+  id: number;
+  photos: Photo[];
+  // instead of add
+  addPhoto: (photo: Photo) => void;
+  // instead of delete
+  removePhoto: (index: int) => void;
+}
+
+interface Photo {
+  img: object;
+  description: string;
+
+  setImg: (img: object) => void;
+  setDescription: (description: string) => void;
+}
