@@ -1,7 +1,7 @@
-import { Photo } from "./types";
+import type { Photo } from "./types";
 
 describe("Photo class", () => {
-  it("changes img property in Photo with setImg", () => {
+  it("changes img property with setImg", () => {
     // TODO to be corrected later on
     let photo: Photo;
     const img = {
@@ -13,7 +13,7 @@ describe("Photo class", () => {
     expect(photo.img).toBe(img);
   });
 
-  it("changes description propety in Photo with setDescription", () => {
+  it("changes description property with setDescription", () => {
     // TODO to be corrected later on
     let photo: Photo;
     const description = "test";
