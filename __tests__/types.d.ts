@@ -49,9 +49,9 @@ export interface Permission {
 }
 export interface PermissionsList {
   permissions: Permission[];
-  removePermission: (index: int) => void;
+  removePermission: (permission: Permission) => void;
 }
-export interface PermisssionRequest {
+export interface PermissionRequest {
   user: User;
   shelter: Shelter;
   permissionType: Permission;
