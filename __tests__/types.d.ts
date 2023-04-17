@@ -7,7 +7,6 @@ export interface App {
 }
 
 export interface Database {
-
   getAds: () => unknown;
   getShelters: () => unknown;
   getUsers: () => unknown;
@@ -74,6 +73,7 @@ export interface Permission {
 export interface PermissionsList {
   permissions: Permission[];
   removePermission: (permission: Permission) => void;
+  addPermission: (permission: Permission) => void;
 }
 export interface PermissionRequest {
   user: User;
