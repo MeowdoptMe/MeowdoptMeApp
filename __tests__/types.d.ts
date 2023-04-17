@@ -63,6 +63,6 @@ export interface Database {
   setAd: (ad: Ad) => unknown;
   removeAd: (ad: Ad) => unknown;
   setPermissions: (permission: Permission) => unknown;
-  registerRequest: (request: Request) => unknown;
+  registerRequest: (request: PermissionRequest) => unknown;
   setShelter: (shelter: Shelter) => unknown;
 }
