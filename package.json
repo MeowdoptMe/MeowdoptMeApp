@@ -20,5 +20,8 @@
     "test": "yarn test:root && yarn test:app",
     "test:root": "jest __tests__/*.ts",
     "test:app": "cd MeowdoptMeApp && yarn test"
+  },
+  "dependencies": {
+    "yarn": "^1.22.19"
   }
 }
