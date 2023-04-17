@@ -42,3 +42,27 @@ export interface Photo {
   setImg: (img: object) => void;
   setDescription: (description: string) => void;
 }
+
+export interface App {
+  currentScreen: Screen;
+  loggedInUser: User;
+  database: Database;
+
+  setCurrentScreen: () => unknown
+}
+
+export interface Database {
+
+  getAds: () => unknown;
+  getShelters: () => unknown;
+  getUsers: () => unknown;
+  registerUser: (user: User) => unknown;
+  authUser: (user: User) => unknown;
+  getShelterData: (shelter: Shelter) => unknown;
+  getAdData: (ad: Ad) => unknown;
+  setAd: () => unknown;
+  removeAd: (ad: Ad) => unknown;
+  setPermissions: () => unknown;
+  registerRequest: (request: Request) => unknown;
+  setShelter: () => unknown;
+}
