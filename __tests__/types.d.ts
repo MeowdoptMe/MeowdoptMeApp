@@ -66,6 +66,21 @@ export interface Photo {
   setImg: (img: object) => void;
   setDescription: (description: string) => void;
 }
+export interface Permission {
+  user: User;
+  shelter: Shelter;
+  value: number;
+}
+export interface PermissionsList {
+  permissions: Permission[];
+  removePermission: (permission: Permission) => void;
+}
+export interface PermissionRequest {
+  user: User;
+  shelter: Shelter;
+  permissionType: Permission;
+  cancelRequest: () => void;
+}
 
 export interface PreferencesScreen {
   adFilters: AdFilters;
