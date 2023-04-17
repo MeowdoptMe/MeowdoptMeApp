@@ -48,7 +48,7 @@ export interface App {
   loggedInUser: User;
   database: Database;
 
-  setCurrentScreen: () => unknown
+  setCurrentScreen: (screen: Screen) => unknown
 }
 
 export interface Database {
@@ -60,9 +60,9 @@ export interface Database {
   authUser: (user: User) => unknown;
   getShelterData: (shelter: Shelter) => unknown;
   getAdData: (ad: Ad) => unknown;
-  setAd: () => unknown;
+  setAd: (ad: Ad) => unknown;
   removeAd: (ad: Ad) => unknown;
-  setPermissions: () => unknown;
+  setPermissions: (permission: Permission) => unknown;
   registerRequest: (request: Request) => unknown;
-  setShelter: () => unknown;
+  setShelter: (shelter: Shelter) => unknown;
 }
