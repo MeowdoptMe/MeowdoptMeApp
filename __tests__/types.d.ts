@@ -1,4 +1,4 @@
-interface Ad {
+export interface Ad {
   adId: number;
   pet: Pet;
   active: boolean;
@@ -13,12 +13,12 @@ interface Ad {
   render: () => void;
 }
 
-interface Pet {
+export interface Pet {
   name: string;
   petCharacteristics: PetCharacteristics;
 }
 
-interface PetCharacteristics {
+export interface PetCharacteristics {
   species: string;
   subSpecies?: string;
   age: number;
@@ -26,7 +26,7 @@ interface PetCharacteristics {
   color: string;
 }
 
-interface PhotoAlbum {
+export interface PhotoAlbum {
   id: number;
   photos: Photo[];
   // instead of add
@@ -35,7 +35,7 @@ interface PhotoAlbum {
   removePhoto: (index: int) => void;
 }
 
-interface Photo {
+export interface Photo {
   img: object;
   description: string;
 

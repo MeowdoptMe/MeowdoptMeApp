@@ -1,3 +1,5 @@
+import { Photo } from "./types";
+
 describe("Photo class", () => {
   it("changes img property in Photo with setImg", () => {
     // TODO to be corrected later on
