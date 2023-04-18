@@ -75,10 +75,9 @@ export interface PermissionsList {
   removePermission: (permission: Permission) => void;
   addPermission: (permission: Permission) => void;
 }
+
 export interface PermissionRequest {
-  user: User;
-  shelter: Shelter;
-  permissionType: Permission;
+  permission: Permission;
   cancelRequest: () => void;
 }
 
@@ -104,3 +103,4 @@ export interface AppSettings {
   deleteAccount: () => void;
   logout: () => void;
 }
+export interface Shelter {}

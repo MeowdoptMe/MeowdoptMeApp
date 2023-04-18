@@ -1,12 +1,18 @@
 import type { PermissionRequest, User, Shelter, Permission } from "./types";
 
 describe("PermissionRequest class", () => {
-  it("removing request from shelter's PermissionRequests list", () => {
-    let permRequest: PermissionRequest;
+  it("removes request form user's PermissionRequest list with removeRequest", () => {
+    let request: {
+      user: {},
+      shelter: {},
+      permission: {},
+    };
     // @ts-expect-error
-    permRequest.user = undefined;
-
+    user.requests = user.requests.concat([request]);
     // @ts-expect-error
-    expect(permRequest.user).toBe(undefined);
+    request.cancelRequest()
+    
+    // @ts-expect-error
+    expect(request.user).toBeUndefined();
   });
 });
