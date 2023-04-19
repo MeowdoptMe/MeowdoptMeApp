@@ -3,11 +3,10 @@ export interface App {
   loggedInUser: User;
   database: Database;
 
-  setCurrentScreen: (screen: Screen) => unknown
+  setCurrentScreen: (screen: Screen) => unknown;
 }
 
 export interface Database {
-
   getAds: () => unknown;
   getShelters: () => unknown;
   getUsers: () => unknown;
@@ -56,7 +55,7 @@ export interface PhotoAlbum {
   // instead of add
   addPhoto: (photo: Photo) => void;
   // instead of delete
-  removePhoto: (index: int) => void;
+  removePhoto: (photo: Photo) => void;
 }
 
 export interface Photo {
