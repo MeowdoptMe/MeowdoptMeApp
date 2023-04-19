@@ -3,7 +3,7 @@ export interface App {
   loggedInUser: User;
   database: Database;
 
-  setCurrentScreen: (screen: Screen) => unknown
+  setCurrentScreen: (screen: Screen) => unknown;
 }
 
 export interface Database {
@@ -103,4 +103,20 @@ export interface AppSettings {
   deleteAccount: () => void;
   logout: () => void;
 }
-export interface Shelter {}
+
+export interface Shelter {
+  id: number;
+  name: string;
+  associates: User[];
+  permissionRequests: PermissionRequest[];
+  photoAlbum: PhotoAlbum;
+  contactInfo: ContactInfo;
+  removePermission: (permission: Persmission, user: User) => void;
+  resolveRequest: (request: PermissionRequest) => void;
+  modifyAssociate: (associate: User, permission: Permission) => void;
+  setName: (newName: string) => void;
+  makeRequest: (request: PermissionRequest) => void;
+  setContactInfo: (newInfo: ContactInfo) => void;
+  getAdList: () => Ad[];
+  getAssociatesByPermissions: (permission: Permission) => User[];
+}
