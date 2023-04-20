@@ -1,7 +1,7 @@
 import { PhotoAlbum, Photo } from "./types";
 
 describe("PhotoAlbum class", () => {
-  it("adds new photo to photo album", () => {
+  it("adds new photo with aAddPhoto", () => {
     let photoAlbum: PhotoAlbum;
     const photo: Photo = {
       img: {},
@@ -13,10 +13,10 @@ describe("PhotoAlbum class", () => {
     // @ts-expect-error
     photoAlbum.addPhoto(photo);
     // @ts-expect-error
-    expect(photoAlbum.photos).toContain(photo); //sprawdzic czy photo jest w tablicy photos[]
+    expect(photoAlbum.photos).toContain(photo);
   });
 
-  it("removes chosen photo from photo album", () => {
+  it("removes chosen photo with removePhoto", () => {
     let photoAlbum: PhotoAlbum;
 
     const photo: Photo = {
