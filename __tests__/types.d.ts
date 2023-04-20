@@ -75,14 +75,14 @@ export interface Shelter {
   permissionRequests: PermissionRequest[];
   photoAlbum: PhotoAlbum;
   contactInfo: ContactInfo;
-  removePermission: (permission: Persmission, user: User) => void;
+  removePermission: (permission: Permission, user: User) => void;
   resolveRequest: (request: PermissionRequest) => void;
-  modifyAssociate: (associate: User, permission: Permission) => void;
+  modifyAssociate: (associate: User) => void;
   setName: (newName: string) => void;
   makeRequest: (request: PermissionRequest) => void;
   setContactInfo: (newInfo: ContactInfo) => void;
   getAdList: () => Ad[];
-  getAssociatesByPermissions: (permission: Permission) => User[];
+  showAssociatesPermissions: () => void;
 }
 
 //MiddleScreen
