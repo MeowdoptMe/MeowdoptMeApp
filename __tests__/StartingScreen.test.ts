@@ -12,7 +12,7 @@ describe("StartingScreen class", () => {
     // @ts-expect-error
     database = {};
   });
-  it("logs user with login", () => {
+  it("logs user in with login", () => {
     startingScreen.login("ewa", "root");
     expect(app.loggedInUser.username).toBe("ewa");
   });
