@@ -2,24 +2,24 @@ import type { StartingScreen, App, Database } from "./types";
 
 let startingScreen: StartingScreen;
 let app: App;
-let db: Database;
+let database: Database;
 describe("Screen class", () => {
   beforeEach(() => {
     startingScreen: {
     }
     app: {
     }
-    db: {
+    database: {
     }
   });
-  it("login user in StartingScreen with login", () => {
+  it("logs user in StartingScreen with login", () => {
     startingScreen.login("ewa", "root");
     expect(app.loggedInUser.username).toBe("ewa");
   });
-  it("register user in StartingScreen with register", () => {
+  it("registers user in StartingScreen with register", () => {
     //TODO
   });
-  it("resetPassword user in StartingScreen with resetPassword", () => {
+  it("resets password user in StartingScreen with resetPassword", () => {
     try {
       startingScreen.resetPassword("ewa@gmail.com");
     } catch (error) {
