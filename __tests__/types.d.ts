@@ -55,7 +55,7 @@ export interface PhotoAlbum {
   // instead of add
   addPhoto: (photo: Photo) => void;
   // instead of delete
-  removePhoto: (index: int) => void;
+  removePhoto: (photo: Photo) => void;
 }
 
 export interface Photo {
