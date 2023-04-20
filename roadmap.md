@@ -20,6 +20,8 @@ _21.04 - 28.04_
 - Edit class and sequence diagrams accordingly to changes proposed to them after creating the tests.
 - Prepare a draft of database system.
 - Write tests for the database.
+- Choose a technology for in-app map.
+- Write tests for in-app map interface.
 - Begin database backend implementation if possible.
 - Begin classes implementation if possible.
 - Extend Roadmap for further sprints.
