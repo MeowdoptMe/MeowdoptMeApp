@@ -3,23 +3,23 @@ import type { StartingScreen, App, Database } from "./types";
 let startingScreen: StartingScreen;
 let app: App;
 let database: Database;
-describe("Screen class", () => {
+describe("StartingScreen class", () => {
   beforeEach(() => {
-    startingScreen: {
-    }
-    app: {
-    }
-    database: {
-    }
+    // @ts-expect-error
+    startingScreen = {};
+    // @ts-expect-error
+    app = {};
+    // @ts-expect-error
+    database = {};
   });
-  it("logs user in StartingScreen with login", () => {
+  it("logs user with login", () => {
     startingScreen.login("ewa", "root");
     expect(app.loggedInUser.username).toBe("ewa");
   });
-  it("registers user in StartingScreen with register", () => {
+  it("registers user with register", () => {
     //TODO
   });
-  it("resets password user in StartingScreen with resetPassword", () => {
+  it("resets password user with resetPassword", () => {
     try {
       startingScreen.resetPassword("ewa@gmail.com");
     } catch (error) {
@@ -28,7 +28,6 @@ describe("Screen class", () => {
   });
   it("renders startingSreen", () => {
     // TODO to be corrected later on
-    let startingScreen: StartingScreen;
     try {
       // @ts-expect-error
       screen.render();
