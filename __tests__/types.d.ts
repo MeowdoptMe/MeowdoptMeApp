@@ -104,3 +104,12 @@ export interface AppSettings {
   deleteAccount: () => void;
   logout: () => void;
 }
+
+export interface User {
+  id: number,
+  username: string,
+  password: string,
+  mail: string,
+  permissions: PermissionsList,
+  requests: PermissionReguest[]
+}
