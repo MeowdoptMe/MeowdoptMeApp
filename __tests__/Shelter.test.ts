@@ -8,6 +8,7 @@ import type {
 } from "./types";
 
 let perm: Permission = {
+  // @ts-expect-error
   user: {},
   // @ts-expect-error
   shelter: {},
@@ -33,6 +34,7 @@ let shelter: Shelter = {
   permissionRequests: [],
   // @ts-expect-error
   photoAlbum: {},
+  // @ts-expect-error
   contactInfo: {},
 };
 let permissionRequest: PermissionRequest = {
@@ -68,6 +70,7 @@ describe("Shelter class", () => {
   });
 
   it("with setContactInfo", () => {
+    // @ts-expect-error
     let info: ContactInfo = {};
     shelter.setContactInfo(info);
     expect(shelter.contactInfo).toBe(info);
