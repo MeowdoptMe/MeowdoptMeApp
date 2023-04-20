@@ -3,11 +3,10 @@ export interface App {
   loggedInUser: User;
   database: Database;
 
-  setCurrentScreen: (screen: Screen) => unknown
+  setCurrentScreen: (screen: Screen) => void;
 }
 
 export interface Database {
-
   getAds: () => unknown;
   getShelters: () => unknown;
   getUsers: () => unknown;
@@ -103,4 +102,33 @@ export interface AppSettings {
   setMail: (mail: string) => void;
   deleteAccount: () => void;
   logout: () => void;
+}
+
+export interface Screen {
+  render: () => void;
+}
+
+export interface HomeScreen extends Screen {}
+
+export interface ScrollPage extends HomeScreen {
+  scroll: () => void;
+}
+
+export interface AdPage extends ScrollPage {
+  ads: Ad[];
+  filters: AdFilters;
+  currentAd: Ad;
+  scrollCurrent: () => void;
+  addAd: (ad: Ad) => void;
+  setAd: (ad: Ad) => void;
+  removeAd: (ad: Ad) => void;
+}
+
+export interface ShelterPage extends AdPage {
+  shelter: Shelter;
+  goToShelter: () => void;
+  exitShelterPage: () => void;
+  findAd: () => void;
+  editShelter: () => void;
+  getContactInfo: () => ContactInfo;
 }
