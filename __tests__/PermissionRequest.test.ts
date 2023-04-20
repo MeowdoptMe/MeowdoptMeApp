@@ -19,7 +19,7 @@ describe("PermissionRequest class", () => {
     expect(user.requests).not.toContain(request);
   });
   it("removes request from shelter's PermissionRequest list with removeRequest", () => {
-    user.requests = user.requests.concat([request]);
+    shelter.permissionRequests = shelter.permissionRequests.concat([request]);
     request.cancelRequest();
     expect(shelter.permissionRequests).not.toContain(request);
   });

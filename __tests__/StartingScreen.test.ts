@@ -1,23 +1,17 @@
 import type { StartingScreen, App, Database } from "./types";
 
-let startingScreen: StartingScreen = {
-  login() {},
-  register() {},
-  resetPassword() {},
-  render() {},
-};
-let app: App = {
-  // @ts-expect-error
-  currentScreen: {},
-  // @ts-expect-error
-  loggedInUser: {},
-  // @ts-expect-error
-  database: {},
-  setCurrentScreen() {},
-};
-// @ts-expect-error
-let db: Database = {};
+let startingScreen: StartingScreen;
+let app: App;
+let db: Database;
 describe("Screen class", () => {
+  beforeEach(() => {
+    startingScreen: {
+    }
+    app: {
+    }
+    db: {
+    }
+  });
   it("login user in StartingScreen with login", () => {
     startingScreen.login("ewa", "root");
     expect(app.loggedInUser.username).toBe("ewa");
