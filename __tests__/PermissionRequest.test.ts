@@ -1,26 +1,26 @@
-import type { PermissionRequest, User, Shelter, Permission } from "./types";
+import type { PermissionRequest, User, Shelter } from "./types";
 
-let request: {
-  user: {};
-  shelter: {};
-  permission: {};
-};
+let request: PermissionRequest;
+let user: User;
+let shelter: Shelter;
 
 describe("PermissionRequest class", () => {
+  beforeEach(() => {
+    // @ts-expect-error
+    user = {};
+    // @ts-expect-error
+    request = {};
+    // @ts-expect-error
+    shelter = {};
+  });
   it("removes request from user's PermissionRequest list with removeRequest", () => {
-    // @ts-expect-error
     user.requests = user.requests.concat([request]);
-    // @ts-expect-error
     request.cancelRequest();
-    // @ts-expect-error
-    expect(user.request).not.toContain(request);
+    expect(user.requests).not.toContain(request);
   });
   it("removes request from shelter's PermissionRequest list with removeRequest", () => {
-    // @ts-expect-error
     user.requests = user.requests.concat([request]);
-    // @ts-expect-error
     request.cancelRequest();
-    // @ts-expect-error
     expect(shelter.permissionRequests).not.toContain(request);
   });
 });
