@@ -49,6 +49,6 @@ describe("PreferencesScreen class", () => {
     // @ts-expect-error
     preferencesScreen.setSettings(settings);
     // @ts-expect-error
-    expect().toBe(settings);  // to be completed (but how?)
+    expect(preferencesScreen.AppSettings).toBe(settings);  // to be completed (but how?)
   });
 });
