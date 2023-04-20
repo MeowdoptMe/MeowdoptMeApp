@@ -8,7 +8,7 @@ describe("PhotoAlbum class", () => {
       description: "desc",
       setImg: () => {},
       setDescription: () => {},
-    }; //nie wiem jak tutaj
+    };
 
     // @ts-expect-error
     photoAlbum.addPhoto(photo);
@@ -18,8 +18,6 @@ describe("PhotoAlbum class", () => {
 
   it("removes chosen photo from photo album", () => {
     let photoAlbum: PhotoAlbum;
-    const index: number = 2; //chcialabym sobie zapisac aktualne photo na podanych indeksie, zeby potem sprawdzic czy w miejscu tego indeksu jest cos innego
-    // const prev_photo = photoAlbum.photos[index];
 
     const photo: Photo = {
       img: {},
