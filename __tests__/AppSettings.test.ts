@@ -1,7 +1,7 @@
 import { AppSettings, User, App } from "./types";
 
 describe("AppSettings class", () => {
-    it("changes password property with setPassword", () => {
+    it("changes user's password with setPassword", () => {
         // TODO to be corrected later on
         let settings: AppSettings;
         let app: App;
@@ -22,7 +22,7 @@ describe("AppSettings class", () => {
         expect(user.password).toBe(password);
       });
 
-    it("changes username property with setUsername", () => {
+    it("changes user's username with setUsername", () => {
       // TODO to be corrected later on
       let settings: AppSettings;
       let app: App;
@@ -43,7 +43,7 @@ describe("AppSettings class", () => {
       expect(user.username).toBe(username);
     });
 
-    it("changes mail property with setMail", () => {
+    it("changes user's mail with setMail", () => {
       // TODO to be corrected later on
       let settings: AppSettings;
       let app: App;
