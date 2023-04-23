@@ -108,19 +108,19 @@ export interface AppSettings {
 }
 
 export interface SheltersListFilters {
-  city: string,
-  maxDistance: number,
+  city: string;
+  maxDistance: number;
 
-  setFilters: () => void
+  setFilters: (city: string, maxDistance: number) => void;
 }
 
 export interface SheltersList {
-  shelters: Shelter[],
-  sheltersFilters: ShelterListFilters,
+  shelters: Shelter[];
+  sheltersFilters: ShelterListFilters;
 
-  getShelters: (sheltersList: Database) => SheltersList,
-  goToShelter: () => Shelter,
-  scroll: () => void
+  getShelters: (sheltersList: Database) => void;
+  goToShelter: () => void;
+  scroll: () => void;
 }
 
 export interface Screen {
