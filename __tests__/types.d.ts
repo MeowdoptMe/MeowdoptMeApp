@@ -111,5 +111,21 @@ export interface User {
   password: string,
   mail: string,
   permissions: PermissionsList,
-  requests: PermissionReguest[]
+  requests: PermissionRequest[]
+}
+
+export interface SheltersListFilters {
+  city: string,
+  maxDistance: nuumber,
+
+  setFilters: () => void
+}
+
+export interface SheltersList {
+  shelters: Shelter[],
+  sheltersFilters: ShelterListFilters,
+
+  getShelters: (sheltersList: Database) => SheltersList,
+  goToShelter: () => Shelter,
+  scroll: () => void
 }
