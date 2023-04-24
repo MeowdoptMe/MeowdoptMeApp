@@ -150,3 +150,7 @@ export interface User {
   permissions: PermissionsList;
   requests: PermissionRequest[];
 }
+
+export interface Map {
+  renderWithShelters();
+}

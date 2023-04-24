@@ -19,7 +19,7 @@ describe("StartingScreen class", () => {
   it("registers user with register", () => {
     //TODO
   });
-  it("resets password user with resetPassword", () => {
+  it("resets user's password with resetPassword", () => {
     try {
       startingScreen.resetPassword("ewa@gmail.com");
     } catch (error) {
