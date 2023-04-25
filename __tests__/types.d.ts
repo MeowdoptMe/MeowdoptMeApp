@@ -177,7 +177,7 @@ export interface User {
 
 export interface SheltersMap {
   map: Map;
-  goToShelter: () => void;
+  goToShelter: (shelter: Shelter) => void;
 }
 
 export interface SheltersScreen {
