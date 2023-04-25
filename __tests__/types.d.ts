@@ -111,13 +111,14 @@ export interface Screen {
   render: () => void;
 }
 
-export interface HomeScreen extends Screen {}
+export interface HomeScreen implements Screen {}
 
-export interface ScrollPage extends HomeScreen {
+export interface ScrollPage implements HomeScreen  {
   scroll: () => void;
+  render: () => void;
 }
 
-export interface AdPage extends ScrollPage {
+export interface AdPage implements ScrollPage {
   ads: Ad[];
   filters: AdFilters;
   currentAd: Ad;
@@ -127,13 +128,14 @@ export interface AdPage extends ScrollPage {
   removeAd: (ad: Ad) => void;
 }
 
-export interface ShelterPage extends AdPage {
+export interface ShelterPage extends AdPage implements ScrollPage {
   shelter: Shelter;
   goToShelter: () => void;
   exitShelterPage: () => void;
   findAd: () => void;
   editShelter: () => void;
   getContactInfo: () => ContactInfo;
+  render: () => void;
 }
 export interface StartingScreen {
   login: (username: string, pwd: string) => void;
