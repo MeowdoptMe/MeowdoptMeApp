@@ -174,3 +174,14 @@ export interface User {
   permissions: PermissionsList;
   requests: PermissionRequest[];
 }
+
+export interface SheltersMap {
+  map: Map;
+  goToShelter: () => void;
+}
+
+export interface SheltersScreen {
+  sheltersList: Shelter[];
+  sheltersMap: SheltersMap;
+  render: () => void;
+}
