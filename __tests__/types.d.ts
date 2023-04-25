@@ -152,5 +152,5 @@ export interface User {
 }
 
 export interface Map {
-  renderWithShelters();
+  renderWithShelters: () => void;
 }
