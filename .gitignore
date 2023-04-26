@@ -9,3 +9,12 @@
 
 # node
 **/node_modules
+
+# python
+**/*.pyc
+
+# pycharm
+**/.idea
+
+# sqlite3
+BackendApp/db.sqlite3
