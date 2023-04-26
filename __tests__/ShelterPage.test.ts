@@ -1,8 +1,7 @@
-// @ts-expect-error
-import type { ShelterPage, App, ContactInfo } from "./types";
+import type { ShelterPage, App, ContactInfo } from './types';
 
-describe("ShelterPage class", () => {
-  it("goes to shelter Ad bound with ShelterPage with goToShelter", () => {
+describe('ShelterPage class', () => {
+  it('goes to shelter Ad bound with ShelterPage with goToShelter', () => {
     // TODO to be corrected later on
     let shelterPage: ShelterPage;
     try {
@@ -13,7 +12,7 @@ describe("ShelterPage class", () => {
     }
   });
 
-  it("exits shelterPage with exitShelterPage", () => {
+  it('exits shelterPage with exitShelterPage', () => {
     let app: App;
     let shelterPage: ShelterPage;
     // @ts-expect-error
@@ -24,7 +23,7 @@ describe("ShelterPage class", () => {
     expect(app.currentScreen).not.toBe(shelterPage);
   });
 
-  it("finds an Ad with findAd", () => {
+  it('finds an Ad with findAd', () => {
     let shelterPage: ShelterPage;
     try {
       // @ts-expect-error
@@ -34,7 +33,7 @@ describe("ShelterPage class", () => {
     }
   });
 
-  it("edits shelter with editShelter", () => {
+  it('edits shelter with editShelter', () => {
     let shelterPage: ShelterPage;
     try {
       // @ts-expect-error
@@ -44,7 +43,7 @@ describe("ShelterPage class", () => {
     }
   });
 
-  it("gets contactInfo with getContactInfo", () => {
+  it('gets contactInfo with getContactInfo', () => {
     let shelterPage: ShelterPage;
     // @ts-expect-error
     const contactInfo: ContactInfo = shelterPage.getContactInfo();
