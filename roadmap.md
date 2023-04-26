@@ -50,3 +50,4 @@ _Keep in mind that tests respective to those classes have to be modified at the 
 - Prepare first draft of working database and have it provide API for App's Database class.
 - Make unit tests for the database in parallel - same for Database class.
 - Integrate Database class with provided interface.
+  s
