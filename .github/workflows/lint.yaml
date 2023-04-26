@@ -3,10 +3,10 @@ run-name: ${{ github.head_ref }} is linting 🚀
 on:
   pull_request:
     branches:
-      - main
+      - master
   push:
     branches:
-      - main
+      - master
 jobs:
   Lint:
     runs-on: ubuntu-latest
