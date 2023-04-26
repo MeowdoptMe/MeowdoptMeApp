@@ -3,6 +3,7 @@ import type { Ad, AdPage } from "./types";
 let generateAd: () => Ad;
 describe("AdPage class", () => {
   beforeAll(() => {
+    // @ts-expect-error Shelter is not defined properly here
     generateAd = () => {
       return {
         adId: 1,

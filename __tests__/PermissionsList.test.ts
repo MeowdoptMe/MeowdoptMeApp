@@ -1,9 +1,10 @@
-import type { PermissionsList, Permission, User, Shelter } from "./types";
+import type { PermissionsList, Permission, Shelter } from './types';
 
-describe("PermissionsList class", () => {
-  it("adds new element to PermissionsList with addPermission", () => {
+describe('PermissionsList class', () => {
+  it('adds new element to PermissionsList with addPermission', () => {
     let shelter: Shelter;
-    let permission: Permission = {
+    const permission: Permission = {
+      // @ts-expect-error
       user: {},
       // @ts-expect-error
       shelter: shelter,
@@ -17,7 +18,7 @@ describe("PermissionsList class", () => {
     expect(list.permissions).toContain(permission);
   });
 
-  it("removes permission from PermissionsList with removePermission", () => {
+  it('removes permission from PermissionsList with removePermission', () => {
     let permission: Permission;
     let list: PermissionsList;
     // @ts-expect-error
