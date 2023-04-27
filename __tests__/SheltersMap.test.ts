@@ -6,10 +6,11 @@ describe("SheltersMap class", () => {
       let app: App;
       let shelter: Shelter;
       let shelterpage: ShelterPage;
+      let shelterMap: SheltersMap;
       // @ts-expect-error
       shelterpage.shelter = shelter;
       // @ts-expect-error
-      app.setCurrentScreen(shelterpage);
+      shelterMap.goToShelter(shelter);
       // @ts-expect-error
       expect(app.currentScreen).toBe(shelterpage);
     });
