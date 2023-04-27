@@ -107,6 +107,22 @@ export interface AppSettings {
   logout: () => void;
 }
 
+export interface SheltersListFilters {
+  city: string;
+  maxDistance: number;
+
+  setFilters: (city: string, maxDistance: number) => void;
+}
+
+export interface SheltersList {
+  shelters: Shelter[];
+  sheltersFilters: ShelterListFilters;
+
+  getShelters: () => void;
+  goToShelter: () => void;
+  scroll: () => void;
+}
+
 export interface Screen {
   render: () => void;
 }
