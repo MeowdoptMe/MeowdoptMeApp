@@ -118,7 +118,7 @@ export interface SheltersList {
   shelters: Shelter[];
   sheltersFilters: ShelterListFilters;
 
-  getShelters: (sheltersList: Database) => void;
+  getShelters: () => void;
   goToShelter: () => void;
   scroll: () => void;
 }
