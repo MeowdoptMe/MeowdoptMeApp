@@ -90,7 +90,7 @@ export interface PreferencesScreen {
 
   render: () => void;
   setFilters: (filters: AdFilters) => void;
-  setSettings: (settings: AppSettings) => void;
+  setSettings: () => void;
 }
 
 export interface AdFilters {
