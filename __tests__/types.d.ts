@@ -167,10 +167,10 @@ export interface ContactInfo {
 }
 
 export interface User {
-  id: number,
-  username: string,
-  password: string,
-  mail: string,
-  permissions: PermissionsList,
-  requests: PermissionRequest[]
+  id: number;
+  username: string;
+  password: string;
+  mail: string;
+  permissions: PermissionsList;
+  requests: PermissionRequest[];
 }
