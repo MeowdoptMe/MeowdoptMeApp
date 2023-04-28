@@ -129,7 +129,7 @@ export interface Screen {
 
 export interface HomeScreen extends Screen {}
 
-export interface ScrollPage extends HomeScreen  {
+export interface ScrollPage extends HomeScreen {
   scroll: () => void;
   render: () => void;
 }

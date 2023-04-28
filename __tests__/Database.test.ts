@@ -5,7 +5,7 @@ import type {
   Ad,
   Permission,
   PermissionRequest,
-} from "./types";
+} from './types';
 
 let database: Database;
 let user: User;
@@ -27,7 +27,7 @@ let permissionRequest: PermissionRequest;
 //   registerRequest: (request: PermissionRequest) => unknown;
 //   setShelter: (shelter: Shelter) => unknown;
 
-describe("PermissionRequest class", () => {
+describe('PermissionRequest class', () => {
   beforeEach(() => {
     // @ts-expect-error
     database = {};
@@ -42,61 +42,61 @@ describe("PermissionRequest class", () => {
     // @ts-expect-error
     permissionRequest = {};
   });
-  it("gets ads from database with getAds", () => {
+  it('gets ads from database with getAds', () => {
     expect(database.getAds()).toBeDefined();
   });
-  it("gets shelters from database with getShelters", () => {
+  it('gets shelters from database with getShelters', () => {
     expect(database.getShelters()).toBeDefined();
   });
-  it("gets users from database with getUsers", () => {
+  it('gets users from database with getUsers', () => {
     expect(database.getUsers()).toBeDefined();
   });
-  it("registers user with registerUser", () => {
+  it('registers user with registerUser', () => {
     try {
       database.registerUser(user);
     } catch (error) {
       fail(error);
     }
   });
-  it("authenticates user with authUser", () => {
+  it('authenticates user with authUser', () => {
     try {
       database.authUser(user);
     } catch (error) {
       fail(error);
     }
   });
-  it("gets data about shelter from database with getShelterData", () => {
+  it('gets data about shelter from database with getShelterData', () => {
     expect(database.getShelterData(shelter)).toBeDefined();
   });
-  it("sets add with setAd", () => {
+  it('sets add with setAd', () => {
     try {
       database.setAd(ad);
     } catch (error) {
       fail(error);
     }
   });
-  it("removes add with removeAdd", () => {
+  it('removes add with removeAdd', () => {
     try {
       database.setAd(ad);
     } catch (error) {
       fail(error);
     }
   });
-  it("sets permission with setPermission", () => {
+  it('sets permission with setPermission', () => {
     try {
       database.setPermissions(permission);
     } catch (error) {
       fail(error);
     }
   });
-  it("register request to shelter with registerRequest", () => {
+  it('register request to shelter with registerRequest', () => {
     try {
       database.registerRequest(permissionRequest);
     } catch (error) {
       fail(error);
     }
   });
-  it("sets shelter with setShelter", () => {
+  it('sets shelter with setShelter', () => {
     try {
       database.setShelter(shelter);
     } catch (error) {

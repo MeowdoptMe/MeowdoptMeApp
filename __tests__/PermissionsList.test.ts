@@ -1,7 +1,7 @@
-import type { PermissionsList, Permission, User, Shelter } from "./types";
+import type { PermissionsList, Permission, User, Shelter } from './types';
 
-describe("PermissionsList class", () => {
-  it("adds new element to PermissionsList with addPermission", () => {
+describe('PermissionsList class', () => {
+  it('adds new element to PermissionsList with addPermission', () => {
     let shelter: Shelter;
     const permission: Permission = {
       // @ts-expect-error
@@ -18,7 +18,7 @@ describe("PermissionsList class", () => {
     expect(list.permissions).toContain(permission);
   });
 
-  it("removes permission from PermissionsList with removePermission", () => {
+  it('removes permission from PermissionsList with removePermission', () => {
     let permission: Permission;
     let list: PermissionsList;
     // @ts-expect-error
@@ -28,22 +28,22 @@ describe("PermissionsList class", () => {
     // @ts-expect-error
     expect(list.permissions).not.toContain(permission);
   });
-  it("throws an error when trying to add duplicate permission", () => {
+  it('throws an error when trying to add duplicate permission', () => {
     let list: PermissionsList;
     // @ts-expect-error
-    const user: User = {}
+    const user: User = {};
     // @ts-expect-error
-    const shelter: Shelter = {}
+    const shelter: Shelter = {};
     const permission1: Permission = {
       user: user,
       shelter: shelter,
       value: 1,
-    }
+    };
     const permission2: Permission = {
       user: user,
       shelter: shelter,
       value: 2,
-    }
+    };
     // @ts-expect-error
     list.addPermission(permission1);
     try {
@@ -52,5 +52,5 @@ describe("PermissionsList class", () => {
     } catch (error) {
       fail(error);
     }
-  })
+  });
 });
