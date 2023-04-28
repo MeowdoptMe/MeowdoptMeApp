@@ -5,13 +5,13 @@ describe("SheltersMap class", () => {
       
       let app: App;
       let shelter: Shelter;
-      let shelterpage: ShelterPage;
+      let shelterPage: ShelterPage;
       let shelterMap: SheltersMap;
       // @ts-expect-error
-      shelterpage.shelter = shelter;
+      shelterPage.shelter = shelter;
       // @ts-expect-error
       shelterMap.goToShelter(shelter);
       // @ts-expect-error
-      expect(app.currentScreen).toBe(shelterpage);
+      expect(app.currentScreen).toBe(shelterPage);
     });
 });
