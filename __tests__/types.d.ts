@@ -129,7 +129,7 @@ export interface Screen {
 
 export interface HomeScreen extends Screen {}
 
-export interface ScrollPage extends HomeScreen  {
+export interface ScrollPage extends HomeScreen {
   scroll: () => void;
   render: () => void;
 }
@@ -193,6 +193,9 @@ export interface User {
   requests: PermissionRequest[];
 }
 
+export interface Map {
+  renderWithShelters: () => void;
+}
 export interface SheltersMap {
   map: Map;
   goToShelter: (shelter: Shelter) => void;
