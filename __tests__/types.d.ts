@@ -129,8 +129,9 @@ export interface Screen {
 
 export interface HomeScreen extends Screen {}
 
-export interface ScrollPage extends HomeScreen {
+export interface ScrollPage extends HomeScreen  {
   scroll: () => void;
+  render: () => void;
 }
 
 export interface AdPage extends ScrollPage {
@@ -150,6 +151,7 @@ export interface ShelterPage extends AdPage {
   findAd: () => void;
   editShelter: () => void;
   getContactInfo: () => ContactInfo;
+  render: () => void;
 }
 export interface StartingScreen {
   login: (username: string, pwd: string) => void;
@@ -189,4 +191,15 @@ export interface User {
   mail: string;
   permissions: PermissionsList;
   requests: PermissionRequest[];
+}
+
+export interface SheltersMap {
+  map: Map;
+  goToShelter: (shelter: Shelter) => void;
+}
+
+export interface SheltersScreen {
+  sheltersList: Shelter[];
+  sheltersMap: SheltersMap;
+  render: () => void;
 }
