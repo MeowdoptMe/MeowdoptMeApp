@@ -54,7 +54,7 @@ describe("Shelter class", () => {
 
   it("sets contact info with setContactInfo", () => {
     // @ts-expect-error
-    let info: ContactInfo = {};
+    const info: ContactInfo = {};
     shelter.setContactInfo(info);
     expect(shelter.contactInfo).toBe(info);
   });
