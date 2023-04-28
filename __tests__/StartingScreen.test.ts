@@ -17,7 +17,7 @@ describe("StartingScreen class", () => {
     expect(app.loggedInUser.username).toBe("ewa");
   });
   it("registers user with register", () => {
-    //TODO
+    // TODO
   });
   it("resets user's password with resetPassword", () => {
     try {
@@ -26,7 +26,7 @@ describe("StartingScreen class", () => {
       fail(error);
     }
   });
-  it("renders startingSreen", () => {
+  it("renders startingScreen", () => {
     // TODO to be corrected later on
     try {
       // @ts-expect-error

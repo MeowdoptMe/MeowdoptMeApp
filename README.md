@@ -16,8 +16,16 @@ To run tests run:
 
 - `yarn test` in root directory for all suites,
 - `yarn test:root` in root directory for just root test suites,
-- `yarn test:app` in root directory for just app test suites.
+- `yarn test:app` in root directory for just app test suites (WIP)
 
 ### Writing tests
 
 Main tests are located in `__tests__` in project's root directory. Add your tests there.
+
+## Making a pull request
+
+Before making a pull request please do:
+
+- `yarn static-checks`
+
+for TypeScript type-checking and ESLint to catch any errors in your code.

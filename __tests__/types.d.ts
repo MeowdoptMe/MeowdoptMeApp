@@ -3,7 +3,7 @@ export interface App {
   loggedInUser: User;
   database: Database;
 
-  setCurrentScreen: (screen: Screen) => unknown;
+  setCurrentScreen: (screen: Screen) => void;
 }
 
 export interface Database {
@@ -90,7 +90,7 @@ export interface PreferencesScreen {
 
   render: () => void;
   setFilters: (filters: AdFilters) => void;
-  setSettings: (settings: AppSettings) => void;
+  setSettings: () => void;
 }
 
 export interface AdFilters {
@@ -107,10 +107,52 @@ export interface AppSettings {
   logout: () => void;
 }
 
+export interface SheltersListFilters {
+  city: string;
+  maxDistance: number;
+
+  setFilters: (city: string, maxDistance: number) => void;
+}
+
+export interface SheltersList {
+  shelters: Shelter[];
+  sheltersFilters: ShelterListFilters;
+
+  getShelters: () => void;
+  goToShelter: () => void;
+  scroll: () => void;
+}
+
 export interface Screen {
   render: () => void;
 }
 
+export interface HomeScreen extends Screen {}
+
+export interface ScrollPage extends HomeScreen  {
+  scroll: () => void;
+  render: () => void;
+}
+
+export interface AdPage extends ScrollPage {
+  ads: Ad[];
+  filters: AdFilters;
+  currentAd: Ad;
+  scrollCurrent: () => void;
+  addAd: (ad: Ad) => void;
+  setAd: (ad: Ad) => void;
+  removeAd: (ad: Ad) => void;
+}
+
+export interface ShelterPage extends AdPage {
+  shelter: Shelter;
+  goToShelter: () => void;
+  exitShelterPage: () => void;
+  findAd: () => void;
+  editShelter: () => void;
+  getContactInfo: () => ContactInfo;
+  render: () => void;
+}
 export interface StartingScreen {
   login: (username: string, pwd: string) => void;
   register: (username: string, password: string, mail: string) => void;
@@ -153,4 +195,14 @@ export interface User {
 
 export interface Map {
   renderWithShelters: () => void;
+}
+export interface SheltersMap {
+  map: Map;
+  goToShelter: (shelter: Shelter) => void;
+}
+
+export interface SheltersScreen {
+  sheltersList: Shelter[];
+  sheltersMap: SheltersMap;
+  render: () => void;
 }

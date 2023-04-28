@@ -3,7 +3,7 @@ import type { PermissionsList, Permission, User, Shelter } from "./types";
 describe("PermissionsList class", () => {
   it("adds new element to PermissionsList with addPermission", () => {
     let shelter: Shelter;
-    let permission: Permission = {
+    const permission: Permission = {
       // @ts-expect-error
       user: {},
       // @ts-expect-error
@@ -28,10 +28,29 @@ describe("PermissionsList class", () => {
     // @ts-expect-error
     expect(list.permissions).not.toContain(permission);
   });
-  it("checks if an error is thrown if there already is a user with some permissions on the list", () => {
-    let user1 = {};
-    let user2 = {};
+  it("throws an error when trying to add duplicate permission", () => {
+    let list: PermissionsList;
     // @ts-expect-error
-    expect(user2.permissions).not.toBe(user1.permissions);
-  });
+    const user: User = {}
+    // @ts-expect-error
+    const shelter: Shelter = {}
+    const permission1: Permission = {
+      user: user,
+      shelter: shelter,
+      value: 1,
+    }
+    const permission2: Permission = {
+      user: user,
+      shelter: shelter,
+      value: 2,
+    }
+    // @ts-expect-error
+    list.addPermission(permission1);
+    try {
+      // @ts-expect-error
+      list.addPermission(permission2);
+    } catch (error) {
+      fail(error);
+    }
+  })
 });
