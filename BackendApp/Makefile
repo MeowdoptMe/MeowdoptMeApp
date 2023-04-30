@@ -1,6 +1,10 @@
 initdb:
 	python manage.py migrate
 
+updatedb:
+	python manage.py makemigrations
+	python manage.py migrate
+
 setup:
 	python3 -m venv env
 	source env/bin/activate

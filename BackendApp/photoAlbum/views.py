@@ -1,11 +1,19 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from .models import PhotoAlbum
-from .serializers import PhotoAlbumSerializer
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
 
-class PhotoAlbumList(APIView):
-    def get(self, request):
-        items = PhotoAlbum.objects.all()
-        serializer = PhotoAlbumSerializer(items, many=True)
-        return Response(serializer.data)
+from .models import PhotoAlbum, Photo
+from .serializers import PhotoAlbumSerializer, PhotoSerializer
+
+class PhotoAlbumList(ListAPIView):
+    queryset = PhotoAlbum.objects.all()
+    serializer_class = PhotoAlbumSerializer
+
+class PhotoAlbumCreate(CreateAPIView):
+    queryset = PhotoAlbum.objects.all()
+    serializer_class = PhotoAlbumSerializer
+
+class PhotoAlbumDetail(RetrieveUpdateDestroyAPIView):
+    queryset = PhotoAlbum.objects.all()
+    serializer_class = PhotoAlbumSerializer
+    lookup_field = 'pk'
+
 
