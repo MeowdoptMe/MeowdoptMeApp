@@ -10,6 +10,9 @@ setup:
 	source env/bin/activate
 	pip install -r requirements.txt
 
+env:
+	source env/bin/activate
+
 update:
 	pip install --upgrade setuptools
 	pip install --upgrade -r requirements.txt
