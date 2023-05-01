@@ -20,11 +20,12 @@
 - GET /ads - lista ogłoszeń
 - GET /ads/id - zawartość ogłoszenia o numerze id
 - GET /ads/id/photo_album - wszytskie zdjęcia danego ogłoszenia
-- GET /ads/id/pet - daje informacje zawarte w petcharacteristics
+- GET /ads/id/pet - daje informacje zawarte w pet
 - GET /ads/id/share_link - zwraca link do udostępnienia ogłoszenia
-- POST /ads/id/set_shelter - przypisuje schronisko do ogłoszenia
-- POST /ads/id/set_pet - przypisuje zwierzaka do ogłoszenia
-- POST /ads/id/set_active - zmienia dostępność ogłoszenia
+- PUT /ads/id/edit - edytuje zawartość ogłoszenia
+- POST /ads/add - dodaje ogłoszenie
+- POST /ads/id/add_pet
+- DELETE /ads/id/remove - usuwa ogłoszenie
 
 ## userAuth
 - GET /user - wyświetlenie profilu użytkownika

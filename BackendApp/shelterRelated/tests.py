@@ -55,11 +55,8 @@ class ShelterTests(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
         user = User.objects.create()
-        user.save()
         info = ContactInfo.objects.create()
-        info.save()
         album = PhotoAlbum.objects.create()
-        album.save()
         self.data = {
             'name': 'test_shelter',
             'contact_info': info,
