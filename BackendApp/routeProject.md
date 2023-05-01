@@ -5,11 +5,14 @@
 - GET /shelters/id/associates/permissions - lista wszystkich permicji dla użytkowników
 - GET /shelters/id/permission_requests - lista oczekujących permission requestów
 - GET /shelters/id/contact_info - daje info o danych kontaktowych
+- POST /shelters/id/add_contact_info - dodanie info kontaktowego do schroniska
+- POST /shelters/id/edit_contact_info - edycja tylko danych kontaktowych
+- DELETE /shelters/id/remove_contact_info - usunięcie danych kontaktowych schroniska
 - POST /shelters/id/add - dodanie nowego schroniska
 - POST /shelters/id/edit - edycja danych schroniska
+- DELETE /shelters/id/remove - usunięcie danego schroniska
 - POST /shelters/id/edit_name - edycja tylko nazwy schroniska
 - POST /shelters/id/modify_associate - edycja użytkowników mających jakieś uprawnienia do zarządzania danym schroniskiem
-- POST /shelters/id/edit_contact_info - edycja tylko danych kontaktowych
 - POST /shelters/id/make_request - pozwala użytkownikowi zrobić permission request
 - POST /shelters/id/resolve_request - pozwala uprawnionemu użytkownikowi zaakceptować permission request
 

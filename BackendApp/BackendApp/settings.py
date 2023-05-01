@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'userAuth',
     'adRelated',
     'shelterRelated',
-    'permissions',
     'photoAlbum',
 ]
 
