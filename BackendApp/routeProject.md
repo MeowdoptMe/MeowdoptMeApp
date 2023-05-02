@@ -29,8 +29,11 @@
 
 ## userAuth
 - GET /user - wyświetlenie profilu użytkownika
-- POST /user/edit - edycja podstawowych danych (formularz) - od strony usera
-- POST /user/id/edit - edycja danych usera (w tym przede wszystkim permissions) - od strony admina
+- GET /users - wyświetlenie listy userów (dla admina)
+- POST /user/add - dodanie nowego użytkownika
+- PUT /user/edit - edycja podstawowych danych (formularz) - od strony usera
+- PUT /user/id/edit - edycja danych usera (w tym przede wszystkim permissions) - od strony admina
+- DELETE /user/id/remove - usunięcie użytkownika (dla admina)
 
 ## permissions - TODO
 - GET /permissions - wyświetla permissions (tu trzeba dodać filtry djangowe)

@@ -102,4 +102,3 @@ class ShelterTests(APITestCase):
         self.assertEqual(response.status_code, 204, f'Expected Response Code 204, received {response.status_code} instead.')
         self.assertEqual(Shelter.objects.count(), current_objects_count - 1)
         self.assertIn(album, Shelter.objects.get())
-
