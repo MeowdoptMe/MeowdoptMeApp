@@ -14,6 +14,19 @@ class PhotoAlbumCreate(CreateAPIView):
 class PhotoAlbumDetail(RetrieveUpdateDestroyAPIView):
     queryset = PhotoAlbum.objects.all()
     serializer_class = PhotoAlbumSerializer
+
+class PhotoList(ListAPIView):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
+
+class PhotoCreate(CreateAPIView):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
+
+class PhotoDetail(RetrieveUpdateDestroyAPIView):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
     lookup_field = 'pk'
+
 
 

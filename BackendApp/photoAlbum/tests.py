@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory
 from .models import PhotoAlbum, Photo
-from .views import PhotoAlbumList, PhotoAlbumCreate, PhotoAlbumDetail, PhotoList, PhotoCreate, PhotoDetail
+from .views import PhotoAlbumList, PhotoAlbumDetail, PhotoList, PhotoDetail
 
 class PhotoAlbumTests(APITestCase):
     def setUp(self):
