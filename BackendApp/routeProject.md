@@ -28,12 +28,19 @@
 - DELETE /ads/id/remove - usuwa ogłoszenie
 
 ## userAuth
-- GET /user - wyświetlenie profilu użytkownika
-- GET /users - wyświetlenie listy userów (dla admina)
-- POST /user/add - dodanie nowego użytkownika
-- PUT /user/edit - edycja podstawowych danych (formularz) - od strony usera
-- PUT /user/id/edit - edycja danych usera (w tym przede wszystkim permissions) - od strony admina
-- DELETE /user/id/remove - usunięcie użytkownika (dla admina)
+### logowanie
+- POST /userAuth/login - zalogowanie się usera
+- POST /userAuth/register - rejestracja usera
+- POST /userAuth/logout - wylogowanie się usera
+- POST /userAuth/reset-password - zresetowanie hasła usera
+- POST /userAuth/token-refresh - odświeżenie tokenu
+### korzystanie
+- GET /userAuth/id/ - wyświetlenie profilu użytkownika
+- GET /userAuth/users - wyświetlenie listy userów (dla admina)
+- POST /userAuth/add - dodanie nowego użytkownika
+- PUT /userAuth/id/edit - edycja podstawowych danych (formularz) - od strony usera
+- PUT /userAuth/id/edit - edycja danych usera (w tym przede wszystkim permissions) - od strony admina
+- DELETE /userAuth/id/remove - usunięcie użytkownika (dla admina)
 
 ## permissions - TODO
 - GET /permissions - wyświetla permissions (tu trzeba dodać filtry djangowe)
