@@ -30,22 +30,20 @@
 
 ## userAuth
 
-### logowanie
-
 - POST /userAuth/login - zalogowanie się usera
 - POST /userAuth/register - rejestracja usera
 - POST /userAuth/logout - wylogowanie się usera
 - POST /userAuth/reset-password - zresetowanie hasła usera
 - POST /userAuth/token-refresh - odświeżenie tokenu
 
-### korzystanie
+## userManage
 
-- GET /userAuth/id/ - wyświetlenie profilu użytkownika
-- GET /userAuth/users - wyświetlenie listy userów (dla admina)
-- POST /userAuth/add - dodanie nowego użytkownika
-- PUT /userAuth/id/edit - edycja podstawowych danych (formularz) - od strony usera
-- PUT /userAuth/id/edit - edycja danych usera (w tym przede wszystkim permissions) - od strony admina
-- DELETE /userAuth/id/remove - usunięcie użytkownika (dla admina)
+- GET /users/id/ - wyświetlenie profilu użytkownika
+- GET /users/ - wyświetlenie listy userów (dla admina)
+- POST /users/add - dodanie nowego użytkownika
+- PUT /users/id/edit - edycja podstawowych danych (formularz) - od strony usera
+- PUT /users/id/edit - edycja danych usera (w tym przede wszystkim permissions) - od strony admina
+- DELETE /users/id/remove - usunięcie użytkownika (dla admina)
 
 ## permissions - TODO
 
