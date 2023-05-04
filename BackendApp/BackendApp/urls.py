@@ -23,4 +23,5 @@ urlpatterns = [
     path('userAuth/', include('userAuth.urls')),
     path('photoAlbums/', include('photoAlbum.urls')),
     path('ads/', include('adRelated.urls')),
+    path('shelters/', include('shelterRelated.urls')),
 ]

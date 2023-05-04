@@ -25,3 +25,4 @@ class PetCreate(CreateAPIView):
 class PetDetail(RetrieveUpdateDestroyAPIView):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
+    lookup_field = 'pk'
