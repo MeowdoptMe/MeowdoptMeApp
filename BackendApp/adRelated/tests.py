@@ -6,7 +6,6 @@ from shelterRelated.models import Shelter
 from .models import Pet, Ad
 from .views import PetList, PetDetail, AdList, AdDetail
 
-
 class AdTests(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
@@ -20,18 +19,18 @@ class AdTests(APITestCase):
             'photo_album': album
         }
     def test_list(self):
-        url = reverse('ads')
+        url = reverse('ad_list')
         request = self.factory.get(url)
         view = AdList.as_view()
         response = view(request)
         self.assertEqual(response.status_code, 200, f'Expected Response Code 200, received {response.status_code} instead.')
     def test_create(self):
-        url = reverse('add_ad')
+        url = reverse('ad_create')
         response = self.client.post(url, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Ad.objects.count(), 1)
         self.assertEqual(Ad.objects.get().name, self.data['name'])
-    def test_pet_detail(self):
+    def test_detail(self):
         Ad.objects.create()
         url = reverse('ad_detail', kwargs={'pk': 1})
         request = self.factory.get(url)
@@ -40,7 +39,7 @@ class AdTests(APITestCase):
         self.assertEqual(response.status_code, 200, f'Expected Response Code 200, received {response.status_code} instead.')
     def test_edit(self):
         Ad.objects.create(active=True)
-        url = reverse('edit_ad', kwargs={'pk': 1})
+        url = reverse('ad_edit', kwargs={'pk': 1})
         data = self.data
         data['active'] = False
         request = self.factory.put(url, data)
@@ -52,7 +51,7 @@ class AdTests(APITestCase):
     def test_remove(self):
         album = Ad.objects.create()
         current_objects_count = Ad.objects.count()
-        url = reverse('remove_ad', kwargs={'pk': 1})
+        url = reverse('ad_remove', kwargs={'pk': 1})
         request = self.factory.delete(url)
         view = AdDetail.as_view()
         response = view(request, pk=1)
@@ -89,7 +88,7 @@ class PetTests(APITestCase):
             'color': 'czarny'
         }
     def test_create(self):
-        url = reverse('add_pet')
+        url = reverse('ad_create')
         response = self.client.post(url, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Pet.objects.count(), 1)

@@ -16,4 +16,3 @@ class Ad(models.Model):
     active = models.BooleanField()
     shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, null=False)
     photo_album = models.ForeignKey(PhotoAlbum, on_delete=models.CASCADE, null=True)
-    share_link = models.CharField(max_length=255, default='')

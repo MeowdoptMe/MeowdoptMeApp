@@ -1,5 +1,4 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
-
 from .models import PhotoAlbum, Photo
 from .serializers import PhotoAlbumSerializer, PhotoSerializer
 

@@ -1,4 +1,5 @@
 ## shelterRelated
+
 - GET /shelters - lista schronisk
 - GET /shelters/id - zawartość schroniska o numerze id
 - GET /shelters/id/associates - lista wszytskich osób powiązanych z danym schroniskiem
@@ -17,24 +18,28 @@
 - POST /shelters/id/resolve_request - pozwala uprawnionemu użytkownikowi zaakceptować permission request
 
 ## adRelated
+
 - GET /ads - lista ogłoszeń
 - GET /ads/id - zawartość ogłoszenia o numerze id
 - GET /ads/id/photo_album - wszytskie zdjęcia danego ogłoszenia
 - GET /ads/id/pet - daje informacje zawarte w pet
-- GET /ads/id/share_link - zwraca link do udostępnienia ogłoszenia
 - PUT /ads/id/edit - edytuje zawartość ogłoszenia
 - POST /ads/add - dodaje ogłoszenie
-- POST /ads/id/add_pet
+- POST /ads/id/add_pet - dodaje zwierzę do ogłoszenia
 - DELETE /ads/id/remove - usuwa ogłoszenie
 
 ## userAuth
+
 ### logowanie
+
 - POST /userAuth/login - zalogowanie się usera
 - POST /userAuth/register - rejestracja usera
 - POST /userAuth/logout - wylogowanie się usera
 - POST /userAuth/reset-password - zresetowanie hasła usera
 - POST /userAuth/token-refresh - odświeżenie tokenu
+
 ### korzystanie
+
 - GET /userAuth/id/ - wyświetlenie profilu użytkownika
 - GET /userAuth/users - wyświetlenie listy userów (dla admina)
 - POST /userAuth/add - dodanie nowego użytkownika
@@ -43,26 +48,16 @@
 - DELETE /userAuth/id/remove - usunięcie użytkownika (dla admina)
 
 ## permissions - TODO
+
 - GET /permissions - wyświetla permissions (tu trzeba dodać filtry djangowe)
 - POST /permissions/permissions_requests/id/cancel_request - użytkownik może usunąć requesta o permission
 - POST /permissions/permission_type/id/user_id/remove - usunięcie dostępu dla danego usera (removePermission)
 
 ## photoAlbum (będzie podpięty do shelterRelated i adRelated osobno - jak sie uda)
-- GET /photoAlbum/id/photos - zwraca zdjęcia z danego albumu
-- POST /photoAlbum/id/delete/photo_id - usuwa dane zdjecie o numerze photo_id z albumu
-- POST /photoAlbum/add - dodaje nowy album
-- POST /photoAlbum/id/remove - usuwa nowy album
-- POST /photoAlbum/id/edit - edytuje album
-- PUT /photoAlbum/id/edit/photo_id - edytuje zdjęcie o numerze photo_id (zrobi setImg i setDescription)
 
-
-
-
-
-
-
-
-
-
-
-
+- GET /photoAlbums/id/photos - zwraca zdjęcia z danego albumu
+- POST /photoAlbums/id/delete/photo_id - usuwa dane zdjecie o numerze photo_id z albumu
+- POST /photoAlbums/add - dodaje nowy album
+- DELETE /photoAlbums/id/remove - usuwa nowy album
+- POST /photoAlbums/id/edit - edytuje album
+- PUT /photoAlbums/id/edit/photo_id - edytuje zdjęcie o numerze photo_id (zrobi setImg i setDescription)
