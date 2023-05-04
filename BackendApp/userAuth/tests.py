@@ -2,7 +2,7 @@ from django.urls import reverse, reverse_lazy
 from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory
 from .models import User
-from .views import UserList, UserDetail, RegisterView, LoginView
+from .views import UserList, UserDetail, RegisterView, ReturnTokenView
 
 class UserTests(APITestCase):
     def setUp(self):
@@ -71,12 +71,13 @@ class UserTests(APITestCase):
         self.assertEqual(response.status_code, 201, f'Expected Response Code 201, received {response.status_code} instead.')
 
     def test_login(self):
+        User.objects.create_user(username="ewa", password="ewa12345")
         user_data = {
-            "username": "gocha",
-            "password": "root1234",
+            "username": "ewa",
+            "password": "ewa12345",
         }
         url = reverse('login')
         request = self.factory.post(url, user_data, format='json')
-        view = LoginView.as_view()
+        view = ReturnTokenView.as_view()
         response = view(request)
         self.assertEqual(response.status_code, 200, f'Expected Response Code 200, received {response.status_code} instead.')
