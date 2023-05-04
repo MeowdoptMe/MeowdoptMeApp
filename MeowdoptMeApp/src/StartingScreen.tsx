@@ -2,7 +2,15 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {useContext, useState} from 'react';
-import {View, Text, StyleSheet, TextInput, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 import {ScreenContext} from './Context';
 
 const Stack = createNativeStackNavigator();
@@ -10,7 +18,9 @@ const Stack = createNativeStackNavigator();
 function StartingScreen() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{headerShown: false}}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
@@ -21,55 +31,51 @@ function StartingScreen() {
 
 function Login({navigation}: {navigation: any}) {
   const setIsStartingScreen = useContext(ScreenContext);
+
   return (
-    <View style={styles.sectionContainer}>
-      <View style={styles.loginContainer}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}>
         <LoginInput setIsStartingScreen={setIsStartingScreen} />
-        <View style={styles.multibuttonContainer}>
-          <View style={styles.buttonContainer}>
-            <Text style={styles.buttonContainerText}>
-              Don't have an account yet?
-            </Text>
-            <View style={styles.button}>
-              <Pressable
-                onPress={() => {
-                  navigation.navigate('Register');
-                }}>
-                <Text style={styles.buttonText}>Register</Text>
-              </Pressable>
-            </View>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Text style={styles.buttonContainerText}>
-              Don't remember your password?
-            </Text>
-            <View style={styles.button}>
-              <Pressable
-                onPress={() => {
-                  navigation.navigate('ForgotPassword');
-                }}>
-                <Text style={[styles.buttonText, styles.forgotPasswordText]}>
-                  Reset password
-                </Text>
-              </Pressable>
-            </View>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Text style={styles.buttonContainerText}>
-              Continue without an account?
-            </Text>
-            <View style={styles.button}>
-              <Pressable
-                onPress={() => {
-                  setIsStartingScreen!(false); // TODO use assert here
-                }}>
-                <Text style={styles.buttonText}>Skip</Text>
-              </Pressable>
-            </View>
-          </View>
+        <View style={styles.buttonContainer}>
+          <Text style={styles.overButtonText}>Don't have an account yet?</Text>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate('Register');
+            }}>
+            <Text style={styles.buttonText}>Register</Text>
+          </Pressable>
         </View>
-      </View>
-    </View>
+        <View style={styles.buttonContainer}>
+          <Text style={styles.overButtonText}>
+            Don't remember your password?
+          </Text>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate('ForgotPassword');
+            }}>
+            <Text style={[styles.buttonText, styles.resetPasswordButtonText]}>
+              Reset password
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Text style={styles.overButtonText}>
+            Continue without an account?
+          </Text>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              setIsStartingScreen!(false); // TODO use assert here
+            }}>
+            <Text style={styles.buttonText}>Skip</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -80,31 +86,24 @@ interface LoginInputProps {
 function LoginInput({setIsStartingScreen}: LoginInputProps) {
   return (
     <View style={styles.inputContainer}>
-      <View style={styles.inputBoxContainer}>
-        <TextInput
-          placeholder="login/email"
-          placeholderTextColor={'navy'}
-          style={styles.inputBox}
-        />
-      </View>
-      <View style={styles.inputBoxContainer}>
-        <TextInput
-          placeholder="password"
-          secureTextEntry={true}
-          placeholderTextColor={'navy'}
-          style={styles.inputBox}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <View style={styles.button}>
-          <Pressable
-            onPress={() => {
-              setIsStartingScreen!(false); // TODO use assert here
-            }}>
-            <Text style={styles.buttonText}>Login!</Text>
-          </Pressable>
-        </View>
-      </View>
+      <TextInput
+        style={styles.inputBox}
+        placeholder="login/email"
+        placeholderTextColor={'navy'}
+      />
+      <TextInput
+        style={styles.inputBox}
+        placeholder="password"
+        secureTextEntry={true}
+        placeholderTextColor={'navy'}
+      />
+      <Pressable
+        style={styles.button}
+        onPress={() => {
+          setIsStartingScreen!(false); // TODO use assert here
+        }}>
+        <Text style={styles.buttonText}>Login</Text>
+      </Pressable>
     </View>
   );
 }
@@ -112,125 +111,112 @@ function LoginInput({setIsStartingScreen}: LoginInputProps) {
 function Register() {
   const setIsStartingScreen = useContext(ScreenContext);
   return (
-    <View style={styles.sectionContainer}>
-      <View style={styles.inputContainer}>
-        <View style={styles.inputBoxContainer}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}>
+        <View style={styles.inputContainer}>
           <TextInput
             placeholder="login"
             placeholderTextColor={'navy'}
             style={styles.inputBox}
           />
-        </View>
-        <View style={styles.inputBoxContainer}>
           <TextInput
             placeholder="email"
             placeholderTextColor={'navy'}
             style={styles.inputBox}
           />
-        </View>
-        <View style={styles.inputBoxContainer}>
           <TextInput
             placeholder="password"
             secureTextEntry={true}
             placeholderTextColor={'navy'}
             style={styles.inputBox}
           />
-        </View>
-        <View style={styles.inputBoxContainer}>
           <TextInput
             placeholder="name"
             placeholderTextColor={'navy'}
             style={styles.inputBox}
           />
-        </View>
-        <View style={styles.button}>
           <Pressable
+            style={styles.button}
             onPress={() => {
               setIsStartingScreen!(false); // TODO use assert here
             }}>
             <Text style={styles.buttonText}>Register!</Text>
           </Pressable>
         </View>
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 function ForgotPassword() {
   const [requestNotSent, setRequestNotSent] = useState(true);
   return (
-    <View style={styles.sectionContainer}>
-      <View style={styles.inputContainer}>
-        <View style={styles.inputBoxContainer}>
-          <TextInput
-            placeholder="login/email"
-            placeholderTextColor={'navy'}
-            style={styles.inputBox}
-          />
-        </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}>
         {requestNotSent ? (
-          <View style={styles.button}>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="login/email"
+              placeholderTextColor={'navy'}
+              style={styles.inputBox}
+            />
             <Pressable
+              style={styles.button}
               onPress={() => {
                 setRequestNotSent(false);
               }}>
-              <Text style={[styles.buttonText, styles.forgotPasswordText]}>
+              <Text style={[styles.buttonText, styles.resetPasswordButtonText]}>
                 Reset password
               </Text>
             </Pressable>
           </View>
         ) : (
-          <View style={styles.buttonContainer}>
+          <View style={styles.inputContainer}>
             <Text
-              style={[styles.buttonContainerText, styles.resetPasswordText]}>
+              style={[
+                styles.buttonContainerText,
+                styles.resetPasswordInformationText,
+              ]}>
               Request sent!
             </Text>
           </View>
         )}
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
+  container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'white',
   },
-  loginContainer: {
-    maxHeight: '60%',
-    height: '100%',
-    width: '80%',
-    alignItems: 'center',
+  scrollView: {},
+  scrollContent: {
     justifyContent: 'center',
+    flexGrow: 1,
   },
   inputContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  inputBoxContainer: {
-    flex: 1,
     margin: 5,
-    maxHeight: 50,
-    width: 200,
   },
   inputBox: {
-    flex: 1,
+    width: 200,
+    margin: 5,
     color: 'black',
     borderWidth: 2,
     borderRadius: 10,
     textAlign: 'center',
   },
-  multibuttonContainer: {
-    flex: 1,
+  buttonContainer: {
+    margin: 20,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  buttonContainer: {
-    margin: 10,
   },
   buttonContainerText: {
     color: 'black',
@@ -242,10 +228,16 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 20,
     borderBottomEndRadius: 20,
     borderBottomStartRadius: 20,
-    maxHeight: 40,
-    minWidth: 160,
-    flex: 1,
+    height: 50,
+    width: 200,
     alignItems: 'center',
+  },
+  overButtonText: {
+    color: 'black',
+    textAlign: 'center',
+    textShadowColor: 'navy',
+    textShadowRadius: 1,
+    fontSize: 16,
   },
   buttonText: {
     flex: 1,
@@ -254,11 +246,13 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     fontSize: 30,
   },
-  forgotPasswordText: {
-    fontSize: 20,
+  resetPasswordButtonText: {
+    fontSize: 24,
   },
-  resetPasswordText: {
-    fontSize: 20,
+  resetPasswordInformationText: {
+    fontSize: 24,
+    textShadowColor: 'navy',
+    textShadowRadius: 1,
   },
 });
 
