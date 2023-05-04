@@ -21,9 +21,10 @@ module.exports = {
     'import/no-unresolved': 'error',
     'react/jsx-uses-vars': 'error',
     'react/jsx-uses-react': 'error',
-    'no-use-before-define': 'off',
+    'no-use-before-define': 'warn',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
+    'object-shorthand': 'warn',
     '@typescript-eslint/ban-ts-comment': [
       'error',
       {

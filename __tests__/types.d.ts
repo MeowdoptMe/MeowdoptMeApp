@@ -90,7 +90,7 @@ export interface PreferencesScreen {
 
   render: () => void;
   setFilters: (filters: AdFilters) => void;
-  setSettings: (settings: AppSettings) => void;
+  setSettings: () => void;
 }
 
 export interface AdFilters {
@@ -107,6 +107,22 @@ export interface AppSettings {
   logout: () => void;
 }
 
+export interface SheltersListFilters {
+  city: string;
+  maxDistance: number;
+
+  setFilters: (city: string, maxDistance: number) => void;
+}
+
+export interface SheltersList {
+  shelters: Shelter[];
+  sheltersFilters: ShelterListFilters;
+
+  getShelters: () => void;
+  goToShelter: () => void;
+  scroll: () => void;
+}
+
 export interface Screen {
   render: () => void;
 }
@@ -115,6 +131,7 @@ export interface HomeScreen extends Screen {}
 
 export interface ScrollPage extends HomeScreen {
   scroll: () => void;
+  render: () => void;
 }
 
 export interface AdPage extends ScrollPage {
@@ -134,6 +151,7 @@ export interface ShelterPage extends AdPage {
   findAd: () => void;
   editShelter: () => void;
   getContactInfo: () => ContactInfo;
+  render: () => void;
 }
 export interface StartingScreen {
   login: (username: string, pwd: string) => void;
@@ -173,4 +191,18 @@ export interface User {
   mail: string;
   permissions: PermissionsList;
   requests: PermissionRequest[];
+}
+
+export interface Map {
+  renderWithShelters: () => void;
+}
+export interface SheltersMap {
+  map: Map;
+  goToShelter: (shelter: Shelter) => void;
+}
+
+export interface SheltersScreen {
+  sheltersList: Shelter[];
+  sheltersMap: SheltersMap;
+  render: () => void;
 }

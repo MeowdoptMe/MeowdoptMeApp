@@ -1,6 +1,8 @@
 import type {
   Shelter,
+  PhotoAlbum,
   ContactInfo,
+  PermissionsList,
   Permission,
   PermissionRequest,
   User,

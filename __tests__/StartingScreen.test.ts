@@ -23,7 +23,7 @@ describe('StartingScreen class', () => {
       fail(error);
     }
   });
-  it('renders startingSreen', () => {
+  it('renders startingScreen', () => {
     // TODO to be corrected later on
     try {
       // @ts-expect-error

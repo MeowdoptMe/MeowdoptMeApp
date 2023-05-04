@@ -32,6 +32,7 @@
     "test": "yarn test:root && yarn test:app",
     "test:root": "jest __tests__/*.ts",
     "test:app": "cd MeowdoptMeApp && yarn test",
+    "static-checks": "yarn type:check && yarn lint",
     "type:check": "tsc --noEmit",
     "lint": "yarn lint:tests",
     "lint:tests": "eslint __tests__ --ext .ts,.tsx"
