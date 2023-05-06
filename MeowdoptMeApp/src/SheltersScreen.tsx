@@ -1,59 +1,67 @@
 import * as React from 'react';
-import {useState, useContext} from 'react';
-import {ScreenContext} from './Context';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import { useState } from 'react';
+import { View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
+import { WebView } from 'react-native-webview'
+import map from './mapka'
+
 
 function SheltersScreen() {
-  const [page, setPage] = useState(0);   // 0 to sheltersList, 1 - mapa
+  const [page, setPage] = useState('list');
   return (
-    page === 0 ?(
-    <View style={styles.sectionContainer}>
-      <Text style={styles.text}>Shelters Screen</Text>
+    page === 'list' ? (
+      <View style={styles.sectionContainer}>
+        <Text style={styles.text}>Shelters Screen</Text>
         <View style={styles.listContainer}>
           <Text style={styles.text}>SheltersList</Text>
         </View>
         <View style={styles.button}>
-          <Pressable 
+          <Pressable
             onPress={() => {
-              setPage(1)
+              setPage('map')
             }}>
             <Text style={styles.buttonText}>
               Go to map
             </Text>
           </Pressable>
         </View>
-    </View>
+      </View>
     ) : (
-      <View style={styles.sectionContainer}>
-        <View style={styles.mapContainer}>
-          <Text style={styles.text}>Mapka</Text>
-        </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <WebView 
+          source={{ html: map }} 
+        />
         <View style={styles.button}>
           <Pressable
             onPress={() => {
-              setPage(0)
+              setPage('list')
             }}>
             <Text style={styles.buttonText}>
               Go back to SheltersList
             </Text>
           </Pressable>
         </View>
-      </View>
+      </SafeAreaView>
     )
   );
 }
 
+
+
+
 const styles = StyleSheet.create({
   sectionContainer: {
-    flex : 1,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
   },
-  listContainer:{
-    alignItems : 'center',
+  listContainer: {
+    alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
+  },
+  web: {
+    flex : 1,
   },
   mapContainer: {
     backgroundColor: 'white',
@@ -62,6 +70,10 @@ const styles = StyleSheet.create({
   text: {
     color: 'black',
     backgroundColor: 'white',
+  },
+  map: {
+    width: "100%",
+    height: "100%",
   },
   button: {
     backgroundColor: 'royalblue',
