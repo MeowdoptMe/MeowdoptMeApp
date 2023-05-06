@@ -2,16 +2,18 @@
 
 ## Install
 
-1. Clone repo with: `git clone https://github.com/tjzel/MeowdoptMe/BackendApp <directory>`
-2. Run `make setup` - to create virtual environment for project
-3. Run `source env/bin/activate` - to open virtual environment
-4. Run `make requirements` - to install needed packages
-5. Make database and migrations with `make updatedb`
-6. To run server you can use `make server`, but if you have problem `Error: That port is already in use.` you can use `make porterror`
+
+1. Make sure you have installed python3, pip and cmake.
+2. Go to app with `cd /BackendApp`
+3. Run `make setup` - to create virtual environment for project
+4. Run `source env/bin/activate` on Ubuntu or `env/Scripts/activate` on Windows - to open virtual environment
+5. Run `make requirements` - to install needed packages
+6. Make database and migrations with `make updatedb`
+7. To run server you can use `make server`, but if you have problem `Error: That port is already in use.` you can use `make porterror`
 
 ## Testing
 ### Running tests
-
+If you want to test, make sure you have activated virtual environment (env) and your django server isn't running.
 To run tests run `make test`
 
 ### Writing tests
