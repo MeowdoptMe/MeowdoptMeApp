@@ -24,7 +24,7 @@ class LogoutView(APIView):
 
     def post(self, request):
         logout(request)
-        return Response({'msg': 'Successfully Logged out'}, status=status.HTTP_200_OK)
+        return Response({'msg': 'Successfully logged out'}, status=status.HTTP_200_OK)
 
 
 class ChangePasswordView(APIView):

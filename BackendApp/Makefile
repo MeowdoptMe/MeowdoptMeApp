@@ -6,7 +6,7 @@ updatedb:
 	python manage.py migrate
 
 setup:
-	sudo apt install python3.11-venv
+	python3 -m pip install --user virtualenv
 	python3 -m venv env
 
 requirements:
@@ -22,6 +22,6 @@ test:
 server:
 	python manage.py runserver
 
-porterror:
+rerun-server:
 	fuser -k 8000/tcp
 	python manage.py runserver
