@@ -8,6 +8,13 @@ This repository will hold our adoption app.
 1. Make sure you have [Node.JS](https://nodejs.org/en) installed!
 1. Run `yarn` in project's root directory.
 
+## Connecting to local server on android
+
+Make sure to have a port forwarded in Android Studio with the following line:
+`adb reverse tcp:<port> tcp:<port>`
+Which defaults to:
+`adb reverse tcp:8000 tcp:8000`
+
 ## Testing
 
 ### Running tests

@@ -11,7 +11,8 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native';
-import {ScreenContext} from './Context';
+import {AppContext} from './Context';
+import {login} from './authUtils';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,29 +22,29 @@ function StartingScreen() {
       <Stack.Navigator
         initialRouteName="Login"
         screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Screen name="MainScreen" component={MainScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-function Login({navigation}: {navigation: any}) {
-  const setIsStartingScreen = useContext(ScreenContext);
+function MainScreen({navigation}: {navigation: any}) {
+  const {setIsStartingScreen} = useContext(AppContext);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}>
-        <LoginInput setIsStartingScreen={setIsStartingScreen} />
+        <LoginInput />
         <View style={styles.buttonContainer}>
           <Text style={styles.overButtonText}>Don't have an account yet?</Text>
           <Pressable
             style={styles.button}
             onPress={() => {
-              navigation.navigate('Register');
+              navigation.navigate('RegisterScreen');
             }}>
             <Text style={styles.buttonText}>Register</Text>
           </Pressable>
@@ -55,7 +56,7 @@ function Login({navigation}: {navigation: any}) {
           <Pressable
             style={styles.button}
             onPress={() => {
-              navigation.navigate('ForgotPassword');
+              navigation.navigate('ForgotPasswordScreen');
             }}>
             <Text style={[styles.buttonText, styles.resetPasswordButtonText]}>
               Reset password
@@ -69,7 +70,7 @@ function Login({navigation}: {navigation: any}) {
           <Pressable
             style={styles.button}
             onPress={() => {
-              setIsStartingScreen!(false); // TODO use assert here
+              setIsStartingScreen(false); // TODO use assert here
             }}>
             <Text style={styles.buttonText}>Skip</Text>
           </Pressable>
@@ -79,37 +80,88 @@ function Login({navigation}: {navigation: any}) {
   );
 }
 
-interface LoginInputProps {
-  setIsStartingScreen: React.Dispatch<React.SetStateAction<boolean>> | null;
-}
+function LoginInput() {
+  const {user, setUser, setIsStartingScreen} = useContext(AppContext);
 
-function LoginInput({setIsStartingScreen}: LoginInputProps) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  async function onPressOut() {
+    if (username === '' || password === '') {
+      setError('Please fill in all fields');
+      return;
+    }
+    setLoading(true);
+    try {
+      const token = await login(username, password);
+      setError(undefined);
+      setUser({
+        username: user.username,
+        mail: user.mail,
+        token,
+      });
+      setIsStartingScreen(false); // TODO use assert here
+    } catch (e) {
+      // @ts-expect-error
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <View style={styles.inputContainer}>
       <TextInput
         style={styles.inputBox}
         placeholder="login/email"
         placeholderTextColor={'navy'}
+        value={username}
+        onChangeText={text => {
+          setUsername(text);
+        }}
       />
       <TextInput
         style={styles.inputBox}
         placeholder="password"
         secureTextEntry={true}
         placeholderTextColor={'navy'}
+        value={password}
+        onChangeText={text => {
+          setPassword(text);
+        }}
       />
+      <LoginStatus error={error} loading={loading} />
       <Pressable
-        style={styles.button}
-        onPress={() => {
-          setIsStartingScreen!(false); // TODO use assert here
-        }}>
+        style={loading ? styles.buttonDisabled : styles.button}
+        disabled={loading}
+        onPressOut={onPressOut}>
         <Text style={styles.buttonText}>Login</Text>
       </Pressable>
     </View>
   );
 }
 
-function Register() {
-  const setIsStartingScreen = useContext(ScreenContext);
+interface LoginStatusProps {
+  loading: boolean;
+  error: string | undefined;
+}
+
+function LoginStatus({loading, error}: LoginStatusProps) {
+  return (
+    <View style={styles.statusBox}>
+      {loading ? (
+        <Text style={styles.statusLoadingText}>Loading...</Text>
+      ) : error ? (
+        <Text style={styles.statusErrorText}>{error}</Text>
+      ) : null}
+    </View>
+  );
+}
+
+function RegisterScreen() {
+  const {setIsStartingScreen} = useContext(AppContext);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -140,7 +192,7 @@ function Register() {
           <Pressable
             style={styles.button}
             onPress={() => {
-              setIsStartingScreen!(false); // TODO use assert here
+              setIsStartingScreen(false); // TODO use assert here
             }}>
             <Text style={styles.buttonText}>Register!</Text>
           </Pressable>
@@ -150,7 +202,7 @@ function Register() {
   );
 }
 
-function ForgotPassword() {
+function ForgotPasswordScreen() {
   const [requestNotSent, setRequestNotSent] = useState(true);
   return (
     <SafeAreaView style={styles.container}>
@@ -232,6 +284,16 @@ const styles = StyleSheet.create({
     width: 200,
     alignItems: 'center',
   },
+  buttonDisabled: {
+    backgroundColor: '215582',
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20,
+    borderBottomEndRadius: 20,
+    borderBottomStartRadius: 20,
+    height: 50,
+    width: 200,
+    alignItems: 'center',
+  },
   overButtonText: {
     color: 'black',
     textAlign: 'center',
@@ -245,6 +307,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 30,
+  },
+  statusBox: {
+    height: 20,
+    width: 200,
+    alignItems: 'center',
+  },
+  statusErrorText: {
+    color: 'red',
+    textAlign: 'center',
+  },
+  statusLoadingText: {
+    color: 'grey',
+    textAlign: 'center',
   },
   resetPasswordButtonText: {
     fontSize: 24,
