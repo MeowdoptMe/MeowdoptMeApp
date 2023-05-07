@@ -43,6 +43,6 @@ const map = `
 </body>
 
 </html>
-`
+`;
 
-export default map
+export default map;
