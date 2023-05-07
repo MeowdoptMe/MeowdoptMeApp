@@ -25,3 +25,6 @@ server:
 rerun-server:
 	fuser -k 8000/tcp
 	python manage.py runserver
+
+prepare:
+	python manage.py shell < initial_data.py

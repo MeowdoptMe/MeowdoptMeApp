@@ -7,9 +7,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import (
     RegistrationSerializer,
     PasswordChangeSerializer,
-    CustomTokenObtainPairSerializer,
 )
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class RegisterView(APIView):
     def post(self, request):
@@ -22,7 +21,7 @@ class RegisterView(APIView):
 
 class LoginView(TokenObtainPairView):
     permission_classes = (AllowAny,)
-    serializer_class = CustomTokenObtainPairSerializer
+    serializer_class = TokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
