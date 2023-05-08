@@ -4,9 +4,12 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .models import User
 from .serializers import (
     RegistrationSerializer,
     PasswordChangeSerializer,
+    EmailChangeSerializer
 )
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -25,11 +28,9 @@ class LoginView(TokenObtainPairView):
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-        if request.data["username"]:
-            response.data["username"] = request.data["username"]
-        if request.data["email"]:
-            response.data["email"] = request.data["email"]
-
+        if request.data['username']:
+            response.data['username'] = request.data['username']
+        response.data['email'] = User.objects.get(username=request.data['username']).email
         return response
 
 
@@ -54,5 +55,18 @@ class ChangePasswordView(APIView):
         )
         serializer.is_valid(raise_exception=True)
         request.user.set_password(serializer.validated_data["new_password"])
+        request.user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ChangeEmailView(APIView):
+    permission_classes = [
+        IsAuthenticated,
+    ]
+    def post(self, request):
+        serializer = EmailChangeSerializer(
+            context={"request": request}, data=request.data
+        )
+        serializer.is_valid(raise_exception=True)
+        request.user.email = (serializer.validated_data["email"])
         request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
