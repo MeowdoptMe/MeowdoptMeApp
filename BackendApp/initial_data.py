@@ -1,11 +1,9 @@
 from userAuth.models import User
 from django.contrib.auth.hashers import make_password
+from json import load
 
-users = [
-    {'username': 'admin', 'password': 'admin', 'email': 'admin@gmail.com', 'is_superuser': 1},
-    {'username': 'gocha', 'password': 'gocha', 'email': 'gocha@gmail.com'},
-    {'username': 'ewa', 'password': 'ewa', 'email': 'ewa@gmail.com'},
-]
+with open('initial_data.json', 'r') as f:
+    users = load(f)
 
 def add_users(users):
     for user_data in users:

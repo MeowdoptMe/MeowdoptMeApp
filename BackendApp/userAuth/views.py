@@ -12,7 +12,6 @@ from .serializers import (
     EmailChangeSerializer
 )
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
 class RegisterView(APIView):
     def post(self, request):
         serializer = RegistrationSerializer(data=request.data)

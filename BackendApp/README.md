@@ -8,8 +8,8 @@
 4. Run `source env/bin/activate` on Ubuntu or `env/Scripts/activate` on Windows - to open virtual environment
 5. Run `make requirements` - to install needed packages
 6. Make database and migrations with `make updatedb`
-7. If you want to load initial data for db you can run `make prepare`
-7. To run server you can use `make server`, but if you have problem `Error: That port is already in use.` you can use `make porterror`
+7. If you want to load sample initial data for the database you can run `make prepare`
+8. To run server you can use `make server`, but if you have problem `Error: That port is already in use.` you can use `make porterror`
 
 ## Testing
 
