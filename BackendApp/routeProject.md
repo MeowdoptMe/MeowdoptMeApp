@@ -20,6 +20,7 @@
 - POST /userAuth/register - rejestracja usera
 - POST /userAuth/logout - wylogowanie się usera
 - POST /userAuth/reset-password - zresetowanie hasła usera
+- POST /userAuth/reset-email - przypisanie nowego maila
 - POST /userAuth/token-refresh - odświeżenie tokenu
 
 ## userManage
