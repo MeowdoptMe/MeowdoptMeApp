@@ -18,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install black
-        uses: psf/black@stable
+        run: python3 -m pip install black
       - name: Check formatting
         working-directory: BackendApp
         run: make check-formatting
