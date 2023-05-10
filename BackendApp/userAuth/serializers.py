@@ -1,17 +1,5 @@
 from rest_framework import serializers
 from .models import User
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    email = serializers.EmailField(required=False)
-
-    def validate(self, attrs):
-        data = super().validate(attrs)
-        data["username"] = self.user.username
-        data["email"] = self.user.email
-        data["password"] = self.user.password
-        return data
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -42,6 +30,7 @@ class PasswordChangeSerializer(serializers.Serializer):
         if not self.context["request"].user.check_password(value):
             raise serializers.ValidationError({"current_password": "Does not match"})
         return value
+
 
 class EmailChangeSerializer(serializers.Serializer):
     email = serializers.CharField(style={"input_type": "email"}, required=True)

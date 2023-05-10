@@ -1,7 +1,7 @@
-import type { SheltersScreen } from "./types";
+import type { SheltersScreen } from './types';
 
-describe("SheltersScreen interface", () => {
-  it("renders", () => {
+describe('SheltersScreen interface', () => {
+  it('renders', () => {
     let sheltersScreen: SheltersScreen;
     try {
       // @ts-expect-error

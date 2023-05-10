@@ -1,11 +1,7 @@
-import {
-  AdFilters,
-  AppSettings,
-  PreferencesScreen,
-} from "./types";
+import { AdFilters, AppSettings, PreferencesScreen } from './types';
 
-describe("PreferencesScreen class", () => {
-  it("renders", () => {
+describe('PreferencesScreen class', () => {
+  it('renders', () => {
     // TODO to be corrected later on
     let preferencesScreen: PreferencesScreen;
     try {
@@ -16,15 +12,15 @@ describe("PreferencesScreen class", () => {
     }
   });
 
-  it("changes filters property with setFilters", () => {
+  it('changes filters property with setFilters', () => {
     // TODO to be corrected later on
     let preferencesScreen: PreferencesScreen;
     const filters: AdFilters = {
       petCharacteristics: {
-        species: "cat",
+        species: 'cat',
         age: 2,
-        gender: "female",
-        color: "white",
+        gender: 'female',
+        color: 'white',
       },
       setPetCharacteristics: () => {},
     };
@@ -35,7 +31,7 @@ describe("PreferencesScreen class", () => {
     expect(preferencesScreen.adFilters).toBe(filters);
   });
 
-  it("changes settings property with setSettings", () => {
+  it('changes settings property with setSettings', () => {
     // TODO to be corrected later on
     let preferencesScreen: PreferencesScreen;
     const settings: AppSettings = {

@@ -1,7 +1,7 @@
-import { App } from "./types";
+import { App } from './types';
 
-describe("App class", () => {
-  it("sets current screen with setCurrentScreen", () => {
+describe('App class', () => {
+  it('sets current screen with setCurrentScreen', () => {
     let app: App;
     let screen: Screen;
 

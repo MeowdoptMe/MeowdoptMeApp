@@ -4,11 +4,14 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .models import User
 from .serializers import (
     RegistrationSerializer,
     PasswordChangeSerializer,
-    CustomTokenObtainPairSerializer,
+    EmailChangeSerializer,
 )
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class RegisterView(APIView):
@@ -22,10 +25,15 @@ class RegisterView(APIView):
 
 class LoginView(TokenObtainPairView):
     permission_classes = (AllowAny,)
-    serializer_class = CustomTokenObtainPairSerializer
+    serializer_class = TokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
+        if request.data["username"]:
+            response.data["username"] = request.data["username"]
+        response.data["email"] = User.objects.get(
+            username=request.data["username"]
+        ).email
         response.data["username"] = request.data["username"]
 
         return response
