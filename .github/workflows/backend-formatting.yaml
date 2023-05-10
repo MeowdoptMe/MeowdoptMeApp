@@ -1,0 +1,24 @@
+name: Format python with black in BackendApp
+run-name: ${{ github.head_ref }} is formatting python 🚀
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - BackendApp/**/*.py
+  push:
+    branches:
+      - master
+    paths:
+      - BackendApp/**/*.py
+jobs:
+  Check-formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install black
+        uses: psf/black@stable
+      - name: Check formatting
+        working-directory: BackendApp
+        run: make check-formatting
