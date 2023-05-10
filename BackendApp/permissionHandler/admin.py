@@ -1,7 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin
 
-from .models import Manager, Volunteer, RegularUser, ShelterWorker, UserPermission, PermissionRequest
+from .models import (
+    Manager,
+    Volunteer,
+    RegularUser,
+    ShelterWorker,
+    UserPermission,
+    PermissionRequest,
+)
 
 admin.site.register(Manager, GroupAdmin)
 admin.site.register(Volunteer, GroupAdmin)

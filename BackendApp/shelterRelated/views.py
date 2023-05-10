@@ -1,7 +1,8 @@
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
-    RetrieveUpdateDestroyAPIView, )
+    RetrieveUpdateDestroyAPIView,
+)
 
 from .models import ContactInfo, Shelter
 from .serializers import (

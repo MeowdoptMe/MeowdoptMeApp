@@ -3,12 +3,18 @@ from rest_framework import status
 from rest_framework.generics import (
     ListAPIView,
     RetrieveUpdateDestroyAPIView,
-    get_object_or_404, CreateAPIView, UpdateAPIView,
+    get_object_or_404,
+    CreateAPIView,
+    UpdateAPIView,
 )
 from rest_framework.response import Response
 
 from .models import UserPermission, PermissionRequest
-from .serializers import PermissionSerializer, UserPermissionSerializer, PermissionRequestSerializer
+from .serializers import (
+    PermissionSerializer,
+    UserPermissionSerializer,
+    PermissionRequestSerializer,
+)
 
 
 class GroupPermissionList(ListAPIView):
@@ -117,9 +123,11 @@ class PermissionRequestResolve(UpdateAPIView):
 
     def post(self, request, shelter_id, pk):
         permission_request = self.get_object()
-        user_permission = UserPermission.objects.create(user=permission_request.user,
-                                                        shelter=permission_request.shelter,
-                                                        permission=permission_request.permission)
+        user_permission = UserPermission.objects.create(
+            user=permission_request.user,
+            shelter=permission_request.shelter,
+            permission=permission_request.permission,
+        )
         serializer = self.get_serializer(user_permission)
         permission_request.delete()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

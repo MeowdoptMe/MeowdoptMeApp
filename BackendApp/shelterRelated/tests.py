@@ -1,4 +1,4 @@
-from django.urls import reverse
+from django.urls import reverse_lazy
 from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory
 
@@ -21,7 +21,7 @@ class ContactInfoTests(APITestCase):
         }
 
     def test_create(self):
-        url = reverse("contact_info_create")
+        url = reverse_lazy("contact_info_create")
         response = self.client.post(url, self.data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(ContactInfo.objects.count(), 1)
@@ -29,7 +29,7 @@ class ContactInfoTests(APITestCase):
 
     def test_detail(self):
         ContactInfo.objects.create(name="test_contact_info")
-        url = reverse("contact_info_detail", kwargs={"pk": 1})
+        url = reverse_lazy("contact_info_detail", kwargs={"pk": 1})
         request = self.factory.get(url)
         view = ContactInfoDetail.as_view()
         response = view(request, pk=1)
@@ -40,8 +40,8 @@ class ContactInfoTests(APITestCase):
         )
 
     def test_edit(self):
-        ContactInfo.objects.create(name="test_contact_info")
-        url = reverse("contact_info_edit", kwargs={"pk": 1})
+        ContactInfo.objects.create()
+        url = reverse_lazy("contact_info_detail", kwargs={"pk": 1})
         data = self.data
         data["email"] = "xyz@gmail.com"
         request = self.factory.put(url, data)
@@ -55,9 +55,9 @@ class ContactInfoTests(APITestCase):
         self.assertEqual(ContactInfo.objects.get().name, self.data["email"])
 
     def test_remove(self):
-        contact_info = ContactInfo.objects.create(name="test_contact_info")
+        contact_info = ContactInfo.objects.create()
         current_objects_count = ContactInfo.objects.count()
-        url = reverse("contact_info_remove", kwargs={"pk": 1})
+        url = reverse_lazy("contact_info_detail", kwargs={"pk": 1})
         request = self.factory.delete(url)
         view = ContactInfoDetail.as_view()
         response = view(request, pk=1)
@@ -78,12 +78,12 @@ class ShelterTests(APITestCase):
         album = PhotoAlbum.objects.create()
         self.data = {
             "name": "test_shelter",
-            "contact_info": info,
-            "photo_album": album,
+            "contact_info": 1,
+            "photo_album": 1,
         }
 
     def test_list(self):
-        url = reverse("shelter_list")
+        url = reverse_lazy("shelter_list")
         request = self.factory.get(url)
         view = ShelterList.as_view()
         response = view(request)
@@ -94,15 +94,15 @@ class ShelterTests(APITestCase):
         )
 
     def test_create(self):
-        url = reverse("shelter_create")
+        url = reverse_lazy("shelter_create")
         response = self.client.post(url, self.data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Shelter.objects.count(), 1)
         self.assertEqual(Shelter.objects.get().name, self.data["name"])
 
     def test_detail(self):
-        Shelter.objects.create(name="test_shelter")
-        url = reverse("shelter_detail", kwargs={"pk": 1})
+        Shelter.objects.create()
+        url = reverse_lazy("shelter_detail", kwargs={"pk": 1})
         request = self.factory.get(url)
         view = ShelterDetail.as_view()
         response = view(request, pk=1)
@@ -113,8 +113,8 @@ class ShelterTests(APITestCase):
         )
 
     def test_edit(self):
-        Shelter.objects.create(name="test_photo")
-        url = reverse("shelter_edit", kwargs={"pk": 1})
+        Shelter.objects.create()
+        url = reverse_lazy("shelter_detail", kwargs={"pk": 1})
         data = self.data
         data["name"] = "shelter123"
         request = self.factory.put(url, data)
@@ -128,9 +128,9 @@ class ShelterTests(APITestCase):
         self.assertEqual(Shelter.objects.get().name, data["name"])
 
     def test_remove(self):
-        album = Shelter.objects.create(name="test_shelter")
+        shelter = Shelter.objects.create()
         current_objects_count = Shelter.objects.count()
-        url = reverse("shelter_remove", kwargs={"pk": 1})
+        url = reverse_lazy("shelter_detail", kwargs={"pk": 1})
         request = self.factory.delete(url)
         view = ShelterDetail.as_view()
         response = view(request, pk=1)
@@ -140,4 +140,4 @@ class ShelterTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(Shelter.objects.count(), current_objects_count - 1)
-        self.assertIn(album, Shelter.objects.get())
+        self.assertIn(shelter, Shelter.objects.get())

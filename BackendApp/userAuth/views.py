@@ -63,6 +63,7 @@ class ChangePasswordView(APIView):
         request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 class ChangeEmailView(APIView):
     permission_classes = [
         IsAuthenticated,
