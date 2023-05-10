@@ -38,7 +38,7 @@
     "type:check:app": "cd MeowdoptMeApp && yarn type:check && cd ..",
     "lint": "yarn lint:tests && yarn lint:app",
     "lint:tests": "eslint __tests__ --ext .ts,.tsx",
-    "lint:app": "eslint MeowdoptMeApp --ext .ts,.tsx",
+    "lint:app": "cd MeowdoptMeApp && yarn lint && cd ..",
     "format": "yarn format:tests && yarn format:app",
     "format:tests": "prettier --write '__tests__/**/*.{ts,tsx}'",
     "format:app": "cd MeowdoptMeApp && yarn format && cd ..",
