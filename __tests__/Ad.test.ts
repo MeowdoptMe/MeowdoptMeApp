@@ -1,17 +1,17 @@
-import type { Ad, Pet } from "./types";
+import type { Ad, Pet } from './types';
 
-describe("Ad class", () => {
-  it("changes pet property with setPet", () => {
+describe('Ad class', () => {
+  it('changes pet property with setPet', () => {
     // TODO to be corrected later on
     let ad: Ad;
     const pet: Pet = {
-      name: "Garfield",
+      name: 'Garfield',
       petCharacteristics: {
-        species: "cat",
-        subSpecies: "persian",
+        species: 'cat',
+        subSpecies: 'persian',
         age: 5,
-        gender: "male",
-        color: "orange",
+        gender: 'male',
+        color: 'orange',
       },
     };
     // @ts-expect-error
@@ -20,7 +20,7 @@ describe("Ad class", () => {
     expect(ad.pet).toBe(pet);
   });
 
-  it("changes active property with setActive", () => {
+  it('changes active property with setActive', () => {
     // TODO to be corrected later on
     let ad: Ad;
     // @ts-expect-error
@@ -31,7 +31,7 @@ describe("Ad class", () => {
     expect(ad.active).toBe(!currentActive);
   });
 
-  it("changes shelter property with setShelter", () => {
+  it('changes shelter property with setShelter', () => {
     // TODO to be corrected later on
     let ad: Ad;
     // @ts-expect-error
@@ -42,7 +42,7 @@ describe("Ad class", () => {
     expect(ad.shelter).toBe(shelter);
   });
 
-  it("returns contact info with getContact", () => {
+  it('returns contact info with getContact', () => {
     // TODO to be corrected later on
     let ad: Ad;
     // @ts-expect-error
@@ -50,7 +50,7 @@ describe("Ad class", () => {
     expect(contactInfo).toBeDefined();
   });
 
-  it("returns share uri with share", () => {
+  it('returns share uri with share', () => {
     // TODO to be corrected later on
     let ad: Ad;
     // @ts-expect-error
@@ -58,7 +58,7 @@ describe("Ad class", () => {
     expect(shareUri).toBeDefined();
   });
 
-  it("renders ad", () => {
+  it('renders ad', () => {
     // TODO to be corrected later on
     let ad: Ad;
     try {

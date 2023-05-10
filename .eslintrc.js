@@ -13,8 +13,8 @@ module.exports = {
     'jest/globals': true,
   },
   settings: {
-    "import/resolver": {
-      "typescript": {}
+    'import/resolver': {
+      typescript: {},
     },
   },
   rules: {
@@ -32,7 +32,5 @@ module.exports = {
         'ts-expect-error': 'off',
       },
     ],
-    // '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    // '@typescript-eslint/no-var-requires': 'warn',
   },
 };

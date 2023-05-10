@@ -1,11 +1,11 @@
-import type { Photo } from "./types";
+import type { Photo } from './types';
 
-describe("Photo class", () => {
-  it("changes img property with setImg", () => {
+describe('Photo class', () => {
+  it('changes img property with setImg', () => {
     // TODO to be corrected later on
     let photo: Photo;
     const img = {
-      uri: "test",
+      uri: 'test',
     };
     // @ts-expect-error
     photo.setImg(img);
@@ -13,10 +13,10 @@ describe("Photo class", () => {
     expect(photo.img).toBe(img);
   });
 
-  it("changes description property with setDescription", () => {
+  it('changes description property with setDescription', () => {
     // TODO to be corrected later on
     let photo: Photo;
-    const description = "test";
+    const description = 'test';
     // @ts-expect-error
     photo.setDescription(description);
     // @ts-expect-error
