@@ -1,20 +1,18 @@
 from django.urls import path
 
-from .views import ShelterList, ShelterCreate, ShelterDetail, ContactInfoCreate, ContactInfoDetail
+from .views import ShelterList, ShelterCreate, ShelterDetail, UserPermissionList, UserPermissionDetail, \
+    UserPermissionCreate
 
 urlpatterns = [
-    path('', ShelterList.as_view(), name='shelter_list'),  # get
-    path('<int:pk>/', ShelterDetail.as_view(), name='shelter_detail'),  # get
-    path('<int:pk>/associates/', ShelterDetail.as_view(), name='associates_list'),  # get
-    path('<int:pk>/contact_info/', ContactInfoDetail.as_view(), name='contact_info_detail'),  # get
-    path('<int:pk>/add_contact_info/', ContactInfoCreate.as_view(), name='contact_info_create'),  # post
-    path('<int:pk>/edit_contact_info/', ContactInfoDetail.as_view(), name='contact_info_edit'),  # put
-    path('<int:pk>/remove_contact_info/', ContactInfoDetail.as_view(), name='contact_info_remove'),  # delete
-    path('add/', ShelterCreate.as_view(), name='shelter_create'),  # post
-    path('<int:pk>/edit/', ShelterDetail.as_view(), name='shelter_edit'),  # put
-    path('<int:pk>/remove/', ShelterDetail.as_view(), name='shelter_remove'),  # delete
-    # path('<int:pk>/modify_associate/', AssociateDetail.as_view(), name='modify_associate'), #put
+    path('', ShelterList.as_view(), name='shelter_list'),
+    path('<int:pk>/', ShelterDetail.as_view(), name='shelter_detail'),
+    path('add/', ShelterCreate.as_view(), name='shelter_create'),
+
+    path('<int:shelter_id>/permissions/', UserPermissionList.as_view(), name='shelter_permission_list'),
+    path('<int:shelter_id>/permissions/add/', UserPermissionCreate.as_view(), name='shelter_permission_create'),
+    path('<int:shelter_id>/permissions/<int:pk>/', UserPermissionDetail.as_view(), name='shelter_permission_detail'),
+
     # path('<int:pk>/make_request/', RequestHandler.as_view(), name='make_request') # post
     # path('<int:pk>/resolve_request/', RequestHandler.as_view(), name='make_request') # post
-    # path('contact_info_list/', ContactInfoList.as_view(), name='contact_info_list'),  # get
+
 ]
