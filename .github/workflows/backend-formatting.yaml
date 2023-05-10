@@ -22,8 +22,8 @@ jobs:
       - name: Check formatting
         id: check
         working-directory: BackendApp
-        run: python3 -m black --check --quiet
+        run: python3 -m black --check --quiet .
       - name: Display unformatted files
         working-directory: BackendApp
         if: failure() && steps.check.outcome == 'failure'
-        run: python3 -m black --diff --quiet
+        run: python3 -m black --diff --quiet .
