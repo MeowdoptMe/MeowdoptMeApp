@@ -3,8 +3,13 @@
 - GET /shelters - lista schronisk
 - GET/PUT/DELETE /shelters/id - zawartość schroniska o numerze id
 - POST /shelters/add - dodaje schronisko
+- GET /shelters/id/permissions/ - permissions do danego schroniska
+- POST /shelters/id/permissions/add - dodanie permission do danego schroniska
+- GET/PUT/DELETE /shelters/id/permissions/permission_id - edycja wybranego permission do schroniska
+- GET /shelters/id/requests - zwraca wszytskie reguesty wysłane do schroniska
+- GET/PUT/DELETE /shelters/id/requests/request_id - edytuje requesta o permission
 - POST /shelters/id/make-request - pozwala użytkownikowi zrobić permission request
-- POST /shelters/id/resolve-request - pozwala uprawnionemu użytkownikowi zaakceptować permission request
+- POST /shelters/id/requests/request_id/resolve-request - pozwala uprawnionemu użytkownikowi zaakceptować permission request
 
 ## adRelated
 
@@ -20,6 +25,7 @@
 - POST /userAuth/register - rejestracja usera
 - POST /userAuth/logout - wylogowanie się usera
 - POST /userAuth/reset-password - zresetowanie hasła usera
+- POST /userAuth/reset-email - przypisanie nowego maila
 - POST /userAuth/token-refresh - odświeżenie tokenu
 
 ## userManage
