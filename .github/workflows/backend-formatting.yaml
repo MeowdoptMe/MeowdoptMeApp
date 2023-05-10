@@ -26,4 +26,4 @@ jobs:
       - name: Display unformatted files
         working-directory: BackendApp
         if: failure() && steps.check.outcome == 'failure'
-        run: python3 -m black --diff .
+        run: python3 -m black --diff . | grep 'would reformat'
