@@ -1,7 +1,7 @@
-import { SheltersList } from "./types";
+import { SheltersList } from './types';
 
-describe("SheltersList class", () => {
-  it("gets shelters from database with getShelters", () => {
+describe('SheltersList class', () => {
+  it('gets shelters from database with getShelters', () => {
     // TODO to be corrected later on
     let sheltersList: SheltersList;
     try {
@@ -12,7 +12,7 @@ describe("SheltersList class", () => {
     }
   });
 
-  it("goes to shelter with goToShelter", () => {
+  it('goes to shelter with goToShelter', () => {
     // TODO to be corrected later on
     let sheltersList: SheltersList;
     try {
@@ -23,7 +23,7 @@ describe("SheltersList class", () => {
     }
   });
 
-  it("scrolls with scroll", () => {
+  it('scrolls with scroll', () => {
     // TODO to be corrected later on
     let sheltersList: SheltersList;
     try {

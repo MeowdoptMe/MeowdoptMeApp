@@ -1,20 +1,20 @@
-import type { Ad, AdPage } from "./types";
+import type { Ad, AdPage } from './types';
 
 let generateAd: () => Ad;
-describe("AdPage class", () => {
+describe('AdPage class', () => {
   beforeAll(() => {
     // @ts-expect-error Shelter is not defined properly here
     generateAd = () => {
       return {
         adId: 1,
         pet: {
-          name: "Garfield",
+          name: 'Garfield',
           petCharacteristics: {
             age: 5,
-            species: "cat",
-            subSpecies: "persian",
-            gender: "male",
-            color: "orange",
+            species: 'cat',
+            subSpecies: 'persian',
+            gender: 'male',
+            color: 'orange',
           },
         },
         active: false,
@@ -29,13 +29,13 @@ describe("AdPage class", () => {
         setActive: () => {},
         setShelter: () => {},
         getContact: () => {},
-        share: () => "share uri",
+        share: () => 'share uri',
         render: () => {},
       };
     };
   });
 
-  it("scrolls current Ad with scrollCurrentAd", () => {
+  it('scrolls current Ad with scrollCurrentAd', () => {
     // TODO to be corrected later on
     let adPage: AdPage;
     try {
@@ -46,7 +46,7 @@ describe("AdPage class", () => {
     }
   });
 
-  it("adds Ad to ads with addAd", () => {
+  it('adds Ad to ads with addAd', () => {
     let adPage: AdPage;
     const ad = generateAd();
 
@@ -57,11 +57,11 @@ describe("AdPage class", () => {
     expect(adPage.ads).toContain(ad);
   });
 
-  it("edits Ad with setAd", () => {
+  it('edits Ad with setAd', () => {
     let adPage: AdPage;
     const ad = generateAd();
     const newAd = generateAd();
-    newAd.pet.petCharacteristics.gender = "female";
+    newAd.pet.petCharacteristics.gender = 'female';
 
     // @ts-expect-error
     adPage.addAd(ad);
@@ -73,7 +73,7 @@ describe("AdPage class", () => {
     expect(adPage.ads).not.toContain(ad);
   });
 
-  it("removes Ad from ads with removeAd", () => {
+  it('removes Ad from ads with removeAd', () => {
     let adPage: AdPage;
     const ad = generateAd();
 

@@ -26,15 +26,24 @@
     "react-native": "^0.71.6",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
-    "typescript": "*"
+    "typescript": "^5.0.4"
   },
   "scripts": {
     "test": "yarn test:root && yarn test:app",
     "test:root": "jest __tests__/*.ts",
     "test:app": "cd MeowdoptMeApp && yarn test",
-    "static-checks": "yarn type:check && yarn lint",
-    "type:check": "tsc --noEmit",
-    "lint": "yarn lint:tests",
-    "lint:tests": "eslint __tests__ --ext .ts,.tsx"
+    "static-checks": "yarn type:check && yarn lint && yarn format:check",
+    "type:check": "yarn type:check:tests && yarn type:check:app",
+    "type:check:tests": "yarn tsc --noEmit",
+    "type:check:app": "cd MeowdoptMeApp && yarn type:check && cd ..",
+    "lint": "yarn lint:tests && yarn lint:app",
+    "lint:tests": "eslint __tests__ --ext .ts,.tsx",
+    "lint:app": "eslint MeowdoptMeApp --ext .ts,.tsx",
+    "format": "yarn format:tests && yarn format:app",
+    "format:tests": "prettier --write '__tests__/**/*.{ts,tsx}'",
+    "format:app": "cd MeowdoptMeApp && yarn format && cd ..",
+    "format:check": "yarn format:check:tests && yarn format:check:app",
+    "format:check:tests": "prettier --check '__tests__/**/*.{ts,tsx}'",
+    "format:check:app": "cd MeowdoptMeApp && yarn format:check && cd .."
   }
 }

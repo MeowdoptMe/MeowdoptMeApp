@@ -1,10 +1,10 @@
-import type { PermissionRequest, User, Shelter } from "./types";
+import type { PermissionRequest, User, Shelter } from './types';
 
 let request: PermissionRequest;
 let user: User;
 let shelter: Shelter;
 
-describe("PermissionRequest class", () => {
+describe('PermissionRequest class', () => {
   beforeEach(() => {
     // @ts-expect-error
     user = {};

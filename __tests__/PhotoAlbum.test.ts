@@ -1,11 +1,11 @@
-import { PhotoAlbum, Photo } from "./types";
+import { PhotoAlbum, Photo } from './types';
 
-describe("PhotoAlbum class", () => {
-  it("adds new photo with aAddPhoto", () => {
+describe('PhotoAlbum class', () => {
+  it('adds new photo with aAddPhoto', () => {
     let photoAlbum: PhotoAlbum;
     const photo: Photo = {
       img: {},
-      description: "desc",
+      description: 'desc',
       setImg: () => {},
       setDescription: () => {},
     };
@@ -16,12 +16,12 @@ describe("PhotoAlbum class", () => {
     expect(photoAlbum.photos).toContain(photo);
   });
 
-  it("removes chosen photo with removePhoto", () => {
+  it('removes chosen photo with removePhoto', () => {
     let photoAlbum: PhotoAlbum;
 
     const photo: Photo = {
       img: {},
-      description: "desc",
+      description: 'desc',
       setImg: () => {},
       setDescription: () => {},
     };

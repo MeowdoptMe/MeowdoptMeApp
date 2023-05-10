@@ -4,13 +4,15 @@ on:
   pull_request:
     branches:
       - master
-    paths:
-      - __tests__/**/*
+    paths-ignore:
+      - BackendApp
+      - diagrams
   push:
     branches:
       - master
-    paths:
-      - __tests__/**/*
+    paths-ignore:
+      - BackendApp
+      - diagrams
 jobs:
   Lint:
     runs-on: ubuntu-latest

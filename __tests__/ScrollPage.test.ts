@@ -1,7 +1,7 @@
-import type { ScrollPage } from "./types";
+import type { ScrollPage } from './types';
 
-describe("ScrollPage interface", () => {
-  it("scrolls", () => {
+describe('ScrollPage interface', () => {
+  it('scrolls', () => {
     let scrollPage: ScrollPage;
     try {
       // @ts-expect-error

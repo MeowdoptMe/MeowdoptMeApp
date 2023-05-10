@@ -7,7 +7,10 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "type:check": "tsc --noEmit",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,json,md}'",
+    "format:check": "prettier --check './**/*.{js,jsx,ts,tsx,json,md}'"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.7",
