@@ -20,5 +20,10 @@ jobs:
       - name: Install black
         run: python3 -m pip install black
       - name: Check formatting
+        id: check
         working-directory: BackendApp
-        run: make check-formatting
+        run: python3 -m black --check --quiet
+      - name: Display unformatted files
+        working-directory: BackendApp
+        if: failure() && steps.check.outcome == 'failure'
+        run: python3 -m black --diff --quiet
