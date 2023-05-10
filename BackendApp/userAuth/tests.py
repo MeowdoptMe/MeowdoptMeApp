@@ -1,7 +1,13 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
 from .models import User
-from .views import RegisterView, ReturnTokenView, ChangePasswordView, LogoutView
+from .views import (
+    RegisterView,
+    LoginView,
+    ChangePasswordView,
+    LogoutView,
+    ChangeEmailView,
+)
 
 
 class UserAuthTests(APITestCase):
@@ -117,6 +123,29 @@ class UserAuthTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
 
+    def test_change_email(self):
+        user = User.objects.create_user(
+            username="ewa", password="ewa12345", email="ewa@gmail.com"
+        )
+        user_data = {
+            "username": "ewa",
+            "password": "ewa12345",
+        }
+        response = self.login(user_data)
+        token = response.data["access"]
+        url = reverse("change_email")
+        data = {"email": "ewaX@gochad.pl"}
+        request = self.factory.post(url, data, format="json")
+        force_authenticate(request, user=user, token=token)
+        view = ChangeEmailView.as_view()
+        response = view(request)
+        self.assertEqual(
+            response.status_code,
+            204,
+            f"Expected Response Code 204, received {response.status_code} instead.",
+        )
+        self.assertEqual(User.objects.get().email, data["email"])
+
     def test_logout(self):
         User.objects.create_user(username="ewa", password="ewa12345")
         user_data = {
@@ -143,5 +172,5 @@ class UserAuthTests(APITestCase):
     def login(self, user_data):
         url = reverse("login")
         request = self.factory.post(url, user_data, format="json")
-        view = ReturnTokenView.as_view()
+        view = LoginView.as_view()
         return view(request)
