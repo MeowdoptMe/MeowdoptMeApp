@@ -3,7 +3,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User
@@ -12,8 +11,7 @@ from .serializers import (
     PasswordChangeSerializer,
     EmailChangeSerializer
 )
-
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class RegisterView(APIView):
     def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
@@ -59,12 +57,10 @@ class ChangePasswordView(APIView):
         request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
 class ChangeEmailView(APIView):
     permission_classes = [
         IsAuthenticated,
     ]
-
     def post(self, request):
         serializer = EmailChangeSerializer(
             context={"request": request}, data=request.data
