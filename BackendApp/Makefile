@@ -30,7 +30,7 @@ prepare:
 	python manage.py shell < initial_data.py
 
 check-formatting:
-	python3 -m black --check --quiet || python3 -m black --verbose --diff .
+	python3 -m black --check --quiet . || python3 -m black --verbose --diff .
 
 format:
 	python3 -m black --quiet .
