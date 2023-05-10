@@ -9,9 +9,11 @@ from .models import User
 from .serializers import (
     RegistrationSerializer,
     PasswordChangeSerializer,
-    EmailChangeSerializer
+    EmailChangeSerializer,
 )
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+
 class RegisterView(APIView):
     def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
@@ -27,9 +29,11 @@ class LoginView(TokenObtainPairView):
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-        if request.data['username']:
-            response.data['username'] = request.data['username']
-        response.data['email'] = User.objects.get(username=request.data['username']).email
+        if request.data["username"]:
+            response.data["username"] = request.data["username"]
+        response.data["email"] = User.objects.get(
+            username=request.data["username"]
+        ).email
         return response
 
 
@@ -57,15 +61,17 @@ class ChangePasswordView(APIView):
         request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 class ChangeEmailView(APIView):
     permission_classes = [
         IsAuthenticated,
     ]
+
     def post(self, request):
         serializer = EmailChangeSerializer(
             context={"request": request}, data=request.data
         )
         serializer.is_valid(raise_exception=True)
-        request.user.email = (serializer.validated_data["email"])
+        request.user.email = serializer.validated_data["email"]
         request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
