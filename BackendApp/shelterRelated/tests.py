@@ -1,7 +1,12 @@
 from django.contrib.auth.models import Permission
 from django.urls import reverse_lazy
 from rest_framework import status
-from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate, APIClient
+from rest_framework.test import (
+    APITestCase,
+    APIRequestFactory,
+    force_authenticate,
+    APIClient,
+)
 
 from photoAlbum.models import PhotoAlbum
 from userAuth.models import User
@@ -89,7 +94,9 @@ class ShelterTests(APITestCase):
             "username": "ewa",
             "password": "ewa12345",
         }
-        self.user = User.objects.create_user(username=user_data["username"], password=user_data["password"])
+        self.user = User.objects.create_user(
+            username=user_data["username"], password=user_data["password"]
+        )
         url = reverse_lazy("login")
         request = self.factory.post(url, user_data, format="json")
         view = LoginView.as_view()
@@ -99,11 +106,15 @@ class ShelterTests(APITestCase):
         permission_create = Permission.objects.get(id=48)
         permission_change = Permission.objects.get(id=49)
         permission_delete = Permission.objects.get(id=50)
-        UserPermission.objects.create(user=self.user, shelter=shelter, permission=permission_create)
-        UserPermission.objects.create(user=self.user, shelter=shelter, permission=permission_change)
-        UserPermission.objects.create(user=self.user, shelter=shelter, permission=permission_delete)
-
-
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_create
+        )
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_change
+        )
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_delete
+        )
 
     def test_list(self):
         url = reverse_lazy("shelter_list")
@@ -123,7 +134,9 @@ class ShelterTests(APITestCase):
         response = self.client.post(url, self.data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Shelter.objects.count(), actual_shelter_count + 1)
-        self.assertEqual(Shelter.objects.get(id=actual_shelter_count + 1).name, self.data["name"])
+        self.assertEqual(
+            Shelter.objects.get(id=actual_shelter_count + 1).name, self.data["name"]
+        )
 
     def test_detail(self):
         Shelter.objects.create()
@@ -167,4 +180,3 @@ class ShelterTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(Shelter.objects.count(), current_objects_count - 1)
-

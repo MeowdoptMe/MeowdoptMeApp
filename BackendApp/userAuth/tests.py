@@ -1,5 +1,10 @@
 from django.urls import reverse
-from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate, APIClient
+from rest_framework.test import (
+    APITestCase,
+    APIRequestFactory,
+    force_authenticate,
+    APIClient,
+)
 from .models import User
 from .views import (
     RegisterView,

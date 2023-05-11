@@ -13,22 +13,12 @@ from .views import (
     ShelterList,
     ShelterCreate,
     ShelterDetail,
-    ContactInfoList,
-    ContactInfoDetail,
-    ContactInfoCreate,
 )
 
 urlpatterns = [
     path("", ShelterList.as_view(), name="shelter_list"),
     path("<int:pk>/", ShelterDetail.as_view(), name="shelter_detail"),
     path("add/", ShelterCreate.as_view(), name="shelter_create"),
-    path("contact_infos/", ContactInfoList.as_view(), name="contact_info_list"),
-    path(
-        "contact_infos/<int:pk>/",
-        ContactInfoDetail.as_view(),
-        name="contact_info_detail",
-    ),
-    path("contact_infos/add/", ContactInfoCreate.as_view(), name="contact_info_create"),
     path(
         "<int:shelter_id>/permissions/",
         UserPermissionList.as_view(),

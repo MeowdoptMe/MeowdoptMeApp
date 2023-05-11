@@ -3,9 +3,11 @@
 - GET /shelters - lista schronisk
 - GET/PUT/DELETE /shelters/id - zawartość schroniska o numerze id
 - POST /shelters/add - dodaje schronisko
+
 - GET /shelters/id/permissions/ - permissions do danego schroniska
 - POST /shelters/id/permissions/add - dodanie permission do danego schroniska
 - GET/PUT/DELETE /shelters/id/permissions/permission_id - edycja wybranego permission do schroniska
+
 - GET /shelters/id/requests - zwraca wszytskie reguesty wysłane do schroniska
 - GET/PUT/DELETE /shelters/id/requests/request_id - edytuje requesta o permission
 - POST /shelters/id/make-request - pozwala użytkownikowi zrobić permission request
@@ -33,12 +35,6 @@
 - GET/PUT/DELETE /users/id/ - profil użytkownika
 - GET /users/ - wyświetlenie listy userów (dla admina)
 - POST /users/add - dodanie nowego użytkownika
-
-## permissions - TODO
-
-- GET /permissions - wyświetla permissions (tu trzeba dodać filtry djangowe)
-- POST /permissions/permissions-requests/id/cancel-request - użytkownik może usunąć requesta o permission
-- POST /permissions/permission-type/id/user-id/remove - usunięcie dostępu dla danego usera (removePermission)
 
 ## photoAlbum (będzie podpięty do shelterRelated i adRelated osobno - jak sie uda)
 
