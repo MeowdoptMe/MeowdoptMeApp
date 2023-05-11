@@ -2,6 +2,7 @@ from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
     RetrieveUpdateDestroyAPIView,
+    RetrieveAPIView,
 )
 
 from .models import ContactInfo, Shelter
@@ -9,6 +10,7 @@ from .serializers import (
     ContactInfoSerializer,
     ShelterSerializer,
 )
+from .permissions import ShelterPermission
 
 
 class ShelterList(ListAPIView):
@@ -19,11 +21,13 @@ class ShelterList(ListAPIView):
 class ShelterCreate(CreateAPIView):
     queryset = Shelter.objects.all()
     serializer_class = ShelterSerializer
+    permission_classes = [ShelterPermission]
 
 
 class ShelterDetail(RetrieveUpdateDestroyAPIView):
     queryset = Shelter.objects.all()
     serializer_class = ShelterSerializer
+    permission_classes = [ShelterPermission]
 
 
 class ContactInfoList(ListAPIView):

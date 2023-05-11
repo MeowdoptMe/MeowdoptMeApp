@@ -14,10 +14,6 @@ urlpatterns = [
     path("add/", PhotoAlbumCreate.as_view(), name="photo_album_create"),  # post
     path("<int:pk>/", PhotoAlbumDetail.as_view(), name="photo_album_detail"),  # get
     path("<int:pk>/photos/", PhotoList.as_view(), name="photo_list"),  # get
-    path(
-        "<int:id>/photos/<int:pk>/", PhotoDetail.as_view(), name="photo_detail"
-    ),
-    path(
-        "<int:id>/photos/add/", PhotoCreate.as_view(), name="photo_create"
-    ),
+    path("<int:id>/photos/<int:pk>/", PhotoDetail.as_view(), name="photo_detail"),
+    path("<int:id>/photos/add/", PhotoCreate.as_view(), name="photo_create"),
 ]

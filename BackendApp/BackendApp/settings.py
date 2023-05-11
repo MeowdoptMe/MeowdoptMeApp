@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "userAuth",
     "permissionHandler",
     "shelterRelated",
-    "photoAlbum"
+    "photoAlbum",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),

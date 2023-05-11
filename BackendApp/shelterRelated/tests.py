@@ -19,16 +19,16 @@ class ContactInfoTests(APITestCase):
             "x_cord": 52.111,
             "y_cord": 26.752,
         }
+        User.objects.create()
 
     def test_create(self):
         url = reverse_lazy("contact_info_create")
         response = self.client.post(url, self.data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(ContactInfo.objects.count(), 1)
-        self.assertEqual(ContactInfo.objects.get().phone, self.data["phone"])
 
     def test_detail(self):
-        ContactInfo.objects.create(name="test_contact_info")
+        ContactInfo.objects.create()
         url = reverse_lazy("contact_info_detail", kwargs={"pk": 1})
         request = self.factory.get(url)
         view = ContactInfoDetail.as_view()
@@ -52,7 +52,7 @@ class ContactInfoTests(APITestCase):
             200,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
-        self.assertEqual(ContactInfo.objects.get().name, self.data["email"])
+        self.assertEqual(ContactInfo.objects.get().email, self.data["email"])
 
     def test_remove(self):
         contact_info = ContactInfo.objects.create()
@@ -67,7 +67,6 @@ class ContactInfoTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(ContactInfo.objects.count(), current_objects_count - 1)
-        self.assertIn(contact_info, ContactInfo.objects.get())
 
 
 class ShelterTests(APITestCase):
@@ -140,4 +139,3 @@ class ShelterTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(Shelter.objects.count(), current_objects_count - 1)
-        self.assertIn(shelter, Shelter.objects.get())

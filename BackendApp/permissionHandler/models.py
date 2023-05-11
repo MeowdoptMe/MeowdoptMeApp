@@ -23,12 +23,7 @@ class PermissionRequest(models.Model):
 
 
 class Manager(Group):
-    class Meta:
-        permissions = (
-            ("add_shelter", "Can add shelter"),
-            ("change_shelter", "Can change shelter"),
-            ("delete_shelter", "Can delete shelter"),
-        )
+    pass
 
 
 class Volunteer(Group):
