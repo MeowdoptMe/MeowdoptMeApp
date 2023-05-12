@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import UserPermission, PermissionRequest
 
+
 class UserPermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPermission
