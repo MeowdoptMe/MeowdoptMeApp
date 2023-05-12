@@ -1,22 +1,22 @@
-import { AppSettings, User, App } from "./types";
+import { AppSettings, User, App } from './types';
 
-describe("AppSettings class", () => {
+describe('AppSettings class', () => {
   it("changes user's password with setPassword", () => {
     // TODO to be corrected later on
     let settings: AppSettings;
     let app: App;
     const user: User = {
       id: 60,
-      username: "Kremówka",
-      password: "bigKremuwczan",
-      mail: "kremowka@kremowkamail.va",
+      username: 'Kremówka',
+      password: 'bigKremuwczan',
+      mail: 'kremowka@kremowkamail.va',
       // @ts-expect-error
       permissions: {},
       requests: [],
     };
     // @ts-expect-error
     app.loggedInUser = user;
-    const password = "test";
+    const password = 'test';
     // @ts-expect-error
     settings.setPassword(password);
     expect(user.password).toBe(password);
@@ -28,16 +28,16 @@ describe("AppSettings class", () => {
     let app: App;
     const user: User = {
       id: 60,
-      username: "Kremówka",
-      password: "bigKremuwczan",
-      mail: "kremowka@kremowkamail.va",
+      username: 'Kremówka',
+      password: 'bigKremuwczan',
+      mail: 'kremowka@kremowkamail.va',
       // @ts-expect-error
       permissions: {},
       requests: [],
     };
     // @ts-expect-error
     app.loggedInUser = user;
-    const username = "Kremuwka";
+    const username = 'Kremuwka';
     // @ts-expect-error
     settings.setUsername(username);
     expect(user.username).toBe(username);
@@ -49,16 +49,16 @@ describe("AppSettings class", () => {
     let app: App;
     const user: User = {
       id: 60,
-      username: "Kremówka",
-      password: "bigKremuwczan",
-      mail: "kremowka@kremowkamail.va",
+      username: 'Kremówka',
+      password: 'bigKremuwczan',
+      mail: 'kremowka@kremowkamail.va',
       // @ts-expect-error
       permissions: {},
       requests: [],
     };
     // @ts-expect-error
     app.loggedInUser = user;
-    const mail = "kremuwka@mail.va";
+    const mail = 'kremuwka@mail.va';
     // @ts-expect-error
     settings.setMail(mail);
     expect(user.mail).toBe(mail);
@@ -75,7 +75,7 @@ describe("AppSettings class", () => {
     }
   });
 
-  it("logs user out with logout", () => {
+  it('logs user out with logout', () => {
     // TODO to be corrected later on
     let settings: AppSettings;
     try {

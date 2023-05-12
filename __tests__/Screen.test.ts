@@ -1,7 +1,7 @@
-import type { Screen } from "./types";
+import type { Screen } from './types';
 
-describe("Screen interface", () => {
-  it("renders", () => {
+describe('Screen interface', () => {
+  it('renders', () => {
     let screen: Screen;
     try {
       // @ts-expect-error
