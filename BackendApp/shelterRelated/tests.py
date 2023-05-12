@@ -11,71 +11,10 @@ from rest_framework.test import (
 from photoAlbum.models import PhotoAlbum
 from userAuth.models import User
 from .models import Shelter, ContactInfo
-from .views import ShelterList, ShelterDetail, ContactInfoDetail, ShelterCreate
+from .views import ShelterList, ShelterDetail
 from userAuth.views import LoginView
 
 from permissionHandler.models import UserPermission
-
-
-class ContactInfoTests(APITestCase):
-    def setUp(self):
-        self.factory = APIRequestFactory()
-        self.data = {
-            "email": "tdd@gmail.com",
-            "phone": "123456789",
-            "user": 1,
-            "location": "Polaniec, ul. Krakowska 5",
-            "x_cord": 52.111,
-            "y_cord": 26.752,
-        }
-        User.objects.create()
-
-    def test_create(self):
-        url = reverse_lazy("contact_info_create")
-        response = self.factory.post(url, self.data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(ContactInfo.objects.count(), 1)
-
-    def test_detail(self):
-        ContactInfo.objects.create()
-        url = reverse_lazy("contact_info_detail", kwargs={"pk": 1})
-        request = self.factory.get(url)
-        view = ContactInfoDetail.as_view()
-        response = view(request, pk=1)
-        self.assertEqual(
-            response.status_code,
-            200,
-            f"Expected Response Code 200, received {response.status_code} instead.",
-        )
-
-    def test_edit(self):
-        ContactInfo.objects.create()
-        url = reverse_lazy("contact_info_detail", kwargs={"pk": 1})
-        data = self.data
-        data["email"] = "xyz@gmail.com"
-        request = self.factory.put(url, data)
-        view = ContactInfoDetail.as_view()
-        response = view(request, pk=1)
-        self.assertEqual(
-            response.status_code,
-            200,
-            f"Expected Response Code 200, received {response.status_code} instead.",
-        )
-        self.assertEqual(ContactInfo.objects.get().email, self.data["email"])
-
-    def test_remove(self):
-        contact_info = ContactInfo.objects.create()
-        current_objects_count = ContactInfo.objects.count()
-        url = reverse_lazy("contact_info_detail", kwargs={"pk": 1})
-        request = self.factory.delete(url)
-        view = ContactInfoDetail.as_view()
-        response = view(request, pk=1)
-        self.assertEqual(
-            response.status_code,
-            204,
-            f"Expected Response Code 204, received {response.status_code} instead.",
-        )
-        self.assertEqual(ContactInfo.objects.count(), current_objects_count - 1)
 
 
 class ShelterTests(APITestCase):

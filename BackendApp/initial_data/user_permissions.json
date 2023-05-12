@@ -1,0 +1,77 @@
+[
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 48
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 49
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 50
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 71
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 72
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 73
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 74
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 76
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 77
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 78
+  },
+  {
+    "user": 2,
+    "shelter": 1,
+    "permission": 48
+  },
+  {
+    "user": 2,
+    "shelter": 1,
+    "permission": 49
+  },
+  {
+    "user": 2,
+    "shelter": 1,
+    "permission": 50
+  },
+  {
+    "user": 3,
+    "shelter": 1,
+    "permission": 48
+  },
+  {
+    "user": 3,
+    "shelter": 1,
+    "permission": 49
+  }
+]

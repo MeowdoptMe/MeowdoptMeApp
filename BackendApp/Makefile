@@ -27,7 +27,7 @@ rerun-server:
 	python manage.py runserver
 
 prepare:
-	python manage.py shell < initial_data.py
+	python manage.py shell < initial_data/initial_data.py
 
 check-formatting:
 	python3 -m black --check --quiet . || python3 -m black --verbose --diff .

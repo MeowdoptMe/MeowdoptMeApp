@@ -6,19 +6,20 @@ from rest_framework.generics import (
     get_object_or_404,
     CreateAPIView,
     UpdateAPIView,
+    RetrieveDestroyAPIView,
 )
 from rest_framework.response import Response
 
 from .models import UserPermission, PermissionRequest
+from .permissions import UserPermissionAccess, PermissionRequestAccess
 from .serializers import (
-    PermissionSerializer,
     UserPermissionSerializer,
     PermissionRequestSerializer,
 )
 
 
 class GroupPermissionList(ListAPIView):
-    serializer_class = PermissionSerializer
+    serializer_class = UserPermissionSerializer
 
     def get_queryset(self):
         group_id = self.kwargs.get("group_id")
@@ -31,7 +32,7 @@ class GroupPermissionList(ListAPIView):
 
 
 class GroupPermissionDetail(RetrieveUpdateDestroyAPIView):
-    serializer_class = PermissionSerializer
+    serializer_class = UserPermissionSerializer
     lookup_url_kwarg = "permission_id"
 
     def get_queryset(self):
@@ -53,6 +54,7 @@ class GroupPermissionDetail(RetrieveUpdateDestroyAPIView):
 class UserPermissionList(ListAPIView):
     model = UserPermission
     serializer_class = UserPermissionSerializer
+    permission_classes = [UserPermissionAccess]
 
     def get_queryset(self):
         shelter_id = self.kwargs["shelter_id"]
@@ -63,6 +65,7 @@ class UserPermissionList(ListAPIView):
 class UserPermissionCreate(CreateAPIView):
     model = UserPermission
     serializer_class = UserPermissionSerializer
+    permission_classes = [UserPermissionAccess]
 
     def get_queryset(self):
         shelter_id = self.kwargs["shelter_id"]
@@ -74,6 +77,7 @@ class UserPermissionDetail(RetrieveUpdateDestroyAPIView):
     model = UserPermission
     serializer_class = UserPermissionSerializer
     lookup_field = "pk"
+    permission_classes = [UserPermissionAccess]
 
     def get_queryset(self):
         shelter_id = self.kwargs["shelter_id"]
@@ -84,6 +88,7 @@ class UserPermissionDetail(RetrieveUpdateDestroyAPIView):
 class PermissionRequestList(ListAPIView):
     model = PermissionRequest
     serializer_class = PermissionRequestSerializer
+    permission_classes = [PermissionRequestAccess]
 
     def get_queryset(self):
         shelter_id = self.kwargs["shelter_id"]
@@ -101,10 +106,11 @@ class PermissionRequestCreate(CreateAPIView):
         return queryset
 
 
-class PermissionRequestDetail(RetrieveUpdateDestroyAPIView):
+class PermissionRequestDetail(RetrieveDestroyAPIView):
     model = PermissionRequest
     serializer_class = PermissionRequestSerializer
     lookup_field = "pk"
+    permission_classes = [PermissionRequestAccess]
 
     def get_queryset(self):
         shelter_id = self.kwargs["shelter_id"]
@@ -115,6 +121,7 @@ class PermissionRequestDetail(RetrieveUpdateDestroyAPIView):
 class PermissionRequestResolve(UpdateAPIView):
     model = PermissionRequest
     serializer_class = PermissionRequestSerializer
+    permission_classes = [PermissionRequestAccess]
 
     def get_queryset(self):
         shelter_id = self.kwargs["shelter_id"]

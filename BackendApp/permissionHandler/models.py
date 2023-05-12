@@ -11,6 +11,7 @@ class UserPermission(models.Model):
     )
     shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, null=False)
     permission = models.ForeignKey(Permission, on_delete=models.CASCADE, null=False)
+    groups = models.ForeignKey(Group, null=True, default=None, on_delete=models.CASCADE, related_name='groups')
 
 
 class PermissionRequest(models.Model):

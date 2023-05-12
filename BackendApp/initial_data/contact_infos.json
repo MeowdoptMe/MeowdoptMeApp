@@ -1,0 +1,26 @@
+[
+  {
+    "email": "admin@gmail.com",
+    "phone": "123456789",
+    "user": 1,
+    "location": "Polaniec, ul. Krakowska 5",
+    "x_cord": 52.111,
+    "y_cord": 26.752
+  },
+  {
+    "email": "gocha@gmail.com",
+    "phone": "123456789",
+    "user": 2,
+    "location": "Krakow, ul. Piastowska 69",
+    "x_cord": 53.3,
+    "y_cord": 21.1
+  },
+  {
+    "email": "ewa@gmail.com",
+    "phone": "123456789",
+    "user": 3,
+    "location": "Krakow, ul. Gronostajowa 2",
+    "x_cord": 51.211,
+    "y_cord": 21.2
+  }
+]

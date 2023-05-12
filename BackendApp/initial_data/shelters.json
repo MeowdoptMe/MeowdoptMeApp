@@ -1,0 +1,22 @@
+[
+  {
+    "name": "shelter1",
+    "contact_info": 1,
+    "photo_album": 1
+  },
+  {
+    "name": "shelter2",
+    "contact_info": 2,
+    "photo_album": 2
+  },
+  {
+    "name": "shelter3",
+    "contact_info": 3,
+    "photo_album": 3
+  },
+  {
+    "name": "shelter4",
+    "contact_info": 1,
+    "photo_album": 3
+  }
+]
