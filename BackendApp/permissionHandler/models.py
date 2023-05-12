@@ -11,9 +11,6 @@ class UserPermission(models.Model):
     )
     shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, null=False)
     permission = models.ForeignKey(Permission, on_delete=models.CASCADE, null=False)
-    groups = models.ForeignKey(
-        Group, null=True, default=None, on_delete=models.CASCADE, related_name="groups"
-    )
 
 
 class PermissionRequest(models.Model):
@@ -21,21 +18,5 @@ class PermissionRequest(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False
     )
     shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, null=False)
-    permission = models.ForeignKey(Permission, on_delete=models.CASCADE, null=False)
+    group = models.CharField(max_length=255, default=None)
     created_date = models.DateField(auto_now_add=True)
-
-
-class Manager(Group):
-    pass
-
-
-class Volunteer(Group):
-    pass
-
-
-class ShelterWorker(Group):
-    pass
-
-
-class RegularUser(Group):
-    pass

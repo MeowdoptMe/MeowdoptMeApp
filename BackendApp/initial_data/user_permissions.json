@@ -2,76 +2,51 @@
   {
     "user": 1,
     "shelter": 1,
-    "permission": 48
+    "permission": 37
   },
   {
     "user": 1,
     "shelter": 1,
-    "permission": 49
+    "permission": 38
   },
   {
     "user": 1,
     "shelter": 1,
-    "permission": 50
+    "permission": 39
   },
   {
     "user": 1,
     "shelter": 1,
-    "permission": 71
+    "permission": 26
   },
   {
     "user": 1,
     "shelter": 1,
-    "permission": 72
+    "permission": 27
   },
   {
     "user": 1,
     "shelter": 1,
-    "permission": 73
+    "permission": 28
   },
   {
     "user": 1,
     "shelter": 1,
-    "permission": 74
+    "permission": 29
   },
   {
     "user": 1,
     "shelter": 1,
-    "permission": 76
+    "permission": 30
   },
   {
     "user": 1,
     "shelter": 1,
-    "permission": 77
+    "permission": 31
   },
   {
     "user": 1,
     "shelter": 1,
-    "permission": 78
-  },
-  {
-    "user": 2,
-    "shelter": 1,
-    "permission": 48
-  },
-  {
-    "user": 2,
-    "shelter": 1,
-    "permission": 49
-  },
-  {
-    "user": 2,
-    "shelter": 1,
-    "permission": 50
-  },
-  {
-    "user": 3,
-    "shelter": 1,
-    "permission": 48
-  },
-  {
-    "user": 3,
-    "shelter": 1,
-    "permission": 49
+    "permission": 32
   }
 ]

@@ -12,4 +12,4 @@ class UserPermissionSerializer(serializers.ModelSerializer):
 class PermissionRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = PermissionRequest
-        fields = ["user", "shelter", "permission"]
+        fields = ["user", "shelter", "group"]

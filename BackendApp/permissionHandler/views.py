@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from rest_framework import status
 from rest_framework.generics import (
     ListAPIView,
@@ -16,6 +16,11 @@ from .serializers import (
     UserPermissionSerializer,
     PermissionRequestSerializer,
 )
+from shelterRelated.models import Shelter
+
+manager_permissions = ["add_shelter", "change_shelter", "delete_shelter"]
+shelter_worker_permissions = ["add_shelter", "change_shelter"]
+volunteer_permissions = ["add_shelter"]
 
 
 class GroupPermissionList(ListAPIView):
@@ -100,10 +105,13 @@ class PermissionRequestCreate(CreateAPIView):
     model = PermissionRequest
     serializer_class = PermissionRequestSerializer
 
-    def get_queryset(self):
-        shelter_id = self.kwargs["shelter_id"]
-        queryset = self.model.objects.filter(shelter_id=shelter_id)
-        return queryset
+    def post(self, request, shelter_id):
+        shelter = Shelter.objects.get(id=shelter_id)
+        permission_request = PermissionRequest.objects.create(
+            user=request.user, shelter=shelter, group=request.data["group"]
+        )
+        serializer = self.get_serializer(permission_request)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class PermissionRequestDetail(RetrieveDestroyAPIView):
@@ -130,11 +138,24 @@ class PermissionRequestResolve(UpdateAPIView):
 
     def post(self, request, shelter_id, pk):
         permission_request = self.get_object()
-        user_permission = UserPermission.objects.create(
-            user=permission_request.user,
-            shelter=permission_request.shelter,
-            permission=permission_request.permission,
-        )
-        serializer = self.get_serializer(user_permission)
+        if permission_request.group == "Manager":
+            for permission_codename in manager_permissions:
+                permission = Permission.objects.get(codename=permission_codename)
+                UserPermission.objects.create(
+                    user=request.user, shelter_id=shelter_id, permission=permission
+                )
+        elif permission_request.group == "ShelterWorker":
+            for permission_codename in shelter_worker_permissions:
+                permission = Permission.objects.get(codename=permission_codename)
+                UserPermission.objects.create(
+                    user=request.user, shelter_id=shelter_id, permission=permission
+                )
+        elif permission_request.group == "Volunteer":
+            for permission_codename in volunteer_permissions:
+                permission = Permission.objects.get(codename=permission_codename)
+                UserPermission.objects.create(
+                    user=request.user, shelter_id=shelter_id, permission=permission
+                )
+
         permission_request.delete()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_201_CREATED)
