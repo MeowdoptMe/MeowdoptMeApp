@@ -33,6 +33,4 @@ class PasswordChangeSerializer(serializers.Serializer):
 
 
 class EmailChangeSerializer(serializers.Serializer):
-    email = serializers.CharField(
-        style={"input_type": "email"}, required=True
-    )
+    email = serializers.CharField(style={"input_type": "email"}, required=True)

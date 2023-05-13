@@ -1,7 +1,13 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
 from .models import User
-from .views import RegisterView, LoginView, ChangePasswordView, LogoutView, ChangeEmailView
+from .views import (
+    RegisterView,
+    LoginView,
+    ChangePasswordView,
+    LogoutView,
+    ChangeEmailView,
+)
 
 
 class UserAuthTests(APITestCase):
@@ -118,7 +124,9 @@ class UserAuthTests(APITestCase):
         )
 
     def test_change_email(self):
-        user = User.objects.create_user(username="ewa", password="ewa12345", email="ewa@gmail.com")
+        user = User.objects.create_user(
+            username="ewa", password="ewa12345", email="ewa@gmail.com"
+        )
         user_data = {
             "username": "ewa",
             "password": "ewa12345",
