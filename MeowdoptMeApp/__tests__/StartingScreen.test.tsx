@@ -1,6 +1,5 @@
 import 'react-native';
 import {render, screen, fireEvent, act} from '@testing-library/react-native';
-import React from 'react';
 import axios from 'axios';
 import * as authUtils from '../src/authUtils';
 
