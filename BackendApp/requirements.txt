@@ -5,3 +5,4 @@ djangorestframework-simplejwt==5.2.2
 PyJWT==2.6.0
 pytz==2023.3
 sqlparse==0.4.4
+pylint==2.17.4

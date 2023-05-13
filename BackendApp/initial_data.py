@@ -2,7 +2,7 @@ from userAuth.models import User
 from django.contrib.auth.hashers import make_password
 from json import load
 
-with open("initial_data.json", "r") as f:
+with open("initial_data.json") as f:
     users = load(f)
 
 
