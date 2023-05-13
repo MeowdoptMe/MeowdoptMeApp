@@ -23,6 +23,7 @@ def add_users(users):
             is_superuser=user_data["is_superuser"],
         )
 
+
 def add_shelters(shelters):
     for shelter in shelters:
         Shelter.objects.create(

@@ -28,7 +28,7 @@ class ShelterTests(APITestCase):
             "user": 1,
             "location": "Polaniec, ul. Krakowska 5",
             "x_cord": 52.111,
-            "y_cord": 26.752
+            "y_cord": 26.752,
         }
         user_data = {
             "username": "ewa",
