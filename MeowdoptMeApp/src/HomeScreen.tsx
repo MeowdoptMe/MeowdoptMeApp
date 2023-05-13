@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 
 function HomeScreen() {
