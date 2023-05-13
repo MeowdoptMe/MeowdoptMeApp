@@ -22,6 +22,7 @@ manager_permissions = ["add_shelter", "change_shelter", "delete_shelter"]
 shelter_worker_permissions = ["add_shelter", "change_shelter"]
 volunteer_permissions = ["add_shelter"]
 
+
 class UserPermissionList(ListAPIView):
     model = UserPermission
     serializer_class = UserPermissionSerializer

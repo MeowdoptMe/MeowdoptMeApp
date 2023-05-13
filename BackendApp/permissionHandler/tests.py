@@ -19,11 +19,7 @@ class UserPermissionTests(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
         self.client = APIClient()
-        self.data = {
-            "user": 1,
-            "shelter": 1,
-            "permission": 27
-        }
+        self.data = {"user": 1, "shelter": 1, "permission": 27}
         user_data = {
             "username": "ewa",
             "password": "ewa12345",
@@ -78,7 +74,9 @@ class UserPermissionTests(APITestCase):
     def test_detail(self):
         Shelter.objects.create()
         self.client.force_authenticate(user=self.user)
-        url = reverse_lazy("shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1})
+        url = reverse_lazy(
+            "shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1}
+        )
         response = self.client.get(url)
         self.assertEqual(
             response.status_code,
@@ -88,7 +86,9 @@ class UserPermissionTests(APITestCase):
 
     def test_edit(self):
         self.client.force_authenticate(user=self.user)
-        url = reverse_lazy("shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1})
+        url = reverse_lazy(
+            "shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1}
+        )
         data = self.data
         data["permission"] = 2
         response = self.client.put(url, data)
@@ -97,12 +97,16 @@ class UserPermissionTests(APITestCase):
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
-        self.assertEqual(UserPermission.objects.get(id=1).permission.id, data["permission"])
+        self.assertEqual(
+            UserPermission.objects.get(id=1).permission.id, data["permission"]
+        )
 
     def test_remove(self):
         current_objects_count = UserPermission.objects.count()
         self.client.force_authenticate(user=self.user)
-        url = reverse_lazy("shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1})
+        url = reverse_lazy(
+            "shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1}
+        )
         response = self.client.delete(url)
         self.assertEqual(
             response.status_code,
