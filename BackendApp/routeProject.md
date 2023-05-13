@@ -9,7 +9,7 @@
 - GET/PUT/DELETE /shelters/id/permissions/permission_id - edycja wybranego permission do schroniska
 
 - GET /shelters/id/requests - zwraca wszytskie reguesty wysłane do schroniska
-- GET/PUT/DELETE /shelters/id/requests/request_id - edytuje requesta o permission
+- GET/DELETE /shelters/id/requests/request_id - dostęp do requesta o permission (nie można go edytować!)
 - POST /shelters/id/make-request - pozwala użytkownikowi zrobić permission request
 - POST /shelters/id/requests/request_id/resolve-request - pozwala uprawnionemu użytkownikowi zaakceptować permission request
 
