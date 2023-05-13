@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import {useState} from 'react';
-// import {StyleSheet} from 'react-native';
 import StartingScreen from './src/StartingScreen';
 import {AppContext, User} from './src/Context';
-import {Screen} from './src/Screen';
+import Screen from './src/Screen';
 
 const guestUser: User = {
   username: 'guest',

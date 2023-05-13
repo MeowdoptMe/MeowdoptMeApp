@@ -1,6 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import * as React from 'react';
+import React from 'react';
 import {useContext, useState} from 'react';
 import {
   View,
@@ -23,8 +23,11 @@ function StartingScreen() {
         initialRouteName="Login"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="MainScreen" component={MainScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+        <Stack.Screen
+          name="ForgotPasswordScreen"
+          component={ForgotPasswordScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -43,7 +46,7 @@ function MainScreen({navigation}: {navigation: any}) {
           <Text style={styles.overButtonText}>Don't have an account yet?</Text>
           <Pressable
             style={styles.button}
-            onPress={() => {
+            onPressOut={() => {
               navigation.navigate('RegisterScreen');
             }}>
             <Text style={styles.buttonText}>Register</Text>
@@ -55,7 +58,7 @@ function MainScreen({navigation}: {navigation: any}) {
           </Text>
           <Pressable
             style={styles.button}
-            onPress={() => {
+            onPressOut={() => {
               navigation.navigate('ForgotPasswordScreen');
             }}>
             <Text style={[styles.buttonText, styles.resetPasswordButtonText]}>
@@ -69,8 +72,8 @@ function MainScreen({navigation}: {navigation: any}) {
           </Text>
           <Pressable
             style={styles.button}
-            onPress={() => {
-              setIsStartingScreen(false); // TODO use assert here
+            onPressOut={() => {
+              setIsStartingScreen(false);
             }}>
             <Text style={styles.buttonText}>Skip</Text>
           </Pressable>
@@ -102,10 +105,9 @@ function LoginInput() {
         mail: user.mail,
         token,
       });
-      setIsStartingScreen(false); // TODO use assert here
+      setIsStartingScreen(false);
     } catch (e) {
-      // @ts-expect-error
-      setError(e.message);
+      setError(e?.toString());
     } finally {
       setLoading(false);
     }
@@ -191,8 +193,8 @@ function RegisterScreen() {
           />
           <Pressable
             style={styles.button}
-            onPress={() => {
-              setIsStartingScreen(false); // TODO use assert here
+            onPressOut={() => {
+              setIsStartingScreen(false);
             }}>
             <Text style={styles.buttonText}>Register!</Text>
           </Pressable>
@@ -203,13 +205,13 @@ function RegisterScreen() {
 }
 
 function ForgotPasswordScreen() {
-  const [requestNotSent, setRequestNotSent] = useState(true);
+  const [requestSent, setRequestSent] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}>
-        {requestNotSent ? (
+        {requestSent === false ? (
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="login/email"
@@ -218,8 +220,8 @@ function ForgotPasswordScreen() {
             />
             <Pressable
               style={styles.button}
-              onPress={() => {
-                setRequestNotSent(false);
+              onPressOut={() => {
+                setRequestSent(true);
               }}>
               <Text style={[styles.buttonText, styles.resetPasswordButtonText]}>
                 Reset password
