@@ -22,40 +22,6 @@ manager_permissions = ["add_shelter", "change_shelter", "delete_shelter"]
 shelter_worker_permissions = ["add_shelter", "change_shelter"]
 volunteer_permissions = ["add_shelter"]
 
-
-class GroupPermissionList(ListAPIView):
-    serializer_class = UserPermissionSerializer
-
-    def get_queryset(self):
-        group_id = self.kwargs.get("group_id")
-        try:
-            group = Group.objects.get(id=group_id)
-            queryset = group.permissions.all()
-            return queryset
-        except Group.DoesNotExist:
-            return []
-
-
-class GroupPermissionDetail(RetrieveUpdateDestroyAPIView):
-    serializer_class = UserPermissionSerializer
-    lookup_url_kwarg = "permission_id"
-
-    def get_queryset(self):
-        group_id = self.kwargs.get("group_id")
-        try:
-            group = Group.objects.get(id=group_id)
-            queryset = group.permissions.all()
-            return queryset
-        except Group.DoesNotExist:
-            return []
-
-    def get_object(self):
-        permission_id = self.kwargs.get("permission_id")
-        queryset = self.filter_queryset(self.get_queryset())
-        obj = get_object_or_404(queryset, id=permission_id)
-        return obj
-
-
 class UserPermissionList(ListAPIView):
     model = UserPermission
     serializer_class = UserPermissionSerializer

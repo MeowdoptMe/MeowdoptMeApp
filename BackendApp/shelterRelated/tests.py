@@ -42,9 +42,9 @@ class ShelterTests(APITestCase):
         response = view(request)
         self.token = response.data["access"]
         shelter = Shelter.objects.create()
-        permission_create = Permission.objects.get(id=48)
-        permission_change = Permission.objects.get(id=49)
-        permission_delete = Permission.objects.get(id=50)
+        permission_create = Permission.objects.get(codename="add_shelter")
+        permission_change = Permission.objects.get(codename="change_shelter")
+        permission_delete = Permission.objects.get(codename="delete_shelter")
         UserPermission.objects.create(
             user=self.user, shelter=shelter, permission=permission_create
         )
