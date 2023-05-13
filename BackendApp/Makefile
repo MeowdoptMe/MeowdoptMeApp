@@ -29,6 +29,9 @@ rerun-server:
 prepare:
 	python manage.py shell < initial_data.py
 
+lint:
+	python3 -m pylint *.py userAuth BackendApp --disable=missing-docstring 
+
 check-formatting:
 	python3 -m black --check --quiet . || python3 -m black --verbose --diff .
 
