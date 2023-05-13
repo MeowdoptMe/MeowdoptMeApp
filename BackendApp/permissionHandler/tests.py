@@ -3,18 +3,14 @@ from django.urls import reverse_lazy
 from rest_framework import status
 from rest_framework.test import (
     APITestCase,
-    APIRequestFactory,
-    force_authenticate,
     APIClient,
 )
 
 from .models import UserPermission, PermissionRequest
-from shelterRelated.models import Shelter, ContactInfo
+from shelterRelated.models import Shelter
 
 from .permissions import PermissionRequestAccess
-from .views import UserPermissionList, UserPermissionDetail
 from userAuth.models import User
-from userAuth.views import LoginView
 
 
 class UserPermissionTests(APITestCase):

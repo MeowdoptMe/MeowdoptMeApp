@@ -2,17 +2,7 @@
   {
     "user": 1,
     "shelter": 1,
-    "permission": 37
-  },
-  {
-    "user": 1,
-    "shelter": 1,
-    "permission": 38
-  },
-  {
-    "user": 1,
-    "shelter": 1,
-    "permission": 39
+    "permission": 25
   },
   {
     "user": 1,
@@ -48,5 +38,25 @@
     "user": 1,
     "shelter": 1,
     "permission": 32
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 33
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 34
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 35
+  },
+  {
+    "user": 1,
+    "shelter": 1,
+    "permission": 36
   }
 ]

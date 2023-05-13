@@ -8,9 +8,8 @@ from rest_framework.test import (
     APIClient,
 )
 
-from photoAlbum.models import PhotoAlbum
 from userAuth.models import User
-from .models import Shelter, ContactInfo
+from .models import Shelter
 from .views import ShelterList, ShelterDetail
 from userAuth.views import LoginView
 
@@ -22,12 +21,14 @@ class ShelterTests(APITestCase):
         self.factory = APIRequestFactory()
         self.client = APIClient()
         user = User.objects.create()
-        info = ContactInfo.objects.create()
-        album = PhotoAlbum.objects.create()
         self.data = {
             "name": "test_shelter",
-            "contact_info": 1,
-            "photo_album": 1,
+            "email": "admin@gmail.com",
+            "phone": "123456789",
+            "user": 1,
+            "location": "Polaniec, ul. Krakowska 5",
+            "x_cord": 52.111,
+            "y_cord": 26.752
         }
         user_data = {
             "username": "ewa",

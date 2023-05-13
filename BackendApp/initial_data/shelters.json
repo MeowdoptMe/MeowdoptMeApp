@@ -1,22 +1,38 @@
 [
   {
     "name": "shelter1",
-    "contact_info": 1,
-    "photo_album": 1
+    "email": "admin@gmail.com",
+    "phone": "123456789",
+    "user": 1,
+    "location": "Polaniec, ul. Krakowska 5",
+    "x_cord": 52.111,
+    "y_cord": 26.752
   },
   {
     "name": "shelter2",
-    "contact_info": 2,
-    "photo_album": 2
+    "email": "admin@gmail.com",
+    "phone": "123456789",
+    "user": 1,
+    "location": "Polaniec, ul. Krakowska 5",
+    "x_cord": 52.111,
+    "y_cord": 26.752
   },
   {
     "name": "shelter3",
-    "contact_info": 3,
-    "photo_album": 3
+    "email": "admin@gmail.com",
+    "phone": "123456789",
+    "user": 1,
+    "location": "Polaniec, ul. Krakowska 5",
+    "x_cord": 52.111,
+    "y_cord": 26.752
   },
   {
     "name": "shelter4",
-    "contact_info": 1,
-    "photo_album": 3
+    "email": "ewa@gmail.com",
+    "phone": "123456789",
+    "user": 3,
+    "location": "Krakow, ul. Gronostajowa 2",
+    "x_cord": 51.211,
+    "y_cord": 21.2
   }
 ]

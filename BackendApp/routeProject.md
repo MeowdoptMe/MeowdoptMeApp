@@ -19,8 +19,7 @@
 - GET/PUT/DELETE /ads/id - zawartość ogłoszenia o numerze id
 - POST /ads/add - dodaje ogłoszenie
 - POST /ads/id/add-pet - dodaje zwierzę do ogłoszenia
-- GET /ads/id/pet - zwraca zwierzę z ogłoszenia
-
+- 
 ## userAuth
 
 - POST /userAuth/login - zalogowanie się usera
