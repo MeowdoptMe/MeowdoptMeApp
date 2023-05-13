@@ -22,10 +22,6 @@ jest.mock('axios', () => {
 });
 
 describe('StartingScreen', () => {
-  it('renders', () => {
-    render(<App />);
-  });
-
   it('is the current screen at launch', () => {
     render(<App />);
     expect(screen.getByPlaceholderText('login/email')).toBeOnTheScreen();
