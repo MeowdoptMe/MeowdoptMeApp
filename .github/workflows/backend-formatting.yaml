@@ -6,11 +6,13 @@ on:
       - master
     paths:
       - BackendApp/**/*.py
+      - BackendApp/**/*.json
   push:
     branches:
       - master
     paths:
       - BackendApp/**/*.py
+      - BackendApp/**/*.json
 jobs:
   Check-formatting:
     runs-on: ubuntu-latest

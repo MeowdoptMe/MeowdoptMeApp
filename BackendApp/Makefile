@@ -27,7 +27,7 @@ rerun-server:
 	python manage.py runserver
 
 prepare:
-	python manage.py shell < initial_data.py
+	python manage.py shell < initial_data/init.py
 
 lint:
 	python3 -m pylint --load-plugins pylint_django --django-settings-module=BackendApp.settings *.py --disable=missing-docstring --disable=C0103 userAuth BackendApp 
@@ -36,5 +36,4 @@ check-formatting:
 	python3 -m black --check --quiet . || python3 -m black --verbose --diff .
 
 format:
-	python3 -m black --quiet .
-
+	python3 -m black --quiet ./**/*.py ./**/*.json

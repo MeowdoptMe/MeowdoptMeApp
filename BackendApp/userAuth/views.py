@@ -34,6 +34,8 @@ class LoginView(TokenObtainPairView):
         response.data["email"] = User.objects.get(
             username=request.data["username"]
         ).email
+        response.data["username"] = request.data["username"]
+
         return response
 
 
