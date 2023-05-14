@@ -1,0 +1,25 @@
+name: Lint python
+run-name: ${{ github.head_ref }} is linting python 🚀
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - BackendApp/**/*.py
+  push:
+    branches:
+      - master
+    paths:
+      - BackendApp/**/*.py
+jobs:
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup backend
+        working-directory: BackendApp
+        run: make setup && make requirements && source env/bin/activate
+      - name: Lint
+        working-directory: BackendApp
+        run: make lint

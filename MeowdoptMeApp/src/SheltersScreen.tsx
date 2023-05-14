@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {useState} from 'react';
 import {View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
@@ -14,7 +14,7 @@ function SheltersScreen() {
       </View>
       <View style={styles.button}>
         <Pressable
-          onPress={() => {
+          onPressOut={() => {
             setPage('map');
           }}>
           <Text style={styles.buttonText}>Go to map</Text>
@@ -26,7 +26,7 @@ function SheltersScreen() {
       <WebView source={{html: map}} />
       <View style={styles.button}>
         <Pressable
-          onPress={() => {
+          onPressOut={() => {
             setPage('list');
           }}>
           <Text style={styles.buttonText}>Go back</Text>

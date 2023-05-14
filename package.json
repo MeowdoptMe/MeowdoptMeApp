@@ -39,11 +39,13 @@
     "lint": "yarn lint:tests && yarn lint:app",
     "lint:tests": "eslint __tests__ --ext .ts,.tsx",
     "lint:app": "cd MeowdoptMeApp && yarn lint && cd ..",
-    "format": "yarn format:tests && yarn format:app",
-    "format:tests": "prettier --write '__tests__/**/*.{ts,tsx}'",
+    "format": "yarn format:root && yarn format:tests && yarn format:app",
+    "format:tests": "prettier --write '__tests__/**/*.(ts|tsx)'",
+    "format:root": "prettier --write '*.(js|jsx|ts|tsx|json|md)'",
     "format:app": "cd MeowdoptMeApp && yarn format && cd ..",
-    "format:check": "yarn format:check:tests && yarn format:check:app",
-    "format:check:tests": "prettier --check '__tests__/**/*.{ts,tsx}'",
+    "format:check": "yarn format:check:root && yarn format:check:tests && yarn format:check:app",
+    "format:check:root": "prettier --check '*.(js|jsx|ts|tsx|json|md)'",
+    "format:check:tests": "prettier --check '__tests__/**/*.(ts|tsx)'",
     "format:check:app": "cd MeowdoptMeApp && yarn format:check && cd .."
   }
 }

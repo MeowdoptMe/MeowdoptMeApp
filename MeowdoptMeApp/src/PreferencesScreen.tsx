@@ -1,37 +1,64 @@
-import * as React from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {useState} from 'react';
 
 function PreferencesScreen() {
   const [currentOption, setCurrentOption] = useState('none');
-  interface myButtonProps {
-    title: string;
-    buttonText: string;
-  }
-
-  function MyButton({title, buttonText}: myButtonProps) {
-    return currentOption !== title ? (
-      <Pressable
-        style={styles.button}
-        onPressOut={() => {
-          setCurrentOption(title);
-        }}>
-        <Text style={styles.buttonText}>{buttonText}</Text>
-      </Pressable>
-    ) : (
-      <Text style={styles.noButtonText}>{buttonText}</Text>
-    );
-  }
+  const state = {
+    currentOption: currentOption,
+    setCurrentOption: setCurrentOption,
+  };
 
   return (
     <View style={styles.sectionContainer}>
-      <MyButton title={'AdFilters'} buttonText={'Set your filters'} />
-      <MyButton title={'setPassword'} buttonText={'Set your password'} />
-      <MyButton title={'setUsername'} buttonText={'Set your username'} />
-      <MyButton title={'setMail'} buttonText={'Set your email'} />
-      <MyButton title={'deleteAccount'} buttonText={'Delete your account'} />
-      <MyButton title={'logout'} buttonText={'Logout'} />
+      <MyButton
+        title={'AdFilters'}
+        buttonText={'Set your filters'}
+        {...state}
+      />
+      <MyButton
+        title={'setPassword'}
+        buttonText={'Set your password'}
+        {...state}
+      />
+      <MyButton
+        title={'setUsername'}
+        buttonText={'Set your username'}
+        {...state}
+      />
+      <MyButton title={'setMail'} buttonText={'Set your email'} {...state} />
+      <MyButton
+        title={'deleteAccount'}
+        buttonText={'Delete your account'}
+        {...state}
+      />
+      <MyButton title={'logout'} buttonText={'Logout'} {...state} />
     </View>
+  );
+}
+
+interface myButtonProps {
+  title: string;
+  buttonText: string;
+  currentOption: string;
+  setCurrentOption: React.Dispatch<React.SetStateAction<string>>;
+}
+function MyButton({
+  title,
+  buttonText,
+  currentOption,
+  setCurrentOption,
+}: myButtonProps) {
+  return currentOption !== title ? (
+    <Pressable
+      style={styles.button}
+      onPressOut={() => {
+        setCurrentOption(title);
+      }}>
+      <Text style={styles.buttonText}>{buttonText}</Text>
+    </Pressable>
+  ) : (
+    <Text style={styles.noButtonText}>{buttonText}</Text>
   );
 }
 

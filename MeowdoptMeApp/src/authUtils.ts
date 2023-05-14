@@ -11,11 +11,12 @@ async function login(username: string, password: string) {
   } catch (e: unknown) {
     if (isAxiosError(e)) {
       if (e.response) {
-        throw new Error(e.response.data.detail);
+        throw e.response.data.detail;
       } else {
-        throw new Error(e.message);
+        throw e.message;
       }
     }
+    throw e;
   }
 }
 

@@ -1,11 +1,15 @@
 from django.urls import reverse
-from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
+from rest_framework.test import (
+    APITestCase,
+    APIRequestFactory,
+    force_authenticate,
+    APIClient,
+)
 from .models import User
 from .views import (
     RegisterView,
     LoginView,
     ChangePasswordView,
-    LogoutView,
     ChangeEmailView,
 )
 
@@ -13,6 +17,7 @@ from .views import (
 class UserAuthTests(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory(enforce_csrf_checks=True)
+        self.client = APIClient()
 
     def test_register_with_valid_data(self):
         url = reverse("register")
@@ -147,22 +152,13 @@ class UserAuthTests(APITestCase):
         self.assertEqual(User.objects.get().email, data["email"])
 
     def test_logout(self):
-        User.objects.create_user(username="ewa", password="ewa12345")
-        user_data = {
-            "username": "ewa",
-            "password": "ewa12345",
-        }
-        response = self.login(user_data)
-
-        token = response.data["access"]
+        user = User.objects.create_user(username="ewa", password="ewa12345")
+        self.client.force_authenticate(user=user)
         url = reverse("logout")
-        request = self.factory.post(
-            url,
+        response = self.client.post(
+            path=url,
             format="json",
         )
-        force_authenticate(request, token=token)
-        view = LogoutView.as_view()
-        response = view(request)
         self.assertEqual(
             response.status_code,
             200,
