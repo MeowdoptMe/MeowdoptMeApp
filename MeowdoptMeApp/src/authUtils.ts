@@ -20,4 +20,9 @@ async function login(username: string, password: string) {
   }
 }
 
-export {login};
+async function register(username: string, email: string, password: string) {
+  await new Promise(resolve => setTimeout(resolve, 4000));
+  throw new Error('Woof! Not implemented');
+}
+
+export {login, register};
