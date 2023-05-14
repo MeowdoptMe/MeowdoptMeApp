@@ -12,12 +12,17 @@
 1. If you want to load sample initial data for the database you can run `make prepare`
 1. To run server you can use `make server`, but if you have problem `Error: That port is already in use.` you can use `make porterror`
 
+## Python format
+If you want make formatting with black, you can run `make format`
 ## Testing
 
 ### Running tests
 
 If you want to test, make sure you have activated virtual environment (env) and your django server isn't running.
-To run tests run `make test`
+Commends to run tests:
+- django tests with `make test`
+- linting test with `make lint`
+- python formatting test with `make check-formatting`
 
 ### Writing tests
 
