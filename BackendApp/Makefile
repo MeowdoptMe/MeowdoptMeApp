@@ -2,8 +2,11 @@ initdb:
 	python manage.py migrate
 
 updatedb:
-	python manage.py makemigrations
-	python manage.py migrate
+	python3 manage.py makemigrations userAuth
+	python3 manage.py makemigrations shelterRelated
+	python3 manage.py makemigrations permissionHandler
+	python3 manage.py makemigrations
+	python3 manage.py migrate
 
 setup:
 	python3 -m pip install --user virtualenv
