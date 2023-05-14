@@ -36,9 +36,6 @@ function SheltersScreen() {
   );
 }
 
-
-
-
 const styles = StyleSheet.create({
   sectionContainer: {
     flex: 1,
@@ -76,11 +73,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     fontSize: 30,
   },
-  map: {
-    width: "100%",
-    height: "100%",
-  }
-
 });
 
 export default SheltersScreen;
