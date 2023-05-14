@@ -155,9 +155,7 @@ class PermissionRequestTests(APITestCase):
 
     def test_detail(self):
         self.client.force_authenticate(user=self.user)
-        url = reverse_lazy(
-            "permission_request_detail", kwargs={"pk": 1}
-        )
+        url = reverse_lazy("permission_request_detail", kwargs={"pk": 1})
         response = self.client.get(url)
         self.assertEqual(
             response.status_code,
@@ -167,9 +165,7 @@ class PermissionRequestTests(APITestCase):
 
     def test_resolve(self):
         self.client.force_authenticate(user=self.user)
-        url = reverse_lazy(
-            "permission_request_resolve", kwargs={"pk": 1}
-        )
+        url = reverse_lazy("permission_request_resolve", kwargs={"pk": 1})
         response = self.client.post(url, format="json")
         self.assertEqual(
             response.status_code,

@@ -57,6 +57,16 @@ class PermissionRequestList(ListAPIView):
     serializer_class = PermissionRequestSerializer
     permission_classes = [PermissionRequestAccess]
 
+    def get_queryset(self):
+        if self.kwargs.get("shelter_id"):
+            shelter_id = self.kwargs.get("shelter_id")
+            queryset = PermissionRequest.objects.filter(shelter_id=shelter_id)
+        elif self.kwargs.get("user_id"):
+            user_id = self.kwargs.get("user_id")
+            queryset = PermissionRequest.objects.filter(user_id=user_id)
+        else:
+            queryset = PermissionRequest.objects.all()
+        return queryset
 
 
 class PermissionRequestCreate(CreateAPIView):
@@ -83,6 +93,7 @@ class PermissionRequestDetail(RetrieveDestroyAPIView):
     permission_classes = [PermissionRequestAccess]
     queryset = PermissionRequest.objects.all()
 
+
 class PermissionRequestResolve(UpdateAPIView):
     model = PermissionRequest
     serializer_class = PermissionRequestSerializer
@@ -95,10 +106,14 @@ class PermissionRequestResolve(UpdateAPIView):
             for permission_codename in PermissionRequestAccess.manager_permissions:
                 permission = Permission.objects.get(codename=permission_codename)
                 if not UserPermission.objects.filter(
-                    user=request.user, shelter=permission_request.shelter, permission=permission
+                    user=request.user,
+                    shelter=permission_request.shelter,
+                    permission=permission,
                 ).exists():
                     UserPermission.objects.create(
-                        user=request.user, shelter=permission_request.shelter, permission=permission
+                        user=request.user,
+                        shelter=permission_request.shelter,
+                        permission=permission,
                     )
         elif permission_request.group == "ShelterWorker":
             for (
@@ -106,19 +121,27 @@ class PermissionRequestResolve(UpdateAPIView):
             ) in PermissionRequestAccess.shelter_worker_permissions:
                 permission = Permission.objects.get(codename=permission_codename)
                 if not UserPermission.objects.filter(
-                    user=request.user, shelter=permission_request.shelter, permission=permission
+                    user=request.user,
+                    shelter=permission_request.shelter,
+                    permission=permission,
                 ).exists():
                     UserPermission.objects.create(
-                        user=request.user, shelter=permission_request.shelter, permission=permission
+                        user=request.user,
+                        shelter=permission_request.shelter,
+                        permission=permission,
                     )
         elif permission_request.group == "Volunteer":
             for permission_codename in PermissionRequestAccess.volunteer_permissions:
                 permission = Permission.objects.get(codename=permission_codename)
                 if not UserPermission.objects.filter(
-                    user=request.user, shelter=permission_request.shelter, permission=permission
+                    user=request.user,
+                    shelter=permission_request.shelter,
+                    permission=permission,
                 ).exists():
                     UserPermission.objects.create(
-                        user=request.user, shelter=permission_request.shelter, permission=permission
+                        user=request.user,
+                        shelter=permission_request.shelter,
+                        permission=permission,
                     )
 
         permission_request.delete()

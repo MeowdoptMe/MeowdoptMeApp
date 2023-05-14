@@ -67,26 +67,32 @@ class PermissionRequestAccess(BasePermission):
             permission_request = PermissionRequest.objects.get(id=request_id)
             permission = Permission.objects.get(codename="change_permissionrequest")
             user_permission = UserPermission.objects.filter(
-                user=request.user, shelter_id=permission_request.shelter, permission_id=permission
+                user=request.user,
+                shelter_id=permission_request.shelter,
+                permission_id=permission,
             )
+
         elif view.__class__.__name__ == "PermissionRequestList":
             permission = Permission.objects.get(codename="view_permissionrequest")
-            user_permission = UserPermission.objects.filter(
-                permission=permission
-            )
+            user_permission = UserPermission.objects.filter(permission=permission)
+
         elif request.method == "DELETE":
             permission_request = PermissionRequest.objects.get(id=request_id)
             permission = Permission.objects.get(codename="delete_permissionrequest")
             user_permission = UserPermission.objects.filter(
-                user=request.user, shelter_id=permission_request.shelter, permission_id=permission
+                user=request.user,
+                shelter_id=permission_request.shelter,
+                permission_id=permission,
             )
+
         elif request.method == "GET":
             permission_request = PermissionRequest.objects.get(id=request_id)
             permission = Permission.objects.get(codename="view_permissionrequest")
             user_permission = UserPermission.objects.filter(
-                user=request.user, shelter=permission_request.shelter, permission_id=permission
+                user=request.user,
+                shelter=permission_request.shelter,
+                permission_id=permission,
             )
-
 
         if user_permission:
             return True
