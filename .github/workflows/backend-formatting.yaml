@@ -21,11 +21,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Use Node.js 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'yarn'
       - name: Install black
         run: python3 -m pip install black
       - name: Check python formatting
@@ -36,6 +31,13 @@ jobs:
         working-directory: BackendApp
         if: failure() && steps.checkpython.outcome == 'failure'
         run: python3 -m black --diff . 1> /dev/null 2>&1 | grep --color=never 'would reformat'
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - name: Install Node dependencies
+        run: yarn
       - name: Check json and markdown formatting
         id: checkjsonmarkdown
         run: yarn backend:format:check
