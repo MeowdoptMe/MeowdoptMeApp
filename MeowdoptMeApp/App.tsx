@@ -1,14 +1,8 @@
 import React from 'react';
 import {useState} from 'react';
 import StartingScreen from './src/StartingScreen';
-import {AppContext, User} from './src/Context';
-import Screen from './src/Screen';
-
-const guestUser: User = {
-  username: 'guest',
-  mail: 'guest',
-  token: 'guest',
-};
+import {AppContext, User, guestUser} from './src/Context';
+import MainScreen from './src/MainScreen';
 
 function App() {
   const [isStartingScreen, setIsStartingScreen] = useState(true);
@@ -21,7 +15,7 @@ function App() {
         setUser,
         setIsStartingScreen,
       }}>
-      {isStartingScreen ? <StartingScreen /> : <Screen />}
+      {isStartingScreen ? <StartingScreen /> : <MainScreen />}
     </AppContext.Provider>
   );
 }
