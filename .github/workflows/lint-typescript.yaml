@@ -1,5 +1,5 @@
-name: Lint root
-run-name: ${{ github.head_ref }} is linting 🚀
+name: Lint typescript
+run-name: ${{ github.head_ref }} is linting typescript 🚀
 on:
   pull_request:
     branches:

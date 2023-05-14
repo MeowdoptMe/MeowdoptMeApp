@@ -8,7 +8,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         fields = ["email", "username", "password"]
         extra_kwargs = {"password": {"write_only": True}, "email": {"required": True}}
 
-    def save(self):
+    def save(self, **kwargs):
         user = User(
             email=self.validated_data["email"], username=self.validated_data["username"]
         )
@@ -31,6 +31,18 @@ class PasswordChangeSerializer(serializers.Serializer):
             raise serializers.ValidationError({"current_password": "Does not match"})
         return value
 
+    def update(self, instance, validated_data):
+        raise NotImplementedError("PasswordChangeSerializer does not support update")
+
+    def create(self, validated_data):
+        raise NotImplementedError("PasswordChangeSerializer does not support create")
+
 
 class EmailChangeSerializer(serializers.Serializer):
     email = serializers.CharField(style={"input_type": "email"}, required=True)
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError("EmailChangeSerializer does not support update")
+
+    def create(self, validated_data):
+        raise NotImplementedError("EmailChangeSerializer does not support create")

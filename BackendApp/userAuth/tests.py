@@ -10,7 +10,6 @@ from .views import (
     RegisterView,
     LoginView,
     ChangePasswordView,
-    LogoutView,
     ChangeEmailView,
 )
 

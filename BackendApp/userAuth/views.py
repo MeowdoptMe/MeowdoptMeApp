@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import User
 from .serializers import (
@@ -11,7 +12,6 @@ from .serializers import (
     PasswordChangeSerializer,
     EmailChangeSerializer,
 )
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class RegisterView(APIView):
