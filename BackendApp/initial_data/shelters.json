@@ -20,7 +20,7 @@
   {
     "name": "shelter3",
     "email": "admin3@gmail.com",
-    "phone":   "123456789",
+    "phone": "123456789",
     "user": 1,
     "location": "Kraków, ul. Łojasiewicza 6",
     "x_cord": 51.111,
