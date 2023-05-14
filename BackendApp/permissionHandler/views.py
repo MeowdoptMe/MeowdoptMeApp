@@ -58,11 +58,11 @@ class PermissionRequestList(ListAPIView):
     permission_classes = [PermissionRequestAccess]
 
     def get_queryset(self):
-        if self.kwargs.get("shelter_id"):
-            shelter_id = self.kwargs.get("shelter_id")
+        user_id = self.kwargs.get("user_id")
+        shelter_id = self.kwargs.get("shelter_id")
+        if shelter_id:
             queryset = PermissionRequest.objects.filter(shelter_id=shelter_id)
-        elif self.kwargs.get("user_id"):
-            user_id = self.kwargs.get("user_id")
+        elif user_id:
             queryset = PermissionRequest.objects.filter(user_id=user_id)
         else:
             queryset = PermissionRequest.objects.all()

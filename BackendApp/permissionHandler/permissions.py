@@ -62,6 +62,8 @@ class PermissionRequestAccess(BasePermission):
 
     def has_permission(self, request, view):
         request_id = view.kwargs.get("pk")
+        url_path = request.path
+
         user_permission = True
         if view.__class__.__name__ == "PermissionRequestResolve":
             permission_request = PermissionRequest.objects.get(id=request_id)
@@ -74,7 +76,9 @@ class PermissionRequestAccess(BasePermission):
 
         elif view.__class__.__name__ == "PermissionRequestList":
             permission = Permission.objects.get(codename="view_permissionrequest")
-            user_permission = UserPermission.objects.filter(permission=permission)
+            user_permission = UserPermission.objects.filter(
+                permission=permission, user=request.user
+            )
 
         elif request.method == "DELETE":
             permission_request = PermissionRequest.objects.get(id=request_id)
