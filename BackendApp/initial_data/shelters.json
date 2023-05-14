@@ -1,38 +1,38 @@
 [
-  {
-    "name": "shelter1",
-    "email": "admin@gmail.com",
-    "phone": "123456789",
-    "user": 1,
-    "location": "Polaniec, ul. Krakowska 5",
-    "x_cord": 52.111,
-    "y_cord": 26.752
-  },
-  {
-    "name": "shelter2",
-    "email": "admin@gmail.com",
-    "phone": "123456789",
-    "user": 1,
-    "location": "Polaniec, ul. Krakowska 5",
-    "x_cord": 52.111,
-    "y_cord": 26.752
-  },
-  {
-    "name": "shelter3",
-    "email": "admin@gmail.com",
-    "phone": "123456789",
-    "user": 1,
-    "location": "Polaniec, ul. Krakowska 5",
-    "x_cord": 52.111,
-    "y_cord": 26.752
-  },
-  {
-    "name": "shelter4",
-    "email": "ewa@gmail.com",
-    "phone": "123456789",
-    "user": 3,
-    "location": "Krakow, ul. Gronostajowa 2",
-    "x_cord": 51.211,
-    "y_cord": 21.2
-  }
+    {
+        "name": "shelter1",
+        "email": "admin@gmail.com",
+        "phone": "123456789",
+        "user": 1,
+        "location": "Polaniec, ul. Krakowska 5",
+        "x_cord": 52.111,
+        "y_cord": 26.752,
+    },
+    {
+        "name": "shelter2",
+        "email": "admin@gmail.com",
+        "phone": "123456789",
+        "user": 1,
+        "location": "Polaniec, ul. Krakowska 5",
+        "x_cord": 52.111,
+        "y_cord": 26.752,
+    },
+    {
+        "name": "shelter3",
+        "email": "admin@gmail.com",
+        "phone": "123456789",
+        "user": 1,
+        "location": "Polaniec, ul. Krakowska 5",
+        "x_cord": 52.111,
+        "y_cord": 26.752,
+    },
+    {
+        "name": "shelter4",
+        "email": "ewa@gmail.com",
+        "phone": "123456789",
+        "user": 3,
+        "location": "Krakow, ul. Gronostajowa 2",
+        "x_cord": 51.211,
+        "y_cord": 21.2,
+    },
 ]

@@ -1,63 +1,53 @@
 [
-  {
-    "username": "admin",
-    "password": "admin",
-    "email": "admin@gmail.com",
-    "is_superuser": 1,
-    "is_staff": 1
-  },
-  {
-    "username": "gocha",
-    "password": "gocha",
-    "email": "gocha@gmail.com",
-    "is_superuser": 1
-  },
-  {
-    "username": "ewa",
-    "password": "ewa",
-    "email": "ewa@gmail.com",
-    "is_superuser": 1
-  },
-  {
-    "username": "aga",
-    "password": "aga",
-    "email": "aga@gmail.com",
-    "is_superuser": 1
-  },
-  {
-    "username": "kremowka",
-    "password": "kremowka",
-    "email": "kremowka69@gmail.com",
-    "is_superuser": 1
-  },
-  {
-    "username": "andrzej",
-    "password": "andrzej",
-    "email": "andrzej@gmail.com",
-    "is_superuser": 0
-  },
-  {
-    "username": "twojastara",
-    "password": "twojastara",
-    "email": "twojastara123@gmail.com",
-    "is_superuser": 0
-  },
-  {
-    "username": "bigpoppe",
-    "password": "12345678",
-    "email": "bigpoppe@bigpoppe.com",
-    "is_superuser": 0
-  },
-  {
-    "username": "edward",
-    "password": "edzioooo",
-    "email": "edward@edziooo.guru",
-    "is_superuser": 0
-  },
-  {
-    "username": "twojstary",
-    "password": "twojstarynawakacjach",
-    "email": "twojstary@gmail.com",
-    "is_superuser": 0
-  }
+    {
+        "username": "admin",
+        "password": "admin",
+        "email": "admin@gmail.com",
+        "is_superuser": 1,
+        "is_staff": 1,
+    },
+    {
+        "username": "gocha",
+        "password": "gocha",
+        "email": "gocha@gmail.com",
+        "is_superuser": 1,
+    },
+    {"username": "ewa", "password": "ewa", "email": "ewa@gmail.com", "is_superuser": 1},
+    {"username": "aga", "password": "aga", "email": "aga@gmail.com", "is_superuser": 1},
+    {
+        "username": "kremowka",
+        "password": "kremowka",
+        "email": "kremowka69@gmail.com",
+        "is_superuser": 1,
+    },
+    {
+        "username": "andrzej",
+        "password": "andrzej",
+        "email": "andrzej@gmail.com",
+        "is_superuser": 0,
+    },
+    {
+        "username": "twojastara",
+        "password": "twojastara",
+        "email": "twojastara123@gmail.com",
+        "is_superuser": 0,
+    },
+    {
+        "username": "bigpoppe",
+        "password": "12345678",
+        "email": "bigpoppe@bigpoppe.com",
+        "is_superuser": 0,
+    },
+    {
+        "username": "edward",
+        "password": "edzioooo",
+        "email": "edward@edziooo.guru",
+        "is_superuser": 0,
+    },
+    {
+        "username": "twojstary",
+        "password": "twojstarynawakacjach",
+        "email": "twojstary@gmail.com",
+        "is_superuser": 0,
+    },
 ]

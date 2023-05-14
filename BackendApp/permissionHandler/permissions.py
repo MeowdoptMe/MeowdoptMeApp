@@ -49,14 +49,12 @@ class PermissionRequestAccess(BasePermission):
         "change_permissionrequest",
     ]
     shelter_worker_permissions = [
-        "add_shelter",
         "change_shelter",
         "view_userpermission",
         "delete_permissionrequest",
         "view_permissionrequest",
     ]
     volunteer_permissions = [
-        "add_shelter",
         "view_userpermission",
         "view_permissionrequest",
     ]

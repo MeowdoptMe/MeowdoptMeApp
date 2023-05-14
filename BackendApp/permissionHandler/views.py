@@ -69,11 +69,15 @@ class PermissionRequestCreate(CreateAPIView):
 
     def post(self, request, shelter_id):
         shelter = Shelter.objects.get(id=shelter_id)
-        permission_request = PermissionRequest.objects.create(
-            user=request.user, shelter=shelter, group=request.data["group"]
-        )
-        serializer = self.get_serializer(permission_request)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if not PermissionRequest.objects.filter(
+            user=request.user, shelter=shelter
+        ).exists():
+            permission_request = PermissionRequest.objects.create(
+                user=request.user, shelter=shelter, group=request.data["group"]
+            )
+            serializer = self.get_serializer(permission_request)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status.HTTP_409_CONFLICT)
 
 
 class PermissionRequestDetail(RetrieveDestroyAPIView):

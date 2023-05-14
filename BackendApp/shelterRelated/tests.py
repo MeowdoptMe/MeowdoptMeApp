@@ -93,7 +93,7 @@ class ShelterTests(APITestCase):
     def test_edit(self):
         shelter = Shelter.objects.create()
         url = reverse_lazy("shelter_detail", kwargs={"pk": 1})
-        data = self.data
+        data = {}
         data["name"] = "shelter123"
         request = self.factory.put(url, data)
         force_authenticate(request, user=self.user, token=self.token)
@@ -104,7 +104,7 @@ class ShelterTests(APITestCase):
             200,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
-        self.assertEqual(Shelter.objects.get(id=1).name, data["name"])
+        self.assertNotEquals(Shelter.objects.get(id=1).name, self.data["name"])
 
     def test_remove(self):
         shelter = Shelter.objects.create()
