@@ -4,10 +4,6 @@ from permissionHandler.views import (
     UserPermissionList,
     UserPermissionDetail,
     UserPermissionCreate,
-    PermissionRequestList,
-    PermissionRequestDetail,
-    PermissionRequestCreate,
-    PermissionRequestResolve,
 )
 from .views import (
     ShelterList,
@@ -33,25 +29,5 @@ urlpatterns = [
         "<int:shelter_id>/permissions/<int:pk>/",
         UserPermissionDetail.as_view(),
         name="shelter_permission_detail",
-    ),
-    path(
-        "<int:shelter_id>/requests/",
-        PermissionRequestList.as_view(),
-        name="permission_request_list",
-    ),
-    path(
-        "<int:shelter_id>/requests/<int:pk>/",
-        PermissionRequestDetail.as_view(),
-        name="permission_request_detail",
-    ),
-    path(
-        "<int:shelter_id>/make-request/",
-        PermissionRequestCreate.as_view(),
-        name="permission_request_create",
-    ),
-    path(
-        "<int:shelter_id>/requests/<int:pk>/resolve-request/",
-        PermissionRequestResolve.as_view(),
-        name="permission_request_resolve",
     ),
 ]

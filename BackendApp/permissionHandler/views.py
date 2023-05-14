@@ -53,22 +53,18 @@ class UserPermissionDetail(RetrieveUpdateDestroyAPIView):
 
 
 class PermissionRequestList(ListAPIView):
-    model = PermissionRequest
+    queryset = PermissionRequest.objects.all()
     serializer_class = PermissionRequestSerializer
     permission_classes = [PermissionRequestAccess]
 
-    def get_queryset(self):
-        shelter_id = self.kwargs["shelter_id"]
-        queryset = self.model.objects.filter(shelter_id=shelter_id)
-        return queryset
 
 
 class PermissionRequestCreate(CreateAPIView):
     model = PermissionRequest
     serializer_class = PermissionRequestSerializer
 
-    def post(self, request, shelter_id):
-        shelter = Shelter.objects.get(id=shelter_id)
+    def post(self, request):
+        shelter = Shelter.objects.get(id=request.data["shelter_id"])
         if not PermissionRequest.objects.filter(
             user=request.user, shelter=shelter
         ).exists():
@@ -85,33 +81,24 @@ class PermissionRequestDetail(RetrieveDestroyAPIView):
     serializer_class = PermissionRequestSerializer
     lookup_field = "pk"
     permission_classes = [PermissionRequestAccess]
-
-    def get_queryset(self):
-        shelter_id = self.kwargs["shelter_id"]
-        queryset = self.model.objects.filter(shelter_id=shelter_id)
-        return queryset
-
+    queryset = PermissionRequest.objects.all()
 
 class PermissionRequestResolve(UpdateAPIView):
     model = PermissionRequest
     serializer_class = PermissionRequestSerializer
     permission_classes = [PermissionRequestAccess]
+    queryset = PermissionRequest.objects.all()
 
-    def get_queryset(self):
-        shelter_id = self.kwargs["shelter_id"]
-        queryset = self.model.objects.filter(shelter_id=shelter_id)
-        return queryset
-
-    def post(self, request, shelter_id, pk):
+    def post(self, request, pk):
         permission_request = self.get_object()
         if permission_request.group == "Manager":
             for permission_codename in PermissionRequestAccess.manager_permissions:
                 permission = Permission.objects.get(codename=permission_codename)
                 if not UserPermission.objects.filter(
-                    user=request.user, shelter_id=shelter_id, permission=permission
+                    user=request.user, shelter=permission_request.shelter, permission=permission
                 ).exists():
                     UserPermission.objects.create(
-                        user=request.user, shelter_id=shelter_id, permission=permission
+                        user=request.user, shelter=permission_request.shelter, permission=permission
                     )
         elif permission_request.group == "ShelterWorker":
             for (
@@ -119,19 +106,19 @@ class PermissionRequestResolve(UpdateAPIView):
             ) in PermissionRequestAccess.shelter_worker_permissions:
                 permission = Permission.objects.get(codename=permission_codename)
                 if not UserPermission.objects.filter(
-                    user=request.user, shelter_id=shelter_id, permission=permission
+                    user=request.user, shelter=permission_request.shelter, permission=permission
                 ).exists():
                     UserPermission.objects.create(
-                        user=request.user, shelter_id=shelter_id, permission=permission
+                        user=request.user, shelter=permission_request.shelter, permission=permission
                     )
         elif permission_request.group == "Volunteer":
             for permission_codename in PermissionRequestAccess.volunteer_permissions:
                 permission = Permission.objects.get(codename=permission_codename)
                 if not UserPermission.objects.filter(
-                    user=request.user, shelter_id=shelter_id, permission=permission
+                    user=request.user, shelter=permission_request.shelter, permission=permission
                 ).exists():
                     UserPermission.objects.create(
-                        user=request.user, shelter_id=shelter_id, permission=permission
+                        user=request.user, shelter=permission_request.shelter, permission=permission
                     )
 
         permission_request.delete()

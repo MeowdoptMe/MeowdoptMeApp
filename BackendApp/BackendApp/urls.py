@@ -21,4 +21,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("userAuth/", include("userAuth.urls")),
     path("shelters/", include("shelterRelated.urls")),
+    path("permission-requests/", include("permissionHandler.urls")),
 ]

@@ -8,6 +8,7 @@ class UserPermissionAccess(BasePermission):
     def has_permission(self, request, view):
         shelter_id = view.kwargs.get("shelter_id")
         user_permission = True
+
         if request.method == "POST":
             permission = Permission.objects.get(codename="add_userpermission")
             user_permission = UserPermission.objects.filter(
@@ -60,25 +61,32 @@ class PermissionRequestAccess(BasePermission):
     ]
 
     def has_permission(self, request, view):
-        shelter_id = view.kwargs.get("shelter_id")
-
+        request_id = view.kwargs.get("pk")
         user_permission = True
         if view.__class__.__name__ == "PermissionRequestResolve":
+            permission_request = PermissionRequest.objects.get(id=request_id)
             permission = Permission.objects.get(codename="change_permissionrequest")
             user_permission = UserPermission.objects.filter(
-                user=request.user, shelter_id=shelter_id, permission_id=permission
+                user=request.user, shelter_id=permission_request.shelter, permission_id=permission
             )
-
-        if request.method == "DELETE":
-            permission = Permission.objects.get(codename="delete_permissionrequest")
-            user_permission = UserPermission.objects.filter(
-                user=request.user, shelter_id=shelter_id, permission_id=permission
-            )
-        if request.method == "GET":
+        elif view.__class__.__name__ == "PermissionRequestList":
             permission = Permission.objects.get(codename="view_permissionrequest")
             user_permission = UserPermission.objects.filter(
-                user=request.user, shelter_id=shelter_id, permission_id=permission
+                permission=permission
             )
+        elif request.method == "DELETE":
+            permission_request = PermissionRequest.objects.get(id=request_id)
+            permission = Permission.objects.get(codename="delete_permissionrequest")
+            user_permission = UserPermission.objects.filter(
+                user=request.user, shelter_id=permission_request.shelter, permission_id=permission
+            )
+        elif request.method == "GET":
+            permission_request = PermissionRequest.objects.get(id=request_id)
+            permission = Permission.objects.get(codename="view_permissionrequest")
+            user_permission = UserPermission.objects.filter(
+                user=request.user, shelter=permission_request.shelter, permission_id=permission
+            )
+
 
         if user_permission:
             return True
