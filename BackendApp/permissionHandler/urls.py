@@ -5,6 +5,7 @@ from .views import (
     PermissionRequestDetail,
     PermissionRequestCreate,
     PermissionRequestResolve,
+    PermissionRequestReject,
 )
 
 
@@ -18,6 +19,11 @@ urlpatterns = [
         "<int:pk>/resolve/",
         PermissionRequestResolve.as_view(),
         name="permission_request_resolve",
+    ),
+    path(
+        "<int:pk>/reject/",
+        PermissionRequestReject.as_view(),
+        name="permission_request_reject",
     ),
     path(
         "shelters/<int:shelter_id>/",

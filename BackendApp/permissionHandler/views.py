@@ -6,6 +6,8 @@ from rest_framework.generics import (
     CreateAPIView,
     UpdateAPIView,
     RetrieveDestroyAPIView,
+    DestroyAPIView,
+    RetrieveAPIView,
 )
 from rest_framework.response import Response
 
@@ -86,10 +88,17 @@ class PermissionRequestCreate(CreateAPIView):
         return Response(status.HTTP_409_CONFLICT)
 
 
-class PermissionRequestDetail(RetrieveDestroyAPIView):
+class PermissionRequestDetail(RetrieveAPIView):
     model = PermissionRequest
     serializer_class = PermissionRequestSerializer
     lookup_field = "pk"
+    permission_classes = [PermissionRequestAccess]
+    queryset = PermissionRequest.objects.all()
+
+
+class PermissionRequestReject(DestroyAPIView):
+    model = PermissionRequest
+    serializer_class = PermissionRequestSerializer
     permission_classes = [PermissionRequestAccess]
     queryset = PermissionRequest.objects.all()
 

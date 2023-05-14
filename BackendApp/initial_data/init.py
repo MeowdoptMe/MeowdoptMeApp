@@ -21,6 +21,7 @@ def add_users(users):
             username=user_data["username"],
             password=make_password(user_data["password"]),
             is_superuser=user_data["is_superuser"],
+            is_staff=user_data["is_staff"],
         )
 
 

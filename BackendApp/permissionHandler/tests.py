@@ -301,7 +301,7 @@ class PermissionRequestTests(APITestCase):
             f"Expected Response Code 403, received {response.status_code} instead.",
         )
 
-    def test_resolvewith_auth(self):
+    def test_resolve_with_auth(self):
         self.client.force_authenticate(user=self.user)
         url = reverse_lazy("permission_request_resolve", kwargs={"pk": 1})
         response = self.client.post(url, format="json")
@@ -324,3 +324,27 @@ class PermissionRequestTests(APITestCase):
             status.HTTP_403_FORBIDDEN,
             f"Expected Response Code 403, received {response.status_code} instead.",
         )
+
+    def test_reject_with_auth(self):
+        current_objects_count = PermissionRequest.objects.count()
+        self.client.force_authenticate(user=self.user)
+        url = reverse_lazy("permission_request_reject", kwargs={"pk": 1})
+        response = self.client.delete(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_204_NO_CONTENT,
+            f"Expected Response Code 204, received {response.status_code} instead.",
+        )
+        self.assertEqual(PermissionRequest.objects.count(), current_objects_count - 1)
+
+    def test_reject_with_no_auth(self):
+        current_objects_count = PermissionRequest.objects.count()
+        self.client.force_authenticate(user=self.user2)
+        url = reverse_lazy("permission_request_reject", kwargs={"pk": 1})
+        response = self.client.delete(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_403_FORBIDDEN,
+            f"Expected Response Code 403, received {response.status_code} instead.",
+        )
+        self.assertEqual(PermissionRequest.objects.count(), current_objects_count)

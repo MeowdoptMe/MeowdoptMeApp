@@ -14,6 +14,7 @@
 - GET/DELETE /permission-requests/id - widok pojedynczego requesta
 - POST /permission-requests/make - pozwala użytkownikowi zrobić permission request 
 - POST /permission-requests/resolve - pozwala uprawnionemu użytkownikowi zaakceptować permission request
+- POST /permission-requests/reject - pozwala uprawnionemu użytkownikowi odrzucić permission request
 - GET /permission-requests/shelters/shelter_id - zwraca wszytskie requesty do danego schroniska
 - GET /permission-requests/users/user_id - zwraca wszytskie requesty, które wysłał dany użytkownik
 
@@ -37,7 +38,6 @@
 
 - GET/PUT/DELETE /users/id/ - profil użytkownika
 - GET /users/ - wyświetlenie listy userów (dla admina)
-- POST /users/add - dodanie nowego użytkownika
 
 ## photoAlbum (będzie podpięty do shelterRelated i adRelated osobno - jak sie uda)
 
@@ -46,3 +46,4 @@
 - POST /photo-albums/add - dodaje nowy album
 - GET /photo-albums/id/photos - zwraca zdjęcia z albumu
 - GET /photo-albums/photos/photo-id - detale zdjęcia
+- GET /photo-albums/photos/add - dodanie zdjęcia
