@@ -62,18 +62,28 @@ class ShelterTests(APITestCase):
         self.client.force_authenticate(user=self.user)
         url = reverse_lazy("shelter_create")
         response = self.client.post(url, self.data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED, f"Expected Response Code 201, received {response.status_code} instead.",)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_201_CREATED,
+            f"Expected Response Code 201, received {response.status_code} instead.",
+        )
         self.assertEqual(Shelter.objects.count(), actual_shelter_count + 1)
         self.assertEqual(
             Shelter.objects.get(id=actual_shelter_count + 1).name, self.data["name"]
         )
+
     def test_create_with_no_auth(self):
         actual_shelter_count = Shelter.objects.count()
         self.client.force_authenticate(user=self.user2)
         url = reverse_lazy("shelter_create")
         response = self.client.post(url, self.data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN, f"Expected Response Code 403, received {response.status_code} instead.",)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_403_FORBIDDEN,
+            f"Expected Response Code 403, received {response.status_code} instead.",
+        )
         self.assertEqual(Shelter.objects.count(), actual_shelter_count)
+
     def test_detail_with_auth(self):
         self.client.force_authenticate(user=self.user)
         Shelter.objects.create()
@@ -84,6 +94,7 @@ class ShelterTests(APITestCase):
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
+
     def test_detail_with_no_auth(self):
         self.client.force_authenticate(user=self.user2)
         Shelter.objects.create()
@@ -108,6 +119,7 @@ class ShelterTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
         self.assertNotEquals(Shelter.objects.get(id=1).name, self.data["name"])
+
     def test_edit_with_no_auth(self):
         self.client.force_authenticate(user=self.user2)
         Shelter.objects.create()
@@ -134,6 +146,7 @@ class ShelterTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(Shelter.objects.count(), current_objects_count - 1)
+
     def test_remove_with_no_auth(self):
         self.client.force_authenticate(user=self.user2)
         Shelter.objects.create()
