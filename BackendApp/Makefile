@@ -2,6 +2,9 @@ initdb:
 	python3 manage.py migrate
 
 updatedb:
+	python3 manage.py makemigrations userAuth
+	python3 manage.py makemigrations shelterRelated
+	python3 manage.py makemigrations permissionHandler
 	python3 manage.py makemigrations
 	python3 manage.py migrate
 
@@ -36,4 +39,4 @@ check-formatting:
 	python3 -m black --check --quiet . || python3 -m black --verbose --diff .
 
 format:
-	python3 -m black --quiet ./**/*.py ./**/*.json
+	python3 -m black --quiet ./**/*.py
