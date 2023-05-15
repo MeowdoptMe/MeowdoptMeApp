@@ -34,6 +34,7 @@ Tests for every django app are located in `<app_dir>/tests.py`
 ## Troubleshooting with migrations
 
 If you get OperationalError `no such table`, you can do:
+
 1. delete file `db.sqlite3`
 1. delete from all django apps directory `migrations`
 1. run `make updatedb`
