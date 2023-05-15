@@ -1,21 +1,30 @@
 ## testowanie z rest frameworkiem
+
 ### - client
-APIClient to klasa zachowująca się jak atrapa przeglądarki; umożliwia testowanie i interakcje z aplikacją (w podstawowym Django jest to CLient, a rest rozszerza tę klasę) i używa się jej w klasach APITestCase. 
+
+APIClient to klasa zachowująca się jak atrapa przeglądarki; umożliwia testowanie i interakcje z aplikacją (w podstawowym Django jest to CLient, a rest rozszerza tę klasę) i używa się jej w klasach APITestCase.
 Natomiast poza taką klasą można użyć RequestClient
+
 #### Co można z nim zrobić:
-* symulować HTTP requesty: np. GET, POST i obserwować responsy (i ich headery i status code'y)
-* sprawdzić łańcuchy przekierowań (redirectów)
+
+- symulować HTTP requesty: np. GET, POST i obserwować responsy (i ich headery i status code'y)
+- sprawdzić łańcuchy przekierowań (redirectów)
 
 ### - podstawowy test
+
 Jeżeli chcemy sprawdzić, czy da się połączyć z dany adresem url (czy wyświetli HTTP request = ok)
-#### - robimy request ```GET http://127.0.0.1:8000/albums```
+
+#### - robimy request `GET http://127.0.0.1:8000/albums`
+
 ```python
 from rest_framework.test import RequestsClient
 client = RequestsClient()
 response = client.get('http://127.0.0.1:8000/albums')
 assert response.status_code == 200
 ```
-#### - robimy request ```POST http://127.0.0.1:8000/albums/add name=test_album```
+
+#### - robimy request `POST http://127.0.0.1:8000/albums/add name=test_album`
+
 ```python
 from rest_framework.test import RequestsClient
 client = RequestsClient()
@@ -23,10 +32,13 @@ data = {'name': 'test_album'}
 response = client.post('http://127.0.0.1:8000/albums/add', data, format='json')
 assert response.status_code, 201
 ```
+
 ### - APITestCase
-Zamiast używać wbudowanej w Django klasy TestCase (lub pochodnych) to korzysta się z restowego APITestCase. 
+
+Zamiast używać wbudowanej w Django klasy TestCase (lub pochodnych) to korzysta się z restowego APITestCase.
 Ta klasa służy do tworzenia klas, które łączą pewne testy dotyczące jednego modelu bazy danych.
 Przykładowe wysłanie danych (client.post) i odczyt (.get().name):
+
 ```python
 from django.urls import reverse
 from rest_framework import status
@@ -42,8 +54,11 @@ class PhotoAlbumTests(APITestCase):
         self.assertEqual(PhotoAlbum.objects.count(), 1)
         self.assertEqual(PhotoAlbum.objects.get().name, 'test_album')
 ```
+
 ### - RequestFactory
-Daje możliwość zrobienia instancji requestu do testowania każdego widoku (z views.py) niezależnie
+
+Daje możliwość zrobienia instancji requesta do testowania każdego widoku (z `views.py`) niezależnie
+
 ```python
 from rest_framework.test import APITestCase, APIRequestFactory
 
@@ -62,9 +77,10 @@ class PhotoAlbumTests(APITestCase):
 ```
 
 ### - testowanie z autoryzacją użytkownika
-* setup_user tworzy nowego użytkownika testowego
-* setUp inicjuje cały test - tworzy token autoryzacyjny dla użytkownika stworzonego w setup_user
-* test_list sprawdza czy powiodła się autoryzacja z użyciem tokenu użytkownika testowego
+
+- setup_user tworzy nowego użytkownika testowego
+- setUp inicjuje cały test - tworzy token autoryzacyjny dla użytkownika stworzonego w setup_user
+- test_list sprawdza czy powiodła się autoryzacja z użyciem tokenu użytkownika testowego
 
 ```python
 from rest_framework.test import APITestCase

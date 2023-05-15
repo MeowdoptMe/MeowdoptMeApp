@@ -10,13 +10,13 @@
 
 ## permissionHandler
 
-- GET /permission-requests - zwraca wszytskie requesty
+- GET /permission-requests - zwraca wszystkie requesty
 - GET/DELETE /permission-requests/id - widok pojedynczego requesta
-- POST /permission-requests/make - pozwala użytkownikowi zrobić permission request 
+- POST /permission-requests/make - pozwala użytkownikowi zrobić permission request
 - POST /permission-requests/resolve - pozwala uprawnionemu użytkownikowi zaakceptować permission request
 - POST /permission-requests/reject - pozwala uprawnionemu użytkownikowi odrzucić permission request
-- GET /permission-requests/shelters/shelter_id - zwraca wszytskie requesty do danego schroniska
-- GET /permission-requests/users/user_id - zwraca wszytskie requesty, które wysłał dany użytkownik
+- GET /permission-requests/shelters/shelter_id - zwraca wszystkie requesty do danego schroniska
+- GET /permission-requests/users/user_id - zwraca wszystkie requesty, które wysłał dany użytkownik
 
 ## adRelated
 
@@ -24,7 +24,8 @@
 - GET/PUT/DELETE /ads/id - zawartość ogłoszenia o numerze id
 - POST /ads/add - dodaje ogłoszenie
 - POST /ads/id/add-pet - dodaje zwierzę do ogłoszenia
-- 
+-
+
 ## userAuth
 
 - POST /userAuth/login - zalogowanie się usera
@@ -39,7 +40,7 @@
 - GET/PUT/DELETE /users/id/ - profil użytkownika
 - GET /users/ - wyświetlenie listy userów (dla admina)
 
-## photoAlbum (będzie podpięty do shelterRelated i adRelated osobno - jak sie uda)
+## photoAlbum (będzie podpięty do shelterRelated i adRelated osobno - jak się uda)
 
 - GET /photo-albums - lista ogłoszeń
 - GET/PUT/DELETE /photo-albums/id zwraca zdjęcia z danego albumu

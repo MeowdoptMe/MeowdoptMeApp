@@ -1,38 +1,38 @@
 [
-    {
-        "name": "shelter1",
-        "email": "admin@gmail.com",
-        "phone": "123456789",
-        "user": 1,
-        "location": "Kraków, ul. Piastowska 1",
-        "x_cord": 52.111,
-        "y_cord": 26.752,
-    },
-    {
-        "name": "shelter2",
-        "email": "admin123@gmail.com",
-        "phone": "123456789",
-        "user": 1,
-        "location": "Kraków, ul. Gronostajowa 2",
-        "x_cord": 50.2,
-        "y_cord": 22.1,
-    },
-    {
-        "name": "shelter3",
-        "email": "admin3@gmail.com",
-        "phone": "123456789",
-        "user": 1,
-        "location": "Kraków, ul. Łojasiewicza 6",
-        "x_cord": 51.111,
-        "y_cord": 26.52,
-    },
-    {
-        "name": "shelter4",
-        "email": "ewa@gmail.com",
-        "phone": "123456789",
-        "user": 3,
-        "location": "Krakow, ul. Gronostajowa 2",
-        "x_cord": 51.2211,
-        "y_cord": 21.2,
-    },
+  {
+    "name": "shelter1",
+    "email": "admin@gmail.com",
+    "phone": "123456789",
+    "user": 1,
+    "location": "Kraków, ul. Piastowska 1",
+    "x_cord": 52.111,
+    "y_cord": 26.752
+  },
+  {
+    "name": "shelter2",
+    "email": "admin123@gmail.com",
+    "phone": "123456789",
+    "user": 1,
+    "location": "Kraków, ul. Gronostajowa 2",
+    "x_cord": 50.2,
+    "y_cord": 22.1
+  },
+  {
+    "name": "shelter3",
+    "email": "admin3@gmail.com",
+    "phone": "123456789",
+    "user": 1,
+    "location": "Kraków, ul. Łojasiewicza 6",
+    "x_cord": 51.111,
+    "y_cord": 26.52
+  },
+  {
+    "name": "shelter4",
+    "email": "ewa@gmail.com",
+    "phone": "123456789",
+    "user": 3,
+    "location": "Krakow, ul. Gronostajowa 2",
+    "x_cord": 51.2211,
+    "y_cord": 21.2
+  }
 ]
