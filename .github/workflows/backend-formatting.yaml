@@ -1,5 +1,5 @@
 name: Format python with black in BackendApp
-run-name: ${{ github.head_ref }} is formatting python 🚀
+run-name: ${{ github.head_ref }} is formatting Backend 🚀
 on:
   pull_request:
     branches:
@@ -7,12 +7,14 @@ on:
     paths:
       - BackendApp/**/*.py
       - BackendApp/**/*.json
+      - BackendApp/**/*.md
   push:
     branches:
       - master
     paths:
       - BackendApp/**/*.py
       - BackendApp/**/*.json
+      - BackendApp/**/*.md
 jobs:
   Check-formatting:
     runs-on: ubuntu-latest
@@ -21,11 +23,21 @@ jobs:
         uses: actions/checkout@v3
       - name: Install black
         run: python3 -m pip install black
-      - name: Check formatting
-        id: check
+      - name: Check python formatting
+        id: checkpython
         working-directory: BackendApp
         run: python3 -m black --check --quiet .
       - name: Display unformatted files
         working-directory: BackendApp
-        if: failure() && steps.check.outcome == 'failure'
+        if: failure() && steps.checkpython.outcome == 'failure'
         run: python3 -m black --diff . 1> /dev/null 2>&1 | grep --color=never 'would reformat'
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - name: Install Node dependencies
+        run: yarn
+      - name: Check json and markdown formatting
+        id: checkjsonmarkdown
+        run: yarn backend:format:check
