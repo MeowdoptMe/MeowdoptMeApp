@@ -5,10 +5,10 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Pressable,
   ScrollView,
   SafeAreaView,
   Modal,
+  Dimensions,
 } from 'react-native';
 import Animated, {
   Easing,
@@ -17,16 +17,13 @@ import Animated, {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
-import {
-  backgroundColor,
-  lightAccentColor,
-  darkAccentColor,
-  strongAccentColor,
-} from '../assets/colors.json';
+import {backgroundColor, lightAccentColor} from '../assets/colors.json';
 
 import {AppContext} from './Context';
-import {login, register} from './authUtils';
+import authUtils from './authUtils';
 import {GeneralButton} from './components/GeneralButton';
+
+const {width} = Dimensions.get('window');
 
 function StartingScreen() {
   const {setIsStartingScreen} = useContext(AppContext);
@@ -108,7 +105,6 @@ function LoginModal({
   loginModalVisible,
   setLoginModalVisible,
 }: LoginModalProps) {
-  const {setIsStartingScreen} = useContext(AppContext);
   return (
     <Modal visible={loginModalVisible} animationType="slide">
       <LoginScreen setLoginModalVisible={setLoginModalVisible} />
@@ -130,16 +126,16 @@ function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
 
   async function onPressOut() {
     if (username === '' || password === '') {
-      setError('Woof! Please fill in all fields');
+      setError('Please fill in all fields');
       return;
     }
     setLoading(true);
     try {
-      const token = await login(username, password);
+      const token = await authUtils.login(username, password);
       setError(undefined);
       setUser({
-        username: user.username,
-        mail: user.mail,
+        username: username,
+        mail: user.mail, // TODO: get mail from server
         token,
       });
       setIsStartingScreen(false);
@@ -151,33 +147,35 @@ function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
   }
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.inputBox}
-        placeholder="login/email"
-        placeholderTextColor={'navy'}
-        value={username}
-        onChangeText={text => {
-          setUsername(text);
-        }}
-      />
-      <TextInput
-        style={styles.inputBox}
-        placeholder="password"
-        secureTextEntry={true}
-        placeholderTextColor={'navy'}
-        value={password}
-        onChangeText={text => {
-          setPassword(text);
-        }}
-      />
-      <Status error={error} loading={loading} />
-      <GeneralButton text="Login!" onPressOut={onPressOut} />
-      <GeneralButton
-        text="Cancel"
-        onPressOut={() => setLoginModalVisible(false)}
-      />
-    </View>
+    <SafeAreaView style={styles.scrollViewContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <TextInput
+          style={styles.inputBox}
+          placeholder="login/email"
+          placeholderTextColor={'navy'}
+          value={username}
+          onChangeText={text => {
+            setUsername(text);
+          }}
+        />
+        <TextInput
+          style={styles.inputBox}
+          placeholder="password"
+          secureTextEntry={true}
+          placeholderTextColor={'navy'}
+          value={password}
+          onChangeText={text => {
+            setPassword(text);
+          }}
+        />
+        <Status error={error} loading={loading} />
+        <GeneralButton text="Login!" onPressOut={onPressOut} />
+        <GeneralButton
+          text="Cancel"
+          onPressOut={() => setLoginModalVisible(false)}
+        />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -206,10 +204,9 @@ interface RegisterScreenProps {
   setRegisterModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function RegisterScreen({
-  setIsStartingScreen,
-  setRegisterModalVisible,
-}: RegisterScreenProps) {
+function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
+  const {setUser, setIsStartingScreen} = useContext(AppContext);
+
   const [login, setLogin] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -219,82 +216,91 @@ function RegisterScreen({
 
   async function onPressOut() {
     if (!login || !email || !password || !repeatedPassword) {
-      setError('Woof! Please fill in all fields');
+      setError('Please fill in all fields');
       return;
     } else if (password !== repeatedPassword) {
-      setError("Woof! Passwords don't match");
+      setError("Passwords don't match");
       return;
     }
     setError(undefined);
     try {
       setLoading(true);
-      await register(login, email, password);
-      setError(undefined);
+      await authUtils.register(login, email, password);
     } catch (e) {
       // @ts-expect-error
       setError(e.message.toString());
+      setLoading(false);
+      return;
+    }
+    try {
+      const token = await authUtils.login(login, password);
+      setUser({
+        username: login,
+        mail: email,
+        token,
+      });
+      setIsStartingScreen(false);
+    } catch (e) {
+      setError(e?.toString());
     } finally {
       setLoading(false);
     }
-    setIsStartingScreen(false);
   }
 
   return (
     <SafeAreaView style={styles.scrollViewContainer}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="login"
-            placeholderTextColor={'navy'}
-            style={styles.inputBox}
-            onChangeText={text => {
-              setLogin(text);
-            }}
-          />
-          <TextInput
-            placeholder="email"
-            placeholderTextColor={'navy'}
-            style={styles.inputBox}
-            onChangeText={text => {
-              setEmail(text);
-            }}
-          />
-          <TextInput
-            placeholder="password"
-            secureTextEntry={true}
-            placeholderTextColor={'navy'}
-            style={styles.inputBox}
-            onChangeText={text => {
-              setPassword(text);
-            }}
-          />
-          <TextInput
-            placeholder="repeat password"
-            secureTextEntry={true}
-            placeholderTextColor={'navy'}
-            style={styles.inputBox}
-            onChangeText={text => {
-              setRepeatedPassword(text);
-              if (text !== password) {
-                setError("Woof! Passwords don't match");
-              } else {
-                setError(undefined);
-              }
-            }}
-          />
-          <Status loading={loading} error={error} />
-          <GeneralButton
-            text="Register!"
-            onPressOut={onPressOut}
-            disabled={loading}
-          />
-          <GeneralButton
-            text="Cancel"
-            onPressOut={() => {
-              setRegisterModalVisible(false);
-            }}
-          />
-        </View>
+        <TextInput
+          placeholder="login"
+          placeholderTextColor={'navy'}
+          style={styles.inputBox}
+          onChangeText={text => {
+            setLogin(text);
+          }}
+        />
+        <TextInput
+          placeholder="email"
+          placeholderTextColor={'navy'}
+          style={styles.inputBox}
+          onChangeText={text => {
+            setEmail(text);
+          }}
+        />
+        <TextInput
+          placeholder="password"
+          secureTextEntry={true}
+          placeholderTextColor={'navy'}
+          style={styles.inputBox}
+          onChangeText={text => {
+            setPassword(text);
+          }}
+        />
+        <TextInput
+          placeholder="repeat password"
+          secureTextEntry={true}
+          placeholderTextColor={'navy'}
+          style={styles.inputBox}
+          onChangeText={text => {
+            setRepeatedPassword(text);
+            if (text !== password) {
+              setError("Passwords don't match");
+            } else {
+              setError(undefined);
+            }
+          }}
+        />
+        <Status loading={loading} error={error} />
+        <GeneralButton
+          text="Register!"
+          onPressOut={onPressOut}
+          disabled={loading}
+        />
+        <GeneralButton
+          text="Cancel"
+          onPressOut={() => {
+            setRegisterModalVisible(false);
+          }}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -342,7 +348,7 @@ function Status({loading, error}: StatusProps) {
   return (
     <View style={styles.statusBox}>
       <LoadingIndicator loading={loading} />
-      <Text style={styles.statusErrorText}>{error}</Text>
+      <Text style={styles.statusErrorText}>{error && `Woof! ${error}`}</Text>
     </View>
   );
 }
@@ -357,10 +363,13 @@ function LoadingIndicator({loading}: LoadingIndicatorProps) {
       borderRadius: 27,
       borderWidth: 2,
       borderStyle: 'dotted',
-      backgroundColor: backgroundColor,
+      backgroundColor: lightAccentColor,
       transform: [{rotate: `${spin.value}deg`}],
     };
   });
+
+  if (loading) {
+  }
   useEffect(() => {
     if (loading) {
       spin.value = withRepeat(
@@ -374,7 +383,7 @@ function LoadingIndicator({loading}: LoadingIndicatorProps) {
         easing: Easing.inOut(Easing.sin),
       });
     }
-  }, [loading]);
+  }, [loading, spin]);
   return (
     <Animated.View style={animatedStyle}>
       <Animated.Image
@@ -393,6 +402,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scrollContent: {
+    alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
   },
@@ -402,7 +412,7 @@ export const styles = StyleSheet.create({
     margin: 5,
   },
   inputBox: {
-    backgroundColor: backgroundColor,
+    backgroundColor: lightAccentColor,
     width: 200,
     height: 50,
     margin: 5,
@@ -428,12 +438,15 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   statusBox: {
-    height: 80,
+    height: 100,
+    maxWidth: width - 20,
     alignItems: 'center',
   },
   statusErrorText: {
+    marginTop: 5,
     color: 'red',
     textAlign: 'center',
+    maxWidth: width - 20,
   },
   statusLoadingText: {
     color: 'grey',

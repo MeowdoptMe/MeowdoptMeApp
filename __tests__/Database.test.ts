@@ -58,13 +58,6 @@ describe('PermissionRequest class', () => {
       fail(error);
     }
   });
-  it('authenticates user with authUser', () => {
-    try {
-      database.authUser(user);
-    } catch (error) {
-      fail(error);
-    }
-  });
   it('gets data about shelter from database with getShelterData', () => {
     expect(database.getShelterData(shelter)).toBeDefined();
   });

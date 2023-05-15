@@ -1,5 +1,6 @@
 import axios, {isAxiosError} from 'axios';
 import {databaseUrl} from './Database';
+import {clearScreenDown} from 'readline';
 
 async function login(username: string, password: string) {
   try {
@@ -21,8 +22,28 @@ async function login(username: string, password: string) {
 }
 
 async function register(username: string, email: string, password: string) {
-  await new Promise(resolve => setTimeout(resolve, 4000));
-  throw new Error('Woof! Not implemented');
+  try {
+    const response = await axios.post(`${databaseUrl}/userAuth/register/`, {
+      username,
+      email,
+      password,
+    });
+  } catch (e: unknown) {
+    if (isAxiosError(e)) {
+      if (e?.response?.data?.email) {
+        throw e.response.data.email[0];
+      }
+      if (e?.response?.data?.username) {
+        throw e.response.data.username[0];
+      } else {
+        throw e.message;
+      }
+    }
+    throw e;
+  }
 }
 
-export {login, register};
+export default {
+  login,
+  register,
+};
