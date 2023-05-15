@@ -1,10 +1,9 @@
 {
-    "name" : " Rysia",
-    "gatunek" : "kot",
-    "rasa" : "mieszaniec",
-    "plec" : "samica",
-    "wiek" : "0.5 roku",
-    "kolor" : "brązowy",
-    "opis" : "Rysia to młoda kotka porzucona w workach przy rzece. Jest wystraszona i mało ufna, jednak coraz bardziej przekonuje się do ludzkiej dobroci. Pobyt w schronisku jej nie służy, dlatego pilnie szukamy dla Rysi ciepłego i pełnego miłości domu."
-
+    "name": " Rysia",
+    "gatunek": "kot",
+    "rasa": "mieszaniec",
+    "plec": "samica",
+    "wiek": "0.5 roku",
+    "kolor": "brązowy",
+    "opis": "Rysia to młoda kotka porzucona w workach przy rzece. Jest wystraszona i mało ufna, jednak coraz bardziej przekonuje się do ludzkiej dobroci. Pobyt w schronisku jej nie służy, dlatego pilnie szukamy dla Rysi ciepłego i pełnego miłości domu."
 }

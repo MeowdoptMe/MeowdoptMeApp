@@ -1,10 +1,9 @@
 {
-    "name" : "Beza",
-    "gatunek" : "pies",
-    "rasa" : "w typie labradora",
-    "plec" : "samica",
-    "wiek" : "4 lata",
-    "kolor" : "biały",
-    "opis" : "Beza to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczny, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem."
-
+    "name": "Beza",
+    "gatunek": "pies",
+    "rasa": "w typie labradora",
+    "plec": "samica",
+    "wiek": "4 lata",
+    "kolor": "biały",
+    "opis": "Beza to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczny, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem."
 }
