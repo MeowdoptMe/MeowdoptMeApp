@@ -19,7 +19,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("userAuth/", include("userAuth.urls")),
-    path("shelters/", include("shelterRelated.urls")),
+    path("user-auth/", include("userAuth.urls")),
     path("permission-requests/", include("permissionHandler.urls")),
+    path("shelters/", include("shelterRelated.urls")),
+    path("ads/", include("adRelated.urls")),
+    path("photo-albums/", include("photoAlbum.urls")),
 ]
