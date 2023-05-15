@@ -46,6 +46,8 @@
     "format:check": "yarn format:check:root && yarn format:check:tests && yarn format:check:app",
     "format:check:root": "prettier --check '*.(js|jsx|ts|tsx|json|md)'",
     "format:check:tests": "prettier --check '__tests__/**/*.(ts|tsx)'",
-    "format:check:app": "cd MeowdoptMeApp && yarn format:check && cd .."
+    "format:check:app": "cd MeowdoptMeApp && yarn format:check && cd ..",
+    "backend:format": "prettier --write 'BackendApp/**/*.(json|md)'",
+    "backend:format:check": "prettier --check 'BackendApp/**/*.(json|md)'"
   }
 }
