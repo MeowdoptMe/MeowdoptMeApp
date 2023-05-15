@@ -22,4 +22,4 @@ jobs:
         run: make setup && source env/bin/activate && make requirements
       - name: Lint
         working-directory: BackendApp
-        run: make lint
+        run: source env/bin/activate && make lint
