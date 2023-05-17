@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import authUtils from '../src/authUtils';
 import App from '../App';
+import {open} from 'fs';
 
 jest.mock('react-native-webview', () => {
   return {
@@ -42,11 +43,35 @@ describe('StartingScreen', () => {
   });
 
   describe('Login modal', () => {
-    it("appears when 'Login' button is pressed", () => {
-      render(<App />);
+    function openLoginModal() {
       act(() => {
         fireEvent(screen.getByText(/Login/), 'onPressOut');
       });
+    }
+
+    async function attemptLogin() {
+      await act(() => {
+        fireEvent(screen.getByText(/Login!/), 'onPressOut');
+      });
+    }
+
+    function provideLoginCredentials() {
+      openLoginModal();
+      act(() => {
+        fireEvent.changeText(
+          screen.getByPlaceholderText(/login\/email/),
+          'jest-test-login',
+        );
+        fireEvent.changeText(
+          screen.getByPlaceholderText(/password/),
+          'jest-test-password',
+        );
+      });
+    }
+
+    it("appears when 'Login' button is pressed", () => {
+      render(<App />);
+      openLoginModal();
 
       expect(screen.getByText(/Login!/)).toBeOnTheScreen();
     });
@@ -55,8 +80,8 @@ describe('StartingScreen', () => {
       const spy = jest.spyOn(authUtils, 'login');
 
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Login/), 'onPressOut'));
-      await act(() => fireEvent(screen.getByText(/Login!/), 'onPressOut'));
+      openLoginModal();
+      await attemptLogin();
 
       expect(authUtils.login).not.toHaveBeenCalled();
 
@@ -65,8 +90,8 @@ describe('StartingScreen', () => {
 
     it("shows error message when 'Login' button is pressed with incorrect data", async () => {
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Login/), 'onPressOut'));
-      await act(() => fireEvent(screen.getByText(/Login!/), 'onPressOut'));
+      openLoginModal();
+      await attemptLogin();
 
       expect(
         screen.getByText(/Woof! Please fill in all fields/),
@@ -77,20 +102,8 @@ describe('StartingScreen', () => {
       const spy = jest.spyOn(authUtils, 'login');
 
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Login/), 'onPressOut'));
-      act(() => {
-        fireEvent(
-          screen.getByPlaceholderText(/login\/email/),
-          'changeText',
-          'jest-test-login',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/password/),
-          'changeText',
-          'jest-test-password',
-        );
-      });
-      await act(() => fireEvent(screen.getByText(/Login!/), 'onPressOut'));
+      provideLoginCredentials();
+      await attemptLogin();
 
       expect(authUtils.login).toHaveBeenCalled();
 
@@ -108,18 +121,8 @@ describe('StartingScreen', () => {
       });
 
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Login/), 'onPressOut'));
-      act(() => {
-        fireEvent.changeText(
-          screen.getByPlaceholderText(/login\/email/),
-          'jest-test-login',
-        );
-        fireEvent.changeText(
-          screen.getByPlaceholderText(/password/),
-          'jest-test-password',
-        );
-      });
-      await act(() => fireEvent(screen.getByText(/Login!/), 'onPressOut'));
+      provideLoginCredentials();
+      await attemptLogin();
 
       expect(axios.post).toHaveBeenCalled();
       expect(screen.getByText(/Home/)).toBeOnTheScreen();
@@ -134,20 +137,8 @@ describe('StartingScreen', () => {
       });
 
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Login/), 'onPressOut'));
-      act(() => {
-        fireEvent.changeText(
-          screen.getByPlaceholderText(/login\/email/),
-          'jest-test-login',
-        );
-        fireEvent.changeText(
-          screen.getByPlaceholderText(/password/),
-          'jest-test-password',
-        );
-      });
-      await act(async () =>
-        fireEvent(screen.getByText(/Login!/), 'onPressOut'),
-      );
+      provideLoginCredentials();
+      await attemptLogin();
 
       expect(axios.post).toHaveBeenCalled();
       expect(screen.getByText(/jest-mock-error/)).toBeOnTheScreen();
@@ -157,11 +148,46 @@ describe('StartingScreen', () => {
   });
 
   describe('Registration modal', () => {
-    it("appears when 'Register' button is pressed", () => {
-      render(<App />);
+    function provideRegistrationCredentials(
+      password = 'jest-test-password',
+      confirmPassword = 'jest-test-password',
+    ) {
+      openRegistrationModal();
+      act(() => {
+        fireEvent.changeText(
+          screen.getByPlaceholderText(/login/),
+          'jest-test-login',
+        );
+        fireEvent.changeText(
+          screen.getByPlaceholderText(/email/),
+          'jest-test-email',
+        );
+        fireEvent.changeText(
+          screen.getByPlaceholderText(/^password/),
+          password,
+        );
+        fireEvent.changeText(
+          screen.getByPlaceholderText(/repeat password/),
+          confirmPassword,
+        );
+      });
+    }
+
+    function openRegistrationModal() {
       act(() => {
         fireEvent(screen.getByText(/Register/), 'onPressOut');
       });
+    }
+
+    async function attemptRegistration() {
+      await act(() => {
+        fireEvent(screen.getByText(/Register!/), 'onPressOut');
+      });
+    }
+
+    it("appears when 'Register' button is pressed", () => {
+      render(<App />);
+      openRegistrationModal();
       expect(screen.getByText(/Register!/)).toBeOnTheScreen();
     });
 
@@ -169,8 +195,8 @@ describe('StartingScreen', () => {
       const spy = jest.spyOn(authUtils, 'register');
 
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Register/), 'onPressOut'));
-      await act(() => fireEvent(screen.getByText(/Register!/), 'onPressOut'));
+      openRegistrationModal();
+      await attemptRegistration();
 
       expect(authUtils.register).not.toHaveBeenCalled();
 
@@ -179,8 +205,8 @@ describe('StartingScreen', () => {
 
     it("shows error message when 'Register' button is pressed with incorrect data", async () => {
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Register/), 'onPressOut'));
-      await act(() => fireEvent(screen.getByText(/Register!/), 'onPressOut'));
+      openRegistrationModal();
+      await attemptRegistration();
 
       expect(
         screen.getByText(/Woof! Please fill in all fields/),
@@ -189,29 +215,10 @@ describe('StartingScreen', () => {
 
     it('detects password mismatch', async () => {
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Register/), 'onPressOut'));
-      act(() => {
-        fireEvent(
-          screen.getByPlaceholderText(/login/),
-          'changeText',
-          'jest-test-login',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/email/),
-          'changeText',
-          'jest-test-email',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/^password/),
-          'changeText',
-          'jest-test-password',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/repeat password/),
-          'changeText',
-          'jest-test-password-2',
-        );
-      });
+      provideRegistrationCredentials(
+        'jest-test-password',
+        'jest-test-password-2',
+      );
 
       expect(screen.getByText(/Woof! Passwords don't match/)).toBeOnTheScreen();
     });
@@ -220,30 +227,11 @@ describe('StartingScreen', () => {
       const spy = jest.spyOn(authUtils, 'register');
 
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Register/), 'onPressOut'));
-      act(() => {
-        fireEvent(
-          screen.getByPlaceholderText(/login/),
-          'changeText',
-          'jest-test-login',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/email/),
-          'changeText',
-          'jest-test-email',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/^password/),
-          'changeText',
-          'jest-test-password',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/repeat password/),
-          'changeText',
-          'jest-test-password-2',
-        );
-      });
-      await act(() => fireEvent(screen.getByText(/Register!/), 'onPressOut'));
+      provideRegistrationCredentials(
+        'jest-test-password',
+        'jest-test-password-2',
+      );
+      await attemptRegistration();
 
       expect(authUtils.register).not.toHaveBeenCalled();
 
@@ -254,32 +242,8 @@ describe('StartingScreen', () => {
       const spy = jest.spyOn(authUtils, 'register');
 
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Register/), 'onPressOut'));
-      act(() => {
-        fireEvent(
-          screen.getByPlaceholderText(/login/),
-          'changeText',
-          'jest-test-login',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/email/),
-          'changeText',
-          'jest-test-email',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/^password/),
-          'changeText',
-          'jest-test-password',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/repeat password/),
-          'changeText',
-          'jest-test-password',
-        );
-      });
-      await act(async () =>
-        fireEvent(screen.getByText(/Register!/), 'onPressOut'),
-      );
+      provideRegistrationCredentials();
+      await attemptRegistration();
 
       expect(authUtils.register).toHaveBeenCalled();
 
@@ -287,44 +251,20 @@ describe('StartingScreen', () => {
     });
 
     it("calls 'authUtils.login' after successful registration", async () => {
-      const spy = jest.spyOn(axios, 'post');
-      spy.mockImplementationOnce(() => {
+      const postSpy = jest.spyOn(axios, 'post');
+      postSpy.mockImplementationOnce(() => {
         return Promise.resolve({status: 201});
       });
-      const superSpy = jest.spyOn(authUtils, 'login');
+      const loginSpy = jest.spyOn(authUtils, 'login');
 
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Register/), 'onPressOut'));
-      act(() => {
-        fireEvent(
-          screen.getByPlaceholderText(/login/),
-          'changeText',
-          'jest-test-login',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/email/),
-          'changeText',
-          'jest-test-email',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/^password/),
-          'changeText',
-          'jest-test-password',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/repeat password/),
-          'changeText',
-          'jest-test-password',
-        );
-      });
-      await act(async () =>
-        fireEvent(screen.getByText(/Register!/), 'onPressOut'),
-      );
+      provideRegistrationCredentials();
+      await attemptRegistration();
 
       expect(authUtils.login).toHaveBeenCalled();
 
-      spy.mockRestore();
-      superSpy.mockRestore();
+      postSpy.mockRestore();
+      loginSpy.mockRestore();
     });
 
     it("shows error message when 'authUtils.register' fails", async () => {
@@ -334,32 +274,8 @@ describe('StartingScreen', () => {
       });
 
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Register/), 'onPressOut'));
-      act(() => {
-        fireEvent(
-          screen.getByPlaceholderText(/login/),
-          'changeText',
-          'jest-test-login',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/email/),
-          'changeText',
-          'jest-test-email',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/^password/),
-          'changeText',
-          'jest-test-password',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/repeat password/),
-          'changeText',
-          'jest-test-password',
-        );
-      });
-      await act(async () =>
-        fireEvent(screen.getByText(/Register!/), 'onPressOut'),
-      );
+      provideRegistrationCredentials();
+      await attemptRegistration();
 
       expect(screen.getByText(/jest-mock-error/)).toBeOnTheScreen();
 
@@ -378,36 +294,40 @@ describe('StartingScreen', () => {
       });
 
       render(<App />);
-      act(() => fireEvent(screen.getByText(/Register/), 'onPressOut'));
-      act(() => {
-        fireEvent(
-          screen.getByPlaceholderText(/login/),
-          'changeText',
-          'jest-test-login',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/email/),
-          'changeText',
-          'jest-test-email',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/^password/),
-          'changeText',
-          'jest-test-password',
-        );
-        fireEvent(
-          screen.getByPlaceholderText(/repeat password/),
-          'changeText',
-          'jest-test-password',
-        );
-      });
-      await act(async () =>
-        fireEvent(screen.getByText(/Register!/), 'onPressOut'),
-      );
+      provideRegistrationCredentials();
+      await attemptRegistration();
 
       expect(screen.getByText(/jest-mock-error/)).toBeOnTheScreen();
 
       spy.mockRestore();
     });
+
+    it("proceeds to 'Home' screen after successful registration", async () => {
+      const postSpy = jest.spyOn(axios, 'post');
+      postSpy.mockImplementationOnce(() => {
+        return Promise.resolve({status: 201});
+      });
+      const loginSpy = jest.spyOn(authUtils, 'login');
+      loginSpy.mockImplementationOnce(() =>
+        Promise.resolve({
+          data: {
+            access: 'jest-mock-token',
+          },
+        }),
+      );
+
+      render(<App />);
+      provideRegistrationCredentials();
+      await attemptRegistration();
+
+      expect(screen.getByText(/Home/)).toBeOnTheScreen();
+
+      postSpy.mockRestore();
+      loginSpy.mockRestore();
+    });
   });
 });
+
+// TODO both login and registration should have tests to check if email and username were actually properly loaded, but we still don't have it since we are waiting for PR from @trissve that adds that functionality to login
+
+// TODO some of tests could actually be moved to authUtils.tests.ts
