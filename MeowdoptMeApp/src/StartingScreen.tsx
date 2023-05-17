@@ -315,7 +315,6 @@ function ForgotPasswordModal({
   forgotPasswordModalVisible,
   setForgotPasswordModalVisible,
 }: ForgotPasswordModalProps) {
-  const [requestSent, setRequestSent] = useState(false);
   return (
     <Modal visible={forgotPasswordModalVisible} animationType="slide">
       <SafeAreaView style={styles.scrollViewContainer}>
@@ -329,7 +328,13 @@ function ForgotPasswordModal({
             <GeneralButton
               text="Reset password"
               onPressOut={() => {
-                setRequestSent(true);
+                console.log('Request sent');
+              }}
+            />
+            <GeneralButton
+              text="Cancel"
+              onPressOut={() => {
+                setForgotPasswordModalVisible(false);
               }}
             />
           </View>
