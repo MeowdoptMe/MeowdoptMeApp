@@ -1,6 +1,5 @@
 import axios, {isAxiosError} from 'axios';
 import {databaseUrl} from './Database';
-import {clearScreenDown} from 'readline';
 
 async function login(username: string, password: string) {
   try {
@@ -23,7 +22,7 @@ async function login(username: string, password: string) {
 
 async function register(username: string, email: string, password: string) {
   try {
-    const response = await axios.post(`${databaseUrl}/userAuth/register/`, {
+    await axios.post(`${databaseUrl}/userAuth/register/`, {
       username,
       email,
       password,

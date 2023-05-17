@@ -6,7 +6,6 @@ import axios from 'axios';
 
 import authUtils from '../src/authUtils';
 import App from '../App';
-import {open} from 'fs';
 
 jest.mock('react-native-webview', () => {
   return {
