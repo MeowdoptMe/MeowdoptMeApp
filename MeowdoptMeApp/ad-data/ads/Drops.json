@@ -1,0 +1,31 @@
+{
+  "name": "Drops",
+  "petCharacteristics": {
+    "species": "dog",
+    "breed": "mixed breed",
+    "gender": "male",
+    "dateOfBirth": {
+      "year": 2020,
+      "month": 9
+    },
+    "color": ["brown"]
+  },
+  "photoAlbum": [
+    {
+      "dir": "36",
+      "description": "Dropsik trafił do nas stosunkowo niedawno, w związku z przeprowadzką jego właściciela. Jest przyzwyczajony do stałej obecności człowieka. Bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Dropsa domu, który zapewni mu dobre warunki i domowe ciepło."
+    },
+    {
+      "dir": "37"
+    },
+    {
+      "dir": "38"
+    },
+    {
+      "dir": "39"
+    },
+    {
+      "dir": "40"
+    }
+  ]
+}
