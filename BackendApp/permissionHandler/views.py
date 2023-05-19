@@ -5,7 +5,6 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
     CreateAPIView,
     UpdateAPIView,
-    RetrieveDestroyAPIView,
     DestroyAPIView,
     RetrieveAPIView,
 )

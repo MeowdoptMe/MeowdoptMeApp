@@ -1,24 +1,43 @@
+from django.contrib.auth.models import Permission
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase, APIRequestFactory
+from rest_framework.test import APITestCase, APIRequestFactory, APIClient
 from photoAlbum.models import PhotoAlbum
 from shelterRelated.models import Shelter
 from .models import Pet, Ad
 from .views import PetList, PetDetail, AdList, AdDetail
+from userAuth.models import User
+from permissionHandler.models import UserPermission
 
 
 class AdTests(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
-        pet = Pet.objects.create()
-        shelter = Shelter.objects.create()
-        album = PhotoAlbum.objects.create()
+        self.client = APIClient()
+        Pet.objects.create()
+        Shelter.objects.create()
+        PhotoAlbum.objects.create()
         self.data = {
             "pet": 1,
             "active": False,
             "shelter": 1,
             "photo_album": 1,
         }
+        self.user = User.objects.create_user(username="ewa", password="ewa12345")
+        self.user2 = User.objects.create_user(username="gocha", password="gocha12345")
+        shelter = Shelter.objects.create()
+        permission_create = Permission.objects.get(codename="add_ad")
+        permission_change = Permission.objects.get(codename="change_ad")
+        permission_delete = Permission.objects.get(codename="delete_ad")
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_create
+        )
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_change
+        )
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_delete
+        )
 
     def test_list(self):
         url = reverse("ad_list")
@@ -32,6 +51,7 @@ class AdTests(APITestCase):
         )
 
     def test_create(self):
+        self.client.force_authenticate(user=self.user)
         url = reverse("ad_create")
         response = self.client.post(url, self.data, format="json")
         self.assertEqual(
@@ -44,10 +64,9 @@ class AdTests(APITestCase):
 
     def test_detail(self):
         Ad.objects.create()
+        self.client.force_authenticate(user=self.user)
         url = reverse("ad_detail", kwargs={"pk": 1})
-        request = self.factory.get(url)
-        view = AdDetail.as_view()
-        response = view(request, pk=1)
+        response = self.client.get(url)
         self.assertEqual(
             response.status_code,
             200,
