@@ -7,7 +7,7 @@ describe('PermissionsList class', () => {
       // @ts-expect-error
       user: {},
       // @ts-expect-error
-      shelter: shelter,
+      shelter,
       value: 1,
     };
     let list: PermissionsList;
@@ -35,13 +35,13 @@ describe('PermissionsList class', () => {
     // @ts-expect-error
     const shelter: Shelter = {};
     const permission1: Permission = {
-      user: user,
-      shelter: shelter,
+      user,
+      shelter,
       value: 1,
     };
     const permission2: Permission = {
-      user: user,
-      shelter: shelter,
+      user,
+      shelter,
       value: 2,
     };
     // @ts-expect-error

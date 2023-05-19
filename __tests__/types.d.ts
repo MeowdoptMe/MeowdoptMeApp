@@ -1,3 +1,4 @@
+/* eslint-disable */
 export interface App {
   currentScreen: Screen;
   loggedInUser: User;

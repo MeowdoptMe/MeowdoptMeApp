@@ -1,89 +1,122 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useContext, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
-  Pressable,
   ScrollView,
   SafeAreaView,
+  Modal,
+  Dimensions,
 } from 'react-native';
-import {AppContext} from './Context';
-import {login} from './authUtils';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
+import {backgroundColor, lightAccentColor} from '../assets/colors.json';
 
-const Stack = createNativeStackNavigator();
+import {AppContext} from './Context';
+import authUtils from './authUtils';
+import {GeneralButton} from './components/GeneralButton';
+
+const {width} = Dimensions.get('window');
 
 function StartingScreen() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{headerShown: false}}>
-        <Stack.Screen name="MainScreen" component={MainScreen} />
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-        <Stack.Screen
-          name="ForgotPasswordScreen"
-          component={ForgotPasswordScreen}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
-function MainScreen({navigation}: {navigation: any}) {
   const {setIsStartingScreen} = useContext(AppContext);
+  const [loginModalVisible, setLoginModalVisible] = useState(false);
+  const [registerModalVisible, setRegisterModalVisible] = useState(false);
+  const [forgotPasswordModalVisible, setForgotPasswordModalVisible] =
+    useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}>
-        <LoginInput />
+    <SafeAreaView style={styles.scrollViewContainer}>
+      <LoginModal
+        loginModalVisible={loginModalVisible}
+        setLoginModalVisible={setLoginModalVisible}
+      />
+      <RegisterModal
+        registerModalVisible={registerModalVisible}
+        setRegisterModalVisible={setRegisterModalVisible}
+      />
+      <ForgotPasswordModal
+        forgotPasswordModalVisible={forgotPasswordModalVisible}
+        setForgotPasswordModalVisible={setForgotPasswordModalVisible}
+      />
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.buttonContainer}>
-          <Text style={styles.overButtonText}>Don't have an account yet?</Text>
-          <Pressable
-            style={styles.button}
+          <Text style={styles.overButtonHintText}>Ready to browse?</Text>
+          <GeneralButton
+            text="Login"
             onPressOut={() => {
-              navigation.navigate('RegisterScreen');
-            }}>
-            <Text style={styles.buttonText}>Register</Text>
-          </Pressable>
+              setLoginModalVisible(true);
+            }}
+          />
         </View>
         <View style={styles.buttonContainer}>
-          <Text style={styles.overButtonText}>
+          <Text style={styles.overButtonHintText}>
+            Don't have an account yet?
+          </Text>
+          <GeneralButton
+            text="Register"
+            onPressOut={() => {
+              setRegisterModalVisible(true);
+            }}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Text style={styles.overButtonHintText}>
             Don't remember your password?
           </Text>
-          <Pressable
-            style={styles.button}
+
+          <GeneralButton
+            text="Reset password"
+            textStyle={styles.resetPasswordButtonText}
             onPressOut={() => {
-              navigation.navigate('ForgotPasswordScreen');
-            }}>
-            <Text style={[styles.buttonText, styles.resetPasswordButtonText]}>
-              Reset password
-            </Text>
-          </Pressable>
+              setForgotPasswordModalVisible(true);
+            }}
+          />
         </View>
         <View style={styles.buttonContainer}>
-          <Text style={styles.overButtonText}>
+          <Text style={styles.overButtonHintText}>
             Continue without an account?
           </Text>
-          <Pressable
-            style={styles.button}
+          <GeneralButton
+            text="Skip"
             onPressOut={() => {
               setIsStartingScreen(false);
-            }}>
-            <Text style={styles.buttonText}>Skip</Text>
-          </Pressable>
+            }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function LoginInput() {
+interface LoginModalProps {
+  loginModalVisible: boolean;
+  setLoginModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function LoginModal({
+  loginModalVisible,
+  setLoginModalVisible,
+}: LoginModalProps) {
+  return (
+    <Modal visible={loginModalVisible} animationType="slide">
+      <LoginScreen setLoginModalVisible={setLoginModalVisible} />
+    </Modal>
+  );
+}
+
+interface LoginScreenProps {
+  setLoginModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
   const {user, setUser, setIsStartingScreen} = useContext(AppContext);
 
   const [loading, setLoading] = useState(false);
@@ -98,11 +131,11 @@ function LoginInput() {
     }
     setLoading(true);
     try {
-      const token = await login(username, password);
+      const token = await authUtils.login(username, password);
       setError(undefined);
       setUser({
-        username: user.username,
-        mail: user.mail,
+        username: username,
+        mail: user.mail, // TODO: get mail from server
         token,
       });
       setIsStartingScreen(false);
@@ -114,143 +147,267 @@ function LoginInput() {
   }
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.inputBox}
-        placeholder="login/email"
-        placeholderTextColor={'navy'}
-        value={username}
-        onChangeText={text => {
-          setUsername(text);
-        }}
-      />
-      <TextInput
-        style={styles.inputBox}
-        placeholder="password"
-        secureTextEntry={true}
-        placeholderTextColor={'navy'}
-        value={password}
-        onChangeText={text => {
-          setPassword(text);
-        }}
-      />
-      <LoginStatus error={error} loading={loading} />
-      <Pressable
-        style={loading ? styles.buttonDisabled : styles.button}
-        disabled={loading}
-        onPressOut={onPressOut}>
-        <Text style={styles.buttonText}>Login</Text>
-      </Pressable>
-    </View>
-  );
-}
-
-interface LoginStatusProps {
-  loading: boolean;
-  error: string | undefined;
-}
-
-function LoginStatus({loading, error}: LoginStatusProps) {
-  return (
-    <View style={styles.statusBox}>
-      {loading ? (
-        <Text style={styles.statusLoadingText}>Loading...</Text>
-      ) : error ? (
-        <Text style={styles.statusErrorText}>{error}</Text>
-      ) : null}
-    </View>
-  );
-}
-
-function RegisterScreen() {
-  const {setIsStartingScreen} = useContext(AppContext);
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="login"
-            placeholderTextColor={'navy'}
-            style={styles.inputBox}
-          />
-          <TextInput
-            placeholder="email"
-            placeholderTextColor={'navy'}
-            style={styles.inputBox}
-          />
-          <TextInput
-            placeholder="password"
-            secureTextEntry={true}
-            placeholderTextColor={'navy'}
-            style={styles.inputBox}
-          />
-          <TextInput
-            placeholder="name"
-            placeholderTextColor={'navy'}
-            style={styles.inputBox}
-          />
-          <Pressable
-            style={styles.button}
-            onPressOut={() => {
-              setIsStartingScreen(false);
-            }}>
-            <Text style={styles.buttonText}>Register!</Text>
-          </Pressable>
-        </View>
+    <SafeAreaView style={styles.scrollViewContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <TextInput
+          style={styles.inputBox}
+          placeholder="login/email"
+          placeholderTextColor={'navy'}
+          value={username}
+          onChangeText={text => {
+            setUsername(text);
+          }}
+        />
+        <TextInput
+          style={styles.inputBox}
+          placeholder="password"
+          secureTextEntry={true}
+          placeholderTextColor={'navy'}
+          value={password}
+          onChangeText={text => {
+            setPassword(text);
+          }}
+        />
+        <Status error={error} loading={loading} />
+        <GeneralButton text="Login!" onPressOut={onPressOut} />
+        <GeneralButton
+          text="Cancel"
+          onPressOut={() => setLoginModalVisible(false)}
+        />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function ForgotPasswordScreen() {
-  const [requestSent, setRequestSent] = useState(false);
+interface RegisterModalProps {
+  registerModalVisible: boolean;
+  setRegisterModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function RegisterModal({
+  registerModalVisible,
+  setRegisterModalVisible,
+}: RegisterModalProps) {
+  const {setIsStartingScreen} = useContext(AppContext);
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}>
-        {requestSent === false ? (
+    <Modal visible={registerModalVisible} animationType="slide">
+      <RegisterScreen
+        setIsStartingScreen={setIsStartingScreen}
+        setRegisterModalVisible={setRegisterModalVisible}
+      />
+    </Modal>
+  );
+}
+
+interface RegisterScreenProps {
+  setIsStartingScreen: React.Dispatch<React.SetStateAction<boolean>>;
+  setRegisterModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
+  const {setUser, setIsStartingScreen} = useContext(AppContext);
+
+  const [login, setLogin] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [repeatedPassword, setRepeatedPassword] = useState<string>('');
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
+
+  async function onPressOut() {
+    if (!login || !email || !password || !repeatedPassword) {
+      setError('Please fill in all fields');
+      return;
+    } else if (password !== repeatedPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+    setError(undefined);
+    try {
+      setLoading(true);
+      await authUtils.register(login, email, password);
+    } catch (e) {
+      // @ts-expect-error
+      setError(e.message.toString());
+      setLoading(false);
+      return;
+    }
+    try {
+      const token = await authUtils.login(login, password);
+      setUser({
+        username: login,
+        mail: email,
+        token,
+      });
+      setIsStartingScreen(false);
+    } catch (e) {
+      setError(e?.toString());
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <SafeAreaView style={styles.scrollViewContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <TextInput
+          placeholder="login"
+          placeholderTextColor={'navy'}
+          style={styles.inputBox}
+          onChangeText={text => {
+            setLogin(text);
+          }}
+        />
+        <TextInput
+          placeholder="email"
+          placeholderTextColor={'navy'}
+          style={styles.inputBox}
+          onChangeText={text => {
+            setEmail(text);
+          }}
+        />
+        <TextInput
+          placeholder="password"
+          secureTextEntry={true}
+          placeholderTextColor={'navy'}
+          style={styles.inputBox}
+          onChangeText={text => {
+            setPassword(text);
+          }}
+        />
+        <TextInput
+          placeholder="repeat password"
+          secureTextEntry={true}
+          placeholderTextColor={'navy'}
+          style={styles.inputBox}
+          onChangeText={text => {
+            setRepeatedPassword(text);
+            if (text !== password) {
+              setError("Passwords don't match");
+            } else {
+              setError(undefined);
+            }
+          }}
+        />
+        <Status loading={loading} error={error} />
+        <GeneralButton
+          text="Register!"
+          onPressOut={onPressOut}
+          disabled={loading}
+        />
+        <GeneralButton
+          text="Cancel"
+          onPressOut={() => {
+            setRegisterModalVisible(false);
+          }}
+        />
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+interface ForgotPasswordModalProps {
+  forgotPasswordModalVisible: boolean;
+  setForgotPasswordModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function ForgotPasswordModal({
+  forgotPasswordModalVisible,
+  setForgotPasswordModalVisible,
+}: ForgotPasswordModalProps) {
+  return (
+    <Modal visible={forgotPasswordModalVisible} animationType="slide">
+      <SafeAreaView style={styles.scrollViewContainer}>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="login/email"
               placeholderTextColor={'navy'}
               style={styles.inputBox}
             />
-            <Pressable
-              style={styles.button}
+            <GeneralButton
+              text="Reset password"
               onPressOut={() => {
-                setRequestSent(true);
-              }}>
-              <Text style={[styles.buttonText, styles.resetPasswordButtonText]}>
-                Reset password
-              </Text>
-            </Pressable>
+                console.log('Request sent');
+              }}
+            />
+            <GeneralButton
+              text="Cancel"
+              onPressOut={() => {
+                setForgotPasswordModalVisible(false);
+              }}
+            />
           </View>
-        ) : (
-          <View style={styles.inputContainer}>
-            <Text
-              style={[
-                styles.buttonContainerText,
-                styles.resetPasswordInformationText,
-              ]}>
-              Request sent!
-            </Text>
-          </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </Modal>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
+interface StatusProps {
+  loading: boolean;
+  error: string | undefined;
+}
+
+function Status({loading, error}: StatusProps) {
+  return (
+    <View style={styles.statusBox}>
+      <LoadingIndicator loading={loading} />
+      <Text style={styles.statusErrorText}>{error && `Woof! ${error}`}</Text>
+    </View>
+  );
+}
+
+interface LoadingIndicatorProps {
+  loading: boolean;
+}
+function LoadingIndicator({loading}: LoadingIndicatorProps) {
+  const spin = useSharedValue(0);
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      borderRadius: 27,
+      borderWidth: 2,
+      borderStyle: 'dotted',
+      backgroundColor: lightAccentColor,
+      transform: [{rotate: `${spin.value}deg`}],
+    };
+  });
+
+  if (loading) {
+  }
+  useEffect(() => {
+    if (loading) {
+      spin.value = withRepeat(
+        withTiming(360, {duration: 900, easing: Easing.inOut(Easing.sin)}),
+        -1,
+      );
+    } else {
+      const currentSpin = spin.value;
+      spin.value = withTiming(0, {
+        duration: currentSpin * 10,
+        easing: Easing.inOut(Easing.sin),
+      });
+    }
+  }, [loading, spin]);
+  return (
+    <Animated.View style={animatedStyle}>
+      <Animated.Image
+        style={styles.loadingIndicator}
+        // https://icons8.com/license
+        source={require('../assets/loading-indicator.png')}
+      />
+    </Animated.View>
+  );
+}
+
+export const styles = StyleSheet.create({
+  scrollViewContainer: {
+    backgroundColor: backgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  scrollView: {},
   scrollContent: {
+    alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
   },
@@ -260,7 +417,9 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   inputBox: {
+    backgroundColor: lightAccentColor,
     width: 200,
+    height: 50,
     margin: 5,
     color: 'black',
     borderWidth: 2,
@@ -276,48 +435,23 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
   },
-  button: {
-    backgroundColor: 'royalblue',
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
-    borderBottomEndRadius: 20,
-    borderBottomStartRadius: 20,
-    height: 50,
-    width: 200,
-    alignItems: 'center',
-  },
-  buttonDisabled: {
-    backgroundColor: '215582',
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
-    borderBottomEndRadius: 20,
-    borderBottomStartRadius: 20,
-    height: 50,
-    width: 200,
-    alignItems: 'center',
-  },
-  overButtonText: {
+  overButtonHintText: {
     color: 'black',
     textAlign: 'center',
     textShadowColor: 'navy',
     textShadowRadius: 1,
     fontSize: 16,
   },
-  buttonText: {
-    flex: 1,
-    color: 'white',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    fontSize: 30,
-  },
   statusBox: {
-    height: 20,
-    width: 200,
+    height: 100,
+    maxWidth: width - 20,
     alignItems: 'center',
   },
   statusErrorText: {
+    marginTop: 5,
     color: 'red',
     textAlign: 'center',
+    maxWidth: width - 20,
   },
   statusLoadingText: {
     color: 'grey',
@@ -330,6 +464,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textShadowColor: 'navy',
     textShadowRadius: 1,
+  },
+  loadingIndicator: {
+    maxHeight: 50,
+    maxWidth: 50,
+    borderRadius: 25,
   },
 });
 
