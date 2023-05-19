@@ -1,16 +1,14 @@
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.test import (
     APITestCase,
     APIRequestFactory,
-    force_authenticate,
     APIClient,
 )
 from .models import User
 from .views import (
     RegisterView,
     LoginView,
-    ChangePasswordView,
-    ChangeEmailView,
 )
 
 
@@ -18,6 +16,9 @@ class UserAuthTests(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory(enforce_csrf_checks=True)
         self.client = APIClient()
+        self.user = User.objects.create_user(
+            username="ewa", password="ewa12345", email="malaga.drag@gmail.com"
+        )
 
     def test_register_with_valid_data(self):
         url = reverse("register")
@@ -31,7 +32,7 @@ class UserAuthTests(APITestCase):
         response = view(request)
         self.assertEqual(
             response.status_code,
-            201,
+            status.HTTP_201_CREATED,
             f"Expected Response Code 201, received {response.status_code} instead.",
         )
 
@@ -48,7 +49,7 @@ class UserAuthTests(APITestCase):
         response = view(request)
         self.assertEqual(
             response.status_code,
-            400,
+            status.HTTP_400_BAD_REQUEST,
             f"Expected Response Code 400, received {response.status_code} instead.",
         )
 
@@ -65,8 +66,8 @@ class UserAuthTests(APITestCase):
         response = view(request)
         self.assertEqual(
             response.status_code,
-            201,
-            f"Expected Response Code 400, received {response.status_code} instead.",
+            status.HTTP_201_CREATED,
+            f"Expected Response Code 201, received {response.status_code} instead.",
         )
         self.assertEqual(User.objects.get().first_name, "")
 
@@ -79,7 +80,7 @@ class UserAuthTests(APITestCase):
         response = self.login(user_data)
         self.assertEqual(
             response.status_code,
-            200,
+            status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
@@ -92,7 +93,7 @@ class UserAuthTests(APITestCase):
         response = self.login(user_data)
         self.assertEqual(
             response.status_code,
-            401,
+            status.HTTP_401_UNAUTHORIZED,
             f"Expected Response Code 401, received {response.status_code} instead.",
         )
 
@@ -104,49 +105,30 @@ class UserAuthTests(APITestCase):
         response = self.login(user_data)
         self.assertEqual(
             response.status_code,
-            401,
+            status.HTTP_401_UNAUTHORIZED,
             f"Expected Response Code 401, received {response.status_code} instead.",
         )
 
     def test_change_password(self):
-        user = User.objects.create_user(username="ewa", password="ewa12345")
-        user_data = {
-            "username": "ewa",
-            "password": "ewa12345",
-        }
-        response = self.login(user_data)
-        token = response.data["access"]
+        User.objects.create_user(username="ewa", password="ewa12345")
+        self.client.force_authenticate(user=self.user)
         url = reverse("change_password")
         data = {"current_password": "ewa12345", "new_password": "krowa12345"}
-        request = self.factory.post(url, data, format="json")
-        force_authenticate(request, user=user, token=token)
-        view = ChangePasswordView.as_view()
-        response = view(request)
+        response = self.factory.post(url, data, format="json")
         self.assertEqual(
             response.status_code,
-            204,
+            status.HTTP_204_NO_CONTENT,
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
 
     def test_change_email(self):
-        user = User.objects.create_user(
-            username="ewa", password="ewa12345", email="ewa@gmail.com"
-        )
-        user_data = {
-            "username": "ewa",
-            "password": "ewa12345",
-        }
-        response = self.login(user_data)
-        token = response.data["access"]
+        self.client.force_authenticate(user=self.user)
         url = reverse("change_email")
         data = {"email": "ewaX@gochad.pl"}
-        request = self.factory.post(url, data, format="json")
-        force_authenticate(request, user=user, token=token)
-        view = ChangeEmailView.as_view()
-        response = view(request)
+        response = self.client.post(url, data, format="json")
         self.assertEqual(
             response.status_code,
-            204,
+            status.HTTP_204_NO_CONTENT,
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(User.objects.get().email, data["email"])
@@ -161,8 +143,36 @@ class UserAuthTests(APITestCase):
         )
         self.assertEqual(
             response.status_code,
-            200,
+            status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
+        )
+
+    def test_forgot_password_existing_email(self):
+        url = reverse("forgot_password")
+        data = {"email": "malaga.drag@gmail.com"}
+        response = self.client.post(
+            url,
+            data,
+            format="json",
+        )
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+            f"Expected Response Code 200, received {response.status_code} instead.",
+        )
+
+    def test_forgot_password_not_existing_email(self):
+        url = reverse("forgot_password")
+        data = {"email": "td@gmail.com"}
+        response = self.client.post(
+            url,
+            data,
+            format="json",
+        )
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST,
+            f"Expected Response Code 400, received {response.status_code} instead.",
         )
 
     def login(self, user_data):

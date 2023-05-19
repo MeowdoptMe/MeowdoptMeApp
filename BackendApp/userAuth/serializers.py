@@ -38,7 +38,7 @@ class PasswordChangeSerializer(serializers.Serializer):
         raise NotImplementedError("PasswordChangeSerializer does not support create")
 
 
-class EmailChangeSerializer(serializers.Serializer):
+class EmailSerializer(serializers.Serializer):
     email = serializers.CharField(style={"input_type": "email"}, required=True)
 
     def update(self, instance, validated_data):
@@ -46,3 +46,10 @@ class EmailChangeSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         raise NotImplementedError("EmailChangeSerializer does not support create")
+
+    def validate_email(self, value):
+        try:
+            User.objects.get(email=value)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("Email does not exist.")
+        return value

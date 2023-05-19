@@ -1,16 +1,20 @@
+from email.message import EmailMessage
+
 from django.contrib.auth import logout
+from django.core.mail import send_mail
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+import smtplib, ssl
 
 from .models import User
 from .serializers import (
     RegistrationSerializer,
     PasswordChangeSerializer,
-    EmailChangeSerializer,
+    EmailSerializer,
 )
 
 
@@ -70,10 +74,32 @@ class ChangeEmailView(APIView):
     ]
 
     def post(self, request):
-        serializer = EmailChangeSerializer(
-            context={"request": request}, data=request.data
-        )
+        serializer = EmailSerializer(context={"request": request}, data=request.data)
         serializer.is_valid(raise_exception=True)
         request.user.email = serializer.validated_data["email"]
         request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ForgotPasswordView(APIView):
+    def post(self, request):
+        serializer = EmailSerializer(context={"request": request}, data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            port = 587
+            smtp_server = "smtp.gmail.com"
+            sender_email = "malgdras@gmail.com"
+            receiver_email = serializer.validated_data["email"]
+            password = "huoadkvgojwwovtn"
+            message = "This message is sent from MeowdoptMeApp for reseting password"
+            context = ssl.create_default_context()
+            with smtplib.SMTP(smtp_server, port) as server:
+                server.ehlo()
+                server.starttls(context=context)
+                server.ehlo()
+                server.login(sender_email, password)
+                server.sendmail(sender_email, receiver_email, message)
+            return Response("Email was send", status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response("Problem while sending email: {}".format(str(e)))
