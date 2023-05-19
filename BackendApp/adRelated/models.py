@@ -14,7 +14,7 @@ class Pet(models.Model):
 
 
 class Ad(models.Model):
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, null=False)
-    active = models.BooleanField(null=False)
-    shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, null=False)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, null=True)
+    active = models.BooleanField(null=True)
+    shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, null=True)
     photo_album = models.ForeignKey(PhotoAlbum, on_delete=models.CASCADE, null=True)
