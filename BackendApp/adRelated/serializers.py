@@ -8,6 +8,7 @@ class PetSerializer(serializers.ModelSerializer):
         fields = ["name", "species", "subSpecies", "age", "gender", "color"]
 
 
+
 class AdSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ad
