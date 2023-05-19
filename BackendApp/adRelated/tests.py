@@ -34,7 +34,11 @@ class AdTests(APITestCase):
     def test_create(self):
         url = reverse("ad_create")
         response = self.client.post(url, self.data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED, f"Expected Response Code 201, received {response.status_code} instead.",)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_201_CREATED,
+            f"Expected Response Code 201, received {response.status_code} instead.",
+        )
         self.assertEqual(Ad.objects.count(), 1)
         self.assertEqual(Ad.objects.get().pet.id, self.data["pet"])
 
@@ -78,7 +82,6 @@ class AdTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(Ad.objects.count(), current_objects_count - 1)
-
 
 
 class PetTests(APITestCase):
