@@ -6,7 +6,7 @@ import Animated, {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import {View, Text, StyleSheet, Dimensions} from 'react-native/types';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import colorPalette from '../../assets/colors';
 
 const {width} = Dimensions.get('window');
