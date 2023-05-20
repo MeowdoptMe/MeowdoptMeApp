@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "userAuth",
     "permissionHandler",
     "shelterRelated",
+    "drf_yasg",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
