@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Text, Pressable, StyleProp, StyleSheet, TextStyle} from 'react-native';
-import {darkAccentColor, strongAccentColor} from '../../assets/colors.json';
+import colorPalette from '../../assets/colors';
 
 interface GeneralButtonProps {
   onPressOut: () => void;
@@ -34,7 +34,7 @@ export function GeneralButton({
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: darkAccentColor,
+    backgroundColor: colorPalette.darkAccentColor,
     borderTopEndRadius: 20,
     borderTopStartRadius: 20,
     borderBottomEndRadius: 20,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonPressed: {
-    backgroundColor: strongAccentColor,
+    backgroundColor: colorPalette.strongAccentColor,
   },
   buttonText: {
     color: 'white',
