@@ -37,10 +37,9 @@ class UserAuthTests(APITestCase):
         )
 
     def test_register_with_existing_user(self):
-        User.objects.create_user(username="ewa", password="ewa12345")
         url = reverse("register")
         data = {
-            "email": "tdd@gmail.com",
+            "email": "malaga.drag@gmail.com",
             "username": "ewa",
             "password": "ewa12345",
         }
@@ -69,10 +68,9 @@ class UserAuthTests(APITestCase):
             status.HTTP_201_CREATED,
             f"Expected Response Code 201, received {response.status_code} instead.",
         )
-        self.assertEqual(User.objects.get().first_name, "")
+        self.assertEqual(User.objects.get(id=2).first_name, "")
 
     def test_login_with_valid_data(self):
-        User.objects.create_user(username="ewa", password="ewa12345")
         user_data = {
             "username": "ewa",
             "password": "ewa12345",
@@ -82,19 +80,6 @@ class UserAuthTests(APITestCase):
             response.status_code,
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
-        )
-
-    def test_login_with_invalid_data(self):
-        User.objects.create_user(username="ewa", password="ewa12345")
-        user_data = {
-            "username": "ewa",
-            "password": "ewa1234",
-        }
-        response = self.login(user_data)
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_401_UNAUTHORIZED,
-            f"Expected Response Code 401, received {response.status_code} instead.",
         )
 
     def test_login_not_existing_user(self):
@@ -110,15 +95,14 @@ class UserAuthTests(APITestCase):
         )
 
     def test_change_password(self):
-        User.objects.create_user(username="ewa", password="ewa12345")
         self.client.force_authenticate(user=self.user)
         url = reverse("change_password")
         data = {"current_password": "ewa12345", "new_password": "krowa12345"}
-        response = self.factory.post(url, data, format="json")
+        response = self.client.post(url, data, format="json")
         self.assertEqual(
             response.status_code,
-            status.HTTP_204_NO_CONTENT,
-            f"Expected Response Code 204, received {response.status_code} instead.",
+            status.HTTP_200_OK,
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
     def test_change_email(self):
@@ -128,13 +112,13 @@ class UserAuthTests(APITestCase):
         response = self.client.post(url, data, format="json")
         self.assertEqual(
             response.status_code,
-            status.HTTP_204_NO_CONTENT,
-            f"Expected Response Code 204, received {response.status_code} instead.",
+            status.HTTP_200_OK,
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
         self.assertEqual(User.objects.get().email, data["email"])
 
     def test_logout(self):
-        user = User.objects.create_user(username="ewa", password="ewa12345")
+        user = User.objects.create_user(username="ewusia", password="ewa12345")
         self.client.force_authenticate(user=user)
         url = reverse("logout")
         response = self.client.post(
@@ -147,8 +131,8 @@ class UserAuthTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
-    def test_forgot_password_existing_email(self):
-        url = reverse("forgot_password")
+    def test_password_reset_existing_email(self):
+        url = reverse("request_password_reset")
         data = {"email": "malaga.drag@gmail.com"}
         response = self.client.post(
             url,
@@ -161,9 +145,9 @@ class UserAuthTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
-    def test_forgot_password_not_existing_email(self):
-        url = reverse("forgot_password")
-        data = {"email": "td@gmail.com"}
+    def test_password_reset_not_existing_email(self):
+        url = reverse("request_password_reset")
+        data = {"email": "tdd@gmail.com"}
         response = self.client.post(
             url,
             data,

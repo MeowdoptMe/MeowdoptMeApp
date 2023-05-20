@@ -13,7 +13,6 @@ from django.utils.encoding import (
     smart_str,
     smart_bytes,
     DjangoUnicodeDecodeError,
-    force_str,
 )
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from .utils import Util
@@ -77,7 +76,7 @@ class ChangePasswordView(APIView):
         serializer.is_valid(raise_exception=True)
         request.user.set_password(serializer.validated_data["new_password"])
         request.user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_200_OK)
 
 
 class ChangeEmailView(APIView):
@@ -90,7 +89,7 @@ class ChangeEmailView(APIView):
         serializer.is_valid(raise_exception=True)
         request.user.email = serializer.validated_data["email"]
         request.user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_200_OK)
 
 
 class PasswordResetEmailView(GenericAPIView):

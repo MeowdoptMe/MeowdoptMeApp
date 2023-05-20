@@ -54,19 +54,18 @@ class EmailSerializer(serializers.Serializer):
     def create(self, validated_data):
         raise NotImplementedError("EmailChangeSerializer does not support create")
 
-    def validate_email(self, value):
-        try:
-            User.objects.get(email=value)
-        except User.DoesNotExist:
-            raise serializers.ValidationError("Email does not exist.")
-        return value
-
 
 class ResetPasswordEmailSerializer(serializers.Serializer):
     email = serializers.EmailField(min_length=2)
 
     class Meta:
         fields = ["email"]
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+        if not User.objects.filter(email=email).exists():
+            raise serializers.ValidationError("Email does not exist")
+        return super().validate(attrs)
 
 
 class SetNewPasswordSerializer(serializers.Serializer):

@@ -20,9 +20,9 @@ urlpatterns = [
     path("change-email/", ChangeEmailView.as_view(), name="change_email"),
     path("token-refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path(
-        "request-reset-email",
+        "request-password-reset/",
         PasswordResetEmailView.as_view(),
-        name="request_reset_email",
+        name="request_password_reset",
     ),
     path(
         "password-reset/<uidb64>/<token>/",
@@ -30,7 +30,7 @@ urlpatterns = [
         name="password_reset_confirm",
     ),
     path(
-        "password-reset-complete",
+        "password-reset-complete/",
         SetNewPasswordView.as_view(),
         name="password_reset_complete",
     ),
