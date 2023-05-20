@@ -8,7 +8,6 @@ import {
   ScrollView,
   SafeAreaView,
   Modal,
-  Dimensions,
 } from 'react-native';
 import colorPalette from '../assets/colors';
 
@@ -16,8 +15,6 @@ import {AppContext} from './Context';
 import authUtils from './authUtils';
 import {GeneralButton} from './components/GeneralButton';
 import Status from './components/Status';
-
-const {width} = Dimensions.get('window');
 
 function StartingScreen() {
   const {setIsStartingScreen} = useContext(AppContext);
