@@ -49,7 +49,11 @@ class PetCreate(CreateAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         self.perform_create(serializer)
+        ad = Ad.objects.get(id=kwargs["pk"])
+        ad.pet = serializer.instance
+        ad.save()
         headers = self.get_success_headers(serializer.data)
+
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
