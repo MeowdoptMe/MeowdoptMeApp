@@ -5988,9 +5988,9 @@ react-native-gradle-plugin@^0.71.17:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.17.tgz#cf780a27270f0a32dca8184eff91555d7627dd00"
   integrity sha512-OXXYgpISEqERwjSlaCiaQY6cTY5CH6j73gdkWpK0hedxtiWMWgH+i5TOi4hIGYitm9kQBeyDu+wim9fA8ROFJA==
 
-"react-native-reanimated@https://github.com/software-mansion/react-native-reanimated#@tjzel/drop-commonjs":
+"react-native-reanimated@https://github.com/software-mansion/react-native-reanimated":
   version "3.1.0"
-  resolved "https://github.com/software-mansion/react-native-reanimated#f684dd6d638de64a589f23bdc6725e3c0a821732"
+  resolved "https://github.com/software-mansion/react-native-reanimated#e7c8bcc0d9e31d7830e2d0c33efec4589562653b"
   dependencies:
     "@babel/plugin-transform-object-assign" "^7.16.7"
     "@babel/preset-typescript" "^7.16.7"

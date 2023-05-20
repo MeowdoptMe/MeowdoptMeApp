@@ -1,0 +1,31 @@
+{
+  "name": "Beza",
+  "petCharacteristics": {
+    "species": "dog",
+    "breed": "Labrador Retriever mix",
+    "gender": "female",
+    "dateOfBirth": {
+      "year": 2019,
+      "month": 5
+    },
+    "color": ["white"]
+  },
+  "photoAlbum": [
+    {
+      "dir": "26",
+      "description": "Beza to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem."
+    },
+    {
+      "dir": "27"
+    },
+    {
+      "dir": "28"
+    },
+    {
+      "dir": "29"
+    },
+    {
+      "dir": "30"
+    }
+  ]
+}
