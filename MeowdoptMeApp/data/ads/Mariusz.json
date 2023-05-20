@@ -12,20 +12,20 @@
   },
   "photoAlbum": [
     {
-      "dir": "06",
+      "img": "06",
       "description": "Mariusz to kot, który trafił do schroniska po śmierci swojego właściciela. Uwielbia kontakt i bliskość z człowiekiem. Umie korzystać z kuwety. W schronisku czuje się przytłoczony. Z niecierpliwością czeka na odpowiedzialny dom pełen miłości."
     },
     {
-      "dir": "07"
+      "img": "07"
     },
     {
-      "dir": "08"
+      "img": "08"
     },
     {
-      "dir": "09"
+      "img": "09"
     },
     {
-      "dir": "10"
+      "img": "10"
     }
   ]
 }

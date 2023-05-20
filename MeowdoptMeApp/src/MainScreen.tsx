@@ -14,6 +14,7 @@ function MainScreen() {
     <ShelterContext.Provider value={{shelter, setShelter}}>
       <NavigationContainer>
         <Tab.Navigator
+          backBehavior="none"
           initialRouteName="HomeScreen"
           screenOptions={{headerShown: false}}>
           <Tab.Screen

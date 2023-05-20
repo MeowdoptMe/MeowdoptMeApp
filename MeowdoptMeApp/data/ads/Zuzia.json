@@ -12,20 +12,20 @@
   },
   "photoAlbum": [
     {
-      "dir": "21",
+      "img": "21",
       "description": "Zuzia to pies, który prawdopodobnie uciekł z poprzedniego. Jednak w związku z brakiem odpowiedzi na ogłoszenia o jej znalezeniu oraz brakiem chipa identyfikującego, szukamy dla Zuzi nowego, odpowiedzialnego domu. Krótki pobyt w schronisku nie zdążył wpłynąć na nią negatywnie. Jest psem typowo kanapowym, wymaga nauki chodzenia na smyczy."
     },
     {
-      "dir": "22"
+      "img": "22"
     },
     {
-      "dir": "23"
+      "img": "23"
     },
     {
-      "dir": "24"
+      "img": "24"
     },
     {
-      "dir": "25"
+      "img": "25"
     }
   ]
 }
