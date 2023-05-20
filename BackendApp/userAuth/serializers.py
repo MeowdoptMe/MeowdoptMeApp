@@ -1,12 +1,13 @@
 from rest_framework import serializers, status
 from rest_framework.exceptions import AuthenticationFailed
 
-from .models import User
+
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import (
     force_str,
 )
 from django.utils.http import urlsafe_base64_decode
+from .models import User
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -67,6 +68,16 @@ class ResetPasswordEmailSerializer(serializers.Serializer):
             raise serializers.ValidationError("Email does not exist")
         return super().validate(attrs)
 
+    def update(self, instance, validated_data):
+        raise NotImplementedError(
+            "ResetPasswordEmailSerializer does not support update"
+        )
+
+    def create(self, validated_data):
+        raise NotImplementedError(
+            "ResetPasswordEmailSerializer does not support create"
+        )
+
 
 class SetNewPasswordSerializer(serializers.Serializer):
     password = serializers.CharField(min_length=6, max_length=68, write_only=True)
@@ -81,8 +92,8 @@ class SetNewPasswordSerializer(serializers.Serializer):
             password = attrs.get("password")
             token = attrs.get("token")
             uidb64 = attrs.get("uidb64")
-            id = force_str(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(id=id)
+            user_id = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=user_id)
 
             if not PasswordResetTokenGenerator().check_token(user, token):
                 raise AuthenticationFailed(
@@ -97,4 +108,10 @@ class SetNewPasswordSerializer(serializers.Serializer):
         except Exception as e:
             raise AuthenticationFailed(
                 "The reset link is invalid", status.HTTP_401_UNAUTHORIZED
-            )
+            ) from e
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError("SetNewPasswordSerializer does not support update")
+
+    def create(self, validated_data):
+        raise NotImplementedError("SetNewPasswordSerializer does not support create")
