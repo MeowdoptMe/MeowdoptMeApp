@@ -5,8 +5,8 @@ from photoAlbum.models import PhotoAlbum
 
 
 class DateOfBirth(models.Model):
-    year = models.IntegerField()
-    month = models.IntegerField()
+    year = models.IntegerField(null=True)
+    month = models.IntegerField(null=True)
 
 
 class PetCharacteristics(models.Model):

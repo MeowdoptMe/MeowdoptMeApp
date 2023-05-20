@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory, APIClient
 from photoAlbum.models import PhotoAlbum
 from shelterRelated.models import Shelter
-from .models import Pet, Ad
+from .models import Pet, Ad, DateOfBirth, PetCharacteristics
 from .views import PetList, PetDetail, AdList, AdDetail
 from userAuth.models import User
 from permissionHandler.models import UserPermission
@@ -14,6 +14,9 @@ class AdTests(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
         self.client = APIClient()
+        DateOfBirth.objects.create()
+        PetCharacteristics.objects.create()
+        self.pet = Pet.objects.create()
 
         self.data = {
             "pet": 1,
@@ -24,7 +27,7 @@ class AdTests(APITestCase):
         self.user = User.objects.create_user(username="ewa", password="ewa12345")
         self.user2 = User.objects.create_user(username="gocha", password="gocha12345")
         self.shelter = Shelter.objects.create()
-        self.pet = Pet.objects.create()
+
         self.album = PhotoAlbum.objects.create()
         permission_create = Permission.objects.get(codename="add_ad")
         permission_change = Permission.objects.get(codename="change_ad")
@@ -133,7 +136,7 @@ class PetTests(APITestCase):
         )
         album = PhotoAlbum.objects.create()
         pet = Pet.objects.create(
-            name="cat1", species="s", subSpecies="s", age=2, gender="ona", color="szary"
+            name="cat1"
         )
         Ad.objects.create(pet=pet, active=False, shelter=shelter, photo_album=album)
 
