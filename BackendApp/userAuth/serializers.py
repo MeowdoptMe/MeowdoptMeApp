@@ -4,12 +4,9 @@ from rest_framework.exceptions import AuthenticationFailed
 from .models import User
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import (
-    smart_str,
     force_str,
-    smart_bytes,
-    DjangoUnicodeDecodeError,
 )
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_decode
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -75,10 +72,10 @@ class ResetPasswordEmailSerializer(serializers.Serializer):
 class SetNewPasswordSerializer(serializers.Serializer):
     password = serializers.CharField(min_length=6, max_length=68, write_only=True)
     token = serializers.CharField(min_length=1, write_only=True)
-    uidb = serializers.CharField(min_length=1, write_only=True)
+    uidb64 = serializers.CharField(min_length=1, write_only=True)
 
     class Meta:
-        fields = ["password", "token", "uidb"]
+        fields = ["password", "token", "uidb64"]
 
     def validate(self, attrs):
         try:
@@ -96,10 +93,9 @@ class SetNewPasswordSerializer(serializers.Serializer):
             user.set_password(password)
             user.save()
 
-            return user
+            return super().validate(attrs)
 
         except Exception as e:
             raise AuthenticationFailed(
                 "The reset link is invalid", status.HTTP_401_UNAUTHORIZED
             )
-        return super().validate(attrs)
