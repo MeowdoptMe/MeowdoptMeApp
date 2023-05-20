@@ -15,7 +15,7 @@ import colorPalette from '../assets/colors';
 import {AppContext} from './Context';
 import authUtils from './authUtils';
 import {GeneralButton} from './components/GeneralButton';
-import Status from './components/StatusIndicator';
+import Status from './components/Status';
 
 const {width} = Dimensions.get('window');
 
