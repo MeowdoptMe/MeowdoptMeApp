@@ -4,13 +4,24 @@ from shelterRelated.models import Shelter
 from photoAlbum.models import PhotoAlbum
 
 
+class DateOfBirth(models.Model):
+    year = models.IntegerField()
+    month = models.IntegerField()
+
+
+class PetCharacteristics(models.Model):
+    species = models.CharField(max_length=255, default="", null=True)
+    breed = models.CharField(max_length=255, default="", null=True)
+    gender = models.CharField(max_length=255, default="", null=True)
+    date_of_birth = models.ForeignKey(DateOfBirth, on_delete=models.CASCADE, null=True)
+    color = models.CharField(max_length=255, default="", null=True)
+
+
 class Pet(models.Model):
     name = models.CharField(max_length=255, default="", null=True)
-    species = models.CharField(max_length=255, default="", null=True)
-    subSpecies = models.CharField(max_length=255, default="", null=True)
-    age = models.IntegerField(default=0, null=True)
-    gender = models.CharField(max_length=255, default="", null=True)
-    color = models.CharField(max_length=255, default="", null=True)
+    petCharacteristics = models.ForeignKey(
+        PetCharacteristics, on_delete=models.CASCADE, null=True
+    )
 
 
 class Ad(models.Model):
