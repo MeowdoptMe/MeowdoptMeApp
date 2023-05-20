@@ -9,6 +9,8 @@ import Animated, {
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import colorPalette from '../../assets/colors';
 
+const indicatorImage = require('../../assets/loading-indicator.png');
+
 const {width} = Dimensions.get('window');
 
 interface StatusProps {
@@ -61,7 +63,7 @@ function LoadingIndicator({loading}: LoadingIndicatorProps) {
       <Animated.Image
         style={styles.loadingIndicator}
         // https://icons8.com/license
-        source={require('../assets/loading-indicator.png')}
+        source={indicatorImage}
       />
     </Animated.View>
   );
