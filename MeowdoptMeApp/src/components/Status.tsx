@@ -9,7 +9,7 @@ import Animated, {
 import {View, Text, StyleSheet, Dimensions} from 'react-native/types';
 import colorPalette from '../../assets/colors';
 
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 interface StatusProps {
   loading: boolean;
