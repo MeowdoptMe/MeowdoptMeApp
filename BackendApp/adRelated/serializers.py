@@ -25,7 +25,7 @@ class PetSerializer(serializers.ModelSerializer):
 
 
 class AdSerializer(serializers.ModelSerializer):
-    pet = PetSerializer()
+    pet = PetSerializer(required=False)
 
     class Meta:
         model = Ad
