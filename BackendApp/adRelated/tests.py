@@ -2,7 +2,6 @@ from django.contrib.auth.models import Permission
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory, APIClient
-from photoAlbum.models import PhotoAlbum
 from shelterRelated.models import Shelter
 from .models import Pet, Ad, DateOfBirth, PetCharacteristics
 from .views import PetList, PetDetail, AdList, AdDetail
@@ -19,16 +18,14 @@ class AdTests(APITestCase):
         self.pet = Pet.objects.create()
 
         self.data = {
-            "pet": 1,
+            "pet": {"name": "kocia"},
             "active": False,
             "shelter": 1,
-            "photo_album": 1,
         }
         self.user = User.objects.create_user(username="ewa", password="ewa12345")
         self.user2 = User.objects.create_user(username="gocha", password="gocha12345")
         self.shelter = Shelter.objects.create()
 
-        self.album = PhotoAlbum.objects.create()
         permission_create = Permission.objects.get(codename="add_ad")
         permission_change = Permission.objects.get(codename="change_ad")
         permission_delete = Permission.objects.get(codename="delete_ad")
@@ -77,14 +74,12 @@ class AdTests(APITestCase):
         )
 
     def test_edit(self):
-        Ad.objects.create(
-            pet=self.pet, active=1, shelter=self.shelter, photo_album=self.album
-        )
+        Ad.objects.create(pet=self.pet, active=1, shelter=self.shelter)
         self.client.force_authenticate(user=self.user)
         url = reverse("ad_detail", kwargs={"pk": 1})
         data = self.data
         data["active"] = False
-        response = self.client.put(url, data)
+        response = self.client.put(url, data, format="json")
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK,
@@ -93,9 +88,7 @@ class AdTests(APITestCase):
         self.assertEqual(Ad.objects.get().active, data["active"])
 
     def test_remove(self):
-        Ad.objects.create(
-            pet=self.pet, active=1, shelter=self.shelter, photo_album=self.album
-        )
+        Ad.objects.create(pet=self.pet, active=1, shelter=self.shelter)
         current_objects_count = Ad.objects.count()
         self.client.force_authenticate(user=self.user)
         url = reverse("ad_detail", kwargs={"pk": 1})
@@ -134,11 +127,8 @@ class PetTests(APITestCase):
         UserPermission.objects.create(
             user=self.user, shelter=shelter, permission=permission_delete
         )
-        album = PhotoAlbum.objects.create()
-        pet = Pet.objects.create(
-            name="cat1"
-        )
-        Ad.objects.create(pet=pet, active=False, shelter=shelter, photo_album=album)
+        pet = Pet.objects.create(name="cat1")
+        Ad.objects.create(pet=pet, active=False, shelter=shelter)
 
     def test_create(self):
         self.client.force_authenticate(user=self.user)

@@ -3,23 +3,8 @@ from rest_framework.generics import (
     CreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
-from .models import PhotoAlbum, Photo
-from .serializers import PhotoAlbumSerializer, PhotoSerializer
-
-
-class PhotoAlbumList(ListAPIView):
-    queryset = PhotoAlbum.objects.all()
-    serializer_class = PhotoAlbumSerializer
-
-
-class PhotoAlbumCreate(CreateAPIView):
-    queryset = PhotoAlbum.objects.all()
-    serializer_class = PhotoAlbumSerializer
-
-
-class PhotoAlbumDetail(RetrieveUpdateDestroyAPIView):
-    queryset = PhotoAlbum.objects.all()
-    serializer_class = PhotoAlbumSerializer
+from .models import Photo
+from .serializers import PhotoSerializer
 
 
 class PhotoList(ListAPIView):

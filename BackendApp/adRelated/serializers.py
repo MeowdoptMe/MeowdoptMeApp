@@ -25,8 +25,21 @@ class PetSerializer(serializers.ModelSerializer):
 
 
 class AdSerializer(serializers.ModelSerializer):
-    pet = PetSerializer(required=False)
+    pet = PetSerializer()
 
     class Meta:
         model = Ad
-        fields = ["pet", "active", "shelter", "photo_album"]
+        fields = ["pet", "active", "shelter"]
+
+    def create(self, validated_data):
+        pet_data = validated_data.pop("pet")
+        characteristics_data = pet_data.pop("petCharacteristics")
+        date_data = characteristics_data.pop("date_of_birth")
+        date = DateOfBirth.objects.create(**date_data)
+        petCh = PetCharacteristics.objects.create(
+            date_of_birth=date, **characteristics_data
+        )
+        pet = Pet.objects.create(petCharacteristics=petCh, **pet_data)
+        ad = Ad.objects.create(pet=pet, **validated_data)
+
+        return ad
