@@ -1,4 +1,12 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.exceptions import AuthenticationFailed
+
+
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import (
+    force_str,
+)
+from django.utils.http import urlsafe_base64_decode
 from .models import User
 
 
@@ -38,7 +46,7 @@ class PasswordChangeSerializer(serializers.Serializer):
         raise NotImplementedError("PasswordChangeSerializer does not support create")
 
 
-class EmailChangeSerializer(serializers.Serializer):
+class EmailSerializer(serializers.Serializer):
     email = serializers.CharField(style={"input_type": "email"}, required=True)
 
     def update(self, instance, validated_data):
@@ -46,3 +54,64 @@ class EmailChangeSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         raise NotImplementedError("EmailChangeSerializer does not support create")
+
+
+class ResetPasswordEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(min_length=2)
+
+    class Meta:
+        fields = ["email"]
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+        if not User.objects.filter(email=email).exists():
+            raise serializers.ValidationError("Email does not exist")
+        return super().validate(attrs)
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError(
+            "ResetPasswordEmailSerializer does not support update"
+        )
+
+    def create(self, validated_data):
+        raise NotImplementedError(
+            "ResetPasswordEmailSerializer does not support create"
+        )
+
+
+class SetNewPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(min_length=6, max_length=68, write_only=True)
+    token = serializers.CharField(min_length=1, write_only=True)
+    uidb64 = serializers.CharField(min_length=1, write_only=True)
+
+    class Meta:
+        fields = ["password", "token", "uidb64"]
+
+    def validate(self, attrs):
+        try:
+            password = attrs.get("password")
+            token = attrs.get("token")
+            uidb64 = attrs.get("uidb64")
+            user_id = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=user_id)
+
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                raise AuthenticationFailed(
+                    "The reset link is invalid", status.HTTP_401_UNAUTHORIZED
+                )
+
+            user.set_password(password)
+            user.save()
+
+            return super().validate(attrs)
+
+        except Exception as e:
+            raise AuthenticationFailed(
+                "The reset link is invalid", status.HTTP_401_UNAUTHORIZED
+            ) from e
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError("SetNewPasswordSerializer does not support update")
+
+    def create(self, validated_data):
+        raise NotImplementedError("SetNewPasswordSerializer does not support create")
