@@ -4,8 +4,7 @@ from adRelated.models import Ad
 
 
 class Photo(models.Model):
-    img = models.CharField(max_length=255)
-    description = models.TextField()
+    dir = models.CharField(max_length=255)
     ad = models.ForeignKey(
-        Ad, related_name="photos", on_delete=models.CASCADE, null=False, default=1
+        Ad, on_delete=models.CASCADE, null=False, default=1, related_name="photos"
     )

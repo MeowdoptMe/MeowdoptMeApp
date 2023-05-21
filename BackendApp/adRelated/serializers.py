@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from .models import Pet, Ad, PetCharacteristics, DateOfBirth
+from photoAlbum.serializers import PhotoSerializer
+
+from photoAlbum.models import Photo
 
 
 class DateOfBirthSerializer(serializers.ModelSerializer):
@@ -17,11 +20,11 @@ class PetCharacteristicsSerializer(serializers.ModelSerializer):
 
 
 class PetSerializer(serializers.ModelSerializer):
-    petCharacteristics = PetCharacteristicsSerializer()
+    pet_characteristics = PetCharacteristicsSerializer()
 
     class Meta:
         model = Pet
-        fields = ["name", "petCharacteristics"]
+        fields = ["name", "pet_characteristics"]
 
 
 class AdSerializer(serializers.ModelSerializer):
@@ -29,17 +32,16 @@ class AdSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ad
-        fields = ["pet", "active", "shelter"]
+        fields = ["active", "shelter", "description", "pet"]
 
     def create(self, validated_data):
         pet_data = validated_data.pop("pet")
-        characteristics_data = pet_data.pop("petCharacteristics")
+        characteristics_data = pet_data.pop("pet_characteristics")
         date_data = characteristics_data.pop("date_of_birth")
         date = DateOfBirth.objects.create(**date_data)
-        petCh = PetCharacteristics.objects.create(
+        pet_characteristics = PetCharacteristics.objects.create(
             date_of_birth=date, **characteristics_data
         )
-        pet = Pet.objects.create(petCharacteristics=petCh, **pet_data)
+        pet = Pet.objects.create(pet_characteristics=pet_characteristics, **pet_data)
         ad = Ad.objects.create(pet=pet, **validated_data)
-
         return ad

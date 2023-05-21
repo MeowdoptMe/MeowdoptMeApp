@@ -21,7 +21,6 @@ class AdCreate(CreateAPIView):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
     permission_classes = [AdRelatedPermission]
-    lookup_field = "pk"
 
 
 class AdDetail(RetrieveUpdateDestroyAPIView):

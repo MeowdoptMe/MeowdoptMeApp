@@ -18,7 +18,7 @@ class PetCharacteristics(models.Model):
 
 class Pet(models.Model):
     name = models.CharField(max_length=255, default="", null=True)
-    petCharacteristics = models.ForeignKey(
+    pet_characteristics = models.ForeignKey(
         PetCharacteristics, on_delete=models.CASCADE, null=True
     )
 
@@ -27,3 +27,7 @@ class Ad(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, null=True)
     active = models.BooleanField(null=True)
     shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, null=True)
+    description = models.TextField(default="", null=True)
+
+    def __str__(self):
+        return self.pet.name
