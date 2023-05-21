@@ -1,0 +1,9 @@
+{
+  "id": "0001",
+  "name": "Schronisko w Krakowie",
+  "contact": {
+    "phone": "123456789",
+    "email": "schro@nis.ko"
+  },
+  "ads": ["Łasuch, Mariusz, Pola, Rysia, Zuzia"]
+}
