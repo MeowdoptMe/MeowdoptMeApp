@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "userAuth",
     "permissionHandler",
     "shelterRelated",
+    "adRelated",
+    "photoAlbum",
     "drf_yasg",
 ]
 REST_FRAMEWORK = {
