@@ -8,23 +8,36 @@ from .views import PetList, PetDetail, AdList, AdDetail
 from userAuth.models import User
 from permissionHandler.models import UserPermission
 
+from photoAlbum.models import PhotoAlbum
+
 
 class AdTests(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
         self.client = APIClient()
-        DateOfBirth.objects.create()
-        PetCharacteristics.objects.create()
-        self.pet = Pet.objects.create()
-
+        date_of_birth = DateOfBirth.objects.create()
+        pet_char = PetCharacteristics.objects.create(date_of_birth=date_of_birth)
+        self.pet = Pet.objects.create(pet_characteristics=pet_char)
+        self.shelter = Shelter.objects.create()
+        PhotoAlbum.objects.create()
         self.data = {
-            "pet": {"name": "kocia"},
-            "active": False,
+            "active": True,
             "shelter": 1,
+            "description": "Jarzyna to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
+            "pet": {
+                "name": "Jarzyna",
+                "pet_characteristics": {
+                    "species": "dog",
+                    "breed": "Labrador Retriever mix",
+                    "gender": "female",
+                    "date_of_birth": {"year": 2019, "month": 5},
+                    "color": "white",
+                },
+            },
+            "photo_album": 1,
         }
         self.user = User.objects.create_user(username="ewa", password="ewa12345")
         self.user2 = User.objects.create_user(username="gocha", password="gocha12345")
-        self.shelter = Shelter.objects.create()
 
         permission_create = Permission.objects.get(codename="add_ad")
         permission_change = Permission.objects.get(codename="change_ad")
@@ -60,7 +73,7 @@ class AdTests(APITestCase):
             f"Expected Response Code 201, received {response.status_code} instead.",
         )
         self.assertEqual(Ad.objects.count(), 1)
-        self.assertEqual(Ad.objects.get().pet.id, self.data["pet"])
+        self.assertEqual(Ad.objects.get().pet.name, self.data["pet"]["name"])
 
     def test_detail(self):
         Ad.objects.create()
@@ -105,12 +118,14 @@ class PetTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.data = {
-            "name": "karolinka",
-            "species": "pies",
-            "subSpecies": "labrador",
-            "age": 2,
-            "gender": "suka",
-            "color": "czarny",
+            "name": "string",
+            "pet_characteristics": {
+                "species": "string",
+                "breed": "string",
+                "gender": "string",
+                "date_of_birth": {"year": 0, "month": 0},
+                "color": "string",
+            },
         }
         self.user = User.objects.create_user(username="ewa", password="ewa12345")
         self.user2 = User.objects.create_user(username="gocha", password="gocha12345")

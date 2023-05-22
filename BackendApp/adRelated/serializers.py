@@ -27,6 +27,16 @@ class PetSerializer(serializers.ModelSerializer):
         model = Pet
         fields = ["name", "pet_characteristics"]
 
+    def create(self, validated_data):
+        characteristics_data = validated_data.pop("pet_characteristics")
+        date_data = characteristics_data.pop("date_of_birth")
+        date = DateOfBirth.objects.create(**date_data)
+        pet_characteristics = PetCharacteristics.objects.create(
+            date_of_birth=date, **characteristics_data
+        )
+        pet = Pet.objects.create(pet_characteristics=pet_characteristics, **validated_data)
+        return pet
+
 
 class AdSerializer(serializers.ModelSerializer):
     pet = PetSerializer()
@@ -46,3 +56,11 @@ class AdSerializer(serializers.ModelSerializer):
         pet = Pet.objects.create(pet_characteristics=pet_characteristics, **pet_data)
         ad = Ad.objects.create(pet=pet, **validated_data)
         return ad
+
+    def update(self, instance, validated_data):
+        instance.active = validated_data["active"]
+        instance.shelter = validated_data["shelter"]
+        instance.description = validated_data["description"]
+        instance.photo_album = validated_data["photo_album"]
+        instance.save()
+        return instance
