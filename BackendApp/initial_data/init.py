@@ -4,9 +4,8 @@ from django.contrib.auth.models import Permission
 from userAuth.models import User
 from shelterRelated.models import Shelter
 from permissionHandler.models import UserPermission
-
-from BackendApp.adRelated.models import Ad
-from BackendApp.photoAlbum.models import PhotoAlbum, Photo
+from adRelated.models import Ad, DateOfBirth, PetCharacteristics, Pet
+from photoAlbum.models import PhotoAlbum, Photo
 
 with open("initial_data/users.json", "r", encoding="utf-8") as f:
     users = load(f)
@@ -21,7 +20,7 @@ with open("initial_data/ads.json", "r", encoding="utf-8") as f:
     ads = load(f)
 
 with open("initial_data/photo_albums.json", "r", encoding="utf-8") as f:
-    photo_albums = load(f)
+    albums = load(f)
 
 
 def add_users(users):
@@ -66,33 +65,36 @@ def add_photo_albums(albums):
 def add_ads(ads):
     for ad in ads:
         pet = ad["pet"]
-        pet_characteristics = pet["pet_characteristics"]
+        char = pet["pet_characteristics"]
+        date = char["date_of_birth"]
+        date_of_birth = DateOfBirth.objects.create(
+            year=date["year"], month=date["month"]
+        )
+        pet_char = PetCharacteristics.objects.create(
+            species=char["species"],
+            breed=char["breed"],
+            gender=char["gender"],
+            date_of_birth=date_of_birth,
+            color=char["color"],
+        )
+        pet = Pet.objects.create(name=pet["name"], pet_characteristics=pet_char)
+        shelter = Shelter.objects.get(id=ad["shelter"])
+        photo_album = PhotoAlbum.objects.get(id=ad["photo_album"])
         Ad.objects.create(
             active=ad["active"],
-            shelter=ad["shelter"],
+            shelter=shelter,
             description=ad["description"],
             pet=pet,
             photo_album=photo_album,
         )
 
 
-def add_ads(shelters):
-    for shelter in shelters:
-        Shelter.objects.create(
-            name=shelter["name"],
-            email=shelter["email"],
-            phone=shelter["phone"],
-            user=User.objects.get(id=shelter["user"]),
-            location=shelter["location"],
-            x_cord=shelter["x_cord"],
-            y_cord=shelter["y_cord"],
-        )
-
-
 def load_data():
-    add_users(users)
-    add_shelters(shelters)
-    add_user_permissions(permissions)
+    # add_users(users)
+    # add_shelters(shelters)
+    # add_user_permissions(permissions)
+    add_photo_albums(albums)
+    add_ads(ads)
 
 
 load_data()
