@@ -1,6 +1,7 @@
 from django.db import models
 
 from shelterRelated.models import Shelter
+from photoAlbum.models import PhotoAlbum
 
 
 class DateOfBirth(models.Model):
@@ -28,6 +29,9 @@ class Ad(models.Model):
     active = models.BooleanField(null=True)
     shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, null=True)
     description = models.TextField(default="", null=True)
+    photo_album = models.ForeignKey(
+        PhotoAlbum, on_delete=models.CASCADE, null=True, default=""
+    )
 
     def __str__(self):
         return self.pet.name

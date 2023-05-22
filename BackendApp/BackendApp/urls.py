@@ -40,6 +40,7 @@ urlpatterns = [
     path("permission-requests/", include("permissionHandler.urls")),
     path("shelters/", include("shelterRelated.urls")),
     path("ads/", include("adRelated.urls")),
+    path("photo-albums/", include("photoAlbum.urls")),
     path("", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
