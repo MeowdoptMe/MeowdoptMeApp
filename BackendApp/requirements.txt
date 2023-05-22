@@ -22,6 +22,7 @@ mccabe==0.7.0
 mypy-extensions==1.0.0
 packaging==23.1
 pathspec==0.11.1
+Pillow==9.5.0
 platformdirs==3.5.0
 prettier==0.0.7
 PyJWT==2.6.0
