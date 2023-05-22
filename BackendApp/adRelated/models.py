@@ -32,6 +32,3 @@ class Ad(models.Model):
     photo_album = models.ForeignKey(
         PhotoAlbum, on_delete=models.CASCADE, null=True, default=""
     )
-
-    def __str__(self):
-        return self.pet.name
