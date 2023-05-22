@@ -34,7 +34,9 @@ class PetSerializer(serializers.ModelSerializer):
         pet_characteristics = PetCharacteristics.objects.create(
             date_of_birth=date, **characteristics_data
         )
-        pet = Pet.objects.create(pet_characteristics=pet_characteristics, **validated_data)
+        pet = Pet.objects.create(
+            pet_characteristics=pet_characteristics, **validated_data
+        )
         return pet
 
 
