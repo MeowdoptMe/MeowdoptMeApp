@@ -4,15 +4,23 @@ from django.contrib.auth.models import Permission
 from userAuth.models import User
 from shelterRelated.models import Shelter
 from permissionHandler.models import UserPermission
+from adRelated.models import Ad, DateOfBirth, PetCharacteristics, Pet
+from photoAlbum.models import PhotoAlbum, Photo
 
-with open("initial_data/users.json", "r") as f:
+with open("initial_data/users.json", "r", encoding="utf-8") as f:
     users = load(f)
 
-with open("initial_data/shelters.json", "r") as f:
+with open("initial_data/shelters.json", "r", encoding="utf-8") as f:
     shelters = load(f)
 
-with open("initial_data/user_permissions.json", "r") as f:
+with open("initial_data/user_permissions.json", "r", encoding="utf-8") as f:
     permissions = load(f)
+
+with open("initial_data/ads.json", "r", encoding="utf-8") as f:
+    ads = load(f)
+
+with open("initial_data/photo_albums.json", "r", encoding="utf-8") as f:
+    albums = load(f)
 
 
 def add_users(users):
@@ -47,10 +55,46 @@ def add_user_permissions(permissions):
         )
 
 
+def add_photo_albums(albums):
+    for album in albums:
+        photo_album = PhotoAlbum.objects.create(name=album["name"])
+        for photo in album["photos"]:
+            Photo.objects.create(dir=photo["dir"], photo_album=photo_album)
+
+
+def add_ads(ads):
+    for ad in ads:
+        pet = ad["pet"]
+        char = pet["pet_characteristics"]
+        date = char["date_of_birth"]
+        date_of_birth = DateOfBirth.objects.create(
+            year=date["year"], month=date["month"]
+        )
+        pet_char = PetCharacteristics.objects.create(
+            species=char["species"],
+            breed=char["breed"],
+            gender=char["gender"],
+            date_of_birth=date_of_birth,
+            color=char["color"],
+        )
+        pet = Pet.objects.create(name=pet["name"], pet_characteristics=pet_char)
+        shelter = Shelter.objects.get(id=ad["shelter"])
+        photo_album = PhotoAlbum.objects.get(id=ad["photo_album"])
+        Ad.objects.create(
+            active=ad["active"],
+            shelter=shelter,
+            description=ad["description"],
+            pet=pet,
+            photo_album=photo_album,
+        )
+
+
 def load_data():
-    add_users(users)
-    add_shelters(shelters)
-    add_user_permissions(permissions)
+    # add_users(users)
+    # add_shelters(shelters)
+    # add_user_permissions(permissions)
+    add_photo_albums(albums)
+    add_ads(ads)
 
 
 load_data()

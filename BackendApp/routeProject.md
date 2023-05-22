@@ -28,12 +28,12 @@
 
 ## userAuth
 
-- POST /userAuth/login - zalogowanie się usera
-- POST /userAuth/register - rejestracja usera
-- POST /userAuth/logout - wylogowanie się usera
-- POST /userAuth/reset-password - zresetowanie hasła usera
-- POST /userAuth/reset-email - przypisanie nowego maila
-- POST /userAuth/token-refresh - odświeżenie tokenu
+- POST /user-auth/login - zalogowanie się usera
+- POST /user-auth/register - rejestracja usera
+- POST /user-auth/logout - wylogowanie się usera
+- POST /user-auth/reset-password - zresetowanie hasła usera
+- POST /user-auth/reset-email - przypisanie nowego maila
+- POST /user-auth/token-refresh - odświeżenie tokenu
 
 ## userManage
 

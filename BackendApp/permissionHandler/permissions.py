@@ -48,16 +48,24 @@ class PermissionRequestAccess(BasePermission):
         "delete_permissionrequest",
         "view_permissionrequest",
         "change_permissionrequest",
+        "add_ad",
+        "change_ad",
+        "delete_ad",
     ]
     shelter_worker_permissions = [
         "change_shelter",
         "view_userpermission",
         "delete_permissionrequest",
         "view_permissionrequest",
+        "add_ad",
+        "change_ad",
+        "delete_ad",
     ]
     volunteer_permissions = [
         "view_userpermission",
         "view_permissionrequest",
+        "add_ad",
+        "change_ad",
     ]
 
     def has_permission(self, request, view):
