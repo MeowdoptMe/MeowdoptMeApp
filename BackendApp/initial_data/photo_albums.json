@@ -3,19 +3,19 @@
     "name": "album1",
     "photos": [
       {
-        "img": "26.png"
+        "img": "photos/26.png"
       },
       {
-        "img": "27.png"
+        "img": "photos/27.png"
       },
       {
-        "img": "28.png"
+        "img": "photos/28.png"
       },
       {
-        "img": "29.png"
+        "img": "photos/29.png"
       },
       {
-        "img": "30.png"
+        "img": "photos/30.png"
       }
     ]
   },
@@ -23,19 +23,19 @@
     "name": "album2",
     "photos": [
       {
-        "img": "31.png"
+        "img": "photos/31.png"
       },
       {
-        "img": "32.png"
+        "img": "photos/32.png"
       },
       {
-        "img": "33.png"
+        "img": "photos/33.png"
       },
       {
-        "img": "34.png"
+        "img": "photos/34.png"
       },
       {
-        "img": "35.png"
+        "img": "photos/35.png"
       }
     ]
   },
@@ -43,19 +43,19 @@
     "name": "album3",
     "photos": [
       {
-        "img": "36.png"
+        "img": "photos/36.png"
       },
       {
-        "img": "37.png"
+        "img": "photos/37.png"
       },
       {
-        "img": "38.png"
+        "img": "photos/38.png"
       },
       {
-        "img": "39.png"
+        "img": "photos/39.png"
       },
       {
-        "img": "40.png"
+        "img": "photos/40.png"
       }
     ]
   },
@@ -63,19 +63,19 @@
     "name": "album4",
     "photos": [
       {
-        "img": "01.png"
+        "img": "photos/01.png"
       },
       {
-        "img": "02.png"
+        "img": "photos/02.png"
       },
       {
-        "img": "03.png"
+        "img": "photos/03.png"
       },
       {
-        "img": "04.png"
+        "img": "photos/04.png"
       },
       {
-        "img": "05.png"
+        "img": "photos/05.png"
       }
     ]
   },
@@ -83,19 +83,19 @@
     "name": "album5",
     "photos": [
       {
-        "img": "06.png"
+        "img": "photos/06.png"
       },
       {
-        "img": "07.png"
+        "img": "photos/07.png"
       },
       {
-        "img": "08.png"
+        "img": "photos/08.png"
       },
       {
-        "img": "09.png"
+        "img": "photos/09.png"
       },
       {
-        "img": "10.png"
+        "img": "photos/10.png"
       }
     ]
   },
@@ -103,19 +103,19 @@
     "name": "album6",
     "photos": [
       {
-        "img": "11.png"
+        "img": "photos/11.png"
       },
       {
-        "img": "12.png"
+        "img": "photos/12.png"
       },
       {
-        "img": "13.png"
+        "img": "photos/13.png"
       },
       {
-        "img": "14.png"
+        "img": "photos/14.png"
       },
       {
-        "img": "15.png"
+        "img": "photos/15.png"
       }
     ]
   },
@@ -123,19 +123,19 @@
     "name": "album7",
     "photos": [
       {
-        "img": "16.png"
+        "img": "photos/16.png"
       },
       {
-        "img": "17.png"
+        "img": "photos/17.png"
       },
       {
-        "img": "18.png"
+        "img": "photos/18.png"
       },
       {
-        "img": "19.png"
+        "img": "photos/19.png"
       },
       {
-        "img": "20.png"
+        "img": "photos/20.png"
       }
     ]
   },
