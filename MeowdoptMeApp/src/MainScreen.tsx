@@ -17,6 +17,7 @@ function MainScreen() {
     <ShelterContext.Provider value={{shelter, setShelter}}>
       <NavigationContainer>
         <Tab.Navigator
+          backBehavior="none"
           initialRouteName="HomeScreen"
           keyboardHidesNavigationBar={true}
           barStyle={{
