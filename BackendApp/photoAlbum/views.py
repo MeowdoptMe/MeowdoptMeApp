@@ -3,6 +3,8 @@ from rest_framework.generics import (
     CreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
+from rest_framework.response import Response
+
 from .models import Photo, PhotoAlbum
 from .serializers import PhotoSerializer, PhotoAlbumSerializer
 
