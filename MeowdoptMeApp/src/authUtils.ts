@@ -1,6 +1,10 @@
 import axios, {isAxiosError} from 'axios';
 import {databaseUrl} from './Database';
 
+async function sleep() {
+  return new Promise(resolve => setTimeout(resolve, 2000));
+}
+
 async function login(username: string, password: string) {
   try {
     const response = await axios.post(`${databaseUrl}/userAuth/login/`, {
@@ -10,7 +14,7 @@ async function login(username: string, password: string) {
     return response.data.access;
   } catch (e: unknown) {
     if (isAxiosError(e)) {
-      if (e.response) {
+      if (e.response?.data?.detail) {
         throw e.response.data.detail;
       } else {
         throw e.message;
@@ -29,7 +33,7 @@ async function register(username: string, email: string, password: string) {
     });
   } catch (e: unknown) {
     if (isAxiosError(e)) {
-      if (e?.response?.data?.email) {
+      if (e.response?.data?.email) {
         throw e.response.data.email[0];
       }
       if (e?.response?.data?.username) {
@@ -43,6 +47,7 @@ async function register(username: string, email: string, password: string) {
 }
 
 export default {
+  sleep,
   login,
   register,
 };

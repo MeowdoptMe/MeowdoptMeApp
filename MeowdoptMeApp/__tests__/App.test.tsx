@@ -5,6 +5,8 @@ import '@testing-library/jest-native/extend-expect';
 
 import App from '../App';
 
+jest.useFakeTimers();
+
 jest.mock('react-native-webview', () => {
   return {
     WebView: jest.fn(),
