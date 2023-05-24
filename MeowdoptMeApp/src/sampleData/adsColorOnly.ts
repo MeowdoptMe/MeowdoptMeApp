@@ -1,8 +1,23 @@
 // sample data
 // I restored this data because the list with
 // static images is lagging as hell
-const ads = [
+import {Ad, PhotoAlbum, Photo} from '../commonTypes';
+
+interface PerformantAd extends Ad {
+  photoAlbum: PerformantPhotoAlbum;
+}
+
+interface PerformantPhotoAlbum extends PhotoAlbum {
+  photos: PerformantPhoto[];
+}
+
+interface PerformantPhoto extends Photo {
+  backgroundColor: string;
+}
+
+const performantAds: PerformantAd[] = [
   {
+    id: 1,
     pet: {
       name: 'Fifek',
       petCharacteristics: {
@@ -14,30 +29,36 @@ const ads = [
           month: 4,
         },
         color: 'brown',
-        description:
-          'Fifek is an energetic and friendly dog. He loves outdoor activities and playing fetch. He gets along well with other dogs and enjoys the company of humans. Fifek would make a great companion for an active individual or family.',
       },
     },
-    photoAlbum: [
-      {
-        backgroundColor: '#FF33A0FF',
-        description: "Fifek's photo 1",
-      },
-      {
-        backgroundColor: '#FF33C0FF',
-        description: "Fifek's photo 2",
-      },
-      {
-        backgroundColor: '#FF33E0FF',
-        description: "Fifek's photo 3",
-      },
-      {
-        backgroundColor: '#FF33F0FF',
-        description: "Fifek's photo 4",
-      },
-    ],
+    photoAlbum: {
+      id: 1,
+      photos: [
+        {
+          backgroundColor: '#FF33A0FF',
+          img: 'none',
+          description: "Fifek's photo 1",
+        },
+        {
+          backgroundColor: '#FF33C0FF',
+          img: 'none',
+          description: "Fifek's photo 2",
+        },
+        {
+          backgroundColor: '#FF33E0FF',
+          img: 'none',
+          description: "Fifek's photo 3",
+        },
+        {
+          backgroundColor: '#FF33F0FF',
+          img: 'none',
+          description: "Fifek's photo 4",
+        },
+      ],
+    },
   },
   {
+    id: 2,
     pet: {
       name: 'Pumpon',
       petCharacteristics: {
@@ -49,30 +70,36 @@ const ads = [
           month: 2,
         },
         color: 'white',
-        description:
-          'Pumpon is a playful and affectionate dog. He enjoys long walks and cuddling with his humans. Pumpon gets along well with children and is friendly towards other animals. He would thrive in a loving and active home.',
       },
     },
-    photoAlbum: [
-      {
-        backgroundColor: '#AFFFFFFF',
-        description: "Pumpon's photo 1",
-      },
-      {
-        backgroundColor: '#AFFFDFFF',
-        description: "Pumpon's photo 2",
-      },
-      {
-        backgroundColor: '#AFFFBFFF',
-        description: "Pumpon's photo 3",
-      },
-      {
-        backgroundColor: '#AFFF0FFF',
-        description: "Pumpon's photo 4",
-      },
-    ],
+    photoAlbum: {
+      id: 2,
+      photos: [
+        {
+          backgroundColor: '#AFFFFFFF',
+          img: 'none',
+          description: "Pumpon's photo 1",
+        },
+        {
+          backgroundColor: '#AFFFDFFF',
+          img: 'none',
+          description: "Pumpon's photo 2",
+        },
+        {
+          backgroundColor: '#AFFFBFFF',
+          img: 'none',
+          description: "Pumpon's photo 3",
+        },
+        {
+          backgroundColor: '#AFFF0FFF',
+          img: 'none',
+          description: "Pumpon's photo 4",
+        },
+      ],
+    },
   },
   {
+    id: 3,
     pet: {
       name: 'Brokuł',
       petCharacteristics: {
@@ -84,30 +111,36 @@ const ads = [
           month: 8,
         },
         color: 'brown',
-        description:
-          'Brokuł is a gentle and calm dog. He enjoys leisurely walks and lounging in the sun. Brokuł is friendly towards humans and other animals. He would be a perfect companion for someone looking for a relaxed and loving dog.',
       },
     },
-    photoAlbum: [
-      {
-        backgroundColor: '#FFAFFFFF',
-        description: "Brokuł's photo 1",
-      },
-      {
-        backgroundColor: '#DFAFFFFF',
-        description: "Brokuł's photo 2",
-      },
-      {
-        backgroundColor: '#BFAFFFFF',
-        description: "Brokuł's photo 3",
-      },
-      {
-        backgroundColor: '#9FAFFFFF',
-        description: "Brokuł's photo 4",
-      },
-    ],
+    photoAlbum: {
+      id: 3,
+      photos: [
+        {
+          backgroundColor: '#FFAFFFFF',
+          img: 'none',
+          description: "Brokuł's photo 1",
+        },
+        {
+          backgroundColor: '#DFAFFFFF',
+          img: 'none',
+          description: "Brokuł's photo 2",
+        },
+        {
+          backgroundColor: '#BFAFFFFF',
+          img: 'none',
+          description: "Brokuł's photo 3",
+        },
+        {
+          backgroundColor: '#9FAFFFFF',
+          img: 'none',
+          description: "Brokuł's photo 4",
+        },
+      ],
+    },
   },
   {
+    id: 4,
     pet: {
       name: 'Amir',
       petCharacteristics: {
@@ -119,30 +152,36 @@ const ads = [
           month: 5,
         },
         color: 'black',
-        description:
-          'Amir is an intelligent and loyal dog. He loves learning new tricks and enjoys being challenged mentally. Amir gets along well with people of all ages and is always eager to please. He would thrive in a loving and active household.',
       },
     },
-    photoAlbum: [
-      {
-        backgroundColor: '#0FFFFFFF',
-        description: "Amir's photo 1",
-      },
-      {
-        backgroundColor: '#0FDFFFFF',
-        description: "Amir's photo 2",
-      },
-      {
-        backgroundColor: '#0FBFFFFF',
-        description: "Amir's photo 3",
-      },
-      {
-        backgroundColor: '#0F9FFFFF',
-        description: "Amir's photo 4",
-      },
-    ],
+    photoAlbum: {
+      id: 4,
+      photos: [
+        {
+          backgroundColor: '#0FFFFFFF',
+          img: 'none',
+          description: "Amir's photo 1",
+        },
+        {
+          backgroundColor: '#0FDFFFFF',
+          img: 'none',
+          description: "Amir's photo 2",
+        },
+        {
+          backgroundColor: '#0FBFFFFF',
+          img: 'none',
+          description: "Amir's photo 3",
+        },
+        {
+          backgroundColor: '#0F9FFFFF',
+          img: 'none',
+          description: "Amir's photo 4",
+        },
+      ],
+    },
   },
   {
+    id: 5,
     pet: {
       name: 'Kluska',
       petCharacteristics: {
@@ -154,30 +193,36 @@ const ads = [
           month: 9,
         },
         color: 'tabby',
-        description:
-          'Kluska is a friendly and curious cat. She enjoys exploring her surroundings and chasing toys. Kluska is sociable and gets along well with other cats and calm dogs. She would make a wonderful companion for a cat-loving household.',
       },
     },
-    photoAlbum: [
-      {
-        backgroundColor: '#1F1FFFFF',
-        description: "Kluska's photo 1",
-      },
-      {
-        backgroundColor: '#1F3FFFFF',
-        description: "Kluska's photo 2",
-      },
-      {
-        backgroundColor: '#1F5FFFFF',
-        description: "Kluska's photo 3",
-      },
-      {
-        backgroundColor: '#1F7FFFFF',
-        description: "Kluska's photo 4",
-      },
-    ],
+    photoAlbum: {
+      id: 5,
+      photos: [
+        {
+          backgroundColor: '#1F1FFFFF',
+          img: 'none',
+          description: "Kluska's photo 1",
+        },
+        {
+          backgroundColor: '#1F3FFFFF',
+          img: 'none',
+          description: "Kluska's photo 2",
+        },
+        {
+          backgroundColor: '#1F5FFFFF',
+          img: 'none',
+          description: "Kluska's photo 3",
+        },
+        {
+          backgroundColor: '#1F7FFFFF',
+          img: 'none',
+          description: "Kluska's photo 4",
+        },
+      ],
+    },
   },
   {
+    id: 6,
     pet: {
       name: 'Biniu',
       petCharacteristics: {
@@ -189,30 +234,36 @@ const ads = [
           month: 3,
         },
         color: 'golden',
-        description:
-          'Biniu is an energetic and playful dog. He loves running and playing fetch. Biniu gets along well with children and enjoys the company of other dogs. He would be a perfect match for an active family looking for a furry companion.',
       },
     },
-    photoAlbum: [
-      {
-        backgroundColor: '#BFFF2FFF',
-        description: "Biniu's photo 1",
-      },
-      {
-        backgroundColor: '#BFFF4FFF',
-        description: "Biniu's photo 2",
-      },
-      {
-        backgroundColor: '#BFFF6FFF',
-        description: "Biniu's photo 3",
-      },
-      {
-        backgroundColor: '#BFFF8FFF',
-        description: "Biniu's photo 4",
-      },
-    ],
+    photoAlbum: {
+      id: 6,
+      photos: [
+        {
+          backgroundColor: '#BFFF2FFF',
+          img: 'none',
+          description: "Biniu's photo 1",
+        },
+        {
+          backgroundColor: '#BFFF4FFF',
+          img: 'none',
+          description: "Biniu's photo 2",
+        },
+        {
+          backgroundColor: '#BFFF6FFF',
+          img: 'none',
+          description: "Biniu's photo 3",
+        },
+        {
+          backgroundColor: '#BFFF8FFF',
+          img: 'none',
+          description: "Biniu's photo 4",
+        },
+      ],
+    },
   },
   {
+    id: 7,
     pet: {
       name: 'Dyzio',
       petCharacteristics: {
@@ -224,30 +275,36 @@ const ads = [
           month: 7,
         },
         color: 'brown',
-        description:
-          'Dyzio is a friendly and outgoing dog. He enjoys playing fetch and going for long walks. Dyzio gets along well with other dogs and is great with children. He would be a loyal and loving companion for an active individual or family.',
       },
     },
-    photoAlbum: [
-      {
-        backgroundColor: '#FFBFFFFF',
-        description: "Dyzio's photo 1",
-      },
-      {
-        backgroundColor: '#DFBFFFFF',
-        description: "Dyzio's photo 2",
-      },
-      {
-        backgroundColor: '#BFBFFFFF',
-        description: "Dyzio's photo 3",
-      },
-      {
-        backgroundColor: '#9FBFFFFF',
-        description: "Dyzio's photo 4",
-      },
-    ],
+    photoAlbum: {
+      id: 7,
+      photos: [
+        {
+          backgroundColor: '#FFBFFFFF',
+          img: 'none',
+          description: "Dyzio's photo 1",
+        },
+        {
+          backgroundColor: '#DFBFFFFF',
+          img: 'none',
+          description: "Dyzio's photo 2",
+        },
+        {
+          backgroundColor: '#BFBFFFFF',
+          img: 'none',
+          description: "Dyzio's photo 3",
+        },
+        {
+          backgroundColor: '#9FBFFFFF',
+          img: 'none',
+          description: "Dyzio's photo 4",
+        },
+      ],
+    },
   },
   {
+    id: 8,
     pet: {
       name: 'Wojtyłek',
       petCharacteristics: {
@@ -259,30 +316,35 @@ const ads = [
           month: 1,
         },
         color: 'gray',
-        description:
-          "Wojtyłek is a playful and independent cat who enjoys exploring his surroundings. He likes to observe his environment and play with interactive toys. He would be a great companion for someone who appreciates a cat's unique personality.",
       },
     },
-    photoAlbum: [
-      {
-        backgroundColor: '#A10F10FF',
-        description: "Wojtyłek's photo 1",
-      },
-      {
-        backgroundColor: '#A10F30FF',
-        description: "Wojtyłek's photo 2",
-      },
-      {
-        backgroundColor: '#A10F50FF',
-        description: "Wojtyłek's photo 3",
-      },
-      {
-        backgroundColor: '#A10F70FF',
-        description: "Wojtyłek's photo 4",
-      },
-    ],
+    photoAlbum: {
+      id: 8,
+      photos: [
+        {
+          backgroundColor: '#A10F10FF',
+          img: 'none',
+          description: "Wojtyłek's photo 1",
+        },
+        {
+          backgroundColor: '#A10F30FF',
+          img: 'none',
+          description: "Wojtyłek's photo 2",
+        },
+        {
+          backgroundColor: '#A10F50FF',
+          img: 'none',
+          description: "Wojtyłek's photo 3",
+        },
+        {
+          backgroundColor: '#A10F70FF',
+          img: 'none',
+          description: "Wojtyłek's photo 4",
+        },
+      ],
+    },
   },
 ];
 
-export {ads};
-export type Ad = (typeof ads)[number];
+export {performantAds};
+export type {PerformantAd};

@@ -24,7 +24,7 @@ describe('HomeScreen', () => {
       </ShelterContext.Provider>,
     );
 
-    expect(screen.getAllByText(/Fifek/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/performance/).length).toBeGreaterThan(0);
   });
 
   it('renders ShelterPage when shelter is set', () => {

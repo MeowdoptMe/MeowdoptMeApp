@@ -38,7 +38,7 @@ describe('StartingScreen', () => {
       fireEvent(screen.getByText(/Skip/), 'onPressOut');
     });
 
-    expect(screen.getByText(/Home/)).toBeOnTheScreen();
+    expect(screen.getAllByText(/Home/)[0]).toBeOnTheScreen();
   });
 
   describe('Login modal', () => {
@@ -124,7 +124,7 @@ describe('StartingScreen', () => {
       await attemptLogin();
 
       expect(axios.post).toHaveBeenCalled();
-      expect(screen.getByText(/Home/)).toBeOnTheScreen();
+      expect(screen.getAllByText(/Home/)[0]).toBeOnTheScreen();
 
       spy.mockRestore();
     });

@@ -1,31 +1,36 @@
 {
-  "name": "Rysia",
-  "petCharacteristics": {
-    "species": "cat",
-    "breed": "mixed breed",
-    "gender": "female",
-    "dateOfBirth": {
-      "year": 2022,
-      "month": 4
-    },
-    "color": ["brown"]
-  },
-  "photoAlbum": [
-    {
-      "img": "16",
-      "description": "Rysia to młoda kotka porzucona w workach przy rzece. Jest wystraszona i mało ufna, jednak coraz bardziej przekonuje się do ludzkiej dobroci. Pobyt w schronisku jej nie służy, dlatego pilnie szukamy dla Rysi ciepłego i pełnego miłości domu."
-    },
-    {
-      "img": "17"
-    },
-    {
-      "img": "18"
-    },
-    {
-      "img": "19"
-    },
-    {
-      "img": "20"
+  "pet": {
+    "name": "Rysia",
+    "petCharacteristics": {
+      "species": "cat",
+      "breed": "mixed breed",
+      "gender": "female",
+      "dateOfBirth": {
+        "year": 2022,
+        "month": 4
+      },
+      "color": ["brown"]
     }
-  ]
+  },
+  "photoAlbum": {
+    "id": 7,
+    "photos": [
+      {
+        "img": "16",
+        "description": "Rysia to młoda kotka porzucona w workach przy rzece. Jest wystraszona i mało ufna, jednak coraz bardziej przekonuje się do ludzkiej dobroci. Pobyt w schronisku jej nie służy, dlatego pilnie szukamy dla Rysi ciepłego i pełnego miłości domu."
+      },
+      {
+        "img": "17"
+      },
+      {
+        "img": "18"
+      },
+      {
+        "img": "19"
+      },
+      {
+        "img": "20"
+      }
+    ]
+  }
 }
