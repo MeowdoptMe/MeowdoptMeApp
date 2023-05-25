@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {useState} from 'react';
+import {ChangePasswordModal} from './AppSettings';
+import {GeneralButton} from './components/GeneralButton';
 
 function PreferencesScreen() {
   const [currentOption, setCurrentOption] = useState('none');
@@ -8,6 +10,8 @@ function PreferencesScreen() {
     currentOption: currentOption,
     setCurrentOption: setCurrentOption,
   };
+  const [changePasswordModalVisible, setChangePasswordModalVisible] =
+    useState(false);
 
   return (
     <View style={styles.sectionContainer}>
@@ -16,10 +20,13 @@ function PreferencesScreen() {
         buttonText={'Set your filters'}
         {...state}
       />
-      <MyButton
-        title={'setPassword'}
-        buttonText={'Set your password'}
-        {...state}
+      <ChangePasswordModal
+        changePasswordModalVisible={changePasswordModalVisible}
+        setChangePasswordModalVisible={setChangePasswordModalVisible}
+      />
+      <GeneralButton
+        text={'Change your password'}
+        onPressOut={() => setChangePasswordModalVisible(true)}
       />
       <MyButton
         title={'setUsername'}
@@ -67,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'grey',
   },
   noButtonText: {
     color: 'black',
@@ -89,6 +96,19 @@ const styles = StyleSheet.create({
     maxHeight: 40,
     minWidth: 160,
     margin: 5,
+  },
+  modalText: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modal: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    maxHeight: 300,
   },
 });
 
