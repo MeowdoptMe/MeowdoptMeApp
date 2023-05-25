@@ -6,6 +6,8 @@ import '@testing-library/jest-native/extend-expect';
 import {AppContext, guestUser} from '../src/Context';
 import MainScreen from '../src/MainScreen';
 
+jest.useFakeTimers();
+
 jest.mock('react-native-webview', () => {
   return {
     WebView: jest.fn(),

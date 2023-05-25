@@ -122,6 +122,7 @@ function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
     }
     setLoading(true);
     try {
+      await authUtils.sleep();
       const token = await authUtils.login(username, password);
       setError(undefined);
       setUser({
@@ -131,7 +132,7 @@ function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
       });
       setIsStartingScreen(false);
     } catch (e) {
-      setError(e?.toString());
+      setError(e as string);
     } finally {
       setLoading(false);
     }
@@ -214,12 +215,12 @@ function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
       return;
     }
     setError(undefined);
+    setLoading(true);
     try {
-      setLoading(true);
+      await authUtils.sleep();
       await authUtils.register(login, email, password);
     } catch (e) {
-      // @ts-expect-error
-      setError(e.message.toString());
+      setError(e as string);
       setLoading(false);
       return;
     }
@@ -232,7 +233,7 @@ function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
       });
       setIsStartingScreen(false);
     } catch (e) {
-      setError(e?.toString());
+      setError(e as string);
     } finally {
       setLoading(false);
     }
