@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "shelterRelated",
     "adRelated",
     "photoAlbum",
-    "drf_yasg",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),

@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
@@ -17,6 +18,20 @@ class PhotoAlbumList(ListAPIView):
 class PhotoAlbumCreate(CreateAPIView):
     queryset = PhotoAlbum.objects.all()
     serializer_class = PhotoAlbumSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        photos = request.FILES.getlist("photos")
+        for photo in photos:
+            Photo.objects.create(photo_album=serializer.instance, img=photo)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
 
 class PhotoAlbumDetail(RetrieveUpdateDestroyAPIView):
