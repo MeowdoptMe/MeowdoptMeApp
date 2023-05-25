@@ -14,12 +14,35 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
+
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
+
+from BackendApp import settings
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("userAuth/", include("userAuth.urls")),
-    path("shelters/", include("shelterRelated.urls")),
+    path("user-auth/", include("userAuth.urls")),
     path("permission-requests/", include("permissionHandler.urls")),
-]
+    path("shelters/", include("shelterRelated.urls")),
+    path("ads/", include("adRelated.urls")),
+    path("photo-albums/", include("photoAlbum.urls")),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

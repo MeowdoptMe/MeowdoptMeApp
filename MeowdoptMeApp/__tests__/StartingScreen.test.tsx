@@ -7,6 +7,8 @@ import axios from 'axios';
 import authUtils from '../src/authUtils';
 import App from '../App';
 
+jest.useFakeTimers();
+
 jest.mock('react-native-webview', () => {
   return {
     WebView: jest.fn(),
@@ -25,6 +27,9 @@ describe('StartingScreen', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+  beforeEach(() => {
+    jest.spyOn(authUtils, 'sleep').mockImplementation(() => Promise.resolve());
+  });
 
   it('is the current screen at launch', () => {
     render(<App />);
@@ -38,7 +43,7 @@ describe('StartingScreen', () => {
       fireEvent(screen.getByText(/Skip/), 'onPressOut');
     });
 
-    expect(screen.getByText(/Home/)).toBeOnTheScreen();
+    expect(screen.getAllByText(/Home/)[0]).toBeOnTheScreen();
   });
 
   describe('Login modal', () => {
@@ -124,7 +129,7 @@ describe('StartingScreen', () => {
       await attemptLogin();
 
       expect(axios.post).toHaveBeenCalled();
-      expect(screen.getByText(/Home/)).toBeOnTheScreen();
+      expect(screen.getAllByText(/Home/)[0]).toBeOnTheScreen();
 
       spy.mockRestore();
     });
@@ -269,7 +274,7 @@ describe('StartingScreen', () => {
     it("shows error message when 'authUtils.register' fails", async () => {
       const spy = jest.spyOn(axios, 'post');
       spy.mockImplementationOnce(() => {
-        return Promise.reject({message: 'jest-mock-error'});
+        return Promise.reject('jest-mock-error');
       });
 
       render(<App />);
@@ -319,7 +324,7 @@ describe('StartingScreen', () => {
       provideRegistrationCredentials();
       await attemptRegistration();
 
-      expect(screen.getByText(/Home/)).toBeOnTheScreen();
+      expect(screen.getAllByText(/Home/)[0]).toBeOnTheScreen();
 
       postSpy.mockRestore();
       loginSpy.mockRestore();

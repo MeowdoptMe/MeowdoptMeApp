@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useContext, useState} from 'react';
 import {
   View,
@@ -8,22 +8,13 @@ import {
   ScrollView,
   SafeAreaView,
   Modal,
-  Dimensions,
 } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from 'react-native-reanimated';
-import {backgroundColor, lightAccentColor} from '../assets/colors.json';
+import colorPalette from '../assets/colors';
 
 import {AppContext} from './Context';
 import authUtils from './authUtils';
 import {GeneralButton} from './components/GeneralButton';
-
-const {width} = Dimensions.get('window');
+import Status from './components/Status';
 
 function StartingScreen() {
   const {setIsStartingScreen} = useContext(AppContext);
@@ -131,6 +122,7 @@ function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
     }
     setLoading(true);
     try {
+      await authUtils.sleep();
       const token = await authUtils.login(username, password);
       setError(undefined);
       setUser({
@@ -140,7 +132,7 @@ function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
       });
       setIsStartingScreen(false);
     } catch (e) {
-      setError(e?.toString());
+      setError(e as string);
     } finally {
       setLoading(false);
     }
@@ -223,12 +215,12 @@ function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
       return;
     }
     setError(undefined);
+    setLoading(true);
     try {
-      setLoading(true);
+      await authUtils.sleep();
       await authUtils.register(login, email, password);
     } catch (e) {
-      // @ts-expect-error
-      setError(e.message.toString());
+      setError(e as string);
       setLoading(false);
       return;
     }
@@ -241,7 +233,7 @@ function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
       });
       setIsStartingScreen(false);
     } catch (e) {
-      setError(e?.toString());
+      setError(e as string);
     } finally {
       setLoading(false);
     }
@@ -344,65 +336,9 @@ function ForgotPasswordModal({
   );
 }
 
-interface StatusProps {
-  loading: boolean;
-  error: string | undefined;
-}
-
-function Status({loading, error}: StatusProps) {
-  return (
-    <View style={styles.statusBox}>
-      <LoadingIndicator loading={loading} />
-      <Text style={styles.statusErrorText}>{error && `Woof! ${error}`}</Text>
-    </View>
-  );
-}
-
-interface LoadingIndicatorProps {
-  loading: boolean;
-}
-function LoadingIndicator({loading}: LoadingIndicatorProps) {
-  const spin = useSharedValue(0);
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      borderRadius: 27,
-      borderWidth: 2,
-      borderStyle: 'dotted',
-      backgroundColor: lightAccentColor,
-      transform: [{rotate: `${spin.value}deg`}],
-    };
-  });
-
-  if (loading) {
-  }
-  useEffect(() => {
-    if (loading) {
-      spin.value = withRepeat(
-        withTiming(360, {duration: 900, easing: Easing.inOut(Easing.sin)}),
-        -1,
-      );
-    } else {
-      const currentSpin = spin.value;
-      spin.value = withTiming(0, {
-        duration: currentSpin * 10,
-        easing: Easing.inOut(Easing.sin),
-      });
-    }
-  }, [loading, spin]);
-  return (
-    <Animated.View style={animatedStyle}>
-      <Animated.Image
-        style={styles.loadingIndicator}
-        // https://icons8.com/license
-        source={require('../assets/loading-indicator.png')}
-      />
-    </Animated.View>
-  );
-}
-
 export const styles = StyleSheet.create({
   scrollViewContainer: {
-    backgroundColor: backgroundColor,
+    backgroundColor: colorPalette.backgroundColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -417,7 +353,7 @@ export const styles = StyleSheet.create({
     margin: 5,
   },
   inputBox: {
-    backgroundColor: lightAccentColor,
+    backgroundColor: colorPalette.lightAccentColor,
     width: 200,
     height: 50,
     margin: 5,
@@ -442,21 +378,6 @@ export const styles = StyleSheet.create({
     textShadowRadius: 1,
     fontSize: 16,
   },
-  statusBox: {
-    height: 100,
-    maxWidth: width - 20,
-    alignItems: 'center',
-  },
-  statusErrorText: {
-    marginTop: 5,
-    color: 'red',
-    textAlign: 'center',
-    maxWidth: width - 20,
-  },
-  statusLoadingText: {
-    color: 'grey',
-    textAlign: 'center',
-  },
   resetPasswordButtonText: {
     fontSize: 24,
   },
@@ -464,11 +385,6 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     textShadowColor: 'navy',
     textShadowRadius: 1,
-  },
-  loadingIndicator: {
-    maxHeight: 50,
-    maxWidth: 50,
-    borderRadius: 25,
   },
 });
 

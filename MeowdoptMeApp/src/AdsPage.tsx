@@ -1,232 +1,187 @@
 import React from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
+import colorPalette from '../assets/colors';
+import {ads} from './sampleData/adsPhotos';
+import type {Ad} from './commonTypes';
+import {performantAds} from './sampleData/adsColorOnly';
+import type {PerformantAd} from './sampleData/adsColorOnly';
+import {GeneralButton} from './components/GeneralButton';
+import FastImage from 'react-native-fast-image';
+
 const {width, height} = Dimensions.get('window');
 
-// sample data
-const Ads = [
-  {
-    name: 'Fifek',
-    data: [
-      {
-        style: {backgroundColor: '#FF33A080'},
-        number: 1,
-      },
-      {
-        style: {backgroundColor: '#FF33C080'},
-        number: 2,
-      },
-      {
-        style: {backgroundColor: '#FF33E080'},
-        number: 3,
-      },
-      {
-        style: {backgroundColor: '#FF33F080'},
-        number: 4,
-      },
-    ],
-  },
-  {
-    name: 'Pumpon',
-    data: [
-      {
-        style: {backgroundColor: '#AFFFFF80'},
-        number: 1,
-      },
-      {
-        style: {backgroundColor: '#AFFFDF80'},
-        number: 2,
-      },
-      {
-        style: {backgroundColor: '#AFFFBF80'},
-        number: 3,
-      },
-      {
-        style: {backgroundColor: '#AFFF0F80'},
-        number: 4,
-      },
-    ],
-  },
-  {
-    name: 'Brokuł',
-    data: [
-      {
-        style: {backgroundColor: '#FFAFFF80'},
-        number: 1,
-      },
-      {
-        style: {backgroundColor: '#DFAFFF80'},
-        number: 2,
-      },
-      {
-        style: {backgroundColor: '#BFAFFF80'},
-        number: 3,
-      },
-      {
-        style: {backgroundColor: '#9FAFFF80'},
-        number: 4,
-      },
-    ],
-  },
-  {
-    name: 'Amir',
-    data: [
-      {
-        style: {backgroundColor: '#0FFFFF80'},
-        number: 1,
-      },
-      {
-        style: {backgroundColor: '#0FDFFF80'},
-        number: 2,
-      },
-      {
-        style: {backgroundColor: '#0FBFFF80'},
-        number: 3,
-      },
-      {
-        style: {backgroundColor: '#0F9FFF80'},
-        number: 4,
-      },
-    ],
-  },
-  {
-    name: 'Kluska',
-    style: {backgroundColor: '#1F1FFF80'},
-    numbers: [1, 2, 3, 4, 5],
-    data: [
-      {
-        style: {backgroundColor: '#1F1FFF80'},
-        number: 1,
-      },
-      {
-        style: {backgroundColor: '#1F3FFF80'},
-        number: 2,
-      },
-      {
-        style: {backgroundColor: '#1F5FFF80'},
-        number: 3,
-      },
-      {
-        style: {backgroundColor: '#1F7FFF80'},
-        number: 4,
-      },
-    ],
-  },
-  {
-    name: 'Biniu',
-    data: [
-      {
-        style: {backgroundColor: '#BFFF2F80'},
-        number: 1,
-      },
-      {
-        style: {backgroundColor: '#BFFF4F80'},
-        number: 2,
-      },
-      {
-        style: {backgroundColor: '#BFFF6F80'},
-        number: 3,
-      },
-      {
-        style: {backgroundColor: '#BFFF8F80'},
-        number: 4,
-      },
-    ],
-  },
-  {
-    name: 'Dyzio',
-    data: [
-      {
-        style: {backgroundColor: '#FFBFFF80'},
-        number: 1,
-      },
-      {
-        style: {backgroundColor: '#DFBFFF80'},
-        number: 2,
-      },
-      {
-        style: {backgroundColor: '#BFBFFF80'},
-        number: 3,
-      },
-      {
-        style: {backgroundColor: '#9FBFFF80'},
-        number: 4,
-      },
-    ],
-  },
-  {
-    name: 'Wojtyłek',
-    data: [
-      {
-        style: {backgroundColor: '#A10F1080'},
-        number: 1,
-      },
-      {
-        style: {backgroundColor: '#A10F3080'},
-        number: 2,
-      },
-      {
-        style: {backgroundColor: '#A10F5080'},
-        number: 3,
-      },
-      {
-        style: {backgroundColor: '#A10F7080'},
-        number: 4,
-      },
-    ],
-  },
-];
-
 function AdsPage() {
+  const [performant, setPerformant] = React.useState<boolean>(false);
   return (
     <View style={styles.listContainer}>
+      <View style={styles.performantToggle}>
+        <GeneralButton
+          text={performant ? 'quality' : 'performance'}
+          textStyle={{fontSize: 20}}
+          onPressOut={() => setPerformant(!performant)}
+        />
+      </View>
+      {performant ? <PerformantAdList /> : <AdList />}
+    </View>
+  );
+}
+
+function AdList() {
+  return (
+    <FlashList
+      data={ads}
+      estimatedItemSize={800}
+      showsVerticalScrollIndicator={false}
+      snapToAlignment={'start'}
+      decelerationRate={'normal'}
+      snapToInterval={height}
+      renderItem={({item}) => <AdContainer ad={item} />}
+    />
+  );
+}
+
+interface AdContainerProps {
+  ad: Ad;
+}
+
+function AdContainer({ad}: AdContainerProps) {
+  return (
+    <View style={styles.listElement}>
+      <View style={styles.listElementHeader}>
+        <Text style={styles.listElementHeaderText}>{ad.pet.name}</Text>
+      </View>
       <FlashList
-        data={Ads}
-        estimatedItemSize={340}
-        renderItem={({item}) => <AdFlashList item={item} />}
+        data={ad.photoAlbum.photos}
+        estimatedItemSize={400}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        snapToAlignment={'center'}
+        decelerationRate={'normal'}
+        snapToInterval={width}
+        renderItem={({item}) => (
+          <View style={styles.innerListElementContainer}>
+            {/* @ts-expect-error source is defined as string but we hax */}
+            <FastImage style={styles.listElementImage} source={item.img} />
+          </View>
+        )}
       />
     </View>
   );
 }
 
-interface AdFlashListProps {
-  item: {
-    name: string;
-    data: Array<{
-      style: {
-        backgroundColor: string;
-      };
-      number: number;
-    }>;
-  };
-}
-
-function AdFlashList({item: overItem}: AdFlashListProps) {
+function PerformantAdList() {
   return (
     <FlashList
-      data={overItem.data}
-      estimatedItemSize={90}
-      horizontal={true}
-      renderItem={({item}) => (
-        <View style={[styles.listElement, item.style]}>
-          <Text style={styles.listElementText}>{overItem.name}</Text>
-          <Text style={styles.listElementText}>{item.number}</Text>
-        </View>
-      )}
+      data={performantAds}
+      estimatedItemSize={340}
+      showsVerticalScrollIndicator={false}
+      snapToAlignment={'center'}
+      decelerationRate={'normal'}
+      snapToInterval={height}
+      initialScrollIndex={0}
+      renderItem={({item}) => <PerformantAdContainer ad={item} />}
     />
+  );
+}
+
+interface PerformantAdContainerProps {
+  ad: PerformantAd;
+}
+
+function PerformantAdContainer({ad}: PerformantAdContainerProps) {
+  return (
+    <View style={styles.listElement}>
+      <View style={styles.listElementHeader}>
+        <Text style={styles.listElementHeaderText}>{ad.pet.name}</Text>
+      </View>
+      <FlashList
+        data={ad.photoAlbum.photos}
+        estimatedItemSize={90}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        snapToAlignment={'center'}
+        decelerationRate={'normal'}
+        snapToInterval={width}
+        initialScrollIndex={0}
+        renderItem={({item}) => (
+          <View style={styles.innerListElementContainer}>
+            <View
+              style={[
+                styles.listElementImage,
+                {backgroundColor: item.backgroundColor},
+              ]}
+            />
+            {item.description && (
+              <View style={styles.listElementTextContainer}>
+                <Text style={styles.listElementText}>{item.description}</Text>
+              </View>
+            )}
+          </View>
+        )}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
-    backgroundColor: 'white',
+  },
+  performantToggle: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    // backgroundColor: colorPalette.lightAccentColor,
+    // borderRadius: 10,
+    // borderWidth: 2,
+    // borderColor: 'black',
+    padding: 10,
+    zIndex: 100,
   },
   listElement: {
     width: width,
     height: height,
-    justifyContent: 'center',
+    backgroundColor: colorPalette.backgroundColor,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  listElementHeader: {
+    borderRadius: 20,
+    backgroundColor: colorPalette.lightAccentColor,
+    overflow: 'hidden',
+    position: 'absolute',
+    top: height * 0.05,
+  },
+  listElementHeaderText: {
+    fontSize: 50,
+    fontStyle: 'italic',
+    textShadowColor: 'black',
+    textShadowRadius: 3,
+    textShadowOffset: {width: 1, height: 1.5},
+    color: colorPalette.darkAccentColor,
+  },
+  innerListElementContainer: {
+    height: height,
+    width: width,
+    alignItems: 'center',
+  },
+  listElementImage: {
+    position: 'absolute',
+    height: height * 0.8,
+    width: width * 0.98,
+    top: height * 0.15,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'black',
+  },
+  listElementTextContainer: {
+    position: 'absolute',
+    top: height * 0.7,
+    width: width * 0.8,
+    backgroundColor: colorPalette.lightAccentColor,
+    borderWidth: 2,
+    shadowRadius: 100,
   },
   listElementText: {
     fontSize: 20,

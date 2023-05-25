@@ -33,7 +33,7 @@ prepare:
 	python3 manage.py shell < initial_data/init.py
 
 lint:
-	python3 -m pylint --load-plugins pylint_django --django-settings-module=BackendApp.settings *.py --disable=missing-docstring --disable=C0103 userAuth BackendApp 
+	python3 -m pylint --load-plugins pylint_django --django-settings-module=BackendApp.settings *.py --disable=missing-docstring --disable=C0103,C0301 userAuth BackendApp
 
 check-formatting:
 	python3 -m black --check --quiet . || python3 -m black --verbose --diff .

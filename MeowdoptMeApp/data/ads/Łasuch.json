@@ -1,0 +1,36 @@
+{
+  "pet": {
+    "name": "Łasuch",
+    "petCharacteristics": {
+      "species": "cat",
+      "breed": "mixed breed",
+      "gender": "male",
+      "dateOfBirth": {
+        "year": 2018,
+        "month": 5
+      },
+      "color": ["white", "brown"]
+    }
+  },
+  "photoAlbum": {
+    "id": 4,
+    "photos": [
+      {
+        "img": "01",
+        "description": "Łasuch to kot znaleziony w kartonach pod sklepem. Początkowo nieufny w stosunku do ludzi, jednak coraz bardziej przyzwyczaja się do dotyku i głaskania. Jego stan zdrowia jest bardzo dobry, ma jedynie czasem problem z łzawiącymi oczami. Łasuch czeka na dobry i kochający dom."
+      },
+      {
+        "img": "02"
+      },
+      {
+        "img": "03"
+      },
+      {
+        "img": "04"
+      },
+      {
+        "img": "05"
+      }
+    ]
+  }
+}
