@@ -1,16 +1,14 @@
-from django.core.files.storage import FileSystemStorage
-from os.path import splitext
+import tempfile
+
+from PIL import Image
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
-def save_file(self, file):
-    file_path = "media/photos/{}".format(file.name)
-    with open(file_path, "wb") as destination:
-        for chunk in file.chunks():
-            destination.write(chunk)
-    return file_path
-
-
-def is_valid_file(file):
-    allowed_extensions = [".jpg", ".png"]
-    file_extension = splitext(file.name)[1].lower()
-    return file_extension in allowed_extensions
+def create_png_file():
+    image = Image.new("RGBA", (100, 100), (255, 0, 0, 255))
+    temp_file = tempfile.NamedTemporaryFile(suffix=".png")
+    image.save(temp_file.name, "PNG")
+    file = SimpleUploadedFile(
+        "test_file.png", temp_file.read(), content_type="image/png"
+    )
+    return file
