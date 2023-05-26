@@ -1,5 +1,5 @@
 import axios, {isAxiosError} from 'axios';
-import {databaseUrl} from './Database';
+import Database from './Database';
 
 async function sleep() {
   return new Promise(resolve => setTimeout(resolve, 2000));
@@ -7,7 +7,7 @@ async function sleep() {
 
 async function login(username: string, password: string) {
   try {
-    const response = await axios.post(`${databaseUrl}/userAuth/login/`, {
+    const response = await axios.post(Database.loginUrl, {
       username,
       password,
     });
@@ -26,7 +26,7 @@ async function login(username: string, password: string) {
 
 async function register(username: string, email: string, password: string) {
   try {
-    await axios.post(`${databaseUrl}/userAuth/register/`, {
+    await axios.post(Database.registerUrl, {
       username,
       email,
       password,
