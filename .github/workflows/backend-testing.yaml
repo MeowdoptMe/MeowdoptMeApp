@@ -18,6 +18,9 @@ jobs:
       - name: Run unit test
         working-directory: BackendApp
         run: python3 manage.py test --verbosity 2
+      - name: Create database file
+        working-directory: BackendApp
+        run: make updatedb
       - name: Run prepare script
         working-directory: BackendApp
-        run: python3 manage.py shell < initial_data/init.py
+        run: make prepare
