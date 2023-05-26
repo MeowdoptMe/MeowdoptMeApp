@@ -1,11 +1,30 @@
-import React from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Dimensions,
+  Image,
+  Pressable,
+  Modal,
+} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
 import colorPalette from '../assets/colors';
 import {ads} from './sampleData/adsPhotos';
 import type {Ad} from './commonTypes';
 import FastImage from 'react-native-fast-image';
+import {GeneralButton} from './components/GeneralButton';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
+import {runOnJS} from 'react-native-reanimated';
 
+const infoIcon = require('../assets/info-icon.png');
+const grief = require('../assets/grief.png');
 const {width, height} = Dimensions.get('window');
 
 function AdsPage() {
@@ -35,6 +54,7 @@ interface AdContainerProps {
 }
 
 function AdContainer({ad}: AdContainerProps) {
+  const [modalVisible, setModalVisible] = React.useState(false);
   return (
     <View style={styles.listElement}>
       <View style={styles.listElementHeader}>
@@ -55,24 +75,87 @@ function AdContainer({ad}: AdContainerProps) {
           </View>
         )}
       />
+      <Pressable
+        style={styles.infoIconContainer}
+        onPressOut={() => {
+          console.log('Pressed');
+          setModalVisible(true);
+        }}>
+        <Image source={infoIcon} style={styles.infoIcon} />
+      </Pressable>
+      <InformationModal visible={modalVisible} setVisible={setModalVisible} />
     </View>
+  );
+}
+
+interface InformationModalProps {
+  visible: boolean;
+  setVisible: (visible: boolean) => void;
+}
+
+function InformationModal({visible, setVisible}: InformationModalProps) {
+  const [animationStarted, setAnimationStarted] = React.useState(false);
+  const spin = useSharedValue(0);
+  const [size, setSize] = React.useState(27);
+  const sharedSize = useSharedValue(27);
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      borderRadius: size,
+      height: size * 1.4,
+      width: size * 1.4,
+      borderWidth: 2,
+      borderStyle: 'dotted',
+      backgroundColor: colorPalette.lightAccentColor,
+      overflow: 'hidden',
+      transform: [{rotate: `${spin.value}deg`}],
+    };
+  });
+
+  useEffect(() => {
+    if (animationStarted) {
+      spin.value = withRepeat(
+        withTiming(
+          360,
+          {
+            duration: 900,
+            easing: Easing.inOut(Easing.sin),
+          },
+          () => {
+            sharedSize.value = sharedSize.value / 0.9;
+            runOnJS(setSize)(sharedSize.value);
+          },
+        ),
+        -1,
+        false,
+      );
+    }
+  }, [animationStarted, sharedSize, spin]);
+
+  return (
+    <Modal animationType={'slide'} visible={visible} transparent={true}>
+      <View style={styles.informationModal}>
+        <Pressable
+          onPressOut={() => {
+            setAnimationStarted(true);
+          }}>
+          <Animated.View style={animatedStyle}>
+            <Animated.Image source={grief} style={styles.grief} />
+          </Animated.View>
+        </Pressable>
+        <GeneralButton
+          text={'Close'}
+          onPressOut={() => {
+            setVisible(false);
+          }}
+        />
+      </View>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
-  },
-  performantToggle: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    // backgroundColor: colorPalette.lightAccentColor,
-    // borderRadius: 10,
-    // borderWidth: 2,
-    // borderColor: 'black',
-    padding: 10,
-    zIndex: 100,
   },
   listElement: {
     width: width,
@@ -96,6 +179,21 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 1, height: 1.5},
     color: colorPalette.darkAccentColor,
   },
+  infoIconContainer: {
+    position: 'absolute',
+    padding: 4,
+    bottom: height * 0.15,
+    right: width * 0.05,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    overflow: 'hidden',
+    backgroundColor: colorPalette.lightAccentColor,
+  },
+  infoIcon: {
+    height: 50,
+    width: 50,
+  },
   innerListElementContainer: {
     height: height,
     width: width,
@@ -103,7 +201,7 @@ const styles = StyleSheet.create({
   },
   listElementImage: {
     position: 'absolute',
-    height: height * 0.8,
+    height: height * 0.71,
     width: width * 0.98,
     top: height * 0.15,
     borderRadius: 10,
@@ -122,6 +220,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
+  },
+  informationModal: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: height * 0.25,
+    left: width * 0.1,
+    height: height * 0.5,
+    width: width * 0.8,
+    borderRadius: width * 0.5,
+    backgroundColor: colorPalette.lightAccentColor,
+  },
+  grief: {
+    height: 50,
+    width: 50,
   },
 });
 
