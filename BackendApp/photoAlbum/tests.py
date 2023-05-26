@@ -280,7 +280,7 @@ class PhotoTests(APITestCase):
         )
         current_objects_count = Photo.objects.count()
         self.client.force_authenticate(user=self.user)
-        url = reverse("photo_detail", kwargs={"id": 2, "pk": 1})
+        url = reverse("photo_detail", kwargs={"id": current_objects_count, "pk": 1})
         response = self.client.delete(url)
         self.assertEqual(
             response.status_code,
@@ -293,7 +293,7 @@ class PhotoTests(APITestCase):
             img=self.data["img"], photo_album_id=self.data["photo_album"]
         )
         current_objects_count = Photo.objects.count()
-        url = reverse("photo_detail", kwargs={"id": 2, "pk": 1})
+        url = reverse("photo_detail", kwargs={"id": current_objects_count, "pk": 1})
         response = self.client.delete(url)
         self.assertEqual(
             response.status_code,
@@ -302,9 +302,12 @@ class PhotoTests(APITestCase):
         )
         self.assertEqual(Photo.objects.count(), current_objects_count)
     def test_remove_without_permissions(self):
+        Photo.objects.create(
+            img=self.data["img"], photo_album_id=self.data["photo_album"]
+        )
         current_objects_count = Photo.objects.count()
         self.client.force_authenticate(user=self.user2)
-        url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
+        url = reverse("photo_detail", kwargs={"id": current_objects_count, "pk": 1})
         response = self.client.delete(url)
         self.assertEqual(
             response.status_code,
