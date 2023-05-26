@@ -9,7 +9,7 @@ class UserPermission(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False
     )
-    shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, null=False)
+    shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, null=True)
     permission = models.ForeignKey(Permission, on_delete=models.CASCADE, null=False)
 
 
