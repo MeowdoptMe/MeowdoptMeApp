@@ -7,7 +7,7 @@ from rest_framework.generics import (
 from rest_framework.response import Response
 
 from .models import Photo, PhotoAlbum
-from .permissions import PhotoPermission
+from .permissions import PhotoPermission, PhotoAlbumPermission
 from .serializers import PhotoSerializer, PhotoAlbumSerializer
 
 
@@ -19,7 +19,6 @@ class PhotoAlbumList(ListAPIView):
 class PhotoAlbumCreate(CreateAPIView):
     queryset = PhotoAlbum.objects.all()
     serializer_class = PhotoAlbumSerializer
-    permission_classes = [PhotoPermission]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -39,6 +38,7 @@ class PhotoAlbumCreate(CreateAPIView):
 class PhotoAlbumDetail(RetrieveUpdateDestroyAPIView):
     queryset = PhotoAlbum.objects.all()
     serializer_class = PhotoAlbumSerializer
+    permission_classes = [PhotoAlbumPermission]
     lookup_field = "pk"
 
 

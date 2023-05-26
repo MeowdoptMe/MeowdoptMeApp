@@ -32,9 +32,9 @@ class PhotoAlbumTests(APITestCase):
         UserPermission.objects.create(
             user=self.user, shelter=shelter, permission=permission_delete
         )
-        photo_album = PhotoAlbum.objects.create()
-        Ad.objects.create(photo_album=photo_album)
         self.data = {"name": "test-album"}
+        photo_album = PhotoAlbum.objects.create(name="album1")
+        Ad.objects.create(photo_album=photo_album, shelter=shelter)
 
     def test_list(self):
         url = reverse("photo_album_list")
@@ -59,21 +59,9 @@ class PhotoAlbumTests(APITestCase):
         self.assertEqual(
             PhotoAlbum.objects.get(id=actual_album_count + 1).name, self.data["name"]
         )
-
-    def test_create_with_no_auth(self):
-        self.client.force_authenticate(user=self.user2)
-        url = reverse("photo_album_create")
-        response = self.client.post(url, self.data, format="json")
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_400_BAD_REQUEST,
-            f"Expected Response Code 400, received {response.status_code} instead.",
-        )
-        self.assertEqual(PhotoAlbum.objects.count(), 0)
-        self.assertIsNone(PhotoAlbum.objects.get())
-
     def test_detail(self):
-        PhotoAlbum.objects.create(name="test_album")
+        photo_album = PhotoAlbum.objects.create(name="test_album")
+        Ad.objects.create(photo_album=photo_album)
         url = reverse("photo_album_detail", kwargs={"pk": 1})
         response = self.client.get(url)
         self.assertEqual(
@@ -82,9 +70,9 @@ class PhotoAlbumTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
-    def test_edit(self):
-        PhotoAlbum.objects.create(name="test_album")
-        url = reverse("photo_album_detail", kwargs={"pk": 2})
+    def test_edit_with_auth(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse("photo_album_detail", kwargs={"pk": 1})
         data = {"name": "first_album"}
         response = self.client.put(url, data)
         self.assertEqual(
@@ -92,10 +80,31 @@ class PhotoAlbumTests(APITestCase):
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
-        self.assertEqual(PhotoAlbum.objects.get(id=2).name, data["name"])
+        self.assertEqual(PhotoAlbum.objects.get(id=1).name, data["name"])
+    def test_edit_with_no_auth(self):
+        url = reverse("photo_album_detail", kwargs={"pk": 1})
+        data = {"name": "first_album"}
+        response = self.client.put(url, data)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+            f"Expected Response Code 401, received {response.status_code} instead.",
+        )
+        self.assertNotEqual(PhotoAlbum.objects.get(id=1).name, data["name"])
+    def test_edit_without_permissions(self):
+        self.client.force_authenticate(user=self.user2)
+        url = reverse("photo_album_detail", kwargs={"pk": 1})
+        data = {"name": "first_album"}
+        response = self.client.put(url, data)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_403_FORBIDDEN,
+            f"Expected Response Code 403, received {response.status_code} instead.",
+        )
+        self.assertNotEqual(PhotoAlbum.objects.get(id=1).name, data["name"])
 
-    def test_remove(self):
-        album = PhotoAlbum.objects.create(name="test_album")
+    def test_remove_with_auth(self):
+        self.client.force_authenticate(user=self.user)
         current_objects_count = PhotoAlbum.objects.count()
         url = reverse("photo_album_detail", kwargs={"pk": 1})
         response = self.client.delete(url)
@@ -105,12 +114,32 @@ class PhotoAlbumTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(PhotoAlbum.objects.count(), current_objects_count - 1)
+    def test_remove_with_no_auth(self):
+        current_objects_count = PhotoAlbum.objects.count()
+        url = reverse("photo_album_detail", kwargs={"pk": 1})
+        response = self.client.delete(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+            f"Expected Response Code 401, received {response.status_code} instead.",
+        )
+        self.assertEqual(PhotoAlbum.objects.count(), current_objects_count)
 
+    def test_remove_without_permissions(self):
+        self.client.force_authenticate(user=self.user2)
+        current_objects_count = PhotoAlbum.objects.count()
+        url = reverse("photo_album_detail", kwargs={"pk": 1})
+        response = self.client.delete(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_403_FORBIDDEN,
+            f"Expected Response Code 403, received {response.status_code} instead.",
+        )
+        self.assertEqual(PhotoAlbum.objects.count(), current_objects_count)
 
 class PhotoTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
-        PhotoAlbum.objects.create()
         self.file = create_png_file()
         self.data = {
             "img": self.file,
@@ -131,7 +160,8 @@ class PhotoTests(APITestCase):
         UserPermission.objects.create(
             user=self.user, shelter=shelter, permission=permission_delete
         )
-        Ad.objects.create()
+        photo_album = PhotoAlbum.objects.create()
+        Ad.objects.create(photo_album=photo_album, shelter=shelter)
 
     def tearDown(self):
         self.file.close()
@@ -165,15 +195,23 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 201, received {response.status_code} instead.",
         )
         self.assertEqual(Photo.objects.count(), 1)
-
-    def test_create_with_no_auth(self):
+    def test_create_with_not_auth(self):
+        url = reverse("photo_create", kwargs={"id": 1})
+        response = self.client.post(url, self.data, format="multipart")
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+            f"Expected Response Code 401, received {response.status_code} instead.",
+        )
+        self.assertEqual(Photo.objects.count(), 1)
+    def test_create_without_permissions(self):
         self.client.force_authenticate(user=self.user2)
         url = reverse("photo_create", kwargs={"id": 1})
         response = self.client.post(url, self.data, format="multipart")
         self.assertEqual(
             response.status_code,
-            status.HTTP_400_BAD_REQUEST,
-            f"Expected Response Code 400, received {response.status_code} instead.",
+            status.HTTP_403_FORBIDDEN,
+            f"Expected Response Code 403, received {response.status_code} instead.",
         )
         self.assertEqual(Photo.objects.count(), 0)
 
@@ -210,7 +248,7 @@ class PhotoTests(APITestCase):
             img=self.data["img"], photo_album_id=self.data["photo_album"]
         )
         current_objects_count = Photo.objects.count()
-        url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
+        url = reverse("photo_detail", kwargs={"id": 2, "pk": 1})
         response = self.client.delete(url)
         self.assertEqual(
             response.status_code,
