@@ -7,7 +7,7 @@ async function sleep() {
 
 async function login(username: string, password: string) {
   try {
-    const response = await axios.post(`${databaseUrl}/userAuth/login/`, {
+    const response = await axios.post(`${databaseUrl}/user-auth/login/`, {
       username,
       password,
     });
@@ -26,7 +26,7 @@ async function login(username: string, password: string) {
 
 async function register(username: string, email: string, password: string) {
   try {
-    await axios.post(`${databaseUrl}/userAuth/register/`, {
+    await axios.post(`${databaseUrl}/user-auth/register/`, {
       username,
       email,
       password,
