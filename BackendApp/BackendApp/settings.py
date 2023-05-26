@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "shelterRelated",
     "adRelated",
     "photoAlbum",
+    "userManage",
     "drf_spectacular",
 ]
 REST_FRAMEWORK = {
