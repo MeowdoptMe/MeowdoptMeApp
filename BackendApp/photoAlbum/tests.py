@@ -203,7 +203,7 @@ class PhotoTests(APITestCase):
             status.HTTP_401_UNAUTHORIZED,
             f"Expected Response Code 401, received {response.status_code} instead.",
         )
-        self.assertEqual(Photo.objects.count(), 1)
+        self.assertEqual(Photo.objects.count(), 0)
     def test_create_without_permissions(self):
         self.client.force_authenticate(user=self.user2)
         url = reverse("photo_create", kwargs={"id": 1})
@@ -227,10 +227,11 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
-    def test_edit(self):
+    def test_edit_with_auth(self):
         Photo.objects.create(
             img=self.data["img"], photo_album_id=self.data["photo_album"]
         )
+        self.client.force_authenticate(user=self.user)
         url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
         data = {
             "img": create_png_file(),
@@ -242,12 +243,43 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
         self.assertNotEquals(Photo.objects.get().img, data["img"])
-
-    def test_remove(self):
+    def test_edit_with_no_auth(self):
+        Photo.objects.create(
+            img=self.data["img"], photo_album_id=self.data["photo_album"]
+        )
+        url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
+        data = {
+            "img": create_png_file(),
+        }
+        response = self.client.put(url, data)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+            f"Expected Response Code 401, received {response.status_code} instead.",
+        )
+        self.assertNotEquals(Photo.objects.get().img, data["img"])
+    def test_edit_without_permissions(self):
+        Photo.objects.create(
+            img=self.data["img"], photo_album_id=self.data["photo_album"]
+        )
+        self.client.force_authenticate(user=self.user2)
+        url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
+        data = {
+            "img": create_png_file(),
+        }
+        response = self.client.put(url, data)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_403_FORBIDDEN,
+            f"Expected Response Code 403, received {response.status_code} instead.",
+        )
+        self.assertNotEquals(Photo.objects.get().img, data["img"])
+    def test_remove_with_auth(self):
         Photo.objects.create(
             img=self.data["img"], photo_album_id=self.data["photo_album"]
         )
         current_objects_count = Photo.objects.count()
+        self.client.force_authenticate(user=self.user)
         url = reverse("photo_detail", kwargs={"id": 2, "pk": 1})
         response = self.client.delete(url)
         self.assertEqual(
@@ -256,3 +288,27 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(Photo.objects.count(), current_objects_count - 1)
+    def test_remove_with_no_auth(self):
+        Photo.objects.create(
+            img=self.data["img"], photo_album_id=self.data["photo_album"]
+        )
+        current_objects_count = Photo.objects.count()
+        url = reverse("photo_detail", kwargs={"id": 2, "pk": 1})
+        response = self.client.delete(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+            f"Expected Response Code 401, received {response.status_code} instead.",
+        )
+        self.assertEqual(Photo.objects.count(), current_objects_count)
+    def test_remove_without_permissions(self):
+        current_objects_count = Photo.objects.count()
+        self.client.force_authenticate(user=self.user2)
+        url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
+        response = self.client.delete(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_403_FORBIDDEN,
+            f"Expected Response Code 403, received {response.status_code} instead.",
+        )
+        self.assertEqual(Photo.objects.count(), current_objects_count)
