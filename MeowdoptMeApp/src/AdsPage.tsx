@@ -23,6 +23,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {runOnJS} from 'react-native-reanimated';
 
+// "https://icons8.com"
 const infoIcon = require('../assets/info-icon.png');
 const grief = require('../assets/grief.png');
 const {width, height} = Dimensions.get('window');
