@@ -352,7 +352,11 @@ function ForgotPasswordModal({
                 setEmail(text);
               }}
             />
-            <GeneralButton text="Reset password!" onPressOut={onPressOut} />
+            <GeneralButton
+              text="Reset password!"
+              textStyle={styles.resetPasswordButtonText}
+              onPressOut={onPressOut}
+            />
             <GeneralButton
               text="Cancel"
               onPressOut={() => {
