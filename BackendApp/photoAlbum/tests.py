@@ -1,13 +1,40 @@
+from os.path import join, isfile
+from os import listdir, remove
+from django.contrib.auth.models import Permission
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from .models import PhotoAlbum, Photo
 from .utils import create_png_file
+from userAuth.models import User
+from shelterRelated.models import Shelter
+from adRelated.models import Ad, Pet
+from permissionHandler.models import UserPermission
+
+from BackendApp import settings
 
 
 class PhotoAlbumTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
+        self.user = User.objects.create_user(username="ewa", password="ewa12345")
+        self.user2 = User.objects.create_user(username="gocha", password="gocha12345")
+        shelter = Shelter.objects.create()
+        permission_create = Permission.objects.get(codename="add_ad")
+        permission_change = Permission.objects.get(codename="change_ad")
+        permission_delete = Permission.objects.get(codename="delete_ad")
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_create
+        )
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_change
+        )
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_delete
+        )
+        photo_album = PhotoAlbum.objects.create()
+        Ad.objects.create(photo_album=photo_album)
+        self.data = {"name": "test-album"}
 
     def test_list(self):
         url = reverse("photo_album_list")
@@ -18,17 +45,32 @@ class PhotoAlbumTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
-    def test_create(self):
-        data = {"name": "test-album"}
+    def test_create_with_auth(self):
+        actual_album_count = PhotoAlbum.objects.count()
+        self.client.force_authenticate(user=self.user)
         url = reverse("photo_album_create")
-        response = self.client.post(url, data, format="json")
+        response = self.client.post(url, self.data, format="json")
         self.assertEqual(
             response.status_code,
             status.HTTP_201_CREATED,
             f"Expected Response Code 201, received {response.status_code} instead.",
         )
-        self.assertEqual(PhotoAlbum.objects.count(), 1)
-        self.assertEqual(PhotoAlbum.objects.get().name, data["name"])
+        self.assertEqual(PhotoAlbum.objects.count(), actual_album_count + 1)
+        self.assertEqual(
+            PhotoAlbum.objects.get(id=actual_album_count + 1).name, self.data["name"]
+        )
+
+    def test_create_with_no_auth(self):
+        self.client.force_authenticate(user=self.user2)
+        url = reverse("photo_album_create")
+        response = self.client.post(url, self.data, format="json")
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST,
+            f"Expected Response Code 400, received {response.status_code} instead.",
+        )
+        self.assertEqual(PhotoAlbum.objects.count(), 0)
+        self.assertIsNone(PhotoAlbum.objects.get())
 
     def test_detail(self):
         PhotoAlbum.objects.create(name="test_album")
@@ -42,7 +84,7 @@ class PhotoAlbumTests(APITestCase):
 
     def test_edit(self):
         PhotoAlbum.objects.create(name="test_album")
-        url = reverse("photo_album_detail", kwargs={"pk": 1})
+        url = reverse("photo_album_detail", kwargs={"pk": 2})
         data = {"name": "first_album"}
         response = self.client.put(url, data)
         self.assertEqual(
@@ -50,7 +92,7 @@ class PhotoAlbumTests(APITestCase):
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
-        self.assertEqual(PhotoAlbum.objects.get().name, data["name"])
+        self.assertEqual(PhotoAlbum.objects.get(id=2).name, data["name"])
 
     def test_remove(self):
         album = PhotoAlbum.objects.create(name="test_album")
@@ -74,9 +116,34 @@ class PhotoTests(APITestCase):
             "img": self.file,
             "photo_album": 1,
         }
+        self.user = User.objects.create_user(username="ewa", password="ewa12345")
+        self.user2 = User.objects.create_user(username="gocha", password="gocha12345")
+        shelter = Shelter.objects.create()
+        permission_create = Permission.objects.get(codename="add_ad")
+        permission_change = Permission.objects.get(codename="change_ad")
+        permission_delete = Permission.objects.get(codename="delete_ad")
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_create
+        )
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_change
+        )
+        UserPermission.objects.create(
+            user=self.user, shelter=shelter, permission=permission_delete
+        )
+        Ad.objects.create()
 
     def tearDown(self):
         self.file.close()
+        images_path = join(settings.MEDIA_ROOT, "photos")
+        files = [
+            i
+            for i in listdir(images_path)
+            if isfile(join(images_path, i)) and i.startswith("test_file")
+        ]
+
+        for file in files:
+            remove(join(images_path, file))
 
     def test_list(self):
         Photo.objects.create()
@@ -88,7 +155,8 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
-    def test_create(self):
+    def test_create_with_auth(self):
+        self.client.force_authenticate(user=self.user)
         url = reverse("photo_create", kwargs={"id": 1})
         response = self.client.post(url, self.data, format="multipart")
         self.assertEqual(
@@ -97,6 +165,17 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 201, received {response.status_code} instead.",
         )
         self.assertEqual(Photo.objects.count(), 1)
+
+    def test_create_with_no_auth(self):
+        self.client.force_authenticate(user=self.user2)
+        url = reverse("photo_create", kwargs={"id": 1})
+        response = self.client.post(url, self.data, format="multipart")
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST,
+            f"Expected Response Code 400, received {response.status_code} instead.",
+        )
+        self.assertEqual(Photo.objects.count(), 0)
 
     def test_detail(self):
         Photo.objects.create(
