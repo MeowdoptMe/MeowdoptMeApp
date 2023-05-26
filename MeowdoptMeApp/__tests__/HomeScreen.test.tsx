@@ -4,7 +4,7 @@ import {render, screen} from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 
 import {ShelterContext} from '../src/Context';
-import HomeScreen from '../src/HomeScreen';
+import {MainScreenNavigation} from '../src/MainScreen';
 
 jest.mock('react-native-webview', () => {
   return {
@@ -20,11 +20,11 @@ describe('HomeScreen', () => {
           shelter: undefined,
           setShelter: jest.fn(),
         }}>
-        <HomeScreen />
+        <MainScreenNavigation />
       </ShelterContext.Provider>,
     );
 
-    expect(screen.getAllByText(/performance/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Home/).length).toBeGreaterThan(0);
   });
 
   it('renders ShelterPage when shelter is set', () => {
@@ -34,7 +34,7 @@ describe('HomeScreen', () => {
           shelter: 'defined',
           setShelter: jest.fn(),
         }}>
-        <HomeScreen />
+        <MainScreenNavigation />
       </ShelterContext.Provider>,
     );
 

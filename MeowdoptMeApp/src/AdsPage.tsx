@@ -4,25 +4,14 @@ import {FlashList} from '@shopify/flash-list';
 import colorPalette from '../assets/colors';
 import {ads} from './sampleData/adsPhotos';
 import type {Ad} from './commonTypes';
-import {performantAds} from './sampleData/adsColorOnly';
-import type {PerformantAd} from './sampleData/adsColorOnly';
-import {GeneralButton} from './components/GeneralButton';
 import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
 
 function AdsPage() {
-  const [performant, setPerformant] = React.useState<boolean>(false);
   return (
     <View style={styles.listContainer}>
-      <View style={styles.performantToggle}>
-        <GeneralButton
-          text={performant ? 'quality' : 'performance'}
-          textStyle={{fontSize: 20}}
-          onPressOut={() => setPerformant(!performant)}
-        />
-      </View>
-      {performant ? <PerformantAdList /> : <AdList />}
+      <AdList />
     </View>
   );
 }
@@ -61,62 +50,8 @@ function AdContainer({ad}: AdContainerProps) {
         snapToInterval={width}
         renderItem={({item}) => (
           <View style={styles.innerListElementContainer}>
-            {/* @ts-expect-error source is defined as string but we hax */}
+            {/* @ts-expect-error Source is defined as string but we hax */}
             <FastImage style={styles.listElementImage} source={item.img} />
-          </View>
-        )}
-      />
-    </View>
-  );
-}
-
-function PerformantAdList() {
-  return (
-    <FlashList
-      data={performantAds}
-      estimatedItemSize={340}
-      showsVerticalScrollIndicator={false}
-      snapToAlignment={'center'}
-      decelerationRate={'normal'}
-      snapToInterval={height}
-      initialScrollIndex={0}
-      renderItem={({item}) => <PerformantAdContainer ad={item} />}
-    />
-  );
-}
-
-interface PerformantAdContainerProps {
-  ad: PerformantAd;
-}
-
-function PerformantAdContainer({ad}: PerformantAdContainerProps) {
-  return (
-    <View style={styles.listElement}>
-      <View style={styles.listElementHeader}>
-        <Text style={styles.listElementHeaderText}>{ad.pet.name}</Text>
-      </View>
-      <FlashList
-        data={ad.photoAlbum.photos}
-        estimatedItemSize={90}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        snapToAlignment={'center'}
-        decelerationRate={'normal'}
-        snapToInterval={width}
-        initialScrollIndex={0}
-        renderItem={({item}) => (
-          <View style={styles.innerListElementContainer}>
-            <View
-              style={[
-                styles.listElementImage,
-                {backgroundColor: item.backgroundColor},
-              ]}
-            />
-            {item.description && (
-              <View style={styles.listElementTextContainer}>
-                <Text style={styles.listElementText}>{item.description}</Text>
-              </View>
-            )}
           </View>
         )}
       />
