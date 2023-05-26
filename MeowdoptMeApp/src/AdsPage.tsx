@@ -129,7 +129,7 @@ function InformationModal({visible, setVisible}: InformationModalProps) {
         false,
       );
     }
-  }, [animationStarted]);
+  }, [animationStarted, sharedSize, spin]);
 
   return (
     <Modal animationType={'slide'} visible={visible} transparent={true}>
