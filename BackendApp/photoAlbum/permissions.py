@@ -38,6 +38,7 @@ class PhotoPermission(BasePermission):
             return True
         return False
 
+
 class PhotoAlbumPermission(BasePermission):
     def has_permission(self, request, view):
         photo_album = view.get_object()

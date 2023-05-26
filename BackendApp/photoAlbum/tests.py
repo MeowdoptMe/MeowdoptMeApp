@@ -59,6 +59,7 @@ class PhotoAlbumTests(APITestCase):
         self.assertEqual(
             PhotoAlbum.objects.get(id=actual_album_count + 1).name, self.data["name"]
         )
+
     def test_detail(self):
         photo_album = PhotoAlbum.objects.create(name="test_album")
         Ad.objects.create(photo_album=photo_album)
@@ -81,6 +82,7 @@ class PhotoAlbumTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
         self.assertEqual(PhotoAlbum.objects.get(id=1).name, data["name"])
+
     def test_edit_with_no_auth(self):
         url = reverse("photo_album_detail", kwargs={"pk": 1})
         data = {"name": "first_album"}
@@ -91,6 +93,7 @@ class PhotoAlbumTests(APITestCase):
             f"Expected Response Code 401, received {response.status_code} instead.",
         )
         self.assertNotEqual(PhotoAlbum.objects.get(id=1).name, data["name"])
+
     def test_edit_without_permissions(self):
         self.client.force_authenticate(user=self.user2)
         url = reverse("photo_album_detail", kwargs={"pk": 1})
@@ -114,6 +117,7 @@ class PhotoAlbumTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(PhotoAlbum.objects.count(), current_objects_count - 1)
+
     def test_remove_with_no_auth(self):
         current_objects_count = PhotoAlbum.objects.count()
         url = reverse("photo_album_detail", kwargs={"pk": 1})
@@ -136,6 +140,7 @@ class PhotoAlbumTests(APITestCase):
             f"Expected Response Code 403, received {response.status_code} instead.",
         )
         self.assertEqual(PhotoAlbum.objects.count(), current_objects_count)
+
 
 class PhotoTests(APITestCase):
     def setUp(self):
@@ -195,6 +200,7 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 201, received {response.status_code} instead.",
         )
         self.assertEqual(Photo.objects.count(), 1)
+
     def test_create_with_not_auth(self):
         url = reverse("photo_create", kwargs={"id": 1})
         response = self.client.post(url, self.data, format="multipart")
@@ -204,6 +210,7 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 401, received {response.status_code} instead.",
         )
         self.assertEqual(Photo.objects.count(), 0)
+
     def test_create_without_permissions(self):
         self.client.force_authenticate(user=self.user2)
         url = reverse("photo_create", kwargs={"id": 1})
@@ -243,6 +250,7 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
         self.assertNotEquals(Photo.objects.get().img, data["img"])
+
     def test_edit_with_no_auth(self):
         Photo.objects.create(
             img=self.data["img"], photo_album_id=self.data["photo_album"]
@@ -258,6 +266,7 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 401, received {response.status_code} instead.",
         )
         self.assertNotEquals(Photo.objects.get().img, data["img"])
+
     def test_edit_without_permissions(self):
         Photo.objects.create(
             img=self.data["img"], photo_album_id=self.data["photo_album"]
@@ -274,6 +283,7 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 403, received {response.status_code} instead.",
         )
         self.assertNotEquals(Photo.objects.get().img, data["img"])
+
     def test_remove_with_auth(self):
         Photo.objects.create(
             img=self.data["img"], photo_album_id=self.data["photo_album"]
@@ -288,6 +298,7 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 204, received {response.status_code} instead.",
         )
         self.assertEqual(Photo.objects.count(), current_objects_count - 1)
+
     def test_remove_with_no_auth(self):
         Photo.objects.create(
             img=self.data["img"], photo_album_id=self.data["photo_album"]
@@ -301,6 +312,7 @@ class PhotoTests(APITestCase):
             f"Expected Response Code 401, received {response.status_code} instead.",
         )
         self.assertEqual(Photo.objects.count(), current_objects_count)
+
     def test_remove_without_permissions(self):
         Photo.objects.create(
             img=self.data["img"], photo_album_id=self.data["photo_album"]
