@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Permission
 from rest_framework import status
 from rest_framework.generics import (
     ListAPIView,
@@ -48,8 +48,9 @@ class UserPermissionDetail(RetrieveUpdateDestroyAPIView):
     permission_classes = [UserPermissionAccess]
 
     def get_queryset(self):
-        shelter_id = self.kwargs["shelter_id"]
-        queryset = self.model.objects.filter(shelter_id=shelter_id)
+        shelter_id = self.kwargs.get("shelter_id")
+        pk = self.kwargs.get("pk")
+        queryset = UserPermission.objects.filter(shelter_id=shelter_id, id=pk)
         return queryset
 
 
