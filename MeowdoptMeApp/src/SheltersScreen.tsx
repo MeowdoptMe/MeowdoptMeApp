@@ -1,35 +1,93 @@
 import React from 'react';
-import {useState} from 'react';
-import {View, Text, StyleSheet, Pressable, SafeAreaView} from 'react-native';
-import {WebView} from 'react-native-webview';
+import { useState, useEffect, useContext } from 'react';
+import { View, Text, StyleSheet, Pressable, SafeAreaView, Dimensions } from 'react-native';
+import { WebView } from 'react-native-webview';
 import map from './WebMap';
+import axios, { isAxiosError } from 'axios';
+import { databaseUrl } from './Database';
+import { FlashList } from '@shopify/flash-list';
+import { getShelters } from './shelterUtils';
+import colorPalette from '../assets/colors';
+import AdsPage from './AdsPage';
+import { ShelterContext } from './Context';
+import HomeScreen from './HomeScreen';
 
-function SheltersScreen() {
+
+const { width, height } = Dimensions.get('window');
+
+
+
+// @ts-expect-error
+function SheltersScreen({ navigation }) {
+
   const [page, setPage] = useState('list');
+  const [shelters, setShelters] = useState<any[]>([])
+  const { shelter, setShelter } = useContext(ShelterContext);
+
+
+  async function loadShelters() {
+    try {
+      const _shelters = getShelters();
+      //console.log(_shelters);
+      setShelters(await _shelters);
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  function onPressOut(shelter: string) {
+    setShelter(shelter)
+    navigation.navigate(HomeScreen);
+  }
+
+
+
+  useEffect(() => {
+    loadShelters();
+  }, [])
+
+
+
   return page === 'list' ? (
     <View style={styles.sectionContainer}>
-      <Text style={styles.text}>Shelters Screen</Text>
-      <View style={styles.listContainer}>
-        <Text style={styles.text}>SheltersList</Text>
-      </View>
+
+      <FlashList
+        data={shelters}
+        estimatedItemSize={60}
+        ListHeaderComponent={<Text style={{
+          color: 'black',
+          fontSize: 30,
+          fontWeight: 'bold',
+        }}>Schroniska</Text>}
+        renderItem={({ item }) => (<View style={styles.listElement}>
+          <Pressable
+            onPressOut={() => {
+              onPressOut(item.name)
+            }}>
+            <Text style={styles.titleText}>{item.name}</Text>
+            <Text style={styles.text}>{item.location}</Text>
+          </Pressable>
+        </View>)}
+      />
+
       <View style={styles.button}>
         <Pressable
           onPressOut={() => {
             setPage('map');
           }}>
-          <Text style={styles.buttonText}>Go to map</Text>
+          <Text style={styles.buttonText}>Mapa</Text>
         </Pressable>
       </View>
     </View>
   ) : (
     <SafeAreaView style={styles.mapContainer}>
-      <WebView source={{html: map}} />
+      <WebView source={{ html: map }} />
       <View style={styles.button}>
         <Pressable
           onPressOut={() => {
             setPage('list');
           }}>
-          <Text style={styles.buttonText}>Go back</Text>
+          <Text style={styles.buttonText}>Powrót</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -39,39 +97,54 @@ function SheltersScreen() {
 const styles = StyleSheet.create({
   sectionContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    backgroundColor: colorPalette.backgroundColor,
   },
-  listContainer: {
+  listElement: {
+    width: width,
+    height: height / 10,
+    backgroundColor: colorPalette.backgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    flex: 1,
   },
   mapContainer: {
-    flex: 1,
+    //flex: 1,
+    position: "absolute",
+    //top: height * 0.01,
+    backgroundColor: colorPalette.backgroundColor,
+    height: height * 0.87,
+    width: width * 0.98,
+  },
+  titleText: {
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   text: {
     color: 'black',
-    backgroundColor: 'white',
+    //backgroundColor: 'white',
+    flex: 1,
   },
   button: {
-    backgroundColor: 'royalblue',
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
-    borderBottomEndRadius: 20,
-    borderBottomStartRadius: 20,
-    maxHeight: 40,
-    minWidth: 160,
-    flex: 1,
+    backgroundColor: colorPalette.darkAccentColor,
+    borderTopEndRadius: 60,
+    borderTopStartRadius: 60,
+    borderBottomEndRadius: 60,
+    borderBottomStartRadius: 60,
+    height: 50,
+    width: 200,
+    margin: 5,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
-    flex: 1,
     color: 'white',
-    textAlign: 'center',
-    textAlignVertical: 'center',
     fontSize: 30,
+    textShadowRadius: 4,
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowColor: 'black',
   },
 });
 

@@ -90,11 +90,9 @@ def add_ads(ads):
 
 
 def load_data():
-    # add_users(users)
-    # add_shelters(shelters)
-    # add_user_permissions(permissions)
-    add_photo_albums(albums)
-    add_ads(ads)
+    add_users(users)
+    add_shelters(shelters)
+    add_user_permissions(permissions)
 
 
 load_data()
