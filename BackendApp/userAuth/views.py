@@ -60,7 +60,9 @@ class LogoutView(APIView):
 
     def post(self, request):
         logout(request)
-        return Response({"msg": "Successfully logged out"}, status=status.HTTP_200_OK)
+        return Response(
+            {"success": "Successfully logged out"}, status=status.HTTP_200_OK
+        )
 
 
 class ChangePasswordView(APIView):
@@ -120,6 +122,11 @@ class PasswordResetEmailView(GenericAPIView):
             }
 
             send_email(serializer, data)
+        else:
+            return Response(
+                {"detail": "The user with the provided email address does not exist."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
         return Response(
             {"success": "We have sent you a link to reset your password"},
@@ -147,7 +154,10 @@ class PasswordTokenCheckView(GenericAPIView):
                 status=status.HTTP_200_OK,
             )
         except DjangoUnicodeDecodeError:
-            return Response({"error"})
+            return Response(
+                {"detail": "There was a problem decoding the provided uidb64 code."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
 
 class SetNewPasswordView(GenericAPIView):
