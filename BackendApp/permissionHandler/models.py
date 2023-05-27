@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Permission
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -6,6 +6,18 @@ from django.db.models.signals import post_save
 from BackendApp import settings
 from shelterRelated.models import Shelter
 from userAuth.models import User
+
+from django.db.models.signals import post_migrate
+from django.contrib.auth.models import Permission
+from django.dispatch import receiver
+
+
+@receiver(post_migrate)
+def add_custom_permission(sender, **kwargs):
+    if sender.name == "permissionHandler":
+        Permission.objects.get_or_create(
+            codename="view_all_users", name="Can view all users data", content_type_id=6
+        )
 
 
 class UserPermission(models.Model):

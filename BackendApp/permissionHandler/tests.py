@@ -313,7 +313,9 @@ class PermissionRequestTests(APITestCase):
         for user_permission in PermissionRequestAccess.manager_permissions:
             permission = Permission.objects.get(codename=user_permission)
             if permission:
-                self.assertIsNotNone(UserPermission.objects.get(permission=permission))
+                self.assertIsNotNone(
+                    UserPermission.objects.filter(permission=permission)
+                )
 
     def test_resolve_with_no_auth(self):
         self.client.force_authenticate(user=self.user2)
