@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
-import {useState} from 'react';
+import {View, StyleSheet} from 'react-native';
+
 import {
   ChangeMailModal,
   ChangePasswordModal,
@@ -10,25 +10,16 @@ import {
 import {GeneralButton} from './components/GeneralButton';
 
 function PreferencesScreen() {
-  const [currentOption, setCurrentOption] = useState('none');
-  const state = {
-    currentOption: currentOption,
-    setCurrentOption: setCurrentOption,
-  };
   const [changePasswordModalVisible, setChangePasswordModalVisible] =
-    useState(false);
-  const [changeMailModalVisible, setChangeMailModalVisible] = useState(false);
+    React.useState(false);
+  const [changeMailModalVisible, setChangeMailModalVisible] =
+    React.useState(false);
   const [deleteAccountModalVisible, setDeleteAccountModalVisible] =
-    useState(false);
-  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+    React.useState(false);
+  const [logoutModalVisible, setLogoutModalVisible] = React.useState(false);
 
   return (
     <View style={styles.sectionContainer}>
-      {/* <MyButton
-        title={'AdFilters'}
-        buttonText={'Set your filters'}
-        {...state}
-      /> */}
       <GeneralButton
         text="Set your filters"
         onPressOut={() => setChangePasswordModalVisible(false)}
@@ -57,7 +48,6 @@ function PreferencesScreen() {
         text="Delete your account"
         onPressOut={() => setDeleteAccountModalVisible(true)}
       />
-      {/* <MyButton title={'logout'} buttonText={'Logout'} {...state} /> */}
       <LogoutModal
         logoutModalVisible={logoutModalVisible}
         setLogoutModalVisible={setLogoutModalVisible}
@@ -67,31 +57,6 @@ function PreferencesScreen() {
         onPressOut={() => setLogoutModalVisible(true)}
       />
     </View>
-  );
-}
-
-interface myButtonProps {
-  title: string;
-  buttonText: string;
-  currentOption: string;
-  setCurrentOption: React.Dispatch<React.SetStateAction<string>>;
-}
-function MyButton({
-  title,
-  buttonText,
-  currentOption,
-  setCurrentOption,
-}: myButtonProps) {
-  return currentOption !== title ? (
-    <Pressable
-      style={styles.button}
-      onPressOut={() => {
-        setCurrentOption(title);
-      }}>
-      <Text style={styles.buttonText}>{buttonText}</Text>
-    </Pressable>
-  ) : (
-    <Text style={styles.noButtonText}>{buttonText}</Text>
   );
 }
 

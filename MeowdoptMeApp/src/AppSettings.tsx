@@ -8,7 +8,7 @@ import {
   Text,
 } from 'react-native';
 import {GeneralButton} from './components/GeneralButton';
-import {AppContext, User, guestUser} from './Context';
+import {AppContext, guestUser} from './Context';
 
 interface ChangePasswordModalProps {
   changePasswordModalVisible: boolean;
