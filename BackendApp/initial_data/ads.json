@@ -1,7 +1,7 @@
 [
   {
     "active": true,
-    "shelter": 1,
+    "shelter": 2,
     "description": "Jarzyna to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
     "pet": {
       "name": "Jarzyna",
@@ -20,7 +20,7 @@
   },
   {
     "active": true,
-    "shelter": 1,
+    "shelter": 2,
     "description": "Buzz to kot, który przez długi czas żył 'na wolności' z grupą innych kotów. Przebywa w schronisku od około 2 miesięcy. Aktualnie bez problemu je kocią karmę. Wymaga jednak trochę cierpliwości podczas nauki korzystania z kuwety. Buzz szuka ciepłego domu, w którym spędzi resztę swojego kociego życia.",
     "pet": {
       "name": "Buzz",
@@ -39,7 +39,7 @@
   },
   {
     "active": true,
-    "shelter": 1,
+    "shelter": 2,
     "description": "Dropsik trafił do nas stosunkowo niedawno, w związku z przeprowadzką jego właściciela. Jest przyzwyczajony do stałej obecności człowieka. Bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Dropsa domu, który zapewni mu dobre warunki i domowe ciepło.",
     "pet": {
       "name": "Drops",
@@ -134,7 +134,7 @@
   },
   {
     "active": true,
-    "shelter": 1,
+    "shelter": 2,
     "description": "Stefan to kot, który niestety wrócił do schroniska z poprzedniej adopcji. Stefan nie lubi dzieci, potrzebuje dużo spokoju. Większość dnia spędza na fotelu. Nie przepada za głaskaniem, jednak jeśli ma na nie ochotę, to daje znać. Poszukiwany odpowiedzialny, spokojny dom, bez dzieci.",
     "pet": {
       "name": "Stefan",
@@ -153,7 +153,7 @@
   },
   {
     "active": true,
-    "shelter": 1,
+    "shelter": 2,
     "description": "Viola trafiła do schroniska osłabiona i zaniedbana. Dzięki odpowiedniej opiece weterynaryjnej i wyżywieniu stanęła na nogi. Uwielbia spacery, bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Violi odpowiedzialnego domu.",
     "pet": {
       "name": "Viola",
