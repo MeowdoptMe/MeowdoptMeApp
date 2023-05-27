@@ -123,7 +123,9 @@ class PermissionRequestResolve(UpdateAPIView):
                         shelter=permission_request.shelter,
                         permission=permission,
                     )
-            permission = Permission.objects.get(codename=PermissionRequestAccess.all_user_view_permission)
+            permission = Permission.objects.get(
+                codename=PermissionRequestAccess.all_user_view_permission
+            )
             UserPermission.objects.create(
                 user=request.user,
                 shelter=permission_request.shelter,

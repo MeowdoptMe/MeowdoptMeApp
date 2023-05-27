@@ -26,7 +26,6 @@ class UserPermission(models.Model):
             UserPermission.objects.create(user=instance, permission=permission_delete)
 
 
-
 class PermissionRequest(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False

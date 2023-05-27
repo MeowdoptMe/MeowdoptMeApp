@@ -6,11 +6,8 @@ from .models import UserPermission, PermissionRequest
 
 
 Permission.objects.create(
-        codename="view_all_users",
-        name='Can view all users data',
-        content_type_id=6
+    codename="view_all_users", name="Can view all users data", content_type_id=6
 )
-
 
 
 class UserPermissionAccess(BasePermission):

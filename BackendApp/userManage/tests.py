@@ -19,7 +19,9 @@ class UserTests(APITestCase):
             "is_staff": 1,
             "is_active": 1,
         }
-        self.user = User.objects.create_user(username="ewa", password="ewa12345", email="ewa@tdd.com")
+        self.user = User.objects.create_user(
+            username="ewa", password="ewa12345", email="ewa@tdd.com"
+        )
         self.user2 = User.objects.create_user(username="gocha", password="gocha12345")
 
         permission_view = Permission.objects.get(codename="view_user")
@@ -126,6 +128,7 @@ class UserTests(APITestCase):
             f"Expected Response Code 403, received {response.status_code} instead.",
         )
         self.assertNotEqual(User.objects.get(id=1).email, self.data["email"])
+
     def test_remove_with_auth(self):
         self.client.force_authenticate(user=self.user)
         current_objects_count = User.objects.count()
