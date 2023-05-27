@@ -6,7 +6,7 @@ class PhotoAlbum(models.Model):
 
 
 class Photo(models.Model):
-    img = models.CharField(max_length=255)
+    img = models.ImageField(upload_to="photos")
     photo_album = models.ForeignKey(
         PhotoAlbum, related_name="photos", on_delete=models.CASCADE, null=True
     )
