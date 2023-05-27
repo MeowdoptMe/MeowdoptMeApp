@@ -213,7 +213,11 @@ function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
     } else if (password !== repeatedPassword) {
       setError("Passwords don't match");
       return;
+    } else if (authUtils.isValidEmail(email) === false) {
+      setError('Please enter a valid email');
+      return;
     }
+
     setError(undefined);
     setLoading(true);
     try {
@@ -307,6 +311,34 @@ function ForgotPasswordModal({
   forgotPasswordModalVisible,
   setForgotPasswordModalVisible,
 }: ForgotPasswordModalProps) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [email, setEmail] = useState<string>('');
+  const [requestSent, setRequestSent] = useState(false);
+
+  async function onPressOut() {
+    setRequestSent(false);
+    if (email === '') {
+      setError('Please fill in your email');
+      return;
+    } else if (authUtils.isValidEmail(email) === false) {
+      setError('Please enter a valid email');
+      return;
+    }
+    setError(undefined);
+    setLoading(true);
+    try {
+      await authUtils.sleep();
+      await authUtils.resetPassword(email);
+      setError(undefined);
+      setRequestSent(true);
+    } catch (e) {
+      setError(e as string);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <Modal visible={forgotPasswordModalVisible} animationType="slide">
       <SafeAreaView style={styles.scrollViewContainer}>
@@ -316,18 +348,25 @@ function ForgotPasswordModal({
               placeholder="login/email"
               placeholderTextColor={'navy'}
               style={styles.inputBox}
+              onChangeText={text => {
+                setEmail(text);
+              }}
             />
             <GeneralButton
-              text="Reset password"
-              onPressOut={() => {
-                console.log('Request sent');
-              }}
+              text="Reset password!"
+              textStyle={styles.resetPasswordButtonText}
+              onPressOut={onPressOut}
             />
             <GeneralButton
               text="Cancel"
               onPressOut={() => {
                 setForgotPasswordModalVisible(false);
               }}
+            />
+            <Status
+              loading={loading}
+              error={error}
+              hint={requestSent ? 'Ruff! Request sent' : undefined}
             />
           </View>
         </ScrollView>
