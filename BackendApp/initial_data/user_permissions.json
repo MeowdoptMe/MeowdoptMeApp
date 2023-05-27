@@ -10,5 +10,8 @@
   { "user": 1, "shelter": 1, "permission": 33 },
   { "user": 1, "shelter": 1, "permission": 34 },
   { "user": 1, "shelter": 1, "permission": 35 },
-  { "user": 1, "shelter": 1, "permission": 36 }
+  { "user": 1, "shelter": 1, "permission": 36 },
+  { "user": 1, "shelter": 1, "permission": 41 },
+  { "user": 1, "shelter": 1, "permission": 42 },
+  { "user": 1, "shelter": 1, "permission": 43 }
 ]
