@@ -1,7 +1,16 @@
 from django.contrib.auth.models import Permission
+
 from rest_framework.permissions import BasePermission
 
 from .models import UserPermission, PermissionRequest
+
+
+Permission.objects.create(
+        codename="view_all_users",
+        name='Can view all users data',
+        content_type_id=6
+)
+
 
 
 class UserPermissionAccess(BasePermission):
@@ -73,6 +82,7 @@ class PermissionRequestAccess(BasePermission):
         "change_ad",
         "view_user",
     ]
+    all_user_view_permission = "view_all_users"
 
     def has_permission(self, request, view):
         request_id = view.kwargs.get("pk")

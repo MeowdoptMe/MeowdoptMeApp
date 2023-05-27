@@ -33,7 +33,7 @@ class UserManageDetailPermission(BasePermission):
 
 class UserManageViewPermission(BasePermission):
     def has_permission(self, request, view):
-        id = Permission.objects.get(codename="view_user")
+        id = Permission.objects.get(codename="view_all_users")
         permission = UserPermission.objects.filter(
             user_id=request.user.id, permission_id=id
         )
