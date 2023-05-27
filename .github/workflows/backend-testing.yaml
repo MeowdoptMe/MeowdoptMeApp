@@ -15,7 +15,12 @@ jobs:
         uses: actions/checkout@v3
       - name: Install dependencies
         run: pip install -r BackendApp/requirements.txt
-      - name: Test
+      - name: Run unit test
         working-directory: BackendApp
         run: python3 manage.py test --verbosity 2
-        
+      - name: Create database file
+        working-directory: BackendApp
+        run: make updatedb
+      - name: Run prepare script
+        working-directory: BackendApp
+        run: make prepare

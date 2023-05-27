@@ -59,7 +59,7 @@ def add_photo_albums(albums):
     for album in albums:
         photo_album = PhotoAlbum.objects.create(name=album["name"])
         for photo in album["photos"]:
-            Photo.objects.create(dir=photo["dir"], photo_album=photo_album)
+            Photo.objects.create(img=photo["img"], photo_album=photo_album)
 
 
 def add_ads(ads):
@@ -90,9 +90,11 @@ def add_ads(ads):
 
 
 def load_data():
-    add_users(users)
-    add_shelters(shelters)
-    add_user_permissions(permissions)
+    # add_users(users)
+    # add_shelters(shelters)
+    # add_user_permissions(permissions)
+    add_photo_albums(albums)
+    add_ads(ads)
 
 
 load_data()

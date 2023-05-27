@@ -1,5 +1,12 @@
 import axios, {isAxiosError} from 'axios';
-import {databaseUrl} from './Database';
+import Database from './Database';
+
+const emailRegex =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+const isValidEmail = (email: string) => {
+  return emailRegex.test(email);
+};
 
 async function sleep() {
   return new Promise(resolve => setTimeout(resolve, 2000));
@@ -7,7 +14,7 @@ async function sleep() {
 
 async function login(username: string, password: string) {
   try {
-    const response = await axios.post(`${databaseUrl}/userAuth/login/`, {
+    const response = await axios.post(Database.loginUrl, {
       username,
       password,
     });
@@ -26,7 +33,7 @@ async function login(username: string, password: string) {
 
 async function register(username: string, email: string, password: string) {
   try {
-    await axios.post(`${databaseUrl}/userAuth/register/`, {
+    await axios.post(Database.registerUrl, {
       username,
       email,
       password,
@@ -46,8 +53,25 @@ async function register(username: string, email: string, password: string) {
   }
 }
 
+async function resetPassword(email: string) {
+  try {
+    await axios.post(Database.resetPasswordUrl, {email});
+  } catch (e: unknown) {
+    if (isAxiosError(e)) {
+      if (e.response?.data?.email) {
+        throw e.response.data.email[0];
+      } else {
+        throw e.message;
+      }
+    }
+    throw e;
+  }
+}
+
 export default {
   sleep,
   login,
   register,
+  resetPassword,
+  isValidEmail,
 };

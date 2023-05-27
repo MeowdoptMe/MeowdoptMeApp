@@ -164,7 +164,7 @@ describe('StartingScreen', () => {
         );
         fireEvent.changeText(
           screen.getByPlaceholderText(/email/),
-          'jest-test-email',
+          'jest@test.email',
         );
         fireEvent.changeText(
           screen.getByPlaceholderText(/^password/),
@@ -328,6 +328,95 @@ describe('StartingScreen', () => {
 
       postSpy.mockRestore();
       loginSpy.mockRestore();
+    });
+  });
+
+  describe('Reset password modal', () => {
+    function openForgotPasswordModal() {
+      act(() => {
+        fireEvent(screen.getByText(/Reset password/), 'onPressOut');
+      });
+    }
+    function provideEmailCredentials(email = 'jest@test.email') {
+      openForgotPasswordModal();
+      act(() => {
+        fireEvent.changeText(screen.getByPlaceholderText(/email/), email);
+      });
+    }
+    async function attemptPasswordReset() {
+      await act(async () => {
+        fireEvent(screen.getByText(/Reset password!/), 'onPressOut');
+      });
+    }
+
+    it("appears when 'Forgot password' button is pressed", () => {
+      render(<App />);
+      openForgotPasswordModal();
+      expect(screen.getByText(/Reset password!/)).toBeOnTheScreen();
+    });
+
+    it("doesn't call 'authUtils.resetPassword' when 'Reset password' button is pressed with incorrect data", async () => {
+      const spy = jest.spyOn(authUtils, 'resetPassword');
+
+      render(<App />);
+      openForgotPasswordModal();
+      await attemptPasswordReset();
+
+      expect(authUtils.resetPassword).not.toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+
+    it("shows error message when 'Reset password' button is pressed with incorrect data", async () => {
+      render(<App />);
+      openForgotPasswordModal();
+      await attemptPasswordReset();
+
+      expect(
+        screen.getByText(/Woof! Please fill in your email/),
+      ).toBeOnTheScreen();
+    });
+
+    it("calls 'authUtils.resetPassword' when 'Reset password' button is pressed with correct data", async () => {
+      const spy = jest.spyOn(authUtils, 'resetPassword');
+
+      render(<App />);
+      provideEmailCredentials();
+      await attemptPasswordReset();
+
+      expect(authUtils.resetPassword).toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+
+    it("shows error message when 'authUtils.resetPassword' fails", async () => {
+      const spy = jest.spyOn(axios, 'post');
+      spy.mockImplementationOnce(() => {
+        return Promise.reject('jest-mock-error');
+      });
+
+      render(<App />);
+      provideEmailCredentials();
+      await attemptPasswordReset();
+
+      expect(screen.getByText(/jest-mock-error/)).toBeOnTheScreen();
+
+      spy.mockRestore();
+    });
+
+    it("shows success message when 'authUtils.resetPassword' succeeds", async () => {
+      const spy = jest.spyOn(axios, 'post');
+      spy.mockImplementationOnce(() => {
+        return Promise.resolve({status: 200});
+      });
+
+      render(<App />);
+      provideEmailCredentials();
+      await attemptPasswordReset();
+
+      expect(screen.getByText(/Ruff! Request sent/)).toBeOnTheScreen();
+
+      spy.mockRestore();
     });
   });
 });

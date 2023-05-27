@@ -15,64 +15,63 @@ function MainScreen() {
   const [shelter, setShelter] = React.useState<string | undefined>(undefined);
   return (
     <ShelterContext.Provider value={{shelter, setShelter}}>
-      <NavigationContainer>
-        <Tab.Navigator
-          backBehavior="none"
-          initialRouteName="HomeScreen"
-          keyboardHidesNavigationBar={true}
-          barStyle={{
-            backgroundColor: colorPalette.strongAccentColor,
-          }}
-          screenOptions={({route}) => ({
-            tabBarIcon: ({focused}) => {
-              if (route.name === 'SheltersScreen') {
-                return (
-                  <Ionicons
-                    name={focused ? 'home' : 'home-outline'}
-                    size={25}
-                    color={focused ? '#000' : '#fff'}
-                  />
-                );
-              }
-              if (route.name === 'HomeScreen') {
-                return (
-                  <Ionicons
-                    name={focused ? 'paw' : 'paw-outline'}
-                    size={25}
-                    color={focused ? '#000' : '#fff'}
-                  />
-                );
-              }
-              if (route.name === 'PreferencesScreen') {
-                return (
-                  <Ionicons
-                    name={focused ? 'settings' : 'settings-outline'}
-                    size={25}
-                    color={focused ? '#000' : '#fff'}
-                  />
-                );
-              }
-            },
-          })}>
-          <Tab.Screen
-            name="SheltersScreen"
-            component={SheltersScreen}
-            options={{title: 'Shelters'}}
-          />
-          <Tab.Screen
-            name="HomeScreen"
-            component={HomeScreen}
-            options={{title: 'Home'}}
-          />
-          <Tab.Screen
-            name="PreferencesScreen"
-            component={PreferencesScreen}
-            options={{title: 'Preferences'}}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <MainScreenNavigation />
     </ShelterContext.Provider>
   );
 }
 
+function MainScreenNavigation() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        backBehavior="none"
+        initialRouteName="HomeScreen"
+        keyboardHidesNavigationBar={true}
+        barStyle={{
+          backgroundColor: colorPalette.strongAccentColor,
+        }}
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused}) => {
+            if (route.name === 'SheltersScreen') {
+              return tabBarIcon('home', focused);
+            }
+            if (route.name === 'HomeScreen') {
+              return tabBarIcon('paw', focused);
+            }
+            if (route.name === 'PreferencesScreen') {
+              return tabBarIcon('settings', focused);
+            }
+          },
+        })}>
+        <Tab.Screen
+          name="SheltersScreen"
+          component={SheltersScreen}
+          options={{title: 'Shelters'}}
+        />
+        <Tab.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{title: 'Home'}}
+        />
+        <Tab.Screen
+          name="PreferencesScreen"
+          component={PreferencesScreen}
+          options={{title: 'Preferences'}}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function tabBarIcon(name: string, focused: boolean) {
+  return (
+    <Ionicons
+      name={focused ? name : `${name}-outline`}
+      size={25}
+      color={focused ? '#000' : '#fff'}
+    />
+  );
+}
+
+export {MainScreenNavigation};
 export default MainScreen;

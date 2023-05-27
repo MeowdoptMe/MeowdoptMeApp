@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import React from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -15,16 +15,27 @@ const {width} = Dimensions.get('window');
 
 interface StatusProps {
   loading: boolean;
-  error: string | undefined;
+  error?: string;
+  hint?: string;
 }
 
-function Status({loading, error}: StatusProps) {
+function Status({loading, error, hint}: StatusProps) {
   return (
     <View style={styles.statusBox}>
       <LoadingIndicator loading={loading} />
-      <Text style={styles.statusErrorText}>{error && `Woof! ${error}`}</Text>
+      {error ? ErrorText(error) : hint ? HintText(hint) : null}
     </View>
   );
+}
+
+function ErrorText(error: string) {
+  return (
+    <Text style={styles.statusErrorText}>{error && `Woof! ${error}`}</Text>
+  );
+}
+
+function HintText(hint: string) {
+  return <Text style={styles.statusHintText}>{hint}</Text>;
 }
 
 interface LoadingIndicatorProps {
@@ -44,7 +55,7 @@ function LoadingIndicator({loading}: LoadingIndicatorProps) {
 
   if (loading) {
   }
-  useEffect(() => {
+  React.useEffect(() => {
     if (loading) {
       spin.value = withRepeat(
         withTiming(360, {duration: 900, easing: Easing.inOut(Easing.sin)}),
@@ -78,6 +89,12 @@ const styles = StyleSheet.create({
   statusErrorText: {
     marginTop: 5,
     color: 'red',
+    textAlign: 'center',
+    maxWidth: width - 20,
+  },
+  statusHintText: {
+    marginTop: 5,
+    color: colorPalette.strongAccentColor,
     textAlign: 'center',
     maxWidth: width - 20,
   },
