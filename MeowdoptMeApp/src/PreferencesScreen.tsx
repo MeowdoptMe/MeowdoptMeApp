@@ -1,7 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {useState} from 'react';
-import {ChangePasswordModal} from './AppSettings';
+import {
+  ChangeMailModal,
+  ChangePasswordModal,
+  DeleteAccountModal,
+  LogoutModal,
+} from './AppSettings';
 import {GeneralButton} from './components/GeneralButton';
 
 function PreferencesScreen() {
@@ -12,13 +17,21 @@ function PreferencesScreen() {
   };
   const [changePasswordModalVisible, setChangePasswordModalVisible] =
     useState(false);
+  const [changeMailModalVisible, setChangeMailModalVisible] = useState(false);
+  const [deleteAccountModalVisible, setDeleteAccountModalVisible] =
+    useState(false);
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
 
   return (
     <View style={styles.sectionContainer}>
-      <MyButton
+      {/* <MyButton
         title={'AdFilters'}
         buttonText={'Set your filters'}
         {...state}
+      /> */}
+      <GeneralButton
+        text="Set your filters"
+        onPressOut={() => setChangePasswordModalVisible(false)}
       />
       <ChangePasswordModal
         changePasswordModalVisible={changePasswordModalVisible}
@@ -28,18 +41,31 @@ function PreferencesScreen() {
         text={'Change your password'}
         onPressOut={() => setChangePasswordModalVisible(true)}
       />
-      <MyButton
-        title={'setUsername'}
-        buttonText={'Set your username'}
-        {...state}
+      <ChangeMailModal
+        changeMailModalVisible={changeMailModalVisible}
+        setChangeMailModalVisible={setChangeMailModalVisible}
       />
-      <MyButton title={'setMail'} buttonText={'Set your email'} {...state} />
-      <MyButton
-        title={'deleteAccount'}
-        buttonText={'Delete your account'}
-        {...state}
+      <GeneralButton
+        text={'Change your mail'}
+        onPressOut={() => setChangeMailModalVisible(true)}
       />
-      <MyButton title={'logout'} buttonText={'Logout'} {...state} />
+      <DeleteAccountModal
+        deleteAccountModalVisible={deleteAccountModalVisible}
+        setDeleteAccountModalVisible={setDeleteAccountModalVisible}
+      />
+      <GeneralButton
+        text="Delete your account"
+        onPressOut={() => setDeleteAccountModalVisible(true)}
+      />
+      {/* <MyButton title={'logout'} buttonText={'Logout'} {...state} /> */}
+      <LogoutModal
+        logoutModalVisible={logoutModalVisible}
+        setLogoutModalVisible={setLogoutModalVisible}
+      />
+      <GeneralButton
+        text="Logout"
+        onPressOut={() => setLogoutModalVisible(true)}
+      />
     </View>
   );
 }
