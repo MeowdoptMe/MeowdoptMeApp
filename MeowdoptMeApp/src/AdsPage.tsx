@@ -25,6 +25,7 @@ import {runOnJS} from 'react-native-reanimated';
 
 // "https://icons8.com"
 const infoIcon = require('../assets/info-icon.png');
+const editIcon = require('../assets/edit-icon.png');
 const grief = require('../assets/grief.png');
 const {width, height} = Dimensions.get('window');
 
@@ -55,7 +56,10 @@ interface AdContainerProps {
 }
 
 function AdContainer({ad}: AdContainerProps) {
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [infoModalVisible, setInfoModalVisible] = React.useState(false);
+  const [editModalVisible, setEditModalVisible] = React.useState(false);
+  const [modalDisplayData, setModalDisplayData] = React.useState({});
+
   return (
     <View style={styles.listElement}>
       <View style={styles.listElementHeader}>
@@ -73,18 +77,33 @@ function AdContainer({ad}: AdContainerProps) {
           <View style={styles.innerListElementContainer}>
             {/* @ts-expect-error Source is defined as string but we hax */}
             <FastImage style={styles.listElementImage} source={item.img} />
+            <Pressable
+              style={styles.infoIconContainer}
+              onPressOut={() => {
+                setInfoModalVisible(true);
+              }}>
+              <Image source={infoIcon} style={styles.infoIcon} />
+            </Pressable>
+            <Pressable
+              style={styles.editIconContainer}
+              onPressOut={() => {
+                setEditModalVisible(true);
+                // need to pass data here
+              }}>
+              <Image source={editIcon} style={styles.editIcon} />
+            </Pressable>
           </View>
         )}
       />
-      <Pressable
-        style={styles.infoIconContainer}
-        onPressOut={() => {
-          console.log('Pressed');
-          setModalVisible(true);
-        }}>
-        <Image source={infoIcon} style={styles.infoIcon} />
-      </Pressable>
-      <InformationModal visible={modalVisible} setVisible={setModalVisible} />
+      <EditModal
+        ad={ad}
+        visible={editModalVisible}
+        setVisible={setEditModalVisible}
+      />
+      <InformationModal
+        visible={infoModalVisible}
+        setVisible={setInfoModalVisible}
+      />
     </View>
   );
 }
@@ -154,6 +173,46 @@ function InformationModal({visible, setVisible}: InformationModalProps) {
   );
 }
 
+interface EditModalProps {
+  ad: Ad;
+  visible: boolean;
+  setVisible: (visible: boolean) => void;
+}
+
+function EditModal({ad, visible, setVisible}: EditModalProps) {
+  return (
+    <Modal animationType={'slide'} visible={visible} transparent={true}>
+      <View style={styles.editModal}>
+        <Text style={styles.listElementText}>{ad.pet.name}</Text>
+        <Text style={styles.listElementText}>
+          {ad.pet.petCharacteristics.gender}
+        </Text>
+        <Text style={styles.listElementText}>
+          {ad.pet.petCharacteristics.breed}
+        </Text>
+        <Text style={styles.listElementText}>
+          {ad.pet.petCharacteristics.dateOfBirth?.year}
+        </Text>
+        <Text style={styles.listElementText}>
+          {ad.pet.petCharacteristics.dateOfBirth?.month}
+        </Text>
+        <Text style={styles.listElementText}>
+          {ad.pet.petCharacteristics.color}
+        </Text>
+        <Text style={styles.listElementText}>
+          {ad.pet.petCharacteristics.gender}
+        </Text>
+        <GeneralButton
+          text={'Close'}
+          onPressOut={() => {
+            setVisible(false);
+          }}
+        />
+      </View>
+    </Modal>
+  );
+}
+
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
@@ -195,6 +254,21 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
   },
+  editIconContainer: {
+    position: 'absolute',
+    padding: 4,
+    bottom: height * 0.15,
+    left: width * 0.05,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    overflow: 'hidden',
+    backgroundColor: colorPalette.lightAccentColor,
+  },
+  editIcon: {
+    height: 50,
+    width: 50,
+  },
   innerListElementContainer: {
     height: height,
     width: width,
@@ -231,6 +305,16 @@ const styles = StyleSheet.create({
     height: height * 0.5,
     width: width * 0.8,
     borderRadius: width * 0.5,
+    backgroundColor: colorPalette.lightAccentColor,
+  },
+  editModal: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: height * 0.25,
+    left: width * 0.1,
+    height: height * 0.5,
+    width: width * 0.8,
     backgroundColor: colorPalette.lightAccentColor,
   },
   grief: {

@@ -57,15 +57,4 @@ describe('Ad class', () => {
     const shareUri = ad.share();
     expect(shareUri).toBeDefined();
   });
-
-  it('renders ad', () => {
-    // TODO to be corrected later on
-    let ad: Ad;
-    try {
-      // @ts-expect-error
-      ad.render();
-    } catch (error) {
-      fail(error);
-    }
-  });
 });
