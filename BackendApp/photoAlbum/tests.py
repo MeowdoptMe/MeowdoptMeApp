@@ -5,7 +5,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from .models import PhotoAlbum, Photo
-from .utils import create_png_file
+from .utils import create_jpg_file
 from userAuth.models import User
 from shelterRelated.models import Shelter
 from adRelated.models import Ad, Pet
@@ -145,7 +145,7 @@ class PhotoAlbumTests(APITestCase):
 class PhotoTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
-        self.file = create_png_file()
+        self.file = create_jpg_file()
         self.data = {
             "img": self.file,
             "photo_album": 1,
@@ -241,7 +241,7 @@ class PhotoTests(APITestCase):
         self.client.force_authenticate(user=self.user)
         url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
         data = {
-            "img": create_png_file(),
+            "img": create_jpg_file(),
         }
         response = self.client.put(url, data)
         self.assertEqual(
@@ -257,7 +257,7 @@ class PhotoTests(APITestCase):
         )
         url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
         data = {
-            "img": create_png_file(),
+            "img": create_jpg_file(),
         }
         response = self.client.put(url, data)
         self.assertEqual(
@@ -274,7 +274,7 @@ class PhotoTests(APITestCase):
         self.client.force_authenticate(user=self.user2)
         url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
         data = {
-            "img": create_png_file(),
+            "img": create_jpg_file(),
         }
         response = self.client.put(url, data)
         self.assertEqual(
