@@ -167,3 +167,48 @@ class PetTests(APITestCase):
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
+
+
+class AdFiltersTests(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.url = reverse("ad_list")
+        date_of_birth = DateOfBirth.objects.create(year=2019, month=5)
+        pet_char = PetCharacteristics.objects.create(
+            species="dog",
+            breed="mixed breed",
+            gender="female",
+            color="white",
+            date_of_birth=date_of_birth,
+        )
+        Pet.objects.create(name="Jarzyna", pet_characteristics=pet_char)
+        shelter = Shelter.objects.create()
+        PhotoAlbum.objects.create()
+        Ad.objects.create(
+            active=True,
+            shelter=shelter,
+            description="Jarzyna to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
+            pet_id=1,
+            photo_album_id=1,
+        )
+
+    def test_queryset_exist(self):
+        url = f"{self.url}?species=dog&breed=mixed+breed&gender=female&year=2019&month=5&color=white"
+        response = self.client.get(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+            f"Expected Response Code 200, received {response.status_code} instead.",
+        )
+        self.assertEqual(response.data[0]["shelter"], 1)
+
+    def test_queryset_not_exist(self):
+        url = f"{self.url}?species=dog&breed=mixed+breed&gender=female&year=2021&month=2&color=white"
+        response = self.client.get(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+            f"Expected Response Code 200, received {response.status_code} instead.",
+        )
+        with self.assertRaises(IndexError):
+            result = response.data[0]["shelter"]
