@@ -193,7 +193,7 @@ class AdFiltersTests(APITestCase):
         )
 
     def test_queryset_exist(self):
-        url = f"{self.url}?species=dog&breed=mixed breed&gender=female&year=2019&month=5&color=white"
+        url = f"{self.url}?species=dog&breed=mixed+breed&gender=female&year=2019&month=5&color=white"
         response = self.client.get(url)
         self.assertEqual(
             response.status_code,
@@ -203,7 +203,7 @@ class AdFiltersTests(APITestCase):
         self.assertEqual(response.data[0]["shelter"], 1)
 
     def test_queryset_not_exist(self):
-        url = f"{self.url}?species=dog&breed=mixed breed&gender=female&year=2021&month=2&color=white"
+        url = f"{self.url}?species=dog&breed=mixed+breed&gender=female&year=2021&month=2&color=white"
         response = self.client.get(url)
         self.assertEqual(
             response.status_code,

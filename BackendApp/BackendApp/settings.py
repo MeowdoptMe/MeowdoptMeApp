@@ -154,3 +154,6 @@ AUTH_PROFILE_MODULE = "userAuth.User"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# for converts the '+' back to a space in filter url
+APPEND_SLASH = True
