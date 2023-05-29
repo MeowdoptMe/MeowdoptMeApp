@@ -122,13 +122,7 @@ class PasswordResetEmailView(GenericAPIView):
                 "body": email_body,
                 "subject": "Reset your password in MeowdoptMeApp",
             }
-            try:
-                send_email(serializer, data)
-            except SMTPDataError:
-                return Response(
-                    {"detail": "Unexpected error code from server."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+            send_email(serializer, data)
 
         else:
             return Response(
