@@ -1,3 +1,5 @@
+from smtplib import SMTPDataError
+
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -113,15 +115,21 @@ class PasswordResetEmailView(GenericAPIView):
             email_body = (
                 "Hello "
                 + user.username
-                + " Use the link below to reset your password \n"
+                + ",\nUse the link below to reset your password \n"
                 + absurl
             )
             data = {
-                "email_body": email_body,
-                "email_subject": "Reset your password in MeowdoptMeApp",
+                "body": email_body,
+                "subject": "Reset your password in MeowdoptMeApp",
             }
+            try:
+                send_email(serializer, data)
+            except SMTPDataError:
+                return Response(
+                    {"detail": "Unexpected error code from server."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
-            send_email(serializer, data)
         else:
             return Response(
                 {"detail": "The user with the provided email address does not exist."},

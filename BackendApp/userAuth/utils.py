@@ -1,5 +1,6 @@
 import smtplib
 import ssl
+from email.message import EmailMessage
 
 
 def send_email(serializer, data):
@@ -14,4 +15,9 @@ def send_email(serializer, data):
         server.starttls(context=context)
         server.ehlo()
         server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, data["email_body"])
+        msg = EmailMessage()
+        msg["Subject"] = data["subject"]
+        msg["From"] = sender_email
+        msg["To"] = receiver_email
+        msg.set_content(data["body"])
+        server.send_message(msg)
