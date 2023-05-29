@@ -13,7 +13,6 @@ from .permissions import AdRelatedPermission
 from .serializers import PetSerializer, AdSerializer
 
 
-
 class AdList(ListAPIView):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
