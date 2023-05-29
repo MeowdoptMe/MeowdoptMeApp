@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "adRelated",
     "photoAlbum",
     "userManage",
-    "drf_spectacular",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
