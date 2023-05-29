@@ -34,6 +34,7 @@ urlpatterns = [
     path("shelters/", include("shelterRelated.urls")),
     path("ads/", include("adRelated.urls")),
     path("photo-albums/", include("photoAlbum.urls")),
+    path("users/", include("userManage.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "",
