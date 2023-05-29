@@ -210,4 +210,5 @@ class AdFiltersTests(APITestCase):
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
-        self.assertRaises(IndexError, response.data[0], "shelter")
+        with self.assertRaises(IndexError):
+            result = response.data[0]["shelter"]
