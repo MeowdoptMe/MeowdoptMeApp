@@ -41,7 +41,7 @@ class ShelterTests(APITestCase):
 
     def test_list(self):
         url = reverse_lazy("shelter_list")
-        response = self.factory.get(url)
+        response = self.client.get(url)
         self.assertEqual(
             response.status_code,
             200,
