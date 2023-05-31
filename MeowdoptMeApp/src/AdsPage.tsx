@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {createContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Image,
   Pressable,
   Modal,
+  TextInput,
 } from 'react-native';
 import {FlashList} from '@shopify/flash-list';
 import colorPalette from '../assets/colors';
@@ -14,19 +15,10 @@ import {ads} from './sampleData/adsPhotos';
 import type {Ad} from './commonTypes';
 import FastImage from 'react-native-fast-image';
 import {GeneralButton} from './components/GeneralButton';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from 'react-native-reanimated';
-import {runOnJS} from 'react-native-reanimated';
+import {launchImageLibrary} from 'react-native-image-picker';
 
-// "https://icons8.com"
-const infoIcon = require('../assets/info-icon.png');
+// "https://icons8.com";
 const editIcon = require('../assets/edit-icon.png');
-const grief = require('../assets/grief.png');
 const {width, height} = Dimensions.get('window');
 
 function AdsPage() {
@@ -37,28 +29,47 @@ function AdsPage() {
   );
 }
 
+const AdListContext = createContext<any>([]);
+
 function AdList() {
+  const [data, setData] = React.useState(ads);
+  function changeAd(oldAd: Ad, newAd: Ad) {
+    console.log('changing');
+    const newAds = data.map(ad => {
+      if (ad === oldAd) {
+        return newAd;
+      }
+      return ad;
+    });
+    setData(newAds);
+  }
+
   return (
-    <FlashList
-      data={ads}
-      estimatedItemSize={800}
-      showsVerticalScrollIndicator={false}
-      snapToAlignment={'start'}
-      decelerationRate={'normal'}
-      snapToInterval={height}
-      renderItem={({item}) => <AdContainer ad={item} />}
-    />
+    <AdListContext.Provider value={{changeAd}}>
+      <FlashList
+        data={data}
+        estimatedItemSize={800}
+        showsVerticalScrollIndicator={false}
+        snapToAlignment={'start'}
+        decelerationRate={'fast'}
+        snapToInterval={height}
+        renderItem={({item}) => <AdContainer ad={item} />}
+      />
+    </AdListContext.Provider>
   );
 }
+
+// @ts-expect-error
+const AdContext = createContext<Ad>(undefined);
 
 interface AdContainerProps {
   ad: Ad;
 }
 
 function AdContainer({ad}: AdContainerProps) {
-  const [infoModalVisible, setInfoModalVisible] = React.useState(false);
   const [editModalVisible, setEditModalVisible] = React.useState(false);
-  const [modalDisplayData, setModalDisplayData] = React.useState({});
+
+  const data = Array.prototype.concat({}, ad.photoAlbum.photos);
 
   return (
     <View style={styles.listElement}>
@@ -66,110 +77,207 @@ function AdContainer({ad}: AdContainerProps) {
         <Text style={styles.listElementHeaderText}>{ad.pet.name}</Text>
       </View>
       <FlashList
-        data={ad.photoAlbum.photos}
+        data={data}
         estimatedItemSize={400}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         snapToAlignment={'center'}
-        decelerationRate={'normal'}
+        decelerationRate={'fast'}
         snapToInterval={width}
-        renderItem={({item}) => (
-          <View style={styles.innerListElementContainer}>
-            {/* @ts-expect-error Source is defined as string but we hax */}
-            <FastImage style={styles.listElementImage} source={item.img} />
-            <Pressable
-              style={styles.infoIconContainer}
-              onPressOut={() => {
-                setInfoModalVisible(true);
-              }}>
-              <Image source={infoIcon} style={styles.infoIcon} />
-            </Pressable>
-            <Pressable
-              style={styles.editIconContainer}
-              onPressOut={() => {
-                setEditModalVisible(true);
-                // need to pass data here
-              }}>
-              <Image source={editIcon} style={styles.editIcon} />
-            </Pressable>
-          </View>
-        )}
+        initialScrollIndex={1}
+        renderItem={({item, index}) =>
+          index === 0 ? (
+            <AdContext.Provider value={ad}>
+              <InfoScreen />
+            </AdContext.Provider>
+          ) : (
+            <View style={styles.innerListElementContainer}>
+              <FastImage style={styles.listElementImage} source={item.img} />
+              <Pressable
+                style={styles.editIconContainer}
+                onPressOut={() => {
+                  setEditModalVisible(true);
+                  // need to pass data here
+                }}>
+                <Image source={editIcon} style={styles.editIcon} />
+              </Pressable>
+            </View>
+          )
+        }
       />
       <EditModal
         ad={ad}
         visible={editModalVisible}
         setVisible={setEditModalVisible}
       />
-      <InformationModal
-        visible={infoModalVisible}
-        setVisible={setInfoModalVisible}
+    </View>
+  );
+}
+
+function InfoScreen() {
+  const [EditMode, setEditMode] = React.useState(false);
+
+  return EditMode ? (
+    <InformationEdit setEditMode={setEditMode} />
+  ) : (
+    <InformationView setEditMode={setEditMode} />
+  );
+}
+
+interface InformationViewProps {
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function InformationView({setEditMode}: InformationViewProps) {
+  const ad = React.useContext(AdContext);
+  const {gender, breed, color, dateOfBirth} = ad.pet.petCharacteristics;
+  function getAge() {
+    const date = new Date();
+    let age = date.getFullYear() - dateOfBirth.year;
+    if (date.getMonth() < dateOfBirth.month) {
+      age--;
+    }
+    if (age < 1) {
+      age = 1;
+    }
+    return age;
+  }
+  const age = getAge();
+
+  return (
+    <View style={styles.informationScreenContainer}>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Gender:</Text>
+        <Text style={styles.informationDataText}>{gender}</Text>
+      </View>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Breed:</Text>
+        <Text style={styles.informationDataText}>{breed}</Text>
+      </View>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Color:</Text>
+        <Text style={styles.informationDataText}>{color}</Text>
+      </View>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Age:</Text>
+        <Text style={styles.informationDataText}>{age}</Text>
+      </View>
+      <GeneralButton
+        text={'Edit'}
+        onPressOut={() => {
+          setEditMode(true);
+        }}
       />
     </View>
   );
 }
 
-interface InformationModalProps {
-  visible: boolean;
-  setVisible: (visible: boolean) => void;
+interface InformationEditProps {
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function InformationModal({visible, setVisible}: InformationModalProps) {
-  const [animationStarted, setAnimationStarted] = React.useState(false);
-  const spin = useSharedValue(0);
-  const [size, setSize] = React.useState(27);
-  const sharedSize = useSharedValue(27);
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      borderRadius: size,
-      height: size * 1.4,
-      width: size * 1.4,
-      borderWidth: 2,
-      borderStyle: 'dotted',
-      backgroundColor: colorPalette.lightAccentColor,
-      overflow: 'hidden',
-      transform: [{rotate: `${spin.value}deg`}],
-    };
-  });
+function InformationEdit({setEditMode}: InformationEditProps) {
+  const ad = React.useContext(AdContext);
+  const {changeAd} = React.useContext(AdListContext);
 
-  useEffect(() => {
-    if (animationStarted) {
-      spin.value = withRepeat(
-        withTiming(
-          360,
-          {
-            duration: 900,
-            easing: Easing.inOut(Easing.sin),
-          },
-          () => {
-            sharedSize.value = sharedSize.value / 0.9;
-            runOnJS(setSize)(sharedSize.value);
-          },
-        ),
-        -1,
-        false,
-      );
-    }
-  }, [animationStarted, sharedSize, spin]);
+  const [name, setName] = React.useState(ad.pet.name);
+  const [species, setSpecies] = React.useState(
+    ad.pet.petCharacteristics.species,
+  );
+  const [gender, setGender] = React.useState(ad.pet.petCharacteristics.gender);
+  const [breed, setBreed] = React.useState(ad.pet.petCharacteristics.breed);
+  const [color, setColor] = React.useState(ad.pet.petCharacteristics.color[0]);
+  const [year, setYear] = React.useState(
+    String(ad.pet.petCharacteristics.dateOfBirth.year),
+  );
+  const [month, setMonth] = React.useState(
+    String(ad.pet.petCharacteristics.dateOfBirth.month),
+  );
 
   return (
-    <Modal animationType={'slide'} visible={visible} transparent={true}>
-      <View style={styles.informationModal}>
-        <Pressable
-          onPressOut={() => {
-            setAnimationStarted(true);
-          }}>
-          <Animated.View style={animatedStyle}>
-            <Animated.Image source={grief} style={styles.grief} />
-          </Animated.View>
-        </Pressable>
-        <GeneralButton
-          text={'Close'}
-          onPressOut={() => {
-            setVisible(false);
-          }}
+    <View style={styles.informationScreenContainer}>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Name:</Text>
+        <TextInput
+          style={styles.informationDataChange}
+          value={name}
+          onChangeText={text => setName(text)}
         />
       </View>
-    </Modal>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Gender:</Text>
+        <TextInput
+          style={styles.informationDataChange}
+          value={gender}
+          onChangeText={text => setGender(text)}
+        />
+      </View>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Species:</Text>
+        <TextInput
+          style={styles.informationDataChange}
+          value={species}
+          onChangeText={text => setSpecies(text)}
+        />
+      </View>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Breed:</Text>
+        <TextInput
+          style={styles.informationDataChange}
+          value={breed}
+          onChangeText={text => setBreed(text)}
+        />
+      </View>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Color:</Text>
+        <TextInput
+          style={styles.informationDataChange}
+          value={color}
+          onChangeText={text => setColor(text)}
+        />
+      </View>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Year of birth:</Text>
+        <TextInput
+          style={styles.informationDataChange}
+          value={year}
+          onChangeText={text => setYear(text)}
+        />
+      </View>
+      <View style={styles.informationScreenTextBubble}>
+        <Text style={styles.informationKeyText}>Month of birth:</Text>
+        <TextInput
+          style={styles.informationDataChange}
+          value={String(month)}
+          onChangeText={text => setMonth(text)}
+        />
+      </View>
+      <GeneralButton
+        text={'Save'}
+        onPressOut={() => {
+          const newAd = {
+            ...ad,
+            pet: {
+              ...ad.pet,
+              name: name,
+              petCharacteristics: {
+                ...ad.pet.petCharacteristics,
+                species,
+                gender,
+                breed,
+                color: [color],
+                dateOfBirth: {
+                  year: Number(year),
+                  month: Number(month),
+                },
+              },
+            },
+          };
+          changeAd(ad, newAd);
+          setEditMode(false);
+        }}
+      />
+    </View>
   );
 }
 
@@ -179,29 +287,16 @@ interface EditModalProps {
   setVisible: (visible: boolean) => void;
 }
 
-function EditModal({ad, visible, setVisible}: EditModalProps) {
+function EditModal({visible, setVisible}: EditModalProps) {
+  async function onPressOut() {
+    await launchImageLibrary({mediaType: 'photo'});
+  }
+
   return (
     <Modal animationType={'slide'} visible={visible} transparent={true}>
       <View style={styles.editModal}>
-        <Text style={styles.listElementText}>{ad.pet.name}</Text>
-        <Text style={styles.listElementText}>
-          {ad.pet.petCharacteristics.gender}
-        </Text>
-        <Text style={styles.listElementText}>
-          {ad.pet.petCharacteristics.breed}
-        </Text>
-        <Text style={styles.listElementText}>
-          {ad.pet.petCharacteristics.dateOfBirth?.year}
-        </Text>
-        <Text style={styles.listElementText}>
-          {ad.pet.petCharacteristics.dateOfBirth?.month}
-        </Text>
-        <Text style={styles.listElementText}>
-          {ad.pet.petCharacteristics.color}
-        </Text>
-        <Text style={styles.listElementText}>
-          {ad.pet.petCharacteristics.gender}
-        </Text>
+        <GeneralButton text={'Change photo'} onPressOut={onPressOut} />
+
         <GeneralButton
           text={'Close'}
           onPressOut={() => {
@@ -296,16 +391,36 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
-  informationModal: {
-    position: 'absolute',
-    justifyContent: 'center',
+  informationScreenContainer: {
+    height: height,
+    width: width,
     alignItems: 'center',
-    top: height * 0.25,
-    left: width * 0.1,
-    height: height * 0.5,
+    top: height * 0.15,
+    // justifyContent: 'center',
+  },
+  informationScreenTextBubble: {
     width: width * 0.8,
-    borderRadius: width * 0.5,
+    margin: 5,
+    borderRadius: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor: colorPalette.lightAccentColor,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  informationKeyText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colorPalette.strongAccentColor,
+  },
+  informationDataText: {
+    fontSize: 14,
+    color: 'black',
+  },
+  informationDataChange: {
+    fontSize: 14,
+    color: 'black',
   },
   editModal: {
     position: 'absolute',

@@ -30,7 +30,7 @@ export interface Photo {
 export interface PetCharacteristics {
   species: string;
   breed?: string;
-  dateOfBirth?: DateOfBirth;
+  dateOfBirth: DateOfBirth;
   gender: string;
   color: string;
 }
