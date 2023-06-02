@@ -26,9 +26,9 @@ function SheltersScreen({ navigation }) {
 
   async function loadShelters() {
     try {
-      const _shelters = getShelters();
-      //console.log(_shelters);
-      setShelters(await _shelters);
+      const shelters = await getShelters();
+      console.log(shelters);
+      setShelters(shelters);
     } catch (e) {
       console.log(e)
     }
@@ -61,7 +61,7 @@ function SheltersScreen({ navigation }) {
         renderItem={({ item }) => (<View style={styles.listElement}>
           <Pressable
             onPressOut={() => {
-              onPressOut(item.name)
+              onPressOut(item.id)
             }}>
             <Text style={styles.titleText}>{item.name}</Text>
             <Text style={styles.text}>{item.location}</Text>
