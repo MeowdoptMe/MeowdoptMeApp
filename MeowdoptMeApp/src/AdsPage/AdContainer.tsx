@@ -1,4 +1,4 @@
-import React, {createContext} from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,57 +10,16 @@ import {
   TextInput,
 } from 'react-native';
 import {FlashList} from '@shopify/flash-list';
-import colorPalette from '../assets/colors';
-import {ads} from './sampleData/adsPhotos';
-import type {Ad} from './commonTypes';
+import colorPalette from '../../assets/colors';
+import type {Ad} from '../commonTypes';
 import FastImage from 'react-native-fast-image';
-import {GeneralButton} from './components/GeneralButton';
+import {GeneralButton} from '../components/GeneralButton';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {AdListContext, AdContext} from '../Context';
 
 // "https://icons8.com";
-const editIcon = require('../assets/edit-icon.png');
+const editIcon = require('../../assets/edit-icon.png');
 const {width, height} = Dimensions.get('window');
-
-function AdsPage() {
-  return (
-    <View style={styles.listContainer}>
-      <AdList />
-    </View>
-  );
-}
-
-const AdListContext = createContext<any>([]);
-
-function AdList() {
-  const [data, setData] = React.useState(ads);
-  function changeAd(oldAd: Ad, newAd: Ad) {
-    console.log('changing');
-    const newAds = data.map(ad => {
-      if (ad === oldAd) {
-        return newAd;
-      }
-      return ad;
-    });
-    setData(newAds);
-  }
-
-  return (
-    <AdListContext.Provider value={{changeAd}}>
-      <FlashList
-        data={data}
-        estimatedItemSize={800}
-        showsVerticalScrollIndicator={false}
-        snapToAlignment={'start'}
-        decelerationRate={'fast'}
-        snapToInterval={height}
-        renderItem={({item}) => <AdContainer ad={item} />}
-      />
-    </AdListContext.Provider>
-  );
-}
-
-// @ts-expect-error
-const AdContext = createContext<Ad>(undefined);
 
 interface AdContainerProps {
   ad: Ad;
@@ -68,6 +27,7 @@ interface AdContainerProps {
 
 function AdContainer({ad}: AdContainerProps) {
   const [editModalVisible, setEditModalVisible] = React.useState(false);
+  const photoIndex = React.useRef(0);
 
   const data = Array.prototype.concat({}, ad.photoAlbum.photos);
 
@@ -96,8 +56,8 @@ function AdContainer({ad}: AdContainerProps) {
               <Pressable
                 style={styles.editIconContainer}
                 onPressOut={() => {
+                  photoIndex.current = index - 1;
                   setEditModalVisible(true);
-                  // need to pass data here
                 }}>
                 <Image source={editIcon} style={styles.editIcon} />
               </Pressable>
@@ -107,6 +67,7 @@ function AdContainer({ad}: AdContainerProps) {
       />
       <EditModal
         ad={ad}
+        photoIndex={photoIndex.current}
         visible={editModalVisible}
         setVisible={setEditModalVisible}
       />
@@ -178,7 +139,7 @@ interface InformationEditProps {
 
 function InformationEdit({setEditMode}: InformationEditProps) {
   const ad = React.useContext(AdContext);
-  const {changeAd} = React.useContext(AdListContext);
+  const {changeAdInfo} = React.useContext(AdListContext);
 
   const [name, setName] = React.useState(ad.pet.name);
   const [species, setSpecies] = React.useState(
@@ -186,13 +147,30 @@ function InformationEdit({setEditMode}: InformationEditProps) {
   );
   const [gender, setGender] = React.useState(ad.pet.petCharacteristics.gender);
   const [breed, setBreed] = React.useState(ad.pet.petCharacteristics.breed);
-  const [color, setColor] = React.useState(ad.pet.petCharacteristics.color[0]);
+  const [color, setColor] = React.useState(ad.pet.petCharacteristics.color);
   const [year, setYear] = React.useState(
     String(ad.pet.petCharacteristics.dateOfBirth.year),
   );
   const [month, setMonth] = React.useState(
     String(ad.pet.petCharacteristics.dateOfBirth.month),
   );
+
+  function onPressOut() {
+    const newAd = ad;
+    newAd.pet.name = name;
+    newAd.pet.petCharacteristics = {
+      species,
+      gender,
+      breed,
+      color: color,
+      dateOfBirth: {
+        year: Number(year),
+        month: Number(month),
+      },
+    };
+    changeAdInfo(ad, newAd);
+    setEditMode(false);
+  }
 
   return (
     <View style={styles.informationScreenContainer}>
@@ -252,66 +230,55 @@ function InformationEdit({setEditMode}: InformationEditProps) {
           onChangeText={text => setMonth(text)}
         />
       </View>
-      <GeneralButton
-        text={'Save'}
-        onPressOut={() => {
-          const newAd = {
-            ...ad,
-            pet: {
-              ...ad.pet,
-              name: name,
-              petCharacteristics: {
-                ...ad.pet.petCharacteristics,
-                species,
-                gender,
-                breed,
-                color: [color],
-                dateOfBirth: {
-                  year: Number(year),
-                  month: Number(month),
-                },
-              },
-            },
-          };
-          changeAd(ad, newAd);
-          setEditMode(false);
-        }}
-      />
+      <GeneralButton text={'Save'} onPressOut={onPressOut} />
     </View>
   );
 }
 
 interface EditModalProps {
   ad: Ad;
+  photoIndex: number;
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }
 
-function EditModal({visible, setVisible}: EditModalProps) {
+function EditModal({ad, photoIndex, visible, setVisible}: EditModalProps) {
+  const {changeAdPhoto} = useContext(AdListContext);
+
   async function onPressOut() {
-    await launchImageLibrary({mediaType: 'photo'});
+    try {
+      const response = await launchImageLibrary({mediaType: 'photo'});
+      if (response.didCancel) {
+        return;
+      }
+      const newPhoto = response.assets![0];
+      const newAd = ad;
+      newAd.photoAlbum.photos[photoIndex].img = newPhoto as any;
+      changeAdPhoto(ad, newAd);
+      setVisible(false);
+    } catch (e) {
+      throw e;
+    }
   }
 
   return (
     <Modal animationType={'slide'} visible={visible} transparent={true}>
       <View style={styles.editModal}>
-        <GeneralButton text={'Change photo'} onPressOut={onPressOut} />
-
-        <GeneralButton
-          text={'Close'}
-          onPressOut={() => {
-            setVisible(false);
-          }}
-        />
+        <View style={styles.editModalButtonsContainer}>
+          <GeneralButton text={'Change photo'} onPressOut={onPressOut} />
+          <GeneralButton
+            text={'Close'}
+            onPressOut={() => {
+              setVisible(false);
+            }}
+          />
+        </View>
       </View>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  listContainer: {
-    flex: 1,
-  },
   listElement: {
     width: width,
     height: height,
@@ -333,21 +300,6 @@ const styles = StyleSheet.create({
     textShadowRadius: 3,
     textShadowOffset: {width: 1, height: 1.5},
     color: colorPalette.darkAccentColor,
-  },
-  infoIconContainer: {
-    position: 'absolute',
-    padding: 4,
-    bottom: height * 0.15,
-    right: width * 0.05,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 30,
-    overflow: 'hidden',
-    backgroundColor: colorPalette.lightAccentColor,
-  },
-  infoIcon: {
-    height: 50,
-    width: 50,
   },
   editIconContainer: {
     position: 'absolute',
@@ -396,7 +348,6 @@ const styles = StyleSheet.create({
     width: width,
     alignItems: 'center',
     top: height * 0.15,
-    // justifyContent: 'center',
   },
   informationScreenTextBubble: {
     width: width * 0.8,
@@ -423,19 +374,16 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   editModal: {
-    position: 'absolute',
+    top: height * 0.5,
     justifyContent: 'center',
     alignItems: 'center',
-    top: height * 0.25,
-    left: width * 0.1,
-    height: height * 0.5,
-    width: width * 0.8,
-    backgroundColor: colorPalette.lightAccentColor,
   },
-  grief: {
-    height: 50,
-    width: 50,
+  editModalButtonsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colorPalette.lightAccentColor,
+    borderRadius: 20,
   },
 });
 
-export default AdsPage;
+export default AdContainer;

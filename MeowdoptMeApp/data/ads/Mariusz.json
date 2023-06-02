@@ -1,7 +1,7 @@
 {
   "pet": {
     "name": "Mariusz",
-    "petCharactersitcs": {
+    "petCharacteristics": {
       "species": "cat",
       "breed": "mixed breed",
       "gender": "male",
@@ -9,7 +9,7 @@
         "year": 2020,
         "month": 1
       },
-      "color": ["white", "red"]
+      "color": "white-red"
     }
   },
   "photoAlbum": {

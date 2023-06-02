@@ -1,5 +1,6 @@
 import React from 'react';
 import {createContext, Context} from 'react';
+import {Ad} from './commonTypes';
 
 interface User {
   username: string;
@@ -34,5 +35,8 @@ const ShelterContext: Context<ShelterContextType> = createContext<
   ShelterContextType | undefined
 >(undefined) as Context<ShelterContextType>;
 
-export {AppContext, guestUser, ShelterContext};
-export type {User, AppContextType};
+const AdListContext = createContext<any>([]);
+
+const AdContext = createContext<Ad>(undefined as unknown as Ad);
+
+export {AppContext, guestUser, ShelterContext, AdListContext, AdContext};
