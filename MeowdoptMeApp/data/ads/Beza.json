@@ -9,9 +9,12 @@
         "year": 2019,
         "month": 5
       },
-      "color": ["white"]
+      "color": [
+        "white"
+      ]
     }
   },
+  "shelter":  "shelter2",
   "photoAlbum": {
     "id": 1,
     "photos": [

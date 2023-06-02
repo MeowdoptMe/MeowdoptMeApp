@@ -12,6 +12,7 @@
       "color": ["white", "brown"]
     }
   },
+  "shelter":  "shelter2",
   "photoAlbum": {
     "id": 2,
     "photos": [

@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, Pressable, SafeAreaView, Dimensions } from 'rea
 import { WebView } from 'react-native-webview';
 import map from './WebMap';
 import axios, { isAxiosError } from 'axios';
-import { databaseUrl } from './Database';
 import { FlashList } from '@shopify/flash-list';
 import { getShelters } from './shelterUtils';
 import colorPalette from '../assets/colors';
@@ -114,8 +113,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     //top: height * 0.01,
     backgroundColor: colorPalette.backgroundColor,
-    height: height * 0.87,
-    width: width * 0.98,
+    height: height * 0.89,
+    width: width,
   },
   titleText: {
     color: 'black',

@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import {FlashList} from '@shopify/flash-list';
 import colorPalette from '../assets/colors';
-import {ads} from './sampleData/adsPhotos';
 import type {Ad} from './commonTypes';
 import FastImage from 'react-native-fast-image';
 import {GeneralButton} from './components/GeneralButton';
@@ -28,15 +27,21 @@ const infoIcon = require('../assets/info-icon.png');
 const grief = require('../assets/grief.png');
 const {width, height} = Dimensions.get('window');
 
-function AdsPage() {
+interface ShelterPageProps{
+  ads: Ad[];
+}
+
+function AdsPage({ads}: ShelterPageProps) {
   return (
     <View style={styles.listContainer}>
-      <AdList />
+      <AdList ads={ads} />
     </View>
   );
 }
 
-function AdList() {
+type AdListProps = ShelterPageProps;
+
+function AdList({ads}: AdListProps) {
   return (
     <FlashList
       data={ads}
