@@ -2,11 +2,11 @@
   "shelters": [
     {
       "name": "Schronisko w Krakowie",
-      "id": "shelter1"
+      "id": "1"
     },
     {
       "name": "Schronisko w Niepołomicach",
-      "id": "shelter2"
+      "id": "2"
     }
   ]
 }

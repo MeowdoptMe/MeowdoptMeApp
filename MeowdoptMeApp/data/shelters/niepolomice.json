@@ -1,9 +1,23 @@
 {
-  "id": "shelter2",
+  "id": 2,
   "name": "Schronisko w Niepołomicach",
   "contact": {
     "phone": "666666666",
     "email": "schro@wyso.ko"
   },
-  "ads": ["Beza, Buzz, Drops, Stefan, Viola"]
+  "ads": ["Beza, Buzz, Drops, Stefan, Viola"],
+  "photoAlbum": {
+    "id": 1,
+    "photos": [
+      {
+        "img": "71"
+      },
+      {
+        "img": "72"
+      },
+      {
+        "img": "73"
+      }
+    ]
+  }
 }

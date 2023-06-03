@@ -9,6 +9,7 @@ import {
   Modal,
 } from 'react-native';
 import {FlashList} from '@shopify/flash-list';
+import {ShelterContext} from './Context';
 import colorPalette from '../assets/colors';
 import type {Ad} from './commonTypes';
 import FastImage from 'react-native-fast-image';
@@ -21,6 +22,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {runOnJS} from 'react-native-reanimated';
+import ShelterAd from './ShelterAd';
 
 // "https://icons8.com"
 const infoIcon = require('../assets/info-icon.png');
@@ -38,10 +40,13 @@ function AdsPage({ads}: ShelterPageProps) {
     </View>
   );
 }
-
 type AdListProps = ShelterPageProps;
 
+
+
 function AdList({ads}: AdListProps) {
+  const {shelter} = React.useContext(ShelterContext);
+
   return (
     <FlashList
       data={ads}
@@ -50,6 +55,9 @@ function AdList({ads}: AdListProps) {
       snapToAlignment={'start'}
       decelerationRate={'normal'}
       snapToInterval={height}
+      ListHeaderComponent={ 
+        shelter ? <ShelterAd />: null
+      }
       renderItem={({item}) => <AdContainer ad={item} />}
     />
   );

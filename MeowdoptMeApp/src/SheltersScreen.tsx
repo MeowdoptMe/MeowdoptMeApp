@@ -10,6 +10,7 @@ import colorPalette from '../assets/colors';
 import AdsPage from './AdsPage';
 import { ShelterContext } from './Context';
 import HomeScreen from './HomeScreen';
+import type {Shelter} from './commonTypes';
 
 
 const { width, height } = Dimensions.get('window');
@@ -20,22 +21,22 @@ const { width, height } = Dimensions.get('window');
 function SheltersScreen({ navigation }) {
 
   const [page, setPage] = useState('list');
-  const [shelters, setShelters] = useState<any[]>([])
+  const [shelters, setShelters] = useState<Shelter[]>([])
   const { shelter, setShelter } = useContext(ShelterContext);
 
 
   async function loadShelters() {
     try {
       const shelters = await getShelters();
-      console.log(shelters);
       setShelters(shelters);
     } catch (e) {
       console.log(e)
     }
   }
 
-  function onPressOut(shelter: string) {
+  function onPressOut(shelter: Shelter) {
     setShelter(shelter)
+    //console.log(shelter)
     navigation.navigate(HomeScreen);
   }
 
@@ -61,8 +62,7 @@ function SheltersScreen({ navigation }) {
         renderItem={({ item }) => (<View style={styles.listElement}>
           <Pressable
             onPressOut={() => {
-              onPressOut(item.id)
-              console.log(item.name)
+              onPressOut(item)
             }}>
             <Text style={styles.titleText}>{item.name}</Text>
             <Text style={styles.text}>{item.location}</Text>

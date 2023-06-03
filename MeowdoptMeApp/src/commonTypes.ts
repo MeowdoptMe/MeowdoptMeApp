@@ -6,6 +6,19 @@ export interface Ad {
   photoAlbum: PhotoAlbum;
 }
 
+export interface Shelter {
+  id: number;
+  name: string;
+  email: string;
+  phone: number;
+  location: string;
+  x_cord: number;
+  y_cord: number;
+  user: number;
+  photoAlbum: PhotoAlbum;
+}
+
+
 export interface PhotoAlbum {
   id: number;
   photos: Photo[];
