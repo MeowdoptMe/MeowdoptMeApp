@@ -5,7 +5,9 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 
+from .filters import AdFilter
 from .models import Pet, Ad
 from .permissions import AdRelatedPermission
 from .serializers import PetSerializer, AdSerializer
@@ -15,6 +17,8 @@ class AdList(ListAPIView):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
     lookup_field = "pk"
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = AdFilter
 
 
 class AdCreate(CreateAPIView):

@@ -88,10 +88,11 @@ class UserPermissionTests(APITestCase):
         )
 
     def test_detail_with_auth(self):
-        Shelter.objects.create()
+        current_objects_count = UserPermission.objects.count()
         self.client.force_authenticate(user=self.user)
         url = reverse_lazy(
-            "shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1}
+            "shelter_permission_detail",
+            kwargs={"shelter_id": 1, "pk": current_objects_count},
         )
         response = self.client.get(url)
         self.assertEqual(
@@ -101,10 +102,11 @@ class UserPermissionTests(APITestCase):
         )
 
     def test_detail_with_no_auth(self):
-        Shelter.objects.create()
+        current_objects_count = UserPermission.objects.count()
         self.client.force_authenticate(user=self.user2)
         url = reverse_lazy(
-            "shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1}
+            "shelter_permission_detail",
+            kwargs={"shelter_id": 1, "pk": current_objects_count},
         )
         response = self.client.get(url)
         self.assertEqual(
@@ -114,9 +116,11 @@ class UserPermissionTests(APITestCase):
         )
 
     def test_edit_with_auth(self):
+        current_objects_count = UserPermission.objects.count()
         self.client.force_authenticate(user=self.user)
         url = reverse_lazy(
-            "shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1}
+            "shelter_permission_detail",
+            kwargs={"shelter_id": 1, "pk": current_objects_count},
         )
         data = self.data
         data["permission"] = 2
@@ -127,13 +131,16 @@ class UserPermissionTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
         self.assertEqual(
-            UserPermission.objects.get(id=1).permission.id, data["permission"]
+            UserPermission.objects.get(id=current_objects_count).permission.id,
+            data["permission"],
         )
 
     def test_edit_with_no_auth(self):
+        current_objects_count = UserPermission.objects.count()
         self.client.force_authenticate(user=self.user2)
         url = reverse_lazy(
-            "shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1}
+            "shelter_permission_detail",
+            kwargs={"shelter_id": 1, "pk": current_objects_count},
         )
         data = self.data
         data["permission"] = 2
@@ -151,7 +158,8 @@ class UserPermissionTests(APITestCase):
         current_objects_count = UserPermission.objects.count()
         self.client.force_authenticate(user=self.user)
         url = reverse_lazy(
-            "shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1}
+            "shelter_permission_detail",
+            kwargs={"shelter_id": 1, "pk": current_objects_count},
         )
         response = self.client.delete(url)
         self.assertEqual(
@@ -165,7 +173,7 @@ class UserPermissionTests(APITestCase):
         current_objects_count = UserPermission.objects.count()
         self.client.force_authenticate(user=self.user2)
         url = reverse_lazy(
-            "shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 1}
+            "shelter_permission_detail", kwargs={"shelter_id": 1, "pk": 31}
         )
         response = self.client.delete(url)
         self.assertEqual(
@@ -313,7 +321,9 @@ class PermissionRequestTests(APITestCase):
         for user_permission in PermissionRequestAccess.manager_permissions:
             permission = Permission.objects.get(codename=user_permission)
             if permission:
-                self.assertIsNotNone(UserPermission.objects.get(permission=permission))
+                self.assertIsNotNone(
+                    UserPermission.objects.filter(permission=permission)
+                )
 
     def test_resolve_with_no_auth(self):
         self.client.force_authenticate(user=self.user2)
