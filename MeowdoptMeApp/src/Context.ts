@@ -1,5 +1,6 @@
 import React from 'react';
 import {createContext, Context} from 'react';
+import type {Shelter} from './commonTypes';
 
 interface User {
   username: string;
@@ -25,9 +26,10 @@ const AppContext: Context<AppContextType> = createContext<
   AppContextType | undefined
 >(undefined) as Context<AppContextType>;
 
+
 interface ShelterContextType {
-  shelter: string | undefined;
-  setShelter: React.Dispatch<React.SetStateAction<string | undefined>>;
+  shelter: Shelter | undefined;
+  setShelter: React.Dispatch<React.SetStateAction<Shelter | undefined>>;
 }
 
 const ShelterContext: Context<ShelterContextType> = createContext<
