@@ -62,6 +62,7 @@ function SheltersScreen({ navigation }) {
           <Pressable
             onPressOut={() => {
               onPressOut(item.id)
+              console.log(item.name)
             }}>
             <Text style={styles.titleText}>{item.name}</Text>
             <Text style={styles.text}>{item.location}</Text>
