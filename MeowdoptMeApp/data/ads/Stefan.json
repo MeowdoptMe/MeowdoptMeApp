@@ -1,6 +1,7 @@
 {
   "pet": {
     "name": "Stefan",
+    "about": "Stefan to kot, który niestety wrócił do schroniska z poprzedniej adopcji. Stefan nie lubi dzieci, potrzebuje dużo spokoju. Większość dnia spędza na fotelu. Nie przepada za głaskaniem, jednak jeśli ma na nie ochotę, to daje znać. Poszukiwany odpowiedzialny, spokojny dom, bez dzieci.",
     "petCharacteristics": {
       "species": "cat",
       "breed": "mixed breed",
@@ -16,8 +17,7 @@
     "id": 8,
     "photos": [
       {
-        "img": "42",
-        "description": "Stefan to kot, który niestety wrócił do schroniska z poprzedniej adopcji. Stefan nie lubi dzieci, potrzebuje dużo spokoju. Większość dnia spędza na fotelu. Nie przepada za głaskaniem, jednak jeśli ma na nie ochotę, to daje znać. Poszukiwany odpowiedzialny, spokojny dom, bez dzieci."
+        "img": "42"
       },
       {
         "img": "43"

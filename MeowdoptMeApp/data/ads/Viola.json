@@ -1,6 +1,7 @@
 {
   "pet": {
     "name": "Viola",
+    "about": "Viola trafiła do schroniska osłabiona i zaniedbana. Dzięki odpowiedniej opiece weterynaryjnej i wyżywieniu stanęła na nogi. Uwielbia spacery, bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Violi odpowiedzialnego domu.",
     "petCharacteristics": {
       "species": "dog",
       "breed": "mixed breed",
@@ -16,8 +17,7 @@
     "id": 9,
     "photos": [
       {
-        "img": "47",
-        "description": "Viola trafiła do schroniska osłabiona i zaniedbana. Dzięki odpowiedniej opiece weterynaryjnej i wyżywieniu stanęła na nogi. Uwielbia spacery, bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Violi odpowiedzialnego domu."
+        "img": "47"
       },
       {
         "img": "48"

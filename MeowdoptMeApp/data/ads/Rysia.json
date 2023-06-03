@@ -1,6 +1,7 @@
 {
   "pet": {
     "name": "Rysia",
+    "about": "Rysia to młoda kotka porzucona w workach przy rzece. Jest wystraszona i mało ufna, jednak coraz bardziej przekonuje się do ludzkiej dobroci. Pobyt w schronisku jej nie służy, dlatego pilnie szukamy dla Rysi ciepłego i pełnego miłości domu.",
     "petCharacteristics": {
       "species": "cat",
       "breed": "mixed breed",
@@ -16,8 +17,7 @@
     "id": 7,
     "photos": [
       {
-        "img": "16",
-        "description": "Rysia to młoda kotka porzucona w workach przy rzece. Jest wystraszona i mało ufna, jednak coraz bardziej przekonuje się do ludzkiej dobroci. Pobyt w schronisku jej nie służy, dlatego pilnie szukamy dla Rysi ciepłego i pełnego miłości domu."
+        "img": "16"
       },
       {
         "img": "17"

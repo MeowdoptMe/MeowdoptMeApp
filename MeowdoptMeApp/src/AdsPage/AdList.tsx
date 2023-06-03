@@ -3,35 +3,33 @@ import {Dimensions} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
 import {ads} from '../sampleData/adsPhotos';
 import type {Ad} from '../commonTypes';
-import {AdListContext} from '../Context';
+import {AdContext, AdListContext} from '../Context';
 import AdContainer from './AdContainer';
 
 const {height} = Dimensions.get('window');
 
 function AdList() {
   const [data, setData] = React.useState(ads);
-  function changeAdInfo(oldAd: Ad, newAd: Ad) {
-    const newAds = data.map(ad => {
-      if (ad === oldAd) {
-        return newAd;
+  console.log('data on render:', data[0].photoAlbum);
+  function changeAd(ad: Ad, index: number) {
+    console.log(ad.photoAlbum);
+    const newAds = data.map((item, i) => {
+      if (i === index) {
+        console.log('swappers');
+        return ad;
       }
-      return ad;
+      return item;
     });
+    console.log('changeAd');
+    console.log(newAds[0].photoAlbum);
     setData(newAds);
   }
 
-  function changeAdPhoto(oldAd: Ad, newAd: Ad) {
-    const newAds = data.map(ad => {
-      if (ad === oldAd) {
-        return newAd;
-      }
-      return ad;
-    });
-    setData(newAds);
-  }
+  console.log('render');
+  console.log(data[0].photoAlbum);
 
   return (
-    <AdListContext.Provider value={{changeAdInfo, changeAdPhoto}}>
+    <AdListContext.Provider value={{changeAd}}>
       <FlashList
         data={data}
         estimatedItemSize={800}
@@ -39,7 +37,11 @@ function AdList() {
         snapToAlignment={'start'}
         decelerationRate={'fast'}
         snapToInterval={height}
-        renderItem={({item}) => <AdContainer ad={item} />}
+        renderItem={({item, index}) => (
+          <AdContext.Provider value={{ad: item, adIndex: index}}>
+            <AdContainer />
+          </AdContext.Provider>
+        )}
       />
     </AdListContext.Provider>
   );

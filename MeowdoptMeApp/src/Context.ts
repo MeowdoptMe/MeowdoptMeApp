@@ -35,8 +35,17 @@ const ShelterContext: Context<ShelterContextType> = createContext<
   ShelterContextType | undefined
 >(undefined) as Context<ShelterContextType>;
 
-const AdListContext = createContext<any>([]);
+interface AdListContextType {
+  changeAd: (ad: Ad, index: number) => void;
+}
 
-const AdContext = createContext<Ad>(undefined as unknown as Ad);
+const AdListContext = createContext<AdListContextType>(undefined as any);
+
+interface AdContextType {
+  ad: Ad;
+  adIndex: number;
+}
+
+const AdContext = createContext<AdContextType>(undefined as any);
 
 export {AppContext, guestUser, ShelterContext, AdListContext, AdContext};

@@ -1,6 +1,7 @@
 {
   "pet": {
     "name": "Pola",
+    "about": "Pola to kanapowy piesek, bardzo lubi kontakt z człowiekiem. Umie chodzić na smyczy. Ma jednak problemy z tarczycą, które przy regularnym stosowaniu leków i odpowiedniej opiece weterynaryjnej nie wpływają na jej codzienne funkcjonowanie. Szukamy dla Poli odpowiedzialnego i kochającego domu, który zadba o jej zdrowie.",
     "petCharacteristics": {
       "species": "dog",
       "breed": "Yorkshire Terrier mix",
@@ -17,8 +18,7 @@
     "id": 6,
     "photos": [
       {
-        "img": "11",
-        "description": "Pola to kanapowy piesek, bardzo lubi kontakt z człowiekiem. Umie chodzić na smyczy. Ma jednak problemy z tarczycą, które przy regularnym stosowaniu leków i odpowiedniej opiece weterynaryjnej nie wpływają na jej codzienne funkcjonowanie. Szukamy dla Poli odpowiedzialnego i kochającego domu, który zadba o jej zdrowie."
+        "img": "11"
       },
       {
         "img": "12"

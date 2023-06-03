@@ -1,6 +1,7 @@
 {
   "pet": {
     "name": "Buzz",
+    "about": "Buzz to kot, który przez długi czas żył 'na wolności' z grupą innych kotów. Przebywa w schronisku od około 2 miesięcy. Aktualnie bez problemu je kocią karmę. Wymaga jednak trochę cierpliwości podczas nauki korzystania z kuwety. Buzz szuka ciepłego domu, w którym spędzi resztę swojego kociego życia.",
     "petCharacteristics": {
       "species": "cat",
       "breed": "mixed breed",
@@ -16,8 +17,7 @@
     "id": 2,
     "photos": [
       {
-        "img": "31",
-        "description": "Buzz to kot, który przez długi czas żył 'na wolności' z grupą innych kotów. Przebywa w schronisku od około 2 miesięcy. Aktualnie bez problemu je kocią karmę. Wymaga jednak trochę cierpliwości podczas nauki korzystania z kuwety. Buzz szuka ciepłego domu, w którym spędzi resztę swojego kociego życia."
+        "img": "31"
       },
       {
         "img": "32"
