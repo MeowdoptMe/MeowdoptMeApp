@@ -126,8 +126,7 @@ class PasswordResetEmailView(GenericAPIView):
                 {"success": "We have sent you a link to reset your password"},
                 status=status.HTTP_200_OK,
             )
-        else:
-            return Response(serializer.errors, status.HTTP_404_NOT_FOUND)
+        return Response(serializer.errors, status.HTTP_404_NOT_FOUND)
 
 
 class PasswordTokenCheckView(GenericAPIView):
