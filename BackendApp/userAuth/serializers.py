@@ -65,7 +65,9 @@ class ResetPasswordEmailSerializer(serializers.Serializer):
     def validate(self, attrs):
         email = attrs.get("email")
         if not User.objects.filter(email=email).exists():
-            raise serializers.ValidationError("Email does not exist")
+            raise serializers.ValidationError(
+                {"detail": "The user with the provided email address does not exist."}
+            )
         return super().validate(attrs)
 
     def update(self, instance, validated_data):
