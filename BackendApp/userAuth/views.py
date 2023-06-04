@@ -98,40 +98,36 @@ class PasswordResetEmailView(GenericAPIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        email = request.data["email"]
+        if serializer.is_valid(raise_exception=True):
+            email = request.data["email"]
 
-        if User.objects.filter(email=email).exists():
-            user = User.objects.get(email=email)
-            uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
-            token = PasswordResetTokenGenerator().make_token(user)
-            current_site = get_current_site(request=request).domain
-            relativeLink = reverse(
-                "password_reset_confirm", kwargs={"uidb64": uidb64, "token": token}
-            )
-            absurl = "http://" + current_site + relativeLink
-            email_body = (
-                "Hello "
-                + user.username
-                + ",\nUse the link below to reset your password \n"
-                + absurl
-            )
-            data = {
-                "body": email_body,
-                "subject": "Reset your password in MeowdoptMeApp",
-            }
-            send_email(serializer, data)
+            if User.objects.filter(email=email).exists():
+                user = User.objects.get(email=email)
+                uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
+                token = PasswordResetTokenGenerator().make_token(user)
+                current_site = get_current_site(request=request).domain
+                relativeLink = reverse(
+                    "password_reset_confirm", kwargs={"uidb64": uidb64, "token": token}
+                )
+                absurl = "http://" + current_site + relativeLink
+                email_body = (
+                    "Hello "
+                    + user.username
+                    + ",\nUse the link below to reset your password \n"
+                    + absurl
+                )
+                data = {
+                    "body": email_body,
+                    "subject": "Reset your password in MeowdoptMeApp",
+                }
+                send_email(serializer, data)
 
-        else:
             return Response(
-                {"detail": "The user with the provided email address does not exist."},
-                status=status.HTTP_404_NOT_FOUND,
+                {"success": "We have sent you a link to reset your password"},
+                status=status.HTTP_200_OK,
             )
-
-        return Response(
-            {"success": "We have sent you a link to reset your password"},
-            status=status.HTTP_200_OK,
-        )
+        else:
+            return Response(serializer.errors, status.HTTP_404_NOT_FOUND)
 
 
 class PasswordTokenCheckView(GenericAPIView):
