@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import {GeneralButton} from './components/GeneralButton';
 import {AppContext, guestUser} from './Context';
+import authUtils from './authUtils';
+import {useState} from 'react';
 
 interface ChangePasswordModalProps {
   changePasswordModalVisible: boolean;
@@ -55,10 +57,7 @@ function ChangePasswordScreen({
           placeholderTextColor={'navy'}
           style={styles.inputBox}
         />
-        <GeneralButton
-          text="Change password"
-          onPressOut={() => setChangePasswordModalVisible(true)}
-        />
+        <GeneralButton text="Change password" onPressOut={() => {}} />
         <GeneralButton
           text="Cancel"
           onPressOut={() => setChangePasswordModalVisible(false)}
@@ -91,6 +90,49 @@ interface ChangeMailScreenProps {
 }
 
 function ChangeMailScreen({setChangeMailModalVisible}: ChangeMailScreenProps) {
+  const {user, setUser} = useContext(AppContext);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [mail, setMail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  async function onPressOut() {
+    if (mail === '' || password === '') {
+      setError('Please fill in all fields');
+      return;
+    }
+    if (authUtils.isValidEmail(mail) === false) {
+      setError('Please enter a valid email');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const _mail = mail;
+      const username = user.username;
+      const token = await authUtils.login(username, password);
+      setUser({
+        username: username,
+        mail: user.mail,
+        token,
+      });
+
+      await authUtils.changeMail(_mail, token);
+      setError(undefined);
+      setUser({
+        username: username,
+        mail: _mail,
+        token,
+      });
+      setChangeMailModalVisible(false);
+    } catch (e) {
+      setError(e as string);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -98,16 +140,19 @@ function ChangeMailScreen({setChangeMailModalVisible}: ChangeMailScreenProps) {
           placeholder="new mail"
           placeholderTextColor={'navy'}
           style={styles.inputBox}
+          onChangeText={text => {
+            setMail(text);
+          }}
         />
         <TextInput
-          placeholder="passowrd"
+          placeholder="password"
           placeholderTextColor={'navy'}
           style={styles.inputBox}
+          onChangeText={text => {
+            setPassword(text);
+          }}
         />
-        <GeneralButton
-          text="Change mail"
-          onPressOut={() => setChangeMailModalVisible(true)}
-        />
+        <GeneralButton text="Change mail" onPressOut={onPressOut} />
         <GeneralButton
           text="Cancel"
           onPressOut={() => setChangeMailModalVisible(false)}
@@ -150,10 +195,7 @@ function DeleteAccountScreen({
           placeholderTextColor={'navy'}
           style={styles.inputBox}
         />
-        <GeneralButton
-          text="Delete account"
-          onPressOut={() => setDeleteAccountModalVisible(true)}
-        />
+        <GeneralButton text="Delete account" onPressOut={() => {}} />
         <GeneralButton
           text="Cancel"
           onPressOut={() => setDeleteAccountModalVisible(false)}
