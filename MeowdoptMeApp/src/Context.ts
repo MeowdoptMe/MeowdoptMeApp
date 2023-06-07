@@ -5,7 +5,7 @@ import type {User} from './commonTypes';
 
 const guestUser: User = {
   username: 'Guest',
-  mail: '__guest-mail__',
+  mail: 'guest@guest.guest',
   token: '__guest-token__',
 };
 
