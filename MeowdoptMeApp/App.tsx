@@ -1,7 +1,8 @@
 import React from 'react';
 import {useState} from 'react';
 import StartingScreen from './src/StartingScreen';
-import {AppContext, User, guestUser} from './src/Context';
+import {AppContext, guestUser} from './src/Context';
+import type {User} from './src/commonTypes';
 import MainScreen from './src/MainScreen';
 
 function App() {
