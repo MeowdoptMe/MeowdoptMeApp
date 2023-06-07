@@ -7,6 +7,8 @@ import { ShelterContext } from './Context';
 import { Photo } from './commonTypes';
 import { shelters } from './sampleData/sheltersPhotos';
 import FastImage from 'react-native-fast-image';
+import InfoScreen from './InfoScreen';
+import colorPalette from '../assets/colors';
 
 
 function ShelterAd() {
@@ -14,29 +16,36 @@ function ShelterAd() {
     const { shelter } = React.useContext(ShelterContext);
 
     const data = shelters?.find(item => {
-        console.log('item.id === shelter?.id', item.id, shelter?.id, item.id === shelter?.id)
+        //console.log('item.id === shelter?.id', item.id, shelter?.id, item.id === shelter?.id)
         return (item.id === shelter?.id)
     })!;
 
-    console.log('data', data);
+    //console.log('data', data);
 
 
     return (
-        <FlashList
-            data={data.photoAlbum.photos}
-            estimatedItemSize={400}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            snapToAlignment={'center'}
-            decelerationRate={'normal'}
-            snapToInterval={width}
-            renderItem={({ item }) => (
-                <View style={styles.innerListElementContainer}>
-                    {/* @ts-expect-error Source is defined as string but we hax */}
-                    <FastImage style={styles.listElementImage} source={item.img} />
-                </View>
-            )}
-        />
+        <View style={styles.innerListElementContainer}>
+            <View style={styles.listElementHeader}>
+                <Text style={styles.listElementHeaderText}>{shelter?.name}</Text>
+            </View>
+            <FlashList
+                data={data.photoAlbum.photos}
+                estimatedItemSize={400}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                snapToAlignment={'center'}
+                decelerationRate={'normal'}
+                snapToInterval={width}
+                initialScrollIndex={1}
+                ListHeaderComponent={InfoScreen}
+                renderItem={({ item }) => (
+                    <View style={styles.innerListElementContainer}>
+                        {/* @ts-expect-error Source is defined as string but we hax */}
+                        <FastImage style={styles.listElementImage} source={item.img} />
+                    </View>
+                )}
+            />
+        </View>
     );
 }
 
@@ -50,6 +59,21 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 2,
         borderColor: 'black',
+    },
+    listElementHeader: {
+        borderRadius: 20,
+        backgroundColor: colorPalette.lightAccentColor,
+        overflow: 'hidden',
+        position: 'absolute',
+        top: height * 0.05,
+    },
+    listElementHeaderText: {
+        fontSize: 27,
+        fontStyle: 'italic',
+        textShadowColor: 'black',
+        textShadowRadius: 3,
+        textShadowOffset: { width: 1, height: 1.5 },
+        color: colorPalette.darkAccentColor,
     },
     innerListElementContainer: {
         height: height,
