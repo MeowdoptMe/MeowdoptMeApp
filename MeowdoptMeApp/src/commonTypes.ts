@@ -35,3 +35,11 @@ interface DateOfBirth {
   year: number;
   month: number;
 }
+
+export interface User {
+  username: string;
+  mail: string;
+  token: string;
+  // permissions: PermissionsList;
+  // requests: PermissionRequest[];
+}

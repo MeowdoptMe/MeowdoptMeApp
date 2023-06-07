@@ -1,14 +1,7 @@
 import React from 'react';
 import {createContext, Context} from 'react';
 import {Ad} from './commonTypes';
-
-interface User {
-  username: string;
-  mail: string;
-  token: string;
-  // permissions: PermissionsList;
-  // requests: PermissionRequest[];
-}
+import type {User} from './commonTypes';
 
 const guestUser: User = {
   username: 'Guest',
