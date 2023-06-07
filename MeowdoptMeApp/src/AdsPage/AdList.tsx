@@ -10,23 +10,15 @@ const {height} = Dimensions.get('window');
 
 function AdList() {
   const [data, setData] = React.useState(ads);
-  console.log('data on render:', data[0].photoAlbum);
   function changeAd(ad: Ad, index: number) {
-    console.log(ad.photoAlbum);
     const newAds = data.map((item, i) => {
       if (i === index) {
-        console.log('swappers');
         return ad;
       }
       return item;
     });
-    console.log('changeAd');
-    console.log(newAds[0].photoAlbum);
     setData(newAds);
   }
-
-  console.log('render');
-  console.log(data[0].photoAlbum);
 
   return (
     <AdListContext.Provider value={{changeAd}}>

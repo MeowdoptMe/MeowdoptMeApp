@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
-import {View, StyleSheet, Dimensions, Modal} from 'react-native';
+import {View, StyleSheet, Dimensions, Modal, TextInput} from 'react-native';
 import colorPalette from '../../assets/colors';
 import {GeneralButton} from '../components/GeneralButton';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {AdContext, AdListContext} from '../Context';
 
-const {height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 interface EditModalProps {
   photoIndex: number;
@@ -17,6 +17,9 @@ function EditModal({photoIndex, visible, setVisible}: EditModalProps) {
   const {changeAd} = useContext(AdListContext);
   const {ad, adIndex} = useContext(AdContext);
 
+  const [description, setDescription] = React.useState(
+    ad.photoAlbum.photos[photoIndex].description,
+  );
   const [editDescriptionModalVisible, setEditDescriptionModalVisible] =
     React.useState(false);
 
@@ -50,7 +53,23 @@ function EditModal({photoIndex, visible, setVisible}: EditModalProps) {
   }
 
   function changeDescription() {
-    // TODO
+    const newAd = {
+      ...ad,
+      photoAlbum: {
+        ...ad.photoAlbum,
+        photos: ad.photoAlbum.photos.map((photo, index) => {
+          if (index === photoIndex) {
+            return {
+              ...photo,
+              description,
+            };
+          }
+          return photo;
+        }),
+      },
+    };
+    changeAd(newAd, adIndex);
+    setVisible(false);
   }
 
   return (
@@ -61,7 +80,7 @@ function EditModal({photoIndex, visible, setVisible}: EditModalProps) {
           <GeneralButton
             text={'Change description'}
             textStyle={styles.changeDescriptionText}
-            onPressOut={changeDescription}
+            onPressOut={() => setEditDescriptionModalVisible(true)}
           />
           <GeneralButton
             text={'Close'}
@@ -70,27 +89,34 @@ function EditModal({photoIndex, visible, setVisible}: EditModalProps) {
             }}
           />
         </View>
-        {/* <Modal
+        <Modal
           animationType="fade"
           visible={editDescriptionModalVisible}
           transparent={true}>
-          <View style={styles.aboutDescriptionContainer}>
-            <View style={styles.aboutModalContent}>
+          <View style={styles.changeDescriptionContainer}>
+            <View style={styles.changeDescriptionContent}>
               <TextInput
                 style={styles.aboutModalText}
-                value={about}
-                onChangeText={setAbout}
+                value={description}
+                onChangeText={text => setDescription(text)}
                 multiline={true}
               />
               <GeneralButton
-                text={'Close'}
+                text={'Save'}
                 onPressOut={() => {
-                  setEditAboutModalVisible(false);
+                  changeDescription();
+                  setEditDescriptionModalVisible(false);
+                }}
+              />
+              <GeneralButton
+                text={'Cancel'}
+                onPressOut={() => {
+                  setEditDescriptionModalVisible(false);
                 }}
               />
             </View>
           </View>
-        </Modal> */}
+        </Modal>
       </View>
     </Modal>
   );
@@ -110,6 +136,26 @@ const styles = StyleSheet.create({
   },
   changeDescriptionText: {
     fontSize: 22,
+  },
+  changeDescriptionContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000000aa',
+    height: height,
+    width: width,
+  },
+  changeDescriptionContent: {
+    width: width * 0.9,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colorPalette.lightAccentColor,
+    borderRadius: 20,
+  },
+  aboutModalText: {
+    fontSize: 16,
+    color: 'black',
+    textAlign: 'justify',
+    margin: 30,
   },
 });
 
