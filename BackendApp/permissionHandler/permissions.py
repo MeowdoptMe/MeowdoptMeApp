@@ -1,4 +1,5 @@
 from django.contrib.auth.models import Permission
+
 from rest_framework.permissions import BasePermission
 
 from .models import UserPermission, PermissionRequest
@@ -51,6 +52,10 @@ class PermissionRequestAccess(BasePermission):
         "add_ad",
         "change_ad",
         "delete_ad",
+        "view_user",
+        "add_user",
+        "change_user",
+        "delete_user",
     ]
     shelter_worker_permissions = [
         "change_shelter",
@@ -60,13 +65,16 @@ class PermissionRequestAccess(BasePermission):
         "add_ad",
         "change_ad",
         "delete_ad",
+        "view_user",
     ]
     volunteer_permissions = [
         "view_userpermission",
         "view_permissionrequest",
         "add_ad",
         "change_ad",
+        "view_user",
     ]
+    all_user_view_permission = "view_all_users"
 
     def has_permission(self, request, view):
         request_id = view.kwargs.get("pk")

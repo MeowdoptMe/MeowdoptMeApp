@@ -1,10 +1,9 @@
 from django.contrib.auth.models import Permission
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase, APIRequestFactory, APIClient
+from rest_framework.test import APITestCase, APIClient
 from shelterRelated.models import Shelter
 from .models import Pet, Ad, DateOfBirth, PetCharacteristics
-from .views import PetList, PetDetail, AdList, AdDetail
 from userAuth.models import User
 from permissionHandler.models import UserPermission
 
@@ -13,7 +12,6 @@ from photoAlbum.models import PhotoAlbum
 
 class AdTests(APITestCase):
     def setUp(self):
-        self.factory = APIRequestFactory()
         self.client = APIClient()
         date_of_birth = DateOfBirth.objects.create()
         pet_char = PetCharacteristics.objects.create(date_of_birth=date_of_birth)
@@ -54,9 +52,7 @@ class AdTests(APITestCase):
 
     def test_list(self):
         url = reverse("ad_list")
-        request = self.factory.get(url)
-        view = AdList.as_view()
-        response = view(request)
+        response = self.client.get(url)
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK,
@@ -167,3 +163,48 @@ class PetTests(APITestCase):
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
+
+
+class AdFiltersTests(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.url = reverse("ad_list")
+        date_of_birth = DateOfBirth.objects.create(year=2019, month=5)
+        pet_char = PetCharacteristics.objects.create(
+            species="dog",
+            breed="mixed breed",
+            gender="female",
+            color="white",
+            date_of_birth=date_of_birth,
+        )
+        Pet.objects.create(name="Jarzyna", pet_characteristics=pet_char)
+        shelter = Shelter.objects.create()
+        PhotoAlbum.objects.create()
+        Ad.objects.create(
+            active=True,
+            shelter=shelter,
+            description="Jarzyna to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
+            pet_id=1,
+            photo_album_id=1,
+        )
+
+    def test_queryset_exist(self):
+        url = f"{self.url}?species=dog&breed=mixed+breed&gender=female&year=2019&month=5&color=white"
+        response = self.client.get(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+            f"Expected Response Code 200, received {response.status_code} instead.",
+        )
+        self.assertEqual(response.data[0]["shelter"], 1)
+
+    def test_queryset_not_exist(self):
+        url = f"{self.url}?species=dog&breed=mixed+breed&gender=female&year=2021&month=2&color=white"
+        response = self.client.get(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+            f"Expected Response Code 200, received {response.status_code} instead.",
+        )
+        with self.assertRaises(IndexError):
+            result = response.data[0]["shelter"]
