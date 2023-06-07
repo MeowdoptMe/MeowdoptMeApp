@@ -22,13 +22,16 @@ const {width, height} = Dimensions.get('window');
 function AdContainer() {
   const {ad} = useContext(AdContext);
   const [editModalVisible, setEditModalVisible] = React.useState(false);
+  const [nameVisible, setNameVisible] = React.useState(true);
   const photoIndex = React.useRef(0);
 
   return (
     <View style={styles.listElement}>
-      <View style={styles.listElementHeader}>
-        <Text style={styles.listElementHeaderText}>{ad.pet.name}</Text>
-      </View>
+      {nameVisible && (
+        <View style={styles.listElementHeader}>
+          <Text style={styles.listElementHeaderText}>{ad.pet.name}</Text>
+        </View>
+      )}
       <FlashList
         data={ad.photoAlbum.photos}
         estimatedItemSize={400}
@@ -38,7 +41,7 @@ function AdContainer() {
         decelerationRate={'fast'}
         snapToInterval={width}
         initialScrollIndex={1}
-        ListHeaderComponent={<InfoScreen />}
+        ListHeaderComponent={<InfoScreen setNameVisible={setNameVisible} />}
         ListFooterComponent={<AddPhotoScreen />}
         renderItem={({item, index}) => (
           <View style={styles.innerListElementContainer}>
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: colorPalette.lightAccentColor,
     overflow: 'hidden',
     position: 'absolute',
-    top: height * 0.05,
+    top: height * 0.01,
   },
   listElementHeaderText: {
     fontSize: 50,
@@ -114,9 +117,9 @@ const styles = StyleSheet.create({
   },
   listElementImage: {
     position: 'absolute',
-    height: height * 0.71,
+    height: height * 0.76,
     width: width * 0.98,
-    top: height * 0.15,
+    top: height * 0.1,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: 'black',

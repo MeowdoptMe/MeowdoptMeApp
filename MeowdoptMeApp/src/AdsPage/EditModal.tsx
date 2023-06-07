@@ -17,7 +17,8 @@ function EditModal({photoIndex, visible, setVisible}: EditModalProps) {
   const {changeAd} = useContext(AdListContext);
   const {ad, adIndex} = useContext(AdContext);
 
-  console.log('photoIndex', photoIndex);
+  const [editDescriptionModalVisible, setEditDescriptionModalVisible] =
+    React.useState(false);
 
   async function changePhoto() {
     try {
@@ -69,6 +70,27 @@ function EditModal({photoIndex, visible, setVisible}: EditModalProps) {
             }}
           />
         </View>
+        {/* <Modal
+          animationType="fade"
+          visible={editDescriptionModalVisible}
+          transparent={true}>
+          <View style={styles.aboutDescriptionContainer}>
+            <View style={styles.aboutModalContent}>
+              <TextInput
+                style={styles.aboutModalText}
+                value={about}
+                onChangeText={setAbout}
+                multiline={true}
+              />
+              <GeneralButton
+                text={'Close'}
+                onPressOut={() => {
+                  setEditAboutModalVisible(false);
+                }}
+              />
+            </View>
+          </View>
+        </Modal> */}
       </View>
     </Modal>
   );

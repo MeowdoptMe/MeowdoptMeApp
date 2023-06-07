@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, Text, Dimensions, TextInput} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Dimensions,
+  TextInput,
+  Modal,
+} from 'react-native';
 import colorPalette from '../../assets/colors';
 import {GeneralButton} from '../components/GeneralButton';
 import {AdContext, AdListContext} from '../Context';
@@ -7,13 +14,17 @@ import {AdContext, AdListContext} from '../Context';
 const {width, height} = Dimensions.get('window');
 
 interface InfoEditProps {
-  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+  setEdit: (edit: boolean) => void;
 }
 
-function InfoEdit({setEditMode}: InfoEditProps) {
+function InfoEdit({setEdit}: InfoEditProps) {
   const {ad, adIndex} = React.useContext(AdContext);
   const {changeAd} = React.useContext(AdListContext);
 
+  const [editAboutModalVisible, setEditAboutModalVisible] =
+    React.useState(false);
+
+  const [about, setAbout] = React.useState(ad.description);
   const [name, setName] = React.useState(ad.pet.name);
   const [species, setSpecies] = React.useState(
     ad.pet.petCharacteristics.species,
@@ -31,6 +42,7 @@ function InfoEdit({setEditMode}: InfoEditProps) {
   function onPressOut() {
     const newAd = {
       ...ad,
+      description: about,
       pet: {
         ...ad.pet,
         name,
@@ -48,7 +60,7 @@ function InfoEdit({setEditMode}: InfoEditProps) {
       },
     };
     changeAd(newAd, adIndex);
-    setEditMode(false);
+    setEdit(false);
   }
 
   return (
@@ -109,7 +121,40 @@ function InfoEdit({setEditMode}: InfoEditProps) {
           onChangeText={text => setMonth(text)}
         />
       </View>
-      <GeneralButton text={'Save'} onPressOut={onPressOut} />
+      <View style={styles.editButtonsContainer}>
+        <GeneralButton
+          text={'Save'}
+          onPressOut={onPressOut}
+          extraStyle={styles.editButtonStyle}
+        />
+        <GeneralButton
+          text={'About'}
+          onPressOut={() => setEditAboutModalVisible(true)}
+          extraStyle={styles.editButtonStyle}
+        />
+      </View>
+      <GeneralButton text={'Cancel'} onPressOut={() => setEdit(false)} />
+      <Modal
+        animationType="fade"
+        visible={editAboutModalVisible}
+        transparent={true}>
+        <View style={styles.aboutModalContainer}>
+          <View style={styles.aboutModalContent}>
+            <TextInput
+              style={styles.aboutModalText}
+              value={about}
+              onChangeText={setAbout}
+              multiline={true}
+            />
+            <GeneralButton
+              text={'Close'}
+              onPressOut={() => {
+                setEditAboutModalVisible(false);
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -119,7 +164,7 @@ const styles = StyleSheet.create({
     height: height,
     width: width,
     alignItems: 'center',
-    top: height * 0.15,
+    top: height * 0,
   },
   informationScreenTextBubble: {
     width: width * 0.8,
@@ -140,6 +185,33 @@ const styles = StyleSheet.create({
   informationDataChange: {
     fontSize: 14,
     color: 'black',
+  },
+  editButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  editButtonStyle: {
+    width: width * 0.4,
+  },
+  aboutModalContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000000aa',
+    height: height,
+    width: width,
+  },
+  aboutModalContent: {
+    width: width * 0.9,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colorPalette.lightAccentColor,
+    borderRadius: 20,
+  },
+  aboutModalText: {
+    fontSize: 16,
+    color: 'black',
+    textAlign: 'justify',
+    margin: 30,
   },
 });
 

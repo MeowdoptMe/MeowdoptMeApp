@@ -1,6 +1,7 @@
 export interface Ad {
   id: number;
   pet: Pet;
+  description: string;
   // active: boolean;
   // shelter: Shelter;
   photoAlbum: PhotoAlbum;

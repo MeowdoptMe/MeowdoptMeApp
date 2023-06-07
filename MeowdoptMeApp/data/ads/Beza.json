@@ -1,7 +1,6 @@
 {
   "pet": {
     "name": "Beza",
-    "about": "Beza to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
     "petCharacteristics": {
       "species": "dog",
       "breed": "Labrador Retriever mix",
@@ -13,6 +12,7 @@
       "color": "white"
     }
   },
+  "description": "Beza to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
   "photoAlbum": {
     "id": 1,
     "photos": [

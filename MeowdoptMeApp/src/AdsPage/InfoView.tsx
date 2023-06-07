@@ -8,10 +8,10 @@ import {Modal} from 'react-native';
 const {width, height} = Dimensions.get('window');
 
 interface InfoViewProps {
-  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+  setEdit: (edit: boolean) => void;
 }
 
-function InfoView({setEditMode}: InfoViewProps) {
+function InfoView({setEdit}: InfoViewProps) {
   const {ad} = useContext(AdContext);
   const {gender, breed, color, dateOfBirth} = ad.pet.petCharacteristics;
   const [aboutModalVisible, setAboutModalVisible] = React.useState(false);
@@ -56,7 +56,7 @@ function InfoView({setEditMode}: InfoViewProps) {
       <GeneralButton
         text={'Edit'}
         onPressOut={() => {
-          setEditMode(true);
+          setEdit(true);
         }}
       />
       <Modal
@@ -65,7 +65,7 @@ function InfoView({setEditMode}: InfoViewProps) {
         transparent={true}>
         <View style={styles.aboutModalContainer}>
           <View style={styles.aboutModalContent}>
-            <Text style={styles.aboutModalText}>{ad.pet.about}</Text>
+            <Text style={styles.aboutModalText}>{ad.description}</Text>
             <GeneralButton
               text={'Close'}
               onPressOut={() => {
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     height: height,
     width: width,
     alignItems: 'center',
-    top: height * 0.15,
+    top: height * 0.1,
   },
   informationScreenTextBubble: {
     width: width * 0.8,

@@ -1,7 +1,6 @@
 {
   "pet": {
     "name": "Drops",
-    "about": "Dropsik trafił do nas stosunkowo niedawno, w związku z przeprowadzką jego właściciela. Jest przyzwyczajony do stałej obecności człowieka. Bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Dropsa domu, który zapewni mu dobre warunki i domowe ciepło.",
     "petCharacteristics": {
       "species": "dog",
       "breed": "mixed breed",
@@ -13,6 +12,7 @@
       "color": "brown"
     }
   },
+  "description": "Dropsik trafił do nas stosunkowo niedawno, w związku z przeprowadzką jego właściciela. Jest przyzwyczajony do stałej obecności człowieka. Bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Dropsa domu, który zapewni mu dobre warunki i domowe ciepło.",
   "photoAlbum": {
     "id": 3,
     "photos": [
