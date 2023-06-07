@@ -28,17 +28,16 @@ class PetSerializer(serializers.ModelSerializer):
         date_data = characteristics_data.pop("dateOfBirth")
         date = DateOfBirth.objects.create(**date_data)
         pet_characteristics = PetCharacteristics.objects.create(
-            date_of_birth=date, **characteristics_data
+            dateOfBirth=date, **characteristics_data
         )
         pet = Pet.objects.create(
-            pet_characteristics=pet_characteristics, **validated_data
+            petCharacteristics=pet_characteristics, **validated_data
         )
         return pet
 
 
 class AdSerializer(serializers.ModelSerializer):
     pet = PetSerializer()
-    photoAlbum = serializers.CharField(source="photo_album")
 
     class Meta:
         model = Ad
@@ -50,9 +49,9 @@ class AdSerializer(serializers.ModelSerializer):
         date_data = characteristics_data.pop("dateOfBirth")
         date = DateOfBirth.objects.create(**date_data)
         pet_characteristics = PetCharacteristics.objects.create(
-            date_of_birth=date, **characteristics_data
+            dateOfBirth=date, **characteristics_data
         )
-        pet = Pet.objects.create(pet_characteristics=pet_characteristics, **pet_data)
+        pet = Pet.objects.create(petCharacteristics=pet_characteristics, **pet_data)
         ad = Ad.objects.create(pet=pet, **validated_data)
         return ad
 
@@ -60,6 +59,6 @@ class AdSerializer(serializers.ModelSerializer):
         instance.active = validated_data["active"]
         instance.shelter = validated_data["shelter"]
         instance.description = validated_data["description"]
-        instance.photo_album = validated_data["photoAlbum"]
+        instance.photoAlbum = validated_data["photoAlbum"]
         instance.save()
         return instance
