@@ -5,19 +5,13 @@ from django.utils.http import urlsafe_base64_encode
 from rest_framework import status
 from rest_framework.test import (
     APITestCase,
-    APIRequestFactory,
     APIClient,
 )
 from .models import User
-from .views import (
-    RegisterView,
-    LoginView,
-)
 
 
 class UserAuthTests(APITestCase):
     def setUp(self):
-        self.factory = APIRequestFactory(enforce_csrf_checks=True)
         self.client = APIClient()
         self.user = User.objects.create_user(
             username="ewa", password="ewa12345", email="malgdras@gmail.com"
@@ -30,9 +24,7 @@ class UserAuthTests(APITestCase):
             "username": "tdd",
             "password": "krowa12345",
         }
-        request = self.factory.post(url, data, format="json")
-        view = RegisterView.as_view()
-        response = view(request)
+        response = self.client.post(url, data, format="json")
         self.assertEqual(
             response.status_code,
             status.HTTP_201_CREATED,
@@ -46,9 +38,7 @@ class UserAuthTests(APITestCase):
             "username": "ewa",
             "password": "ewa12345",
         }
-        request = self.factory.post(url, data, format="json")
-        view = RegisterView.as_view()
-        response = view(request)
+        response = self.client.post(url, data, format="json")
         self.assertEqual(
             response.status_code,
             status.HTTP_400_BAD_REQUEST,
@@ -63,9 +53,7 @@ class UserAuthTests(APITestCase):
             "password": "12345ala",
             "first_name": "Ala",
         }
-        request = self.factory.post(url, data, format="json")
-        view = RegisterView.as_view()
-        response = view(request)
+        response = self.client.post(url, data, format="json")
         self.assertEqual(
             response.status_code,
             status.HTTP_201_CREATED,
@@ -233,6 +221,4 @@ class UserAuthTests(APITestCase):
 
     def login(self, user_data):
         url = reverse("login")
-        request = self.factory.post(url, user_data, format="json")
-        view = LoginView.as_view()
-        return view(request)
+        return self.client.post(url, user_data, format="json")

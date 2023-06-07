@@ -1,11 +1,19 @@
 import React, {useState} from 'react';
-import {Text, Pressable, StyleProp, StyleSheet, TextStyle} from 'react-native';
+import {
+  Text,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 import colorPalette from '../../assets/colors';
 
 interface GeneralButtonProps {
   onPressOut: () => void;
   text: string;
   textStyle?: StyleProp<TextStyle>;
+  extraStyle?: StyleProp<ViewStyle>;
   disabled?: boolean;
 }
 
@@ -13,12 +21,13 @@ export function GeneralButton({
   onPressOut,
   text,
   textStyle,
+  extraStyle,
   disabled,
 }: GeneralButtonProps) {
   const [isPressed, setIsPressed] = useState(false);
   return (
     <Pressable
-      style={[styles.button, isPressed && styles.buttonPressed]}
+      style={[styles.button, extraStyle, isPressed && styles.buttonPressed]}
       disabled={disabled}
       onPressIn={() => {
         setIsPressed(true);

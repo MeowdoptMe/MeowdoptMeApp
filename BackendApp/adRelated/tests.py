@@ -1,10 +1,9 @@
 from django.contrib.auth.models import Permission
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase, APIRequestFactory, APIClient
+from rest_framework.test import APITestCase, APIClient
 from shelterRelated.models import Shelter
 from .models import Pet, Ad, DateOfBirth, PetCharacteristics
-from .views import PetList, PetDetail, AdList, AdDetail
 from userAuth.models import User
 from permissionHandler.models import UserPermission
 
@@ -13,7 +12,6 @@ from photoAlbum.models import PhotoAlbum
 
 class AdTests(APITestCase):
     def setUp(self):
-        self.factory = APIRequestFactory()
         self.client = APIClient()
         date_of_birth = DateOfBirth.objects.create()
         pet_char = PetCharacteristics.objects.create(date_of_birth=date_of_birth)
@@ -54,9 +52,7 @@ class AdTests(APITestCase):
 
     def test_list(self):
         url = reverse("ad_list")
-        request = self.factory.get(url)
-        view = AdList.as_view()
-        response = view(request)
+        response = self.client.get(url)
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK,
