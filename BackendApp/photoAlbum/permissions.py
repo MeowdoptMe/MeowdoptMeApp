@@ -9,12 +9,12 @@ class PhotoPermission(BasePermission):
     def has_permission(self, request, view):
         if "Create" not in view.__class__.__name__:
             photo = view.get_object()
-            ad = Ad.objects.get(photo_album=photo.photo_album)
+            ad = Ad.objects.get(photoAlbum=photo.photo_album)
 
         permission = True
         if request.method == "POST":
             photo_album = PhotoAlbum.objects.get(id=view.kwargs.get("id"))
-            ad = Ad.objects.get(photo_album=photo_album)
+            ad = Ad.objects.get(photoAlbum=photo_album)
             id = Permission.objects.get(codename="add_ad")
             permission = UserPermission.objects.filter(
                 user_id=request.user.id,
@@ -42,7 +42,7 @@ class PhotoPermission(BasePermission):
 class PhotoAlbumPermission(BasePermission):
     def has_permission(self, request, view):
         photo_album = view.get_object()
-        ad = Ad.objects.get(photo_album=photo_album)
+        ad = Ad.objects.get(photoAlbum=photo_album)
 
         permission = True
 
