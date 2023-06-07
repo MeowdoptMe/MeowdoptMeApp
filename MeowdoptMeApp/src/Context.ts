@@ -1,17 +1,11 @@
 import React from 'react';
 import {createContext, Context} from 'react';
-
-interface User {
-  username: string;
-  mail: string;
-  token: string;
-  // permissions: PermissionsList;
-  // requests: PermissionRequest[];
-}
+import {Ad} from './commonTypes';
+import type {User} from './commonTypes';
 
 const guestUser: User = {
   username: 'Guest',
-  mail: '__guest-mail__',
+  mail: 'guest@guest.guest',
   token: '__guest-token__',
 };
 
@@ -34,5 +28,17 @@ const ShelterContext: Context<ShelterContextType> = createContext<
   ShelterContextType | undefined
 >(undefined) as Context<ShelterContextType>;
 
-export {AppContext, guestUser, ShelterContext};
-export type {User, AppContextType};
+interface AdListContextType {
+  changeAd: (ad: Ad, index: number) => void;
+}
+
+const AdListContext = createContext<AdListContextType>(undefined as any);
+
+interface AdContextType {
+  ad: Ad;
+  adIndex: number;
+}
+
+const AdContext = createContext<AdContextType>(undefined as any);
+
+export {AppContext, guestUser, ShelterContext, AdListContext, AdContext};
