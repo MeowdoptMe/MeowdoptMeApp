@@ -57,7 +57,7 @@ def add_user_permissions(permissions):
 
 def add_photo_albums(albums):
     for album in albums:
-        photo_album = PhotoAlbum.objects.create(name=album["name"])
+        photo_album = PhotoAlbum.objects.create()
         for photo in album["photos"]:
             Photo.objects.create(img=photo["img"], photo_album=photo_album)
 
