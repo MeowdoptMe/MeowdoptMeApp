@@ -14,6 +14,9 @@ import {AdContext} from '../Context';
 import InfoScreen from './InfoScreen';
 import EditModal from './EditModal';
 import AddPhotoScreen from './AddPhotoScreen';
+import {Photo} from '../commonTypes';
+import adUtils from './adUtils';
+import Status from '../components/Status';
 
 // "https://icons8.com";
 const editIcon = require('../../assets/edit-icon.png');
@@ -21,11 +24,32 @@ const {width, height} = Dimensions.get('window');
 
 function AdContainer() {
   const {ad} = useContext(AdContext);
+  const [photos, setPhotos] = React.useState<Photo[]>([]);
   const [editModalVisible, setEditModalVisible] = React.useState(false);
   const [nameVisible, setNameVisible] = React.useState(true);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | undefined>(undefined);
   const photoIndex = React.useRef(0);
 
-  return (
+  async function fetchPhotos() {
+    try {
+      const response = await adUtils.getPhotos(ad.photo_album);
+      setPhotos(response);
+      setError(undefined);
+      setLoading(false);
+    } catch (e) {
+      setError(e as string);
+      setLoading(false);
+    }
+  }
+
+  React.useEffect(() => {
+    fetchPhotos();
+  }, []);
+
+  return loading || error ? (
+    <Status loading={loading} error={error} style={styles.statusContainer} />
+  ) : (
     <View style={styles.listElement}>
       {nameVisible && (
         <View style={styles.listElementHeader}>
@@ -33,7 +57,7 @@ function AdContainer() {
         </View>
       )}
       <FlashList
-        data={ad.photoAlbum.photos}
+        data={photos}
         estimatedItemSize={400}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
@@ -46,7 +70,10 @@ function AdContainer() {
         renderItem={({item, index}) => (
           <View style={styles.innerListElementContainer}>
             {/* @ts-ignore */}
-            <FastImage style={styles.listElementImage} source={item.img} />
+            <FastImage
+              style={styles.listElementImage}
+              source={{uri: item.img.replace('.png', '.jpg')}}
+            />
             {item.description && (
               <View style={styles.listElementTextContainer}>
                 <Text style={styles.listElementText}>{item.description}</Text>
@@ -64,6 +91,7 @@ function AdContainer() {
         )}
       />
       <EditModal
+        photos={photos}
         photoIndex={photoIndex.current}
         visible={editModalVisible}
         setVisible={setEditModalVisible}
@@ -73,6 +101,12 @@ function AdContainer() {
 }
 
 const styles = StyleSheet.create({
+  statusContainer: {
+    width: width,
+    height: height,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   listElement: {
     width: width,
     height: height,

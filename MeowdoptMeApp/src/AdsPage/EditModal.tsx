@@ -4,21 +4,23 @@ import colorPalette from '../../assets/colors';
 import {GeneralButton} from '../components/GeneralButton';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {AdContext, AdListContext} from '../Context';
+import {Photo} from '../commonTypes';
 
 const {width, height} = Dimensions.get('window');
 
 interface EditModalProps {
+  photos: Photo[];
   photoIndex: number;
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }
 
-function EditModal({photoIndex, visible, setVisible}: EditModalProps) {
+function EditModal({photos, photoIndex, visible, setVisible}: EditModalProps) {
   const {changeAd} = useContext(AdListContext);
   const {ad, adIndex} = useContext(AdContext);
 
   const [description, setDescription] = React.useState(
-    ad.photoAlbum.photos[photoIndex].description,
+    photos[photoIndex].description,
   );
   const [editDescriptionModalVisible, setEditDescriptionModalVisible] =
     React.useState(false);
