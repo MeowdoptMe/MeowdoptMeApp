@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {Dispatch, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -14,13 +14,30 @@ import {AdContext} from '../Context';
 import InfoScreen from './InfoScreen';
 import EditModal from './EditModal';
 import AddPhotoScreen from './AddPhotoScreen';
-import {Photo} from '../commonTypes';
+import {Ad, Photo} from '../commonTypes';
 import adUtils from './adUtils';
 import Status from '../components/Status';
 
 // "https://icons8.com";
 const editIcon = require('../../assets/edit-icon.png');
 const {width, height} = Dimensions.get('window');
+
+async function fetchPhotos(
+  ad: Ad,
+  setPhotos: React.Dispatch<React.SetStateAction<Photo[]>>,
+  setLoading: Dispatch<React.SetStateAction<boolean>>,
+  setError: Dispatch<React.SetStateAction<string | undefined>>,
+) {
+  try {
+    const response = await adUtils.getPhotos(ad.photoAlbum);
+    setPhotos(response);
+    setError(undefined);
+    setLoading(false);
+  } catch (e) {
+    setError(e as string);
+    setLoading(false);
+  }
+}
 
 function AdContainer() {
   const {ad} = useContext(AdContext);
@@ -31,21 +48,9 @@ function AdContainer() {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const photoIndex = React.useRef(0);
 
-  async function fetchPhotos() {
-    try {
-      const response = await adUtils.getPhotos(ad.photo_album);
-      setPhotos(response);
-      setError(undefined);
-      setLoading(false);
-    } catch (e) {
-      setError(e as string);
-      setLoading(false);
-    }
-  }
-
   React.useEffect(() => {
-    fetchPhotos();
-  }, []);
+    fetchPhotos(ad, setPhotos, setLoading, setError);
+  }, [ad]);
 
   return loading || error ? (
     <Status loading={loading} error={error} style={styles.statusContainer} />

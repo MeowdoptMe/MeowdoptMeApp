@@ -13,13 +13,13 @@ interface InfoViewProps {
 
 function InfoView({setEdit}: InfoViewProps) {
   const {ad} = useContext(AdContext);
-  const {gender, breed, color, date_of_birth} = ad.pet.pet_characteristics;
+  const {gender, breed, color, dateOfBirth} = ad.pet.petCharacteristics;
   const [aboutModalVisible, setAboutModalVisible] = React.useState(false);
 
   function getAge() {
     const date = new Date();
-    let age = date.getFullYear() - date_of_birth.year;
-    if (date.getMonth() < date_of_birth.month) {
+    let age = date.getFullYear() - dateOfBirth.year;
+    if (date.getMonth() < dateOfBirth.month) {
       age--;
     }
     if (age < 1) {
