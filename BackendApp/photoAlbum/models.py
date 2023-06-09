@@ -2,7 +2,7 @@ from django.db import models
 
 
 class PhotoAlbum(models.Model):
-    name = models.CharField(max_length=255)
+    pass
 
 
 class Photo(models.Model):

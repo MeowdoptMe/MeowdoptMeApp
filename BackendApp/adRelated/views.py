@@ -26,6 +26,20 @@ class AdCreate(CreateAPIView):
     serializer_class = AdSerializer
     permission_classes = [AdRelatedPermission]
 
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        return instance
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        instance = self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        response_data = {"id": instance.id}
+        return Response(response_data, status=201, headers=headers)
+
 
 class AdDetail(RetrieveUpdateDestroyAPIView):
     queryset = Ad.objects.all()
