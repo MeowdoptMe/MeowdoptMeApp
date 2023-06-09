@@ -12,7 +12,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 class PhotoAlbumSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotoAlbum
-        fields = ["name"]
+        fields = "__all__"
 
     def create(self, validated_data):
         photo_album = PhotoAlbum.objects.create(**validated_data)
