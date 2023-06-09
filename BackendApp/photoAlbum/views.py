@@ -43,8 +43,14 @@ class PhotoAlbumDetail(RetrieveUpdateDestroyAPIView):
 
 
 class PhotoList(ListAPIView):
-    queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+
+    def get_queryset(self):
+        queryset = Photo.objects.all()
+        id = self.kwargs["id"]
+        if id:
+            queryset = queryset.filter(photo_album_id=id)
+        return queryset
 
 
 class PhotoCreate(CreateAPIView):

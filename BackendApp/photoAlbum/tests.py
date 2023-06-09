@@ -34,7 +34,7 @@ class PhotoAlbumTests(APITestCase):
         )
         self.data = {"name": "test-album"}
         photo_album = PhotoAlbum.objects.create(name="album1")
-        Ad.objects.create(photo_album=photo_album, shelter=shelter)
+        Ad.objects.create(photoAlbum=photo_album, shelter=shelter)
 
     def test_list(self):
         url = reverse("photo_album_list")
@@ -62,7 +62,7 @@ class PhotoAlbumTests(APITestCase):
 
     def test_detail(self):
         photo_album = PhotoAlbum.objects.create(name="test_album")
-        Ad.objects.create(photo_album=photo_album)
+        Ad.objects.create(photoAlbum=photo_album)
         url = reverse("photo_album_detail", kwargs={"pk": 1})
         response = self.client.get(url)
         self.assertEqual(
@@ -166,7 +166,7 @@ class PhotoTests(APITestCase):
             user=self.user, shelter=shelter, permission=permission_delete
         )
         photo_album = PhotoAlbum.objects.create()
-        Ad.objects.create(photo_album=photo_album, shelter=shelter)
+        Ad.objects.create(photoAlbum=photo_album, shelter=shelter)
 
     def tearDown(self):
         self.file.close()

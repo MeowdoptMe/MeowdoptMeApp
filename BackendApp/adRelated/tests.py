@@ -14,8 +14,8 @@ class AdTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
         date_of_birth = DateOfBirth.objects.create()
-        pet_char = PetCharacteristics.objects.create(date_of_birth=date_of_birth)
-        self.pet = Pet.objects.create(pet_characteristics=pet_char)
+        pet_char = PetCharacteristics.objects.create(dateOfBirth=date_of_birth)
+        self.pet = Pet.objects.create(petCharacteristics=pet_char)
         self.shelter = Shelter.objects.create()
         PhotoAlbum.objects.create()
         self.data = {
@@ -24,15 +24,15 @@ class AdTests(APITestCase):
             "description": "Jarzyna to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
             "pet": {
                 "name": "Jarzyna",
-                "pet_characteristics": {
+                "petCharacteristics": {
                     "species": "dog",
                     "breed": "Labrador Retriever mix",
                     "gender": "female",
-                    "date_of_birth": {"year": 2019, "month": 5},
+                    "dateOfBirth": {"year": 2019, "month": 5},
                     "color": "white",
                 },
             },
-            "photo_album": 1,
+            "photoAlbum": 1,
         }
         self.user = User.objects.create_user(username="ewa", password="ewa12345")
         self.user2 = User.objects.create_user(username="gocha", password="gocha12345")
@@ -115,11 +115,11 @@ class PetTests(APITestCase):
         self.client = APIClient()
         self.data = {
             "name": "string",
-            "pet_characteristics": {
+            "petCharacteristics": {
                 "species": "string",
                 "breed": "string",
                 "gender": "string",
-                "date_of_birth": {"year": 0, "month": 0},
+                "dateOfBirth": {"year": 0, "month": 0},
                 "color": "string",
             },
         }
@@ -175,9 +175,9 @@ class AdFiltersTests(APITestCase):
             breed="mixed breed",
             gender="female",
             color="white",
-            date_of_birth=date_of_birth,
+            dateOfBirth=date_of_birth,
         )
-        Pet.objects.create(name="Jarzyna", pet_characteristics=pet_char)
+        Pet.objects.create(name="Jarzyna", petCharacteristics=pet_char)
         shelter = Shelter.objects.create()
         PhotoAlbum.objects.create()
         Ad.objects.create(
@@ -185,7 +185,7 @@ class AdFiltersTests(APITestCase):
             shelter=shelter,
             description="Jarzyna to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
             pet_id=1,
-            photo_album_id=1,
+            photoAlbum_id=1,
         )
 
     def test_queryset_exist(self):
