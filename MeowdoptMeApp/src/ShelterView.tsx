@@ -7,10 +7,6 @@ import { Modal } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
-// interface InfoViewProps {
-//   setEdit: (edit: boolean) => void;
-// }
-
 function InfoView() {
   const { shelter } = useContext(ShelterContext);
   
@@ -20,31 +16,26 @@ function InfoView() {
   return (
     <View style={styles.informationScreenContainer}>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Nazwa:</Text>
+        <Text style={styles.informationKeyText}>Name:</Text>
         <Text style={styles.informationDataText}>{shelter?.name}</Text>
       </View>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Adres:</Text>
+        <Text style={styles.informationKeyText}>Location:</Text>
         <Text style={styles.informationDataText}>{shelter?.location}</Text>
       </View>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Adres e-mail:</Text>
+        <Text style={styles.informationKeyText}>Email:</Text>
         <Text style={styles.informationDataText}>{shelter?.email}</Text>
       </View>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Telefon kontaktowy:</Text>
+        <Text style={styles.informationKeyText}>Phone:</Text>
         <Text style={styles.informationDataText}>{shelter?.phone}</Text>
       </View>
-      <GeneralButton
-        text={'About'}
-        onPressOut={() => {
-          setAboutModalVisible(true);
-        }}
-      />
+
       <GeneralButton
         text={'Edit'}
         onPressOut={() => {
-          //setEdit(true);
+          
         }}
       />
       {<Modal

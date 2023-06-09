@@ -1,6 +1,6 @@
 import React from 'react';
 import InfoEdit from './InfoEdit';
-import InfoView from './InfoView';
+import InfoView from './ShelterView';
 
 // interface InfoScreenProps {
 //   setNameVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,9 +19,7 @@ function InfoScreen() {
   //   <InfoView setEdit={setEdit} />
   // );
 
-  return (
-    <InfoView />
-  )
+  return <InfoView />;
 }
 
 export default InfoScreen;

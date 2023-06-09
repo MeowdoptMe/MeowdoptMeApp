@@ -20,4 +20,4 @@ async function getShelters() {
 }
 
 
-export { getShelters };
+export { getShelters};

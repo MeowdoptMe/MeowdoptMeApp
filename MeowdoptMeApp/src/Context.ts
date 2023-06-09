@@ -1,7 +1,7 @@
 import React from 'react';
 import {createContext, Context} from 'react';
 import {Ad} from './commonTypes';
-import type {User} from './commonTypes';
+import type {Shelter, User} from './commonTypes';
 
 const guestUser: User = {
   username: 'Guest',
@@ -19,7 +19,6 @@ const AppContext: Context<AppContextType> = createContext<
   AppContextType | undefined
 >(undefined) as Context<AppContextType>;
 
-
 interface ShelterContextType {
   shelter: Shelter | undefined;
   setShelter: React.Dispatch<React.SetStateAction<Shelter | undefined>>;
@@ -28,6 +27,13 @@ interface ShelterContextType {
 const ShelterContext: Context<ShelterContextType> = createContext<
   ShelterContextType | undefined
 >(undefined) as Context<ShelterContextType>;
+interface ShelterListContextType {
+  changeShelter: (shelter: Shelter) => void;
+}
+
+const ShelterListContext = createContext<ShelterListContextType>(
+  undefined as any,
+);
 
 interface AdListContextType {
   changeAd: (ad: Ad, index: number) => void;
@@ -42,4 +48,11 @@ interface AdContextType {
 
 const AdContext = createContext<AdContextType>(undefined as any);
 
-export {AppContext, guestUser, ShelterContext, AdListContext, AdContext};
+export {
+  AppContext,
+  guestUser,
+  ShelterContext,
+  ShelterListContext,
+  AdListContext,
+  AdContext,
+};

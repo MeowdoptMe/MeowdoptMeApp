@@ -1,93 +1,106 @@
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet, Pressable, SafeAreaView, Dimensions } from 'react-native';
-import { WebView } from 'react-native-webview';
+import {useState, useEffect, useContext} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  SafeAreaView,
+  Dimensions,
+} from 'react-native';
+import {WebView} from 'react-native-webview';
 import map from './WebMap';
-import axios, { isAxiosError } from 'axios';
-import { FlashList } from '@shopify/flash-list';
-import { getShelters } from './shelterUtils';
+import axios, {isAxiosError} from 'axios';
+import {FlashList} from '@shopify/flash-list';
+import {getShelters} from './shelterUtils';
 import colorPalette from '../assets/colors';
 import AdsPage from './AdsPage';
-import { ShelterContext } from './Context';
+import {ShelterContext} from './Context';
 import HomeScreen from './HomeScreen';
 import type {Shelter} from './commonTypes';
 
-
-const { width, height } = Dimensions.get('window');
-
-
+const {width, height} = Dimensions.get('window');
 
 // @ts-expect-error
-function SheltersScreen({ navigation }) {
-
+function SheltersScreen({navigation}) {
   const [page, setPage] = useState('list');
-  const [shelters, setShelters] = useState<Shelter[]>([])
-  const { shelter, setShelter } = useContext(ShelterContext);
-
+  const [shelters, setShelters] = useState<Shelter[]>([]);
+  const {shelter, setShelter} = useContext(ShelterContext);
 
   async function loadShelters() {
     try {
       const shelters = await getShelters();
       setShelters(shelters);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
   function onPressOut(shelter: Shelter) {
-    setShelter(shelter)
+    setShelter(shelter);
     //console.log(shelter)
     navigation.navigate(HomeScreen);
   }
 
-
-
   useEffect(() => {
     loadShelters();
-  }, [])
-
-
+  }, []);
 
   return page === 'list' ? (
     <View style={styles.sectionContainer}>
-
       <FlashList
         data={shelters}
         estimatedItemSize={60}
-        ListHeaderComponent={<Text style={{
-          color: 'black',
-          fontSize: 30,
-          fontWeight: 'bold',
-        }}>Schroniska</Text>}
-        renderItem={({ item }) => (<View style={styles.listElement}>
+        ListHeaderComponent={
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 30,
+              fontWeight: 'bold',
+            }}>
+            Schroniska
+          </Text>
+        }
+        renderItem={({item}) => (
+          <View style={styles.listElement}>
+            <Pressable
+              onPressOut={() => {
+                onPressOut(item);
+              }}>
+              <Text style={styles.titleText}>{item.name}</Text>
+              <Text style={styles.text}>{item.location}</Text>
+            </Pressable>
+          </View>
+        )}
+      />
+      <View style={styles.twoButtons}>
+        <View style={[styles.button, styles.buttonSpread]}>
           <Pressable
             onPressOut={() => {
-              onPressOut(item)
+              setPage('map');
             }}>
-            <Text style={styles.titleText}>{item.name}</Text>
-            <Text style={styles.text}>{item.location}</Text>
+            <Text style={styles.buttonText}>Map</Text>
           </Pressable>
-        </View>)}
-      />
-
-      <View style={styles.button}>
-        <Pressable
-          onPressOut={() => {
-            setPage('map');
-          }}>
-          <Text style={styles.buttonText}>Mapa</Text>
-        </Pressable>
+        </View>
+        <View style={[styles.button, styles.buttonSpread]}>
+          <Pressable
+            onPressOut={() => {
+              setPage('map');
+            }}>
+            <Text style={styles.buttonText}>Add shelter</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   ) : (
     <SafeAreaView style={styles.mapContainer}>
-      <WebView source={{ html: map }} />
+      <WebView source={{html: map}} />
       <View style={styles.button}>
         <Pressable
           onPressOut={() => {
             setPage('list');
           }}>
-          <Text style={styles.buttonText}>Powrót</Text>
+          <Text style={styles.buttonText}>Back to list</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -111,7 +124,7 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     //flex: 1,
-    position: "absolute",
+    position: 'absolute',
     //top: height * 0.01,
     backgroundColor: colorPalette.backgroundColor,
     height: height * 0.89,
@@ -134,7 +147,6 @@ const styles = StyleSheet.create({
     borderBottomEndRadius: 60,
     borderBottomStartRadius: 60,
     height: 50,
-    width: 200,
     margin: 5,
     alignItems: 'center',
     justifyContent: 'center',
@@ -143,8 +155,18 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 30,
     textShadowRadius: 4,
-    textShadowOffset: { width: 2, height: 2 },
+    textShadowOffset: {width: 2, height: 2},
     textShadowColor: 'black',
+  },
+  buttonSpread: {
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  twoButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
 });
 
