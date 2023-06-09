@@ -3,22 +3,15 @@ from django.urls import reverse_lazy
 from rest_framework import status
 from rest_framework.test import (
     APITestCase,
-    APIRequestFactory,
-    force_authenticate,
     APIClient,
 )
-
 from userAuth.models import User
 from .models import Shelter
-from .views import ShelterList, ShelterDetail
-from userAuth.views import LoginView
-
 from permissionHandler.models import UserPermission
 
 
 class ShelterTests(APITestCase):
     def setUp(self):
-        self.factory = APIRequestFactory()
         self.client = APIClient()
         user = User.objects.create()
         self.data = {
@@ -48,9 +41,7 @@ class ShelterTests(APITestCase):
 
     def test_list(self):
         url = reverse_lazy("shelter_list")
-        request = self.factory.get(url)
-        view = ShelterList.as_view()
-        response = view(request)
+        response = self.client.get(url)
         self.assertEqual(
             response.status_code,
             200,

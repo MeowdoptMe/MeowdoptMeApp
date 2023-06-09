@@ -5,18 +5,18 @@
     "description": "Jarzyna to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
     "pet": {
       "name": "Jarzyna",
-      "pet_characteristics": {
+      "petCharacteristics": {
         "species": "dog",
         "breed": "Labrador Retriever mix",
         "gender": "female",
-        "date_of_birth": {
+        "dateOfBirth": {
           "year": 2019,
           "month": 5
         },
         "color": "white"
       }
     },
-    "photo_album": 1
+    "photoAlbum": 1
   },
   {
     "active": true,
@@ -24,18 +24,18 @@
     "description": "Buzz to kot, który przez długi czas żył 'na wolności' z grupą innych kotów. Przebywa w schronisku od około 2 miesięcy. Aktualnie bez problemu je kocią karmę. Wymaga jednak trochę cierpliwości podczas nauki korzystania z kuwety. Buzz szuka ciepłego domu, w którym spędzi resztę swojego kociego życia.",
     "pet": {
       "name": "Buzz",
-      "pet_characteristics": {
+      "petCharacteristics": {
         "species": "cat",
         "breed": "mixed breed",
         "gender": "male",
-        "date_of_birth": {
+        "dateOfBirth": {
           "year": 2021,
           "month": 3
         },
         "color": "brown"
       }
     },
-    "photo_album": 2
+    "photoAlbum": 2
   },
   {
     "active": true,
@@ -43,18 +43,18 @@
     "description": "Dropsik trafił do nas stosunkowo niedawno, w związku z przeprowadzką jego właściciela. Jest przyzwyczajony do stałej obecności człowieka. Bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Dropsa domu, który zapewni mu dobre warunki i domowe ciepło.",
     "pet": {
       "name": "Drops",
-      "pet_characteristics": {
+      "petCharacteristics": {
         "species": "cat",
         "breed": "mixed breed",
         "gender": "male",
-        "date_of_birth": {
+        "dateOfBirth": {
           "year": 2021,
           "month": 3
         },
         "color": "brown"
       }
     },
-    "photo_album": 3
+    "photoAlbum": 3
   },
   {
     "active": true,
@@ -62,18 +62,18 @@
     "description": "Łasuch to kot znaleziony w kartonach pod sklepem. Początkowo nieufny w stosunku do ludzi, jednak coraz bardziej przyzwyczaja się do dotyku i głaskania. Jego stan zdrowia jest bardzo dobry, ma jedynie czasem problem z łzawiącymi oczami. Łasuch czeka na dobry i kochający dom.",
     "pet": {
       "name": "Łasuch",
-      "pet_characteristics": {
+      "petCharacteristics": {
         "species": "cat",
         "breed": "mixed breed",
         "gender": "male",
-        "date_of_birth": {
+        "dateOfBirth": {
           "year": 2021,
           "month": 3
         },
         "color": "brown"
       }
     },
-    "photo_album": 4
+    "photoAlbum": 4
   },
   {
     "active": true,
@@ -81,18 +81,18 @@
     "description": "Mariusz to kot, który trafił do schroniska po śmierci swojego właściciela. Uwielbia kontakt i bliskość z człowiekiem. Umie korzystać z kuwety. W schronisku czuje się przytłoczony. Z niecierpliwością czeka na odpowiedzialny dom pełen miłości.",
     "pet": {
       "name": "Mariusz",
-      "pet_characteristics": {
+      "petCharacteristics": {
         "species": "cat",
         "breed": "mixed breed",
         "gender": "male",
-        "date_of_birth": {
+        "dateOfBirth": {
           "year": 2021,
           "month": 3
         },
         "color": "white"
       }
     },
-    "photo_album": 5
+    "photoAlbum": 5
   },
   {
     "active": true,
@@ -100,18 +100,18 @@
     "description": "Pola to kanapowy piesek, bardzo lubi kontakt z człowiekiem. Umie chodzić na smyczy. Ma jednak problemy z tarczycą, które przy regularnym stosowaniu leków i odpowiedniej opiece weterynaryjnej nie wpływają na jej codzienne funkcjonowanie. Szukamy dla Poli odpowiedzialnego i kochającego domu, który zadba o jej zdrowie.",
     "pet": {
       "name": "Pola",
-      "pet_characteristics": {
+      "petCharacteristics": {
         "species": "dog",
         "breed": "Yorkshire Terrier mix",
         "gender": "female",
-        "date_of_birth": {
+        "dateOfBirth": {
           "year": 2021,
           "month": 3
         },
         "color": "white"
       }
     },
-    "photo_album": 6
+    "photoAlbum": 6
   },
   {
     "active": true,
@@ -119,18 +119,18 @@
     "description": "Rysia to młoda kotka porzucona w workach przy rzece. Jest wystraszona i mało ufna, jednak coraz bardziej przekonuje się do ludzkiej dobroci. Pobyt w schronisku jej nie służy, dlatego pilnie szukamy dla Rysi ciepłego i pełnego miłości domu.",
     "pet": {
       "name": "Rysia",
-      "pet_characteristics": {
+      "petCharacteristics": {
         "species": "cat",
         "breed": "mixed breed",
         "gender": "male",
-        "date_of_birth": {
+        "dateOfBirth": {
           "year": 2021,
           "month": 3
         },
         "color": "brown"
       }
     },
-    "photo_album": 7
+    "photoAlbum": 7
   },
   {
     "active": true,
@@ -138,18 +138,18 @@
     "description": "Stefan to kot, który niestety wrócił do schroniska z poprzedniej adopcji. Stefan nie lubi dzieci, potrzebuje dużo spokoju. Większość dnia spędza na fotelu. Nie przepada za głaskaniem, jednak jeśli ma na nie ochotę, to daje znać. Poszukiwany odpowiedzialny, spokojny dom, bez dzieci.",
     "pet": {
       "name": "Stefan",
-      "pet_characteristics": {
+      "petCharacteristics": {
         "species": "dog",
         "breed": "mixed breed",
         "gender": "female",
-        "date_of_birth": {
+        "dateOfBirth": {
           "year": 2021,
           "month": 3
         },
         "color": "white"
       }
     },
-    "photo_album": 8
+    "photoAlbum": 8
   },
   {
     "active": true,
@@ -157,18 +157,18 @@
     "description": "Viola trafiła do schroniska osłabiona i zaniedbana. Dzięki odpowiedniej opiece weterynaryjnej i wyżywieniu stanęła na nogi. Uwielbia spacery, bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Violi odpowiedzialnego domu.",
     "pet": {
       "name": "Viola",
-      "pet_characteristics": {
+      "petCharacteristics": {
         "species": "dog",
         "breed": "mixed breed",
         "gender": "female",
-        "date_of_birth": {
+        "dateOfBirth": {
           "year": 2018,
           "month": 7
         },
         "color": "black"
       }
     },
-    "photo_album": 9
+    "photoAlbum": 9
   },
   {
     "active": true,
@@ -176,17 +176,17 @@
     "description": "Zuzia to pies, który prawdopodobnie uciekł z poprzedniego. Jednak w związku z brakiem odpowiedzi na ogłoszenia o jej znalezeniu oraz brakiem chipa identyfikującego, szukamy dla Zuzi nowego, odpowiedzialnego domu. Krótki pobyt w schronisku nie zdążył wpłynąć na nią negatywnie. Jest psem typowo kanapowym, wymaga nauki chodzenia na smyczy.",
     "pet": {
       "name": "Zuzia",
-      "pet_characteristics": {
+      "petCharacteristics": {
         "species": "dog",
         "breed": "mixed breed",
         "gender": "female",
-        "date_of_birth": {
+        "dateOfBirth": {
           "year": 2020,
           "month": 7
         },
         "color": "black"
       }
     },
-    "photo_album": 10
+    "photoAlbum": 10
   }
 ]

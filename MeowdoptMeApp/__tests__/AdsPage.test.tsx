@@ -3,7 +3,7 @@ import 'react-native';
 import {render} from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 
-import AdsPage from '../src/AdsPage';
+import AdsPage from '../src/AdsPage/AdsPage';
 
 describe('AdsPage', () => {
   it('renders', () => {

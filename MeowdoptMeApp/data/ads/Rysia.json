@@ -9,16 +9,15 @@
         "year": 2022,
         "month": 4
       },
-      "color": ["brown"]
+      "color": "brown"
     }
   },
-  "shelter":  "1",
+  "description": "Rysia to młoda kotka porzucona w workach przy rzece. Jest wystraszona i mało ufna, jednak coraz bardziej przekonuje się do ludzkiej dobroci. Pobyt w schronisku jej nie służy, dlatego pilnie szukamy dla Rysi ciepłego i pełnego miłości domu.",
   "photoAlbum": {
     "id": 7,
     "photos": [
       {
-        "img": "16",
-        "description": "Rysia to młoda kotka porzucona w workach przy rzece. Jest wystraszona i mało ufna, jednak coraz bardziej przekonuje się do ludzkiej dobroci. Pobyt w schronisku jej nie służy, dlatego pilnie szukamy dla Rysi ciepłego i pełnego miłości domu."
+        "img": "16"
       },
       {
         "img": "17"

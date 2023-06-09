@@ -1,7 +1,7 @@
 {
   "pet": {
     "name": "Mariusz",
-    "petCharactersitcs": {
+    "petCharacteristics": {
       "species": "cat",
       "breed": "mixed breed",
       "gender": "male",
@@ -9,16 +9,15 @@
         "year": 2020,
         "month": 1
       },
-      "color": ["white", "red"]
+      "color": "white-red"
     }
   },
-  "shelter":  "1",
+  "description": "Mariusz to kot, który trafił do schroniska po śmierci swojego właściciela. Uwielbia kontakt i bliskość z człowiekiem. Umie korzystać z kuwety. W schronisku czuje się przytłoczony. Z niecierpliwością czeka na odpowiedzialny dom pełen miłości.",
   "photoAlbum": {
     "id": 5,
     "photos": [
       {
-        "img": "06",
-        "description": "Mariusz to kot, który trafił do schroniska po śmierci swojego właściciela. Uwielbia kontakt i bliskość z człowiekiem. Umie korzystać z kuwety. W schronisku czuje się przytłoczony. Z niecierpliwością czeka na odpowiedzialny dom pełen miłości."
+        "img": "06"
       },
       {
         "img": "07"

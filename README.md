@@ -15,7 +15,9 @@ Make sure to have a port forwarded in Android Studio with the following line:
 `adb reverse tcp:<port> tcp:<port>`
 
 Which defaults to:
-`adb reverse tcp:8000 tcp:8000` or `adb reverse tcp:8081 tcp:8081`.
+`adb reverse tcp:8000 tcp:8000` for our Backend server and
+
+`adb reverse tcp:8081 tcp:8081` for metro server (sometimes it's needed).
 
 ## Testing
 

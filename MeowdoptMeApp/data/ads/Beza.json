@@ -9,21 +9,18 @@
         "year": 2019,
         "month": 5
       },
-      "color": [
-        "white"
-      ]
+      "color": "white"
     }
   },
-  "shelter":  "2",
+  "description": "Beza to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
   "photoAlbum": {
     "id": 1,
     "photos": [
       {
         "img": "26",
-        "description": "Beza to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem."
       },
       {
-        "img": "27"
+        "img": "27",
       },
       {
         "img": "28"

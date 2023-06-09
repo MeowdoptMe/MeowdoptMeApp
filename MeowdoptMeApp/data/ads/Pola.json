@@ -10,16 +10,15 @@
         "year": "2019",
         "month": "10"
       },
-      "color": ["brown", "black"]
+      "color": "brown-black"
     }
   },
-  "shelter":  "1",
+  "description": "Pola to kanapowy piesek, bardzo lubi kontakt z człowiekiem. Umie chodzić na smyczy. Ma jednak problemy z tarczycą, które przy regularnym stosowaniu leków i odpowiedniej opiece weterynaryjnej nie wpływają na jej codzienne funkcjonowanie. Szukamy dla Poli odpowiedzialnego i kochającego domu, który zadba o jej zdrowie.",
   "photoAlbum": {
     "id": 6,
     "photos": [
       {
-        "img": "11",
-        "description": "Pola to kanapowy piesek, bardzo lubi kontakt z człowiekiem. Umie chodzić na smyczy. Ma jednak problemy z tarczycą, które przy regularnym stosowaniu leków i odpowiedniej opiece weterynaryjnej nie wpływają na jej codzienne funkcjonowanie. Szukamy dla Poli odpowiedzialnego i kochającego domu, który zadba o jej zdrowie."
+        "img": "11"
       },
       {
         "img": "12"

@@ -9,16 +9,15 @@
         "year": 2020,
         "month": 9
       },
-      "color": ["brown"]
+      "color": "brown"
     }
   },
-  "shelter":  "2",
+  "description": "Dropsik trafił do nas stosunkowo niedawno, w związku z przeprowadzką jego właściciela. Jest przyzwyczajony do stałej obecności człowieka. Bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Dropsa domu, który zapewni mu dobre warunki i domowe ciepło.",
   "photoAlbum": {
     "id": 3,
     "photos": [
       {
-        "img": "36",
-        "description": "Dropsik trafił do nas stosunkowo niedawno, w związku z przeprowadzką jego właściciela. Jest przyzwyczajony do stałej obecności człowieka. Bardzo dobrze chodzi na smyczy. Pilnie szukamy dla Dropsa domu, który zapewni mu dobre warunki i domowe ciepło."
+        "img": "36"
       },
       {
         "img": "37"
