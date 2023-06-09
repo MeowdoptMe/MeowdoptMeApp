@@ -17,6 +17,10 @@ from BackendApp import settings
 class PhotoAlbumTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
+        self.data = []
+        for i in range(0, 10):
+            self.data.append(create_jpg_file(i))
+
         self.user = User.objects.create_user(username="ewa", password="ewa12345")
         self.user2 = User.objects.create_user(username="gocha", password="gocha12345")
         shelter = Shelter.objects.create()
@@ -33,8 +37,19 @@ class PhotoAlbumTests(APITestCase):
             user=self.user, shelter=shelter, permission=permission_delete
         )
         self.data = {"name": "test-album"}
-        photo_album = PhotoAlbum.objects.create(name="album1")
+        photo_album = PhotoAlbum.objects.create()
         Ad.objects.create(photoAlbum=photo_album, shelter=shelter)
+
+    def tearDown(self):
+        images_path = join(settings.MEDIA_ROOT, "photos")
+        files = [
+            i
+            for i in listdir(images_path)
+            if isfile(join(images_path, i)) and i.startswith("test_file")
+        ]
+
+        for file in files:
+            remove(join(images_path, file))
 
     def test_list(self):
         url = reverse("photo_album_list")
@@ -49,19 +64,16 @@ class PhotoAlbumTests(APITestCase):
         actual_album_count = PhotoAlbum.objects.count()
         self.client.force_authenticate(user=self.user)
         url = reverse("photo_album_create")
-        response = self.client.post(url, self.data, format="json")
+        response = self.client.post(url, self.data, format="multipart")
         self.assertEqual(
             response.status_code,
             status.HTTP_201_CREATED,
             f"Expected Response Code 201, received {response.status_code} instead.",
         )
         self.assertEqual(PhotoAlbum.objects.count(), actual_album_count + 1)
-        self.assertEqual(
-            PhotoAlbum.objects.get(id=actual_album_count + 1).name, self.data["name"]
-        )
 
     def test_detail(self):
-        photo_album = PhotoAlbum.objects.create(name="test_album")
+        photo_album = PhotoAlbum.objects.create()
         Ad.objects.create(photoAlbum=photo_album)
         url = reverse("photo_album_detail", kwargs={"pk": 1})
         response = self.client.get(url)
@@ -70,41 +82,6 @@ class PhotoAlbumTests(APITestCase):
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
-
-    def test_edit_with_auth(self):
-        self.client.force_authenticate(user=self.user)
-        url = reverse("photo_album_detail", kwargs={"pk": 1})
-        data = {"name": "first_album"}
-        response = self.client.put(url, data)
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_200_OK,
-            f"Expected Response Code 200, received {response.status_code} instead.",
-        )
-        self.assertEqual(PhotoAlbum.objects.get(id=1).name, data["name"])
-
-    def test_edit_with_no_auth(self):
-        url = reverse("photo_album_detail", kwargs={"pk": 1})
-        data = {"name": "first_album"}
-        response = self.client.put(url, data)
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_401_UNAUTHORIZED,
-            f"Expected Response Code 401, received {response.status_code} instead.",
-        )
-        self.assertNotEqual(PhotoAlbum.objects.get(id=1).name, data["name"])
-
-    def test_edit_without_permissions(self):
-        self.client.force_authenticate(user=self.user2)
-        url = reverse("photo_album_detail", kwargs={"pk": 1})
-        data = {"name": "first_album"}
-        response = self.client.put(url, data)
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_403_FORBIDDEN,
-            f"Expected Response Code 403, received {response.status_code} instead.",
-        )
-        self.assertNotEqual(PhotoAlbum.objects.get(id=1).name, data["name"])
 
     def test_remove_with_auth(self):
         self.client.force_authenticate(user=self.user)
@@ -145,7 +122,7 @@ class PhotoAlbumTests(APITestCase):
 class PhotoTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
-        self.file = create_jpg_file()
+        self.file = create_jpg_file(1)
         self.data = {
             "img": self.file,
             "photo_album": 1,
@@ -241,7 +218,7 @@ class PhotoTests(APITestCase):
         self.client.force_authenticate(user=self.user)
         url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
         data = {
-            "img": create_jpg_file(),
+            "img": create_jpg_file(2),
         }
         response = self.client.put(url, data)
         self.assertEqual(
@@ -257,7 +234,7 @@ class PhotoTests(APITestCase):
         )
         url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
         data = {
-            "img": create_jpg_file(),
+            "img": create_jpg_file(2),
         }
         response = self.client.put(url, data)
         self.assertEqual(
@@ -274,7 +251,7 @@ class PhotoTests(APITestCase):
         self.client.force_authenticate(user=self.user2)
         url = reverse("photo_detail", kwargs={"id": 1, "pk": 1})
         data = {
-            "img": create_jpg_file(),
+            "img": create_jpg_file(2),
         }
         response = self.client.put(url, data)
         self.assertEqual(
