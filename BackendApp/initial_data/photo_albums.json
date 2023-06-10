@@ -1,6 +1,5 @@
 [
   {
-    "name": "album1",
     "photos": [
       {
         "img": "photos/26.jpg"
@@ -20,7 +19,6 @@
     ]
   },
   {
-    "name": "album2",
     "photos": [
       {
         "img": "photos/31.jpg"
@@ -40,7 +38,6 @@
     ]
   },
   {
-    "name": "album3",
     "photos": [
       {
         "img": "photos/36.jpg"
@@ -60,7 +57,6 @@
     ]
   },
   {
-    "name": "album4",
     "photos": [
       {
         "img": "photos/01.jpg"
@@ -80,7 +76,6 @@
     ]
   },
   {
-    "name": "album5",
     "photos": [
       {
         "img": "photos/06.jpg"
@@ -100,7 +95,6 @@
     ]
   },
   {
-    "name": "album6",
     "photos": [
       {
         "img": "photos/11.jpg"
@@ -120,7 +114,6 @@
     ]
   },
   {
-    "name": "album7",
     "photos": [
       {
         "img": "photos/16.jpg"
@@ -140,7 +133,6 @@
     ]
   },
   {
-    "name": "album8",
     "photos": [
       {
         "img": "photos/42.jpg"
@@ -160,7 +152,6 @@
     ]
   },
   {
-    "name": "album9",
     "photos": [
       {
         "img": "photos/47.jpg"
@@ -180,7 +171,6 @@
     ]
   },
   {
-    "name": "album10",
     "photos": [
       {
         "img": "photos/21.jpg"
