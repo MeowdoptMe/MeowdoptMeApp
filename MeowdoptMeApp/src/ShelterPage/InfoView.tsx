@@ -1,38 +1,38 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Text, Dimensions } from 'react-native';
-import colorPalette from '../assets/colors';
-import { GeneralButton } from './components/GeneralButton';
-import { ShelterContext } from './Context';
+import colorPalette from '../../assets/colors';
+import { GeneralButton } from '../components/GeneralButton';
+import { ShelterContext } from '../Context';
 import { Modal } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
-// interface InfoViewProps {
-//   setEdit: (edit: boolean) => void;
-// }
+interface InfoViewProps {
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-function InfoView() {
+function InfoView({ setEditMode }: InfoViewProps) {
   const { shelter } = useContext(ShelterContext);
-  
+
   const [aboutModalVisible, setAboutModalVisible] = React.useState(false);
 
 
   return (
     <View style={styles.informationScreenContainer}>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Nazwa:</Text>
+        <Text style={styles.informationKeyText}>Name:</Text>
         <Text style={styles.informationDataText}>{shelter?.name}</Text>
       </View>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Adres:</Text>
+        <Text style={styles.informationKeyText}>Address:</Text>
         <Text style={styles.informationDataText}>{shelter?.location}</Text>
       </View>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Adres e-mail:</Text>
+        <Text style={styles.informationKeyText}>E-mail:</Text>
         <Text style={styles.informationDataText}>{shelter?.email}</Text>
       </View>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Telefon kontaktowy:</Text>
+        <Text style={styles.informationKeyText}>Phone:</Text>
         <Text style={styles.informationDataText}>{shelter?.phone}</Text>
       </View>
       <GeneralButton
@@ -44,7 +44,7 @@ function InfoView() {
       <GeneralButton
         text={'Edit'}
         onPressOut={() => {
-          //setEdit(true);
+          setEditMode(true);
         }}
       />
       {<Modal

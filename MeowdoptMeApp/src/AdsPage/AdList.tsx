@@ -1,15 +1,22 @@
 import React from 'react';
 import {Dimensions} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
-import {ads} from '../sampleData/adsPhotos';
 import type {Ad} from '../commonTypes';
-import {AdContext, AdListContext} from '../Context';
+import {AdContext, AdListContext, ShelterContext} from '../Context';
 import AdContainer from './AdContainer';
+import ShelterAd from '../ShelterPage/ShelterAd';
 
 const {height} = Dimensions.get('window');
 
-function AdList() {
+
+interface AdListProps{
+  ads: Ad[]
+}
+
+function AdList({ads}: AdListProps) {
   const [data, setData] = React.useState(ads);
+  const { shelter } = React.useContext(ShelterContext);
+
   function changeAd(ad: Ad, index: number) {
     const newAds = data.map((item, i) => {
       if (i === index) {
@@ -29,6 +36,7 @@ function AdList() {
         snapToAlignment={'start'}
         decelerationRate={'fast'}
         snapToInterval={height}
+        ListHeaderComponent={shelter ? <ShelterAd/> : null}
         renderItem={({item, index}) => (
           <AdContext.Provider value={{ad: item, adIndex: index}}>
             <AdContainer />

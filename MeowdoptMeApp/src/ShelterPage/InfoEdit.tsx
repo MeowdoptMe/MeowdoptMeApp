@@ -8,59 +8,57 @@ import {
   Modal,
 } from 'react-native';
 import colorPalette from '../../assets/colors';
-import {GeneralButton} from '../components/GeneralButton';
-import {AdContext, AdListContext} from '../Context';
+import { GeneralButton } from '../components/GeneralButton';
+import { ShelterContext, AppContext } from '../Context';
+import { Shelter } from '../commonTypes';
+import { editShelter } from './shelterUtils';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 interface InfoEditProps {
-  setEdit: (edit: boolean) => void;
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function InfoEdit({setEdit}: InfoEditProps) {
-  const {ad, adIndex} = React.useContext(AdContext);
-  const {changeAd} = React.useContext(AdListContext);
+function InfoEdit({ setEditMode }: InfoEditProps) {
+  const { shelter: _shelter } = React.useContext(ShelterContext);
+  const shelter = _shelter!
+  
 
   const [editAboutModalVisible, setEditAboutModalVisible] =
     React.useState(false);
 
-  const [about, setAbout] = React.useState(ad.description);
-  const [name, setName] = React.useState(ad.pet.name);
-  const [species, setSpecies] = React.useState(
-    ad.pet.petCharacteristics.species,
-  );
-  const [gender, setGender] = React.useState(ad.pet.petCharacteristics.gender);
-  const [breed, setBreed] = React.useState(ad.pet.petCharacteristics.breed);
-  const [color, setColor] = React.useState(ad.pet.petCharacteristics.color);
-  const [year, setYear] = React.useState(
-    String(ad.pet.petCharacteristics.dateOfBirth.year),
-  );
-  const [month, setMonth] = React.useState(
-    String(ad.pet.petCharacteristics.dateOfBirth.month),
-  );
+  const [about, setAbout] = React.useState(shelter.description);
+  const [name, setName] = React.useState(shelter.name);
+  const [location, setLocation] = React.useState(shelter.location);
+  const [email, setEmail] = React.useState(shelter.email);
+  const [phone, setPhone] = React.useState(shelter.phone);
+
+  const {user} = React.useContext(AppContext);
+
+  async function putShelter(newShelter: Shelter) {
+    try {
+      await editShelter(newShelter, user.token);
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+
 
   function onPressOut() {
-    const newAd = {
-      ...ad,
+    const newShelter:Shelter = {
+      ...shelter,
       description: about,
-      pet: {
-        ...ad.pet,
-        name,
-        petCharacteristics: {
-          ...ad.pet.petCharacteristics,
-          species,
-          gender,
-          breed,
-          color,
-          dateOfBirth: {
-            year: Number(year),
-            month: Number(month),
-          },
-        },
-      },
+      name: name,
+      location: location,
+      email: email,
+      phone: phone,
     };
-    changeAd(newAd, adIndex);
-    setEdit(false);
+    putShelter(newShelter);
+    console.log(newShelter);
+    setEditMode(false);
+
+    
   }
 
   return (
@@ -74,53 +72,30 @@ function InfoEdit({setEdit}: InfoEditProps) {
         />
       </View>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Gender:</Text>
+        <Text style={styles.informationKeyText}>Location:</Text>
         <TextInput
           style={styles.informationDataChange}
-          value={gender}
-          onChangeText={text => setGender(text)}
+          value={location}
+          onChangeText={text => setLocation(text)}
         />
       </View>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Species:</Text>
+        <Text style={styles.informationKeyText}>Email:</Text>
         <TextInput
           style={styles.informationDataChange}
-          value={species}
-          onChangeText={text => setSpecies(text)}
+          value={email}
+          onChangeText={text => setEmail(text)}
         />
       </View>
       <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Breed:</Text>
+        <Text style={styles.informationKeyText}>Phone:</Text>
         <TextInput
           style={styles.informationDataChange}
-          value={breed}
-          onChangeText={text => setBreed(text)}
+          value={String(phone)}
+          onChangeText={text => setPhone(Number(text))}
         />
       </View>
-      <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Color:</Text>
-        <TextInput
-          style={styles.informationDataChange}
-          value={color}
-          onChangeText={text => setColor(text)}
-        />
-      </View>
-      <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Year of birth:</Text>
-        <TextInput
-          style={styles.informationDataChange}
-          value={year}
-          onChangeText={text => setYear(text)}
-        />
-      </View>
-      <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Month of birth:</Text>
-        <TextInput
-          style={styles.informationDataChange}
-          value={String(month)}
-          onChangeText={text => setMonth(text)}
-        />
-      </View>
+      
       <View style={styles.editButtonsContainer}>
         <GeneralButton
           text={'Save'}
@@ -133,7 +108,7 @@ function InfoEdit({setEdit}: InfoEditProps) {
           extraStyle={styles.editButtonStyle}
         />
       </View>
-      <GeneralButton text={'Cancel'} onPressOut={() => setEdit(false)} />
+      <GeneralButton text={'Cancel'} onPressOut={() => setEditMode(false)} />
       <Modal
         animationType="fade"
         visible={editAboutModalVisible}

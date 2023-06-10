@@ -17,6 +17,7 @@ export interface Shelter {
   y_cord: number;
   user: number;
   photoAlbum: PhotoAlbum;
+  description: string;
 }
 
 

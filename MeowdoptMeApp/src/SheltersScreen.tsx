@@ -3,18 +3,15 @@ import { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, Pressable, SafeAreaView, Dimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
 import map from './WebMap';
-import axios, { isAxiosError } from 'axios';
 import { FlashList } from '@shopify/flash-list';
-import { getShelters } from './shelterUtils';
+import { getShelters } from './ShelterPage/shelterUtils';
 import colorPalette from '../assets/colors';
-import AdsPage from './AdsPage';
 import { ShelterContext } from './Context';
 import HomeScreen from './HomeScreen';
-import type {Shelter} from './commonTypes';
+import type { Shelter } from './commonTypes';
 
 
 const { width, height } = Dimensions.get('window');
-
 
 
 // @ts-expect-error
