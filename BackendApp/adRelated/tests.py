@@ -87,7 +87,7 @@ class AdTests(APITestCase):
         self.client.force_authenticate(user=self.user)
         url = reverse("ad_detail", kwargs={"pk": 1})
         data = self.data
-        data["pet"]["name"] = False
+        data["pet"]["name"] = "wojtyla"
         response = self.client.put(url, data, format="json")
         self.assertEqual(
             response.status_code,
