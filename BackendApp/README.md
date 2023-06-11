@@ -2,7 +2,7 @@
 
 ## Using with host server
 
-Instead of setting up your local server, you can use https://gochad.pythonanywhere.com/. For the demo, we're using this page to host our server.
+Instead of setting up your local server, you can use 'https://gochad.pythonanywhere.com/`. For the demo, we're using this page to host our server.
 However, if we receive information that someone wants to use our application for real purposes, we will purchase a domain and a faster, more functional hosting option.
 If we observe any interest in the application, we will refrain from taking down this hosting page.
 
