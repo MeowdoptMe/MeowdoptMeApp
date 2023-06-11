@@ -1,10 +1,8 @@
 import { FlashList } from '@shopify/flash-list';
 const { width, height } = Dimensions.get('window');
 import React from 'react';
-import { useState, useContext } from 'react';
 import { View, Text, StyleSheet, Pressable, SafeAreaView, Dimensions } from 'react-native';
 import { ShelterContext } from '../Context';
-import { Photo } from '../commonTypes';
 import { shelters } from '../sampleData/sheltersPhotos';
 import FastImage from 'react-native-fast-image';
 import InfoScreen from './InfoScreen';
@@ -18,7 +16,6 @@ function ShelterAd() {
     const data = shelters?.find(item => {
         return (item.id === shelter?.id)
     })!;
-
 
 
     return (
@@ -74,6 +71,7 @@ const styles = StyleSheet.create({
         color: colorPalette.darkAccentColor,
     },
     innerListElementContainer: {
+        backgroundColor: colorPalette.backgroundColor,
         height: height,
         width: width,
         alignItems: 'center',

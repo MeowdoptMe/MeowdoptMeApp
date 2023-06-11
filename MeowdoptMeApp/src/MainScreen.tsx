@@ -7,11 +7,12 @@ import PreferencesScreen from './PreferencesScreen';
 import {ShelterContext} from './Context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colorPalette from '../assets/colors';
+import { Shelter } from './commonTypes';
 
 const Tab = createMaterialBottomTabNavigator();
 
 function MainScreen() {
-  const [shelter, setShelter] = React.useState<string | undefined>(undefined);
+  const [shelter, setShelter] = React.useState<Shelter | undefined>(undefined);
   return (
     <ShelterContext.Provider value={{shelter, setShelter}}>
       <MainScreenNavigation />

@@ -13,11 +13,11 @@ import type { Shelter } from './commonTypes';
 
 const { width, height } = Dimensions.get('window');
 
-
 // @ts-expect-error
 function SheltersScreen({ navigation }) {
 
   const [page, setPage] = useState('list');
+  //const [dbEdit, setDbEdit] = useState(false);
   const [shelters, setShelters] = useState<Shelter[]>([])
   const { shelter, setShelter } = useContext(ShelterContext);
 
@@ -41,7 +41,7 @@ function SheltersScreen({ navigation }) {
 
   useEffect(() => {
     loadShelters();
-  }, [])
+  }, [shelter])
 
 
 
@@ -51,11 +51,7 @@ function SheltersScreen({ navigation }) {
       <FlashList
         data={shelters}
         estimatedItemSize={60}
-        ListHeaderComponent={<Text style={{
-          color: 'black',
-          fontSize: 30,
-          fontWeight: 'bold',
-        }}>Schroniska</Text>}
+        ListHeaderComponent={<ShelterTitle setPage={setPage} />}
         renderItem={({ item }) => (<View style={styles.listElement}>
           <Pressable
             onPressOut={() => {
@@ -66,49 +62,71 @@ function SheltersScreen({ navigation }) {
           </Pressable>
         </View>)}
       />
-
-      <View style={styles.button}>
-        <Pressable
-          onPressOut={() => {
-            setPage('map');
-          }}>
-          <Text style={styles.buttonText}>Mapa</Text>
-        </Pressable>
-      </View>
     </View>
   ) : (
-    <SafeAreaView style={styles.mapContainer}>
+    <View style={styles.mapContainer}>
       <WebView source={{ html: map }} />
       <View style={styles.button}>
         <Pressable
           onPressOut={() => {
             setPage('list');
           }}>
-          <Text style={styles.buttonText}>Powrót</Text>
+          <Text style={styles.buttonText}>Back</Text>
         </Pressable>
       </View>
-    </SafeAreaView>
+    </View>
   );
+}
+
+
+interface ShelterTitleProps {
+  setPage: React.Dispatch<React.SetStateAction<string>>
+}
+
+function ShelterTitle({ setPage }: ShelterTitleProps) {
+  return (
+    <View style={styles.headerContainer}>
+      <Text style={styles.shelterTitle}>Shelters</Text>
+      <View style={styles.button}>
+        <Pressable
+          onPressOut={() => {
+            setPage('map');
+          }}>
+          <Text style={styles.buttonText}>Map</Text>
+        </Pressable>
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   sectionContainer: {
-    flex: 1,
-    //alignItems: 'center',
-    //justifyContent: 'center',
-    backgroundColor: colorPalette.backgroundColor,
-  },
-  listElement: {
     width: width,
-    height: height / 10,
+    height: height,
     backgroundColor: colorPalette.backgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
+  },
+  headerContainer: {
+    alignItems: "center",
+  },
+  shelterTitle: {
+    color: 'black',
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  listElement: {
+    width: width * 0.9,
+    height: height / 10,
+    backgroundColor: colorPalette.lightAccentColor,
+    margin: 10,
+    borderRadius: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   mapContainer: {
     //flex: 1,
-    position: "absolute",
     //top: height * 0.01,
     backgroundColor: colorPalette.backgroundColor,
     height: height * 0.89,
@@ -135,6 +153,8 @@ const styles = StyleSheet.create({
     margin: 5,
     alignItems: 'center',
     justifyContent: 'center',
+
+
   },
   buttonText: {
     color: 'white',

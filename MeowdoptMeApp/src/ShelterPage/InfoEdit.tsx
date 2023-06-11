@@ -9,9 +9,11 @@ import {
 } from 'react-native';
 import colorPalette from '../../assets/colors';
 import { GeneralButton } from '../components/GeneralButton';
-import { ShelterContext, AppContext } from '../Context';
+import { ShelterContext, AppContext, guestUser } from '../Context';
 import { Shelter } from '../commonTypes';
-import { editShelter } from './shelterUtils';
+import { editShelter, getShelterById } from './shelterUtils';
+import Status from '../components/Status';
+import authUtils from '../authUtils';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,9 +22,12 @@ interface InfoEditProps {
 }
 
 function InfoEdit({ setEditMode }: InfoEditProps) {
-  const { shelter: _shelter } = React.useContext(ShelterContext);
+  const { shelter: _shelter, setShelter } = React.useContext(ShelterContext);
   const shelter = _shelter!
-  
+
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | undefined>(undefined);
+
 
   const [editAboutModalVisible, setEditAboutModalVisible] =
     React.useState(false);
@@ -33,20 +38,29 @@ function InfoEdit({ setEditMode }: InfoEditProps) {
   const [email, setEmail] = React.useState(shelter.email);
   const [phone, setPhone] = React.useState(shelter.phone);
 
-  const {user} = React.useContext(AppContext);
+  const { user } = React.useContext(AppContext);
 
   async function putShelter(newShelter: Shelter) {
     try {
+      await authUtils.sleep();
       await editShelter(newShelter, user.token);
+      const updatedShelter = await getShelterById(shelter.id)
+      setShelter(updatedShelter);
+      setEditMode(false);
     } catch (e) {
-      console.log(e)
+      setError(e as string);
+    } finally {
+      setLoading(false);
     }
   }
 
 
-
   function onPressOut() {
-    const newShelter:Shelter = {
+    if (user === guestUser) {
+      setError('Cannot be performed as guest user :c')
+      return
+    }
+    const newShelter: Shelter = {
       ...shelter,
       description: about,
       name: name,
@@ -54,11 +68,9 @@ function InfoEdit({ setEditMode }: InfoEditProps) {
       email: email,
       phone: phone,
     };
+    setLoading(true);
+    setError(undefined);
     putShelter(newShelter);
-    console.log(newShelter);
-    setEditMode(false);
-
-    
   }
 
   return (
@@ -95,20 +107,23 @@ function InfoEdit({ setEditMode }: InfoEditProps) {
           onChangeText={text => setPhone(Number(text))}
         />
       </View>
-      
+
+      <Status error={error} loading={loading} />
       <View style={styles.editButtonsContainer}>
         <GeneralButton
+          disabled={loading}
           text={'Save'}
           onPressOut={onPressOut}
           extraStyle={styles.editButtonStyle}
         />
         <GeneralButton
+          disabled={loading}
           text={'About'}
           onPressOut={() => setEditAboutModalVisible(true)}
           extraStyle={styles.editButtonStyle}
         />
       </View>
-      <GeneralButton text={'Cancel'} onPressOut={() => setEditMode(false)} />
+      <GeneralButton disabled={loading} text={'Cancel'} onPressOut={() => setEditMode(false)} />
       <Modal
         animationType="fade"
         visible={editAboutModalVisible}
@@ -136,6 +151,7 @@ function InfoEdit({ setEditMode }: InfoEditProps) {
 
 const styles = StyleSheet.create({
   informationScreenContainer: {
+    backgroundColor: colorPalette.backgroundColor,
     height: height,
     width: width,
     alignItems: 'center',

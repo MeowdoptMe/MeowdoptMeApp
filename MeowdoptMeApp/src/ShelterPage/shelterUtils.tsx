@@ -8,16 +8,15 @@ import React from 'react';
 async function getShelters() {
   try {
     const response = await axios.get(Database.getSheltersUrl);
-    //console.log(response.data)
     return response.data;
   } catch (e: unknown) {
-    // if (isAxiosError(e)) {
-    //   if (e.response) {
-    //     throw e.response.data.detail;
-    //   } else {
-    //     throw e.message;
-    //   }
-    // }
+    if (isAxiosError(e)) {
+      if (e.response) {
+        throw e.response.data;
+      } else {
+        throw e.message;
+      }
+    }
     throw e;
   }
 }
@@ -34,8 +33,8 @@ async function editShelter(shelter: Shelter, token: string) {
     });
   } catch (e: unknown) {
     if (isAxiosError(e)) {
-      if (e.response) {
-        throw e.response.data;
+      if (e.response?.data.detail) {
+        throw e.response.data.detail;
       } else {
         throw e.message;
       }
@@ -45,4 +44,23 @@ async function editShelter(shelter: Shelter, token: string) {
 }
 
 
-export { getShelters, editShelter };
+async function getShelterById(id: number) {
+  try {
+    const url = `${Database.getSheltersUrl}${id}/`
+    const response = await axios.get(url);
+    //console.log(response.data)
+    return response.data;
+  } catch (e: unknown) {
+    if (isAxiosError(e)) {
+      if (e.response?.data.detail) {
+        throw e.response.data.detail;
+      } else {
+        throw e.message;
+      }
+    }
+    throw e;
+  }
+}
+
+
+export { getShelters, editShelter, getShelterById};
