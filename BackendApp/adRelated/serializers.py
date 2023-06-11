@@ -60,5 +60,21 @@ class AdSerializer(serializers.ModelSerializer):
         instance.shelter = validated_data["shelter"]
         instance.description = validated_data["description"]
         instance.photoAlbum = validated_data["photoAlbum"]
+        pet_data = validated_data["pet"]
+        DateOfBirth.objects.filter(
+            id=instance.pet.petCharacteristics.dateOfBirth_id
+        ).delete()
+        PetCharacteristics.objects.filter(
+            id=instance.pet.petCharacteristics_id
+        ).delete()
+        Pet.objects.filter(id=instance.pet_id).delete()
+        characteristics_data = pet_data.pop("petCharacteristics")
+        date_data = characteristics_data.pop("dateOfBirth")
+        date = DateOfBirth.objects.create(**date_data)
+        pet_characteristics = PetCharacteristics.objects.create(
+            dateOfBirth=date, **characteristics_data
+        )
+        pet = Pet.objects.create(petCharacteristics=pet_characteristics, **pet_data)
+        instance.pet = pet
         instance.save()
         return instance

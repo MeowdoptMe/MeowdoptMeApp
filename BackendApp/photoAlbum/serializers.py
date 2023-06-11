@@ -6,7 +6,7 @@ from .models import PhotoAlbum, Photo
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
-        fields = ["img"]
+        fields = ["img", "description"]
 
 
 class PhotoAlbumSerializer(serializers.ModelSerializer):
