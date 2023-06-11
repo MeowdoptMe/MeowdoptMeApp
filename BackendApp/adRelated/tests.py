@@ -87,14 +87,14 @@ class AdTests(APITestCase):
         self.client.force_authenticate(user=self.user)
         url = reverse("ad_detail", kwargs={"pk": 1})
         data = self.data
-        data["active"] = False
+        data["pet"]["name"] = False
         response = self.client.put(url, data, format="json")
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
-        self.assertEqual(Ad.objects.get().active, data["active"])
+        self.assertEqual(Ad.objects.get().pet.name, data["pet"]["name"])
 
     def test_remove(self):
         Ad.objects.create(pet=self.pet, active=1, shelter=self.shelter)
