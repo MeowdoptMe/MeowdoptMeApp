@@ -11,6 +11,7 @@ class AdFilter(FilterSet):
     month = CharFilter(field_name="pet__petCharacteristics__dateOfBirth__month")
     color = CharFilter(field_name="pet__petCharacteristics__color")
     shelter = CharFilter(field_name="shelter")
+
     class Meta:
         model = Ad
         fields = ["active", "pet", "shelter"]
