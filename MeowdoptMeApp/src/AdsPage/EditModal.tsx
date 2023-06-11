@@ -5,6 +5,7 @@ import {GeneralButton} from '../components/GeneralButton';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {AdContext, AdListContext} from '../Context';
 import {Photo} from '../commonTypes';
+import adUtils from './adUtils';
 
 const {width, height} = Dimensions.get('window');
 
@@ -16,7 +17,8 @@ interface EditModalProps {
 }
 
 function EditModal({photos, photoIndex, visible, setVisible}: EditModalProps) {
-  const {changeAd} = useContext(AdListContext);
+  console.log(photos);
+  const {refreshAd} = useContext(AdListContext);
   const {ad, adIndex} = useContext(AdContext);
 
   const [description, setDescription] = React.useState(
@@ -32,22 +34,7 @@ function EditModal({photos, photoIndex, visible, setVisible}: EditModalProps) {
         return;
       }
       const newPhoto = response.assets![0];
-      const newAd = {
-        ...ad,
-        photoAlbum: {
-          ...ad.photoAlbum,
-          photos: ad.photoAlbum.photos.map((photo, index) => {
-            if (index === photoIndex) {
-              return {
-                ...photo,
-                img: newPhoto as any,
-              };
-            }
-            return photo;
-          }),
-        },
-      };
-      changeAd(newAd, adIndex);
+      adUtils.editPhotoPicture(newPhoto, adIndex);
       setVisible(false);
     } catch (e) {
       throw e;
@@ -55,23 +42,23 @@ function EditModal({photos, photoIndex, visible, setVisible}: EditModalProps) {
   }
 
   function changeDescription() {
-    const newAd = {
-      ...ad,
-      photoAlbum: {
-        ...ad.photoAlbum,
-        photos: ad.photoAlbum.photos.map((photo, index) => {
-          if (index === photoIndex) {
-            return {
-              ...photo,
-              description,
-            };
-          }
-          return photo;
-        }),
-      },
-    };
-    changeAd(newAd, adIndex);
-    setVisible(false);
+    // const newAd = {
+    //   ...ad,
+    //   photoAlbum: {
+    //     ...ad.photoAlbum,
+    //     photos: ad.photoAlbum.photos.map((photo, index) => {
+    //       if (index === photoIndex) {
+    //         return {
+    //           ...photo,
+    //           description,
+    //         };
+    //       }
+    //       return photo;
+    //     }),
+    //   },
+    // };
+    // changeAd(newAd, adIndex);
+    // setVisible(false);
   }
 
   return (

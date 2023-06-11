@@ -29,7 +29,7 @@ const ShelterContext: Context<ShelterContextType> = createContext<
 >(undefined) as Context<ShelterContextType>;
 
 interface AdListContextType {
-  changeAd: (ad: Ad, index: number) => void;
+  refreshAd: (adIndex: number) => Promise<void>;
 }
 
 const AdListContext = createContext<AdListContextType>(undefined as any);

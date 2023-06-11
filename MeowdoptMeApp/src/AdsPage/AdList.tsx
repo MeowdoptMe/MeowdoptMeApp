@@ -13,14 +13,24 @@ function AdList() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [data, setData] = React.useState<Ad[]>([]);
-  function changeAd(ad: Ad, index: number) {
-    const newAds = data.map((item, i) => {
-      if (i === index) {
-        return ad;
-      }
-      return item;
-    });
-    setData(newAds);
+
+  async function refreshAd(adIndex: number) {
+    setLoading(true);
+    try {
+      const updatedAd = await adUtils.getAdById(adIndex);
+      const newData = data.map(item => {
+        if (item.id === adIndex) {
+          return updatedAd;
+        }
+        return item;
+      });
+      setData(newData);
+      setError(undefined);
+      setLoading(false);
+    } catch (e) {
+      setError(e as string);
+      setLoading(false);
+    }
   }
 
   async function fetchAds() {
@@ -42,9 +52,10 @@ function AdList() {
   return loading || error ? (
     <Status loading={loading} error={error} style={styles.statusContainer} />
   ) : (
-    <AdListContext.Provider value={{changeAd}}>
+    <AdListContext.Provider value={{refreshAd}}>
       <FlashList
         data={data}
+        extraData={data}
         estimatedItemSize={800}
         showsVerticalScrollIndicator={false}
         snapToAlignment={'start'}

@@ -2,8 +2,13 @@ import axios, {isAxiosError} from 'axios';
 import Database from '../Database';
 import {Ad, Photo} from '../commonTypes';
 
+async function sleep() {
+  return new Promise(resolve => setTimeout(resolve, 1000));
+}
+
 async function getAds(): Promise<Ad[]> {
   try {
+    await sleep();
     const response = await axios.get(Database.adsUrl);
     return response.data;
   } catch (e: unknown) {
@@ -35,4 +40,56 @@ async function getPhotos(id: number): Promise<Photo[]> {
   }
 }
 
-export default {getAds, getPhotos};
+async function getAdById(id: number): Promise<Ad> {
+  try {
+    const url = `${Database.adsUrl}${id}/`;
+    const response = await axios.get(url);
+    return response.data;
+  } catch (e: unknown) {
+    if (isAxiosError(e)) {
+      if (e.response?.data.detail) {
+        throw e.response.data.detail;
+      } else {
+        throw e.message;
+      }
+    }
+    throw e;
+  }
+}
+
+async function editAd(token: string, ad: Ad): Promise<Ad> {
+  console.log(ad);
+  try {
+    const url = `${Database.adsUrl}${ad.id}/`;
+    console.warn(token);
+    const response = await axios.put(url, ad, {
+      headers: {Authorization: `Bearer ${token}`},
+    });
+    return response.data;
+  } catch (e: unknown) {
+    if (isAxiosError(e)) {
+      if (e.response?.data.detail) {
+        throw e.response.data.detail;
+      } else {
+        throw e.message;
+      }
+    }
+    throw e;
+  }
+}
+
+async function editPhotoDescription() {}
+
+async function editPhotoPicture() {}
+
+async function deletePhoto() {}
+
+export default {
+  getAds,
+  getPhotos,
+  getAdById,
+  editAd,
+  editPhotoDescription,
+  editPhotoPicture,
+  deletePhoto,
+};

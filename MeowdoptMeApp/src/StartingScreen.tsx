@@ -161,10 +161,15 @@ function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
           }}
         />
         <Status error={error} loading={loading} />
-        <GeneralButton text="Login!" onPressOut={onPressOut} />
+        <GeneralButton
+          text="Login!"
+          onPressOut={onPressOut}
+          disabled={loading}
+        />
         <GeneralButton
           text="Cancel"
           onPressOut={() => setLoginModalVisible(false)}
+          disabled={loading}
         />
       </ScrollView>
     </SafeAreaView>
@@ -296,6 +301,7 @@ function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
           onPressOut={() => {
             setRegisterModalVisible(false);
           }}
+          disabled={loading}
         />
       </ScrollView>
     </SafeAreaView>
@@ -356,12 +362,14 @@ function ForgotPasswordModal({
               text="Reset password!"
               textStyle={styles.resetPasswordButtonText}
               onPressOut={onPressOut}
+              disabled={loading}
             />
             <GeneralButton
               text="Cancel"
               onPressOut={() => {
                 setForgotPasswordModalVisible(false);
               }}
+              disabled={loading}
             />
             <Status
               loading={loading}

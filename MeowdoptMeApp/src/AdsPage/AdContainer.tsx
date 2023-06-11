@@ -63,21 +63,24 @@ function AdContainer() {
       )}
       <FlashList
         data={photos}
+        extraData={true}
         estimatedItemSize={400}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         snapToAlignment={'center'}
         decelerationRate={'fast'}
         snapToInterval={width}
+        scrollEnabled
         initialScrollIndex={1}
+        estimatedFirstItemOffset={width * -0.02}
         ListHeaderComponent={<InfoScreen setNameVisible={setNameVisible} />}
-        ListFooterComponent={<AddPhotoScreen />}
+        // ListFooterComponent={<AddPhotoScreen />}
         renderItem={({item, index}) => (
           <View style={styles.innerListElementContainer}>
             {/* @ts-ignore */}
             <FastImage
               style={styles.listElementImage}
-              source={{uri: item.img.replace('.png', '.jpg')}}
+              source={{uri: item.img}}
             />
             {item.description && (
               <View style={styles.listElementTextContainer}>

@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import colorPalette from '../../assets/colors';
 import {GeneralButton} from '../components/GeneralButton';
-import {AdContext, AdListContext} from '../Context';
+import {AdContext, AdListContext, AppContext, guestUser} from '../Context';
+import adUtils from './adUtils';
+import Status from '../components/Status';
 
 const {width, height} = Dimensions.get('window');
 
@@ -18,11 +20,15 @@ interface InfoEditProps {
 }
 
 function InfoEdit({setEdit}: InfoEditProps) {
-  const {ad, adIndex} = React.useContext(AdContext);
-  const {changeAd} = React.useContext(AdListContext);
+  const {ad} = React.useContext(AdContext);
+  const {refreshAd} = React.useContext(AdListContext);
+  const {user} = React.useContext(AppContext);
 
   const [editAboutModalVisible, setEditAboutModalVisible] =
     React.useState(false);
+
+  const [error, setError] = React.useState<string | undefined>(undefined);
+  const [loading, setLoading] = React.useState(false);
 
   const [about, setAbout] = React.useState(ad.description);
   const [name, setName] = React.useState(ad.pet.name);
@@ -39,7 +45,13 @@ function InfoEdit({setEdit}: InfoEditProps) {
     String(ad.pet.petCharacteristics.dateOfBirth.month),
   );
 
-  function onPressOut() {
+  async function onPressOut() {
+    if (user.token === guestUser.token) {
+      setError('Cannot be performed as a guest user');
+      return;
+    }
+    setLoading(true);
+    setError(undefined);
     const newAd = {
       ...ad,
       description: about,
@@ -59,8 +71,14 @@ function InfoEdit({setEdit}: InfoEditProps) {
         },
       },
     };
-    changeAd(newAd, adIndex);
-    setEdit(false);
+    try {
+      await adUtils.editAd(user.token, newAd);
+      await refreshAd(ad.id);
+      setEdit(false);
+    } catch (e) {
+      setError(e as string);
+    }
+    setLoading(false);
   }
 
   return (
@@ -121,19 +139,26 @@ function InfoEdit({setEdit}: InfoEditProps) {
           onChangeText={text => setMonth(text)}
         />
       </View>
+      <Status error={error} loading={loading} />
       <View style={styles.editButtonsContainer}>
         <GeneralButton
           text={'Save'}
           onPressOut={onPressOut}
+          disabled={loading}
           extraStyle={styles.editButtonStyle}
         />
         <GeneralButton
           text={'About'}
+          disabled={loading}
           onPressOut={() => setEditAboutModalVisible(true)}
           extraStyle={styles.editButtonStyle}
         />
       </View>
-      <GeneralButton text={'Cancel'} onPressOut={() => setEdit(false)} />
+      <GeneralButton
+        text={'Cancel'}
+        onPressOut={() => setEdit(false)}
+        disabled={loading}
+      />
       <Modal
         animationType="fade"
         visible={editAboutModalVisible}
