@@ -24,16 +24,19 @@
 - GET/PUT/DELETE /ads/id - zawartość ogłoszenia o numerze id
 - POST /ads/add - dodaje ogłoszenie
 - POST /ads/id/add-pet - dodaje zwierzę do ogłoszenia
--
+- GET/PUT/DELETE /ads/id/pet - zwracanie/edycja zwierzęcia z ogłoszenia
 
 ## userAuth
 
 - POST /user-auth/login - zalogowanie się usera
 - POST /user-auth/register - rejestracja usera
 - POST /user-auth/logout - wylogowanie się usera
-- POST /user-auth/reset-password - zresetowanie hasła usera
-- POST /user-auth/reset-email - przypisanie nowego maila
+- POST /user-auth/change-password - zresetowanie hasła usera
+- POST /user-auth/change-email - przypisanie nowego maila
 - POST /user-auth/token-refresh - odświeżenie tokenu
+- POST /user-auth/request-password-reset/ - wysłanie maila z linkiem resetującym hasło
+- GET /user-auth/password-reset/{uidb64}/{token}/ - link resetujący hasło
+- PATCH /user-auth/password-reset-complete/ - zatwierdzenie po linku resetującym
 
 ## userManage
 
@@ -46,5 +49,5 @@
 - GET/PUT/DELETE /photo-albums/id zwraca zdjęcia z danego albumu
 - POST /photo-albums/add - dodaje nowy album
 - GET /photo-albums/id/photos - zwraca zdjęcia z albumu
-- GET /photo-albums/photos/photo-id - detale zdjęcia
-- GET /photo-albums/photos/add - dodanie zdjęcia
+- GET /photo-albums/id/photos/photo_id - detale zdjęcia
+- GET /photo-albums/id/photos/add - dodanie zdjęcia

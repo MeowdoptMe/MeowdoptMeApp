@@ -10,6 +10,7 @@ class AdFilter(FilterSet):
     year = CharFilter(field_name="pet__petCharacteristics__dateOfBirth__year")
     month = CharFilter(field_name="pet__petCharacteristics__dateOfBirth__month")
     color = CharFilter(field_name="pet__petCharacteristics__color")
+    shelter = CharFilter(field_name="shelter")
 
     class Meta:
         model = Ad
