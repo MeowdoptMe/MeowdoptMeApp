@@ -41,7 +41,7 @@ class AdSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ad
-        fields = ["active", "shelter", "description", "pet", "photoAlbum"]
+        fields = ["id", "active", "shelter", "description", "pet", "photoAlbum"]
 
     def create(self, validated_data):
         pet_data = validated_data.pop("pet")
