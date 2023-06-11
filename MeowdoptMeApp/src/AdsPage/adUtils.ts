@@ -1,6 +1,7 @@
 import axios, {isAxiosError} from 'axios';
 import Database from '../Database';
 import {Ad, Photo} from '../commonTypes';
+import type {Asset} from 'react-native-image-picker';
 
 async function sleep() {
   return new Promise(resolve => setTimeout(resolve, 1000));
@@ -58,10 +59,8 @@ async function getAdById(id: number): Promise<Ad> {
 }
 
 async function editAd(token: string, ad: Ad): Promise<Ad> {
-  console.log(ad);
   try {
     const url = `${Database.adsUrl}${ad.id}/`;
-    console.warn(token);
     const response = await axios.put(url, ad, {
       headers: {Authorization: `Bearer ${token}`},
     });
@@ -80,7 +79,28 @@ async function editAd(token: string, ad: Ad): Promise<Ad> {
 
 async function editPhotoDescription() {}
 
-async function editPhotoPicture() {}
+async function editPhotoPicture(
+  token: string,
+  asset: Asset,
+  photoAlbumId: number,
+  photoId: number,
+) {
+  try {
+    const url = `${Database.photoAlbumUrl}${photoAlbumId}/${photoId}/`;
+    await axios.put(url, asset, {
+      headers: {Authorization: `Bearer ${token}`},
+    });
+  } catch (e: unknown) {
+    if (isAxiosError(e)) {
+      if (e.response?.data.detail) {
+        throw e.response.data.detail;
+      } else {
+        throw e.message;
+      }
+    }
+    throw e;
+  }
+}
 
 async function deletePhoto() {}
 

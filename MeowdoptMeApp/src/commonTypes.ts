@@ -17,6 +17,7 @@ export interface Pet {
 }
 
 export interface Photo {
+  id: number;
   img: string;
   description: string;
 }

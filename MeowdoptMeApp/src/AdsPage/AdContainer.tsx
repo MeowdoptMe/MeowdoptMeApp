@@ -46,7 +46,7 @@ function AdContainer() {
   const [nameVisible, setNameVisible] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const photoIndex = React.useRef(0);
+  const photo = React.useRef<Photo>(undefined as any);
 
   React.useEffect(() => {
     fetchPhotos(ad, setPhotos, setLoading, setError);
@@ -90,7 +90,7 @@ function AdContainer() {
             <Pressable
               style={styles.editIconContainer}
               onPressOut={() => {
-                photoIndex.current = index;
+                photo.current = item;
                 setEditModalVisible(true);
               }}>
               <Image source={editIcon} style={styles.editIcon} />
@@ -99,8 +99,7 @@ function AdContainer() {
         )}
       />
       <EditModal
-        photos={photos}
-        photoIndex={photoIndex.current}
+        photo={photo.current}
         visible={editModalVisible}
         setVisible={setEditModalVisible}
       />
