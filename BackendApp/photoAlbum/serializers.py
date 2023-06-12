@@ -6,14 +6,21 @@ from .models import PhotoAlbum, Photo
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
-        fields = ["img", "description"]
+        fields = ["id", "img", "description"]
+
+
+class PhotoInAlbumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Photo
+        fields = ["id"]
 
 
 class PhotoAlbumSerializer(serializers.ModelSerializer):
+    photos = PhotoInAlbumSerializer(many=True, read_only=True)
+
     class Meta:
         model = PhotoAlbum
-        fields = "__all__"
+        fields = ["id", "photos"]
 
     def create(self, validated_data):
-        photo_album = PhotoAlbum.objects.create(**validated_data)
-        return photo_album
+        return PhotoAlbum.objects.create(**validated_data)
