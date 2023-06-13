@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from .models import Photo, PhotoAlbum
 from .permissions import PhotoPermission, PhotoAlbumPermission
 from .serializers import PhotoSerializer, PhotoAlbumSerializer
+from .utils import convert_to_jpg
 
 
 class PhotoAlbumList(ListAPIView):
@@ -27,7 +28,8 @@ class PhotoAlbumCreate(CreateAPIView):
 
         photos = request.FILES.getlist("photos")
         for photo in photos:
-            Photo.objects.create(photo_album=serializer.instance, img=photo)
+            image = Photo.objects.create(photo_album=serializer.instance, img=photo)
+            image.img = convert_to_jpg(image.img)
 
         headers = self.get_success_headers(serializer.data)
         return Response(
