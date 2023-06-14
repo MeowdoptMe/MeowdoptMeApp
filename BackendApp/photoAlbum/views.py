@@ -44,8 +44,6 @@ class PhotoAlbumDetail(RetrieveUpdateDestroyAPIView):
     lookup_field = "pk"
 
 
-
-
 class PhotoList(ListAPIView):
     serializer_class = PhotoSerializer
 
