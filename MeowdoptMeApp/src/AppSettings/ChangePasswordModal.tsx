@@ -83,8 +83,6 @@ function ChangePasswordScreen({
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* contentContainerStyle={styles.scrollContent}> */}
-        {/* <View style={styles.sectionContainer}> */}
         <TextInput
           placeholder="current password"
           placeholderTextColor={'navy'}
@@ -123,8 +121,6 @@ function ChangePasswordScreen({
           onPressOut={() => setChangePasswordModalVisible(false)}
           disabled={loading}
         />
-
-        {/* </View> */}
       </ScrollView>
     </SafeAreaView>
   );
@@ -142,15 +138,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexGrow: 1,
   },
-
-  // sectionContainer: {
-  //   //flexGrow: 1,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   backgroundColor: 'white',
-  //   // maxWidth: 200,
-  //   // maxHeight: 200,
-  // },
   inputContainer: {
     justifyContent: 'center',
     alignItems: 'center',

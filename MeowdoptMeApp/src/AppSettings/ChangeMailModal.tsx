@@ -5,13 +5,11 @@ import {
   ScrollView,
   SafeAreaView,
   Modal,
-  Text,
 } from 'react-native';
 import {GeneralButton} from '../components/GeneralButton';
-import {AppContext, guestUser} from '../Context';
+import {AppContext} from '../Context';
 import authUtils from '../authUtils';
 import {useState} from 'react';
-import {Stats} from 'fs';
 import Status from '../components/Status';
 
 interface ChangeMailModalProps {
@@ -129,15 +127,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexGrow: 1,
   },
-
-  // sectionContainer: {
-  //   //flexGrow: 1,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   backgroundColor: 'white',
-  //   // maxWidth: 200,
-  //   // maxHeight: 200,
-  // },
   inputContainer: {
     justifyContent: 'center',
     alignItems: 'center',
