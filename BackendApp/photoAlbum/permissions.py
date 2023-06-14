@@ -41,23 +41,23 @@ class PhotoPermission(BasePermission):
 
 class PhotoAlbumPermission(BasePermission):
     def has_permission(self, request, view):
-        photo_album = view.get_object()
-        ad = Ad.objects.get(photoAlbum=photo_album)
-
         permission = True
 
         if request.method == "PUT":
+            photo_album = view.get_object()
+            ad = Ad.objects.get(photoAlbum=photo_album)
             id = Permission.objects.get(codename="change_ad")
             permission = UserPermission.objects.filter(
                 user_id=request.user.id, shelter=ad.shelter, permission_id=id
             )
 
         if request.method == "DELETE":
+            photo_album = view.get_object()
+            ad = Ad.objects.get(photoAlbum=photo_album)
             id = Permission.objects.get(codename="delete_ad")
             permission = UserPermission.objects.filter(
                 user_id=request.user.id, shelter=ad.shelter, permission_id=id
             )
-
         if permission:
             return True
         return False

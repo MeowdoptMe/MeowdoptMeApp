@@ -10,7 +10,8 @@
     "test": "jest",
     "type:check": "tsc --noEmit",
     "format": "prettier --write './**/*.(js|jsx|ts|tsx|json|md)'",
-    "format:check": "prettier --check './**/*.(js|jsx|ts|tsx|json|md)'"
+    "format:check": "prettier --check './**/*.(js|jsx|ts|tsx|json|md)'",
+    "forward-ports": "adb reverse tcp:8081 tcp:8081; adb reverse tcp:8000 tcp:8000"
   },
   "dependencies": {
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0",

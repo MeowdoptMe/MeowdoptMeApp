@@ -4,7 +4,7 @@ export interface Ad {
   description: string;
   // active: boolean;
   shelter: string;
-  photoAlbum: PhotoAlbum;
+  photoAlbum: number;
 }
 
 export interface Shelter {
@@ -33,6 +33,7 @@ export interface Pet {
 }
 
 export interface Photo {
+  id: number;
   img: string;
   description: string;
 }

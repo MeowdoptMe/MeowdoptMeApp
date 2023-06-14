@@ -3,79 +3,83 @@ import {View, StyleSheet, Dimensions, Modal, TextInput} from 'react-native';
 import colorPalette from '../../assets/colors';
 import {GeneralButton} from '../components/GeneralButton';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {AdContext, AdListContext} from '../Context';
+import {AdContext, AdListContext, AppContext, guestUser} from '../Context';
+import {Photo} from '../commonTypes';
+import adUtils from './adUtils';
+import Status from '../components/Status';
 
 const {width, height} = Dimensions.get('window');
 
 interface EditModalProps {
-  photoIndex: number;
+  photo: Photo;
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }
 
-function EditModal({photoIndex, visible, setVisible}: EditModalProps) {
-  const {changeAd} = useContext(AdListContext);
-  const {ad, adIndex} = useContext(AdContext);
+function EditModal({photo, visible, setVisible}: EditModalProps) {
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | undefined>(undefined);
 
-  const [description, setDescription] = React.useState(
-    ad.photoAlbum.photos[photoIndex].description,
-  );
+  const {refreshAd} = useContext(AdListContext);
+  const {ad, adIndex} = useContext(AdContext);
+  const {user} = useContext(AppContext);
+
+  const [description, setDescription] = React.useState(photo?.description);
   const [editDescriptionModalVisible, setEditDescriptionModalVisible] =
     React.useState(false);
 
   async function changePhoto() {
+    if (user === guestUser) {
+      setError('Cannot be performed as a guest user');
+      return;
+    }
     try {
       const response = await launchImageLibrary({mediaType: 'photo'});
       if (response.didCancel) {
         return;
       }
       const newPhoto = response.assets![0];
-      const newAd = {
-        ...ad,
-        photoAlbum: {
-          ...ad.photoAlbum,
-          photos: ad.photoAlbum.photos.map((photo, index) => {
-            if (index === photoIndex) {
-              return {
-                ...photo,
-                img: newPhoto as any,
-              };
-            }
-            return photo;
-          }),
-        },
-      };
-      changeAd(newAd, adIndex);
-      setVisible(false);
+      console.log(ad.photoAlbum);
+      console.log(photo.id);
+      console.log(ad);
+      await adUtils.editPhotoPicture(
+        user.token,
+        newPhoto,
+        ad.photoAlbum,
+        photo.id,
+      );
+      // setVisible(false);
+      // await refreshAd(ad.id);
     } catch (e) {
-      throw e;
+      setError(e as string);
     }
   }
 
   function changeDescription() {
-    const newAd = {
-      ...ad,
-      photoAlbum: {
-        ...ad.photoAlbum,
-        photos: ad.photoAlbum.photos.map((photo, index) => {
-          if (index === photoIndex) {
-            return {
-              ...photo,
-              description,
-            };
-          }
-          return photo;
-        }),
-      },
-    };
-    changeAd(newAd, adIndex);
-    setVisible(false);
+    // const newAd = {
+    //   ...ad,
+    //   photoAlbum: {
+    //     ...ad.photoAlbum,
+    //     photos: ad.photoAlbum.photos.map((photo, index) => {
+    //       if (index === photoIndex) {
+    //         return {
+    //           ...photo,
+    //           description,
+    //         };
+    //       }
+    //       return photo;
+    //     }),
+    //   },
+    // };
+    // changeAd(newAd, adIndex);
+    // setVisible(false);
   }
 
   return (
     <Modal animationType={'slide'} visible={visible} transparent={true}>
       <View style={styles.editModal}>
         <View style={styles.editModalButtonsContainer}>
+          <Status loading={loading} error={error} />
           <GeneralButton text={'Change photo'} onPressOut={changePhoto} />
           <GeneralButton
             text={'Change description'}
@@ -124,7 +128,7 @@ function EditModal({photoIndex, visible, setVisible}: EditModalProps) {
 
 const styles = StyleSheet.create({
   editModal: {
-    top: height * 0.5,
+    top: height * 0.3,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -133,6 +137,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colorPalette.lightAccentColor,
     borderRadius: 20,
+    padding: 5,
   },
   changeDescriptionText: {
     fontSize: 22,

@@ -41,7 +41,7 @@ class AdSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ad
-        fields = ["active", "shelter", "description", "pet", "photoAlbum"]
+        fields = ["id", "active", "shelter", "description", "pet", "photoAlbum"]
 
     def create(self, validated_data):
         pet_data = validated_data.pop("pet")
@@ -60,5 +60,21 @@ class AdSerializer(serializers.ModelSerializer):
         instance.shelter = validated_data["shelter"]
         instance.description = validated_data["description"]
         instance.photoAlbum = validated_data["photoAlbum"]
+        pet = validated_data["pet"]
+        pet_characteristics = pet["petCharacteristics"]
+        instance.pet.petCharacteristics.dateOfBirth.year = pet_characteristics[
+            "dateOfBirth"
+        ]["year"]
+        instance.pet.petCharacteristics.dateOfBirth.month = pet_characteristics[
+            "dateOfBirth"
+        ]["month"]
+        instance.pet.petCharacteristics.dateOfBirth.save()
+        instance.pet.petCharacteristics.breed = pet_characteristics["breed"]
+        instance.pet.petCharacteristics.color = pet_characteristics["color"]
+        instance.pet.petCharacteristics.gender = pet_characteristics["gender"]
+        instance.pet.petCharacteristics.species = pet_characteristics["species"]
+        instance.pet.petCharacteristics.save()
+        instance.pet.name = pet["name"]
+        instance.pet.save()
         instance.save()
         return instance

@@ -7,7 +7,7 @@ import {AdContext, AdListContext} from '../Context';
 const {width, height} = Dimensions.get('window');
 
 function AddPhotoScreen() {
-  const {changeAd} = useContext(AdListContext);
+  const {refreshAd} = useContext(AdListContext);
   const {ad, adIndex} = useContext(AdContext);
 
   async function addPhoto() {
