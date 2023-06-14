@@ -39,16 +39,19 @@ function EditModal({photo, visible, setVisible}: EditModalProps) {
         return;
       }
       const newPhoto = response.assets![0];
+      console.log(ad.photoAlbum);
+      console.log(photo.id);
+      console.log(ad);
       await adUtils.editPhotoPicture(
         user.token,
         newPhoto,
         ad.photoAlbum,
         photo.id,
       );
-      setVisible(false);
-      refreshAd(ad.id);
+      // setVisible(false);
+      // await refreshAd(ad.id);
     } catch (e) {
-      throw e;
+      setError(e as string);
     }
   }
 

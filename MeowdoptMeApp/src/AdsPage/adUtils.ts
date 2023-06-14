@@ -86,11 +86,16 @@ async function editPhotoPicture(
   photoId: number,
 ) {
   try {
-    const url = `${Database.photoAlbumUrl}${photoAlbumId}/${photoId}/`;
-    await axios.put(url, asset, {
-      headers: {Authorization: `Bearer ${token}`},
-    });
+    const url = `${Database.photoAlbumUrl}${photoAlbumId}/photos/${photoId}/`;
+    const response = await axios.put(
+      url,
+      {img: asset},
+      {
+        headers: {Authorization: `Bearer ${token}`},
+      },
+    );
   } catch (e: unknown) {
+    console.log(e.response);
     if (isAxiosError(e)) {
       if (e.response?.data.detail) {
         throw e.response.data.detail;
