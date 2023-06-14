@@ -188,5 +188,19 @@
         "img": "photos/25.jpg"
       }
     ]
+  },
+  {
+    "photos": [
+      {
+        "img": "photos/shelter1.jpg"
+      }
+    ]
+  },
+  {
+    "photos": [
+      {
+        "img": "photos/shelter2.jpg"
+      }
+    ]
   }
 ]

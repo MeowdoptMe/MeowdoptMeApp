@@ -8,6 +8,20 @@ class PhotoSerializer(serializers.ModelSerializer):
         model = Photo
         fields = ["id", "img", "description"]
 
+    def update(self, instance, validated_data):
+        if "description" in validated_data:
+            instance.description = validated_data["description"]
+        if "img" in validated_data:
+            instance.img = validated_data["img"]
+        instance.save()
+        return instance
+
+    def get_fields(self):
+        fields = super().get_fields()
+        fields["img"].required = False
+        fields["description"].required = False
+        return fields
+
 
 class PhotoInAlbumSerializer(serializers.ModelSerializer):
     class Meta:
