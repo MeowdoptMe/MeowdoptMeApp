@@ -77,7 +77,34 @@ async function editAd(token: string, ad: Ad): Promise<Ad> {
   }
 }
 
-async function editPhotoDescription() {}
+async function editPhotoDescription(
+  token: string,
+  description: string,
+  photoAlbumId: number,
+  photoId: number,
+) {
+  try {
+    const url = `${Database.photoAlbumUrl}${photoAlbumId}/photos/${photoId}/`;
+    await axios.put(
+      url,
+      {description},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+  } catch (e: unknown) {
+    if (isAxiosError(e)) {
+      if (e.response?.data.detail) {
+        throw e.response.data.detail;
+      } else {
+        throw e.message;
+      }
+    }
+    throw e;
+  }
+}
 
 async function editPhotoPicture(
   token: string,
@@ -87,15 +114,19 @@ async function editPhotoPicture(
 ) {
   try {
     const url = `${Database.photoAlbumUrl}${photoAlbumId}/photos/${photoId}/`;
-    const response = await axios.put(
-      url,
-      {img: asset},
-      {
-        headers: {Authorization: `Bearer ${token}`},
+    const data = new FormData();
+    data.append('img', {
+      name: asset.fileName,
+      type: asset.type,
+      uri: asset.uri,
+    });
+    await axios.put(url, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
       },
-    );
+    });
   } catch (e: unknown) {
-    console.log(e.response);
     if (isAxiosError(e)) {
       if (e.response?.data.detail) {
         throw e.response.data.detail;
@@ -117,4 +148,5 @@ export default {
   editPhotoDescription,
   editPhotoPicture,
   deletePhoto,
+  sleep,
 };

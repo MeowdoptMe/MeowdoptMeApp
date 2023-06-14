@@ -48,31 +48,30 @@ function EditModal({photo, visible, setVisible}: EditModalProps) {
         ad.photoAlbum,
         photo.id,
       );
-      // setVisible(false);
-      // await refreshAd(ad.id);
+      setVisible(false);
+      await refreshAd(ad.id);
     } catch (e) {
       setError(e as string);
     }
   }
 
-  function changeDescription() {
-    // const newAd = {
-    //   ...ad,
-    //   photoAlbum: {
-    //     ...ad.photoAlbum,
-    //     photos: ad.photoAlbum.photos.map((photo, index) => {
-    //       if (index === photoIndex) {
-    //         return {
-    //           ...photo,
-    //           description,
-    //         };
-    //       }
-    //       return photo;
-    //     }),
-    //   },
-    // };
-    // changeAd(newAd, adIndex);
-    // setVisible(false);
+  async function changeDescription() {
+    if (user === guestUser) {
+      setError('Cannot be performed as a guest user');
+      return;
+    }
+    try {
+      await adUtils.editPhotoDescription(
+        user.token,
+        description,
+        ad.photoAlbum,
+        photo.id,
+      );
+      setVisible(false);
+      await refreshAd(ad.id);
+    } catch (e) {
+      setError(e as string);
+    }
   }
 
   return (
