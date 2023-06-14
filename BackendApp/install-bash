@@ -1,0 +1,7 @@
+#!/bin/bash
+git clean -Xdf
+make setup
+source env/bin/activate
+make requirements
+make updatedb
+make prepare

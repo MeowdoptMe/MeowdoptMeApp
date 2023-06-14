@@ -2,9 +2,7 @@ export interface Ad {
   id: number;
   pet: Pet;
   description: string;
-  // active: boolean;
-  // shelter: Shelter;
-  photoAlbum: PhotoAlbum;
+  photoAlbum: number;
 }
 
 export interface PhotoAlbum {
@@ -19,6 +17,7 @@ export interface Pet {
 }
 
 export interface Photo {
+  id: number;
   img: string;
   description: string;
 }

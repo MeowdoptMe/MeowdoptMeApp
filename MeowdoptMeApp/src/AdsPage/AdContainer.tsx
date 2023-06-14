@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {Dispatch, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -14,18 +14,47 @@ import {AdContext} from '../Context';
 import InfoScreen from './InfoScreen';
 import EditModal from './EditModal';
 import AddPhotoScreen from './AddPhotoScreen';
+import {Ad, Photo} from '../commonTypes';
+import adUtils from './adUtils';
+import Status from '../components/Status';
 
 // "https://icons8.com";
 const editIcon = require('../../assets/edit-icon.png');
 const {width, height} = Dimensions.get('window');
 
+async function fetchPhotos(
+  ad: Ad,
+  setPhotos: React.Dispatch<React.SetStateAction<Photo[]>>,
+  setLoading: Dispatch<React.SetStateAction<boolean>>,
+  setError: Dispatch<React.SetStateAction<string | undefined>>,
+) {
+  try {
+    const response = await adUtils.getPhotos(ad.photoAlbum);
+    setPhotos(response);
+    setError(undefined);
+    setLoading(false);
+  } catch (e) {
+    setError(e as string);
+    setLoading(false);
+  }
+}
+
 function AdContainer() {
   const {ad} = useContext(AdContext);
+  const [photos, setPhotos] = React.useState<Photo[]>([]);
   const [editModalVisible, setEditModalVisible] = React.useState(false);
   const [nameVisible, setNameVisible] = React.useState(true);
-  const photoIndex = React.useRef(0);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | undefined>(undefined);
+  const photo = React.useRef<Photo>(undefined as any);
 
-  return (
+  React.useEffect(() => {
+    fetchPhotos(ad, setPhotos, setLoading, setError);
+  }, [ad]);
+
+  return loading || error ? (
+    <Status loading={loading} error={error} style={styles.statusContainer} />
+  ) : (
     <View style={styles.listElement}>
       {nameVisible && (
         <View style={styles.listElementHeader}>
@@ -33,20 +62,26 @@ function AdContainer() {
         </View>
       )}
       <FlashList
-        data={ad.photoAlbum.photos}
+        data={photos}
+        extraData={true}
         estimatedItemSize={400}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         snapToAlignment={'center'}
         decelerationRate={'fast'}
         snapToInterval={width}
+        scrollEnabled
         initialScrollIndex={1}
+        estimatedFirstItemOffset={width * -0.02}
         ListHeaderComponent={<InfoScreen setNameVisible={setNameVisible} />}
-        ListFooterComponent={<AddPhotoScreen />}
+        // ListFooterComponent={<AddPhotoScreen />}
         renderItem={({item, index}) => (
           <View style={styles.innerListElementContainer}>
             {/* @ts-ignore */}
-            <FastImage style={styles.listElementImage} source={item.img} />
+            <FastImage
+              style={styles.listElementImage}
+              source={{uri: item.img}}
+            />
             {item.description && (
               <View style={styles.listElementTextContainer}>
                 <Text style={styles.listElementText}>{item.description}</Text>
@@ -55,7 +90,7 @@ function AdContainer() {
             <Pressable
               style={styles.editIconContainer}
               onPressOut={() => {
-                photoIndex.current = index;
+                photo.current = item;
                 setEditModalVisible(true);
               }}>
               <Image source={editIcon} style={styles.editIcon} />
@@ -64,7 +99,7 @@ function AdContainer() {
         )}
       />
       <EditModal
-        photoIndex={photoIndex.current}
+        photo={photo.current}
         visible={editModalVisible}
         setVisible={setEditModalVisible}
       />
@@ -73,6 +108,12 @@ function AdContainer() {
 }
 
 const styles = StyleSheet.create({
+  statusContainer: {
+    width: width,
+    height: height,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   listElement: {
     width: width,
     height: height,

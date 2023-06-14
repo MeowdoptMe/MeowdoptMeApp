@@ -6,7 +6,14 @@ import Animated, {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ViewStyle,
+  StyleProp,
+} from 'react-native';
 import colorPalette from '../../assets/colors';
 
 const indicatorImage = require('../../assets/loading-indicator.png');
@@ -17,11 +24,12 @@ interface StatusProps {
   loading: boolean;
   error?: string;
   hint?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
-function Status({loading, error, hint}: StatusProps) {
+function Status({loading, error, hint, style}: StatusProps) {
   return (
-    <View style={styles.statusBox}>
+    <View style={[styles.statusBox, style]}>
       <LoadingIndicator loading={loading} />
       {error ? ErrorText(error) : hint ? HintText(hint) : null}
     </View>
