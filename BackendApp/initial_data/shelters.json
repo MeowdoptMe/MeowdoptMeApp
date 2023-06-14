@@ -6,7 +6,8 @@
     "user": 1,
     "location": "Kraków, ul. Piastowska 1",
     "x_cord": 52.111,
-    "y_cord": 26.752
+    "y_cord": 26.752,
+    "photoAlbum": 11
   },
   {
     "name": "Schronisko w Niepołomicach",
@@ -15,6 +16,7 @@
     "user": 1,
     "location": "Kraków, ul. Gronostajowa 2",
     "x_cord": 50.2,
-    "y_cord": 22.1
+    "y_cord": 22.1,
+    "photoAlbum": 12
   }
 ]
