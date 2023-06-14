@@ -6,7 +6,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from os import remove
 
-from BackendApp.BackendApp import settings
+from BackendApp import settings
 
 
 def create_jpg_file(id):
