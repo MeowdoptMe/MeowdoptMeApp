@@ -60,21 +60,21 @@ class AdSerializer(serializers.ModelSerializer):
         instance.shelter = validated_data["shelter"]
         instance.description = validated_data["description"]
         instance.photoAlbum = validated_data["photoAlbum"]
-        pet_data = validated_data["pet"]
-        DateOfBirth.objects.filter(
-            id=instance.pet.petCharacteristics.dateOfBirth_id
-        ).delete()
-        PetCharacteristics.objects.filter(
-            id=instance.pet.petCharacteristics_id
-        ).delete()
-        Pet.objects.filter(id=instance.pet_id).delete()
-        characteristics_data = pet_data.pop("petCharacteristics")
-        date_data = characteristics_data.pop("dateOfBirth")
-        date = DateOfBirth.objects.create(**date_data)
-        pet_characteristics = PetCharacteristics.objects.create(
-            dateOfBirth=date, **characteristics_data
-        )
-        pet = Pet.objects.create(petCharacteristics=pet_characteristics, **pet_data)
-        instance.pet = pet
+        pet = validated_data["pet"]
+        pet_characteristics = pet["petCharacteristics"]
+        instance.pet.petCharacteristics.dateOfBirth.year = pet_characteristics[
+            "dateOfBirth"
+        ]["year"]
+        instance.pet.petCharacteristics.dateOfBirth.month = pet_characteristics[
+            "dateOfBirth"
+        ]["month"]
+        instance.pet.petCharacteristics.dateOfBirth.save()
+        instance.pet.petCharacteristics.breed = pet_characteristics["breed"]
+        instance.pet.petCharacteristics.color = pet_characteristics["color"]
+        instance.pet.petCharacteristics.gender = pet_characteristics["gender"]
+        instance.pet.petCharacteristics.species = pet_characteristics["species"]
+        instance.pet.petCharacteristics.save()
+        instance.pet.name = pet["name"]
+        instance.pet.save()
         instance.save()
         return instance
