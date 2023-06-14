@@ -6,7 +6,7 @@ import { ads } from './sampleData/adsPhotos';
 
 function HomeScreen() {
   const { shelter } = React.useContext(ShelterContext);
-  return shelter ? <ShelterPage ads={ads} /> : <AdsPage ads={ads} />;
+  return shelter ? <ShelterPage  /> : <AdsPage  />;
 }
 
 export default HomeScreen;

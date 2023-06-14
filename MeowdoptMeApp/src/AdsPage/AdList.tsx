@@ -1,27 +1,22 @@
-import React, {useEffect} from 'react';
-import {Dimensions, StyleSheet} from 'react-native';
-import {FlashList} from '@shopify/flash-list';
-import type {Ad} from '../commonTypes';
-import {AdContext, AdListContext, ShelterContext} from '../Context';
+import React, { useEffect } from 'react';
+import { Dimensions, StyleSheet } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
+import type { Ad } from '../commonTypes';
+import { AdContext, AdListContext, ShelterContext } from '../Context';
 import AdContainer from './AdContainer';
 import ShelterAd from '../ShelterPage/ShelterAd';
 import adUtils from './adUtils';
 import Status from '../components/Status';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 
-interface AdListProps{
-  ads: Ad[]
-}
-
-
-function AdList({ads}: AdListProps) {
+function AdList() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [data, setData] = React.useState(ads);
+  const [data, setData] = React.useState<Ad[]>([]);
   const { shelter } = React.useContext(ShelterContext);
-  
+
 
   async function refreshAd(adIndex: number) {
     setLoading(true);
@@ -45,7 +40,17 @@ function AdList({ads}: AdListProps) {
   async function fetchAds() {
     try {
       const ads = await adUtils.getAds();
-      setData(ads);
+      let data: Ad[] = [];
+      if (shelter !== undefined) {
+        ads.forEach(ad => {
+          if (Number(ad.shelter) === shelter.id) {
+            data.push(ad);
+          }
+        })
+      } else {
+        data = ads;
+      }
+      setData(data);
       setError(undefined);
       setLoading(false);
     } catch (e) {
@@ -56,12 +61,12 @@ function AdList({ads}: AdListProps) {
 
   useEffect(() => {
     fetchAds();
-  }, []);
+  }, [shelter]);
 
   return loading || error ? (
     <Status loading={loading} error={error} style={styles.statusContainer} />
   ) : (
-    <AdListContext.Provider value={{refreshAd}}>
+    <AdListContext.Provider value={{ refreshAd }}>
       <FlashList
         data={data}
         extraData={data}
@@ -70,9 +75,9 @@ function AdList({ads}: AdListProps) {
         snapToAlignment={'start'}
         decelerationRate={'fast'}
         snapToInterval={height}
-        ListHeaderComponent={shelter ? <ShelterAd/> : null}
-        renderItem={({item, index}) => (
-          <AdContext.Provider value={{ad: item, adIndex: index}}>
+        ListHeaderComponent={shelter ? <ShelterAd /> : null}
+        renderItem={({ item, index }) => (
+          <AdContext.Provider value={{ ad: item, adIndex: index }}>
             <AdContainer />
           </AdContext.Provider>
         )}

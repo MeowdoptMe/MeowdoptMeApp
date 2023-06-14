@@ -1,8 +1,6 @@
 import axios, { isAxiosError } from 'axios';
 import Database from '../Database';
 import { Shelter } from '../commonTypes';
-import { AppContext } from '../Context';
-import React from 'react';
 
 
 async function getShelters() {

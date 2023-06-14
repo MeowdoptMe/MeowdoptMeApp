@@ -17,7 +17,6 @@ const { width, height } = Dimensions.get('window');
 function SheltersScreen({ navigation }) {
 
   const [page, setPage] = useState('list');
-  //const [dbEdit, setDbEdit] = useState(false);
   const [shelters, setShelters] = useState<Shelter[]>([])
   const { shelter, setShelter } = useContext(ShelterContext);
 
@@ -33,7 +32,6 @@ function SheltersScreen({ navigation }) {
 
   function onPressOut(shelter: Shelter) {
     setShelter(shelter)
-    //console.log(shelter)
     navigation.navigate(HomeScreen);
   }
 
@@ -104,7 +102,7 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     backgroundColor: colorPalette.backgroundColor,
-    alignItems: 'center',
+    //alignItems: 'center',
     justifyContent: 'center',
   },
   headerContainer: {

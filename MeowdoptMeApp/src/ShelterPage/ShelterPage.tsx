@@ -5,24 +5,11 @@ import { ShelterContext } from '../Context';
 import AdsPage from '../AdsPage/AdsPage';
 
 
-interface ShelterPageProps {
-  ads: Ad[];
-}
 
-function ShelterPage({ ads }: ShelterPageProps) {
-
-  const { shelter } = React.useContext(ShelterContext);
-
-  const shelterAds: Ad[] = [];
-
-  ads.forEach(ad => {
-    if (Number(ad.shelter) === shelter?.id) {
-      shelterAds.push(ad);
-    }
-  })
+function ShelterPage() {
 
   return (
-    <AdsPage ads={shelterAds} />
+    <AdsPage  />
   );
 }
 
