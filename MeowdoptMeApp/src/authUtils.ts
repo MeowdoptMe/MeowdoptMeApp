@@ -68,10 +68,56 @@ async function resetPassword(email: string) {
   }
 }
 
+async function changeMail(email: string, token: string) {
+  try {
+    await axios.post(
+      Database.changeMailUrl,
+      {
+        email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+  } catch (e) {
+    if (isAxiosError(e)) {
+      throw e.response?.data.detail;
+    }
+    throw e;
+  }
+}
+
+async function changePassword(
+  currentPassword: string,
+  newPassword: string,
+  token: string,
+) {
+  try {
+    await axios.post(
+      Database.changePasswordUrl,
+      {current_password: currentPassword, new_password: newPassword},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+  } catch (e) {
+    if (isAxiosError(e)) {
+      throw e.response?.data.detail;
+    }
+    throw e;
+  }
+}
+
 export default {
   sleep,
   login,
   register,
   resetPassword,
   isValidEmail,
+  changeMail,
+  changePassword,
 };
