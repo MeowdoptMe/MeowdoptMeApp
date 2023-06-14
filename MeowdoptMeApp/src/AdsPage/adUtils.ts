@@ -148,5 +148,4 @@ export default {
   editPhotoDescription,
   editPhotoPicture,
   deletePhoto,
-  sleep,
 };
