@@ -21,7 +21,7 @@ function EditModal({photo, visible, setVisible}: EditModalProps) {
   const [error, setError] = React.useState<string | undefined>(undefined);
 
   const {refreshAd} = useContext(AdListContext);
-  const {ad, adIndex} = useContext(AdContext);
+  const {ad} = useContext(AdContext);
   const {user} = useContext(AppContext);
 
   const [description, setDescription] = React.useState(photo?.description);
@@ -33,6 +33,7 @@ function EditModal({photo, visible, setVisible}: EditModalProps) {
       setError('Cannot be performed as a guest user');
       return;
     }
+    setLoading(true);
     try {
       const response = await launchImageLibrary({mediaType: 'photo'});
       if (response.didCancel) {
@@ -53,6 +54,7 @@ function EditModal({photo, visible, setVisible}: EditModalProps) {
     } catch (e) {
       setError(e as string);
     }
+    setLoading(false);
   }
 
   async function changeDescription() {
@@ -60,6 +62,7 @@ function EditModal({photo, visible, setVisible}: EditModalProps) {
       setError('Cannot be performed as a guest user');
       return;
     }
+    setLoading(true);
     try {
       await adUtils.editPhotoDescription(
         user.token,
@@ -72,6 +75,7 @@ function EditModal({photo, visible, setVisible}: EditModalProps) {
     } catch (e) {
       setError(e as string);
     }
+    setLoading(false);
   }
 
   return (
