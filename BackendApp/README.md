@@ -1,5 +1,9 @@
 # Backend part of MeowdoptMeApp
 
+## Determining host server
+
+Instead of setting up your local server, you can use 'https://gochad.pythonanywhere.com/`. For the demo, we're using this page to host our server.
+
 ## Install
 
 1. Make sure you have installed python3, pip and cmake.

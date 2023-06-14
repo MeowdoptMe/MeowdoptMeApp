@@ -1,6 +1,6 @@
 import React from 'react';
 import {ShelterContext} from './Context';
-import AdsPage from './AdsPage';
+import AdsPage from './AdsPage/AdsPage';
 import ShelterPage from './ShelterPage';
 
 function HomeScreen() {

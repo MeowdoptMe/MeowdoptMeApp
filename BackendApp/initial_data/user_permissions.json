@@ -1,4 +1,8 @@
 [
+  { "user": 1, "shelter": 1, "permission": 21 },
+  { "user": 1, "shelter": 1, "permission": 22 },
+  { "user": 1, "shelter": 1, "permission": 23 },
+  { "user": 1, "shelter": 1, "permission": 24 },
   { "user": 1, "shelter": 1, "permission": 25 },
   { "user": 1, "shelter": 1, "permission": 26 },
   { "user": 1, "shelter": 1, "permission": 27 },
@@ -10,5 +14,16 @@
   { "user": 1, "shelter": 1, "permission": 33 },
   { "user": 1, "shelter": 1, "permission": 34 },
   { "user": 1, "shelter": 1, "permission": 35 },
-  { "user": 1, "shelter": 1, "permission": 36 }
+  { "user": 1, "shelter": 1, "permission": 36 },
+  { "user": 1, "shelter": 1, "permission": 41 },
+  { "user": 1, "shelter": 1, "permission": 42 },
+  { "user": 1, "shelter": 1, "permission": 43 },
+  { "user": 1, "shelter": 1, "permission": 44 },
+  { "user": 1, "shelter": 1, "permission": 45 },
+  { "user": 1, "shelter": 1, "permission": 46 },
+  { "user": 1, "shelter": 1, "permission": 47 },
+  { "user": 1, "shelter": 1, "permission": 48 },
+  { "user": 1, "shelter": 1, "permission": 49 },
+  { "user": 1, "shelter": 1, "permission": 50 },
+  { "user": 1, "shelter": 1, "permission": 51 }
 ]

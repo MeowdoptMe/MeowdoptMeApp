@@ -57,7 +57,7 @@ def add_user_permissions(permissions):
 
 def add_photo_albums(albums):
     for album in albums:
-        photo_album = PhotoAlbum.objects.create(name=album["name"])
+        photo_album = PhotoAlbum.objects.create()
         for photo in album["photos"]:
             Photo.objects.create(img=photo["img"], photo_album=photo_album)
 
@@ -65,8 +65,8 @@ def add_photo_albums(albums):
 def add_ads(ads):
     for ad in ads:
         pet = ad["pet"]
-        char = pet["pet_characteristics"]
-        date = char["date_of_birth"]
+        char = pet["petCharacteristics"]
+        date = char["dateOfBirth"]
         date_of_birth = DateOfBirth.objects.create(
             year=date["year"], month=date["month"]
         )
@@ -74,26 +74,26 @@ def add_ads(ads):
             species=char["species"],
             breed=char["breed"],
             gender=char["gender"],
-            date_of_birth=date_of_birth,
+            dateOfBirth=date_of_birth,
             color=char["color"],
         )
-        pet = Pet.objects.create(name=pet["name"], pet_characteristics=pet_char)
+        pet = Pet.objects.create(name=pet["name"], petCharacteristics=pet_char)
         shelter = Shelter.objects.get(id=ad["shelter"])
-        photo_album = PhotoAlbum.objects.get(id=ad["photo_album"])
+        photo_album = PhotoAlbum.objects.get(id=ad["photoAlbum"])
         Ad.objects.create(
             active=ad["active"],
             shelter=shelter,
             description=ad["description"],
             pet=pet,
-            photo_album=photo_album,
+            photoAlbum=photo_album,
         )
 
 
 def load_data():
     add_users(users)
+    add_photo_albums(albums)
     add_shelters(shelters)
     add_user_permissions(permissions)
-    add_photo_albums(albums)
     add_ads(ads)
 
 

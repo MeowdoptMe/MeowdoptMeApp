@@ -35,17 +35,6 @@ describe('AdPage class', () => {
     };
   });
 
-  it('scrolls current Ad with scrollCurrentAd', () => {
-    // TODO to be corrected later on
-    let adPage: AdPage;
-    try {
-      // @ts-expect-error
-      adPage.scrollCurrentAd();
-    } catch (error) {
-      fail(error);
-    }
-  });
-
   it('adds Ad to ads with addAd', () => {
     let adPage: AdPage;
     const ad = generateAd();

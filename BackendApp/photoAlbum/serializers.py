@@ -6,19 +6,35 @@ from .models import PhotoAlbum, Photo
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
-        fields = ["img"]
+        fields = ["id", "img", "description"]
+
+    def update(self, instance, validated_data):
+        if "description" in validated_data:
+            instance.description = validated_data["description"]
+        if "img" in validated_data:
+            instance.img = validated_data["img"]
+        instance.save()
+        return instance
+
+    def get_fields(self):
+        fields = super().get_fields()
+        fields["img"].required = False
+        fields["description"].required = False
+        return fields
+
+
+class PhotoInAlbumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Photo
+        fields = ["id"]
 
 
 class PhotoAlbumSerializer(serializers.ModelSerializer):
-    photos = PhotoSerializer(many=True)
+    photos = PhotoInAlbumSerializer(many=True, read_only=True)
 
     class Meta:
         model = PhotoAlbum
-        fields = ["name", "photos"]
+        fields = ["id", "photos"]
 
     def create(self, validated_data):
-        photos_data = validated_data.pop("photos")
-        photo_album = PhotoAlbum.objects.create(**validated_data)
-        for photo in photos_data:
-            Photo.objects.create(photo_album=photo_album, **photo)
-        return photo_album
+        return PhotoAlbum.objects.create(**validated_data)

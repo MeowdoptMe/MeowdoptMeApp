@@ -3,6 +3,7 @@ initdb:
 
 updatedb:
 	python3 manage.py makemigrations userAuth
+	python3 manage.py makemigrations userManage
 	python3 manage.py makemigrations shelterRelated
 	python3 manage.py makemigrations permissionHandler
 	python3 manage.py makemigrations adRelated

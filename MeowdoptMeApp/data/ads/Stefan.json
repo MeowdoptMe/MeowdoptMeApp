@@ -9,15 +9,15 @@
         "year": 2019,
         "month": 8
       },
-      "color": ["black", "white"]
+      "color": "black-white"
     }
   },
+  "description": "Stefan to kot, który niestety wrócił do schroniska z poprzedniej adopcji. Stefan nie lubi dzieci, potrzebuje dużo spokoju. Większość dnia spędza na fotelu. Nie przepada za głaskaniem, jednak jeśli ma na nie ochotę, to daje znać. Poszukiwany odpowiedzialny, spokojny dom, bez dzieci.",
   "photoAlbum": {
     "id": 8,
     "photos": [
       {
-        "img": "42",
-        "description": "Stefan to kot, który niestety wrócił do schroniska z poprzedniej adopcji. Stefan nie lubi dzieci, potrzebuje dużo spokoju. Większość dnia spędza na fotelu. Nie przepada za głaskaniem, jednak jeśli ma na nie ochotę, to daje znać. Poszukiwany odpowiedzialny, spokojny dom, bez dzieci."
+        "img": "42"
       },
       {
         "img": "43"

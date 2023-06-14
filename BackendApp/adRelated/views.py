@@ -5,7 +5,9 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 
+from .filters import AdFilter
 from .models import Pet, Ad
 from .permissions import AdRelatedPermission
 from .serializers import PetSerializer, AdSerializer
@@ -15,12 +17,28 @@ class AdList(ListAPIView):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
     lookup_field = "pk"
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = AdFilter
 
 
 class AdCreate(CreateAPIView):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
     permission_classes = [AdRelatedPermission]
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        return instance
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        instance = self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        response_data = {"id": instance.id}
+        return Response(response_data, status=201, headers=headers)
 
 
 class AdDetail(RetrieveUpdateDestroyAPIView):

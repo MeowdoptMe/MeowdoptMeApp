@@ -1,10 +1,9 @@
 from django.contrib.auth.models import Permission
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase, APIRequestFactory, APIClient
+from rest_framework.test import APITestCase, APIClient
 from shelterRelated.models import Shelter
 from .models import Pet, Ad, DateOfBirth, PetCharacteristics
-from .views import PetList, PetDetail, AdList, AdDetail
 from userAuth.models import User
 from permissionHandler.models import UserPermission
 
@@ -13,11 +12,10 @@ from photoAlbum.models import PhotoAlbum
 
 class AdTests(APITestCase):
     def setUp(self):
-        self.factory = APIRequestFactory()
         self.client = APIClient()
         date_of_birth = DateOfBirth.objects.create()
-        pet_char = PetCharacteristics.objects.create(date_of_birth=date_of_birth)
-        self.pet = Pet.objects.create(pet_characteristics=pet_char)
+        pet_char = PetCharacteristics.objects.create(dateOfBirth=date_of_birth)
+        self.pet = Pet.objects.create(petCharacteristics=pet_char)
         self.shelter = Shelter.objects.create()
         PhotoAlbum.objects.create()
         self.data = {
@@ -26,15 +24,15 @@ class AdTests(APITestCase):
             "description": "Jarzyna to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
             "pet": {
                 "name": "Jarzyna",
-                "pet_characteristics": {
+                "petCharacteristics": {
                     "species": "dog",
                     "breed": "Labrador Retriever mix",
                     "gender": "female",
-                    "date_of_birth": {"year": 2019, "month": 5},
+                    "dateOfBirth": {"year": 2019, "month": 5},
                     "color": "white",
                 },
             },
-            "photo_album": 1,
+            "photoAlbum": 1,
         }
         self.user = User.objects.create_user(username="ewa", password="ewa12345")
         self.user2 = User.objects.create_user(username="gocha", password="gocha12345")
@@ -54,9 +52,7 @@ class AdTests(APITestCase):
 
     def test_list(self):
         url = reverse("ad_list")
-        request = self.factory.get(url)
-        view = AdList.as_view()
-        response = view(request)
+        response = self.client.get(url)
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK,
@@ -91,14 +87,14 @@ class AdTests(APITestCase):
         self.client.force_authenticate(user=self.user)
         url = reverse("ad_detail", kwargs={"pk": 1})
         data = self.data
-        data["active"] = False
+        data["pet"]["name"] = "wojtyla"
         response = self.client.put(url, data, format="json")
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
-        self.assertEqual(Ad.objects.get().active, data["active"])
+        self.assertEqual(Ad.objects.get().pet.name, data["pet"]["name"])
 
     def test_remove(self):
         Ad.objects.create(pet=self.pet, active=1, shelter=self.shelter)
@@ -119,11 +115,11 @@ class PetTests(APITestCase):
         self.client = APIClient()
         self.data = {
             "name": "string",
-            "pet_characteristics": {
+            "petCharacteristics": {
                 "species": "string",
                 "breed": "string",
                 "gender": "string",
-                "date_of_birth": {"year": 0, "month": 0},
+                "dateOfBirth": {"year": 0, "month": 0},
                 "color": "string",
             },
         }
@@ -167,3 +163,48 @@ class PetTests(APITestCase):
             status.HTTP_200_OK,
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
+
+
+class AdFiltersTests(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.url = reverse("ad_list")
+        date_of_birth = DateOfBirth.objects.create(year=2019, month=5)
+        pet_char = PetCharacteristics.objects.create(
+            species="dog",
+            breed="mixed breed",
+            gender="female",
+            color="white",
+            dateOfBirth=date_of_birth,
+        )
+        Pet.objects.create(name="Jarzyna", petCharacteristics=pet_char)
+        shelter = Shelter.objects.create()
+        PhotoAlbum.objects.create()
+        Ad.objects.create(
+            active=True,
+            shelter=shelter,
+            description="Jarzyna to pies, który trafił do nas wychudzony i schorowany, jednak dzięki właściwej opiece, stanęła na nogi. Jest wulkanem energii, świetnie chodzi na smyczy, uwielbia kontakt z ludźmi. Najlepiej odnajdzie się w domu z ogrodem.",
+            pet_id=1,
+            photoAlbum_id=1,
+        )
+
+    def test_queryset_exist(self):
+        url = f"{self.url}?species=dog&breed=mixed+breed&gender=female&year=2019&month=5&color=white"
+        response = self.client.get(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+            f"Expected Response Code 200, received {response.status_code} instead.",
+        )
+        self.assertEqual(response.data[0]["shelter"], 1)
+
+    def test_queryset_not_exist(self):
+        url = f"{self.url}?species=dog&breed=mixed+breed&gender=female&year=2021&month=2&color=white"
+        response = self.client.get(url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+            f"Expected Response Code 200, received {response.status_code} instead.",
+        )
+        with self.assertRaises(IndexError):
+            result = response.data[0]["shelter"]
