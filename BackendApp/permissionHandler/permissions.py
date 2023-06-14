@@ -77,43 +77,44 @@ class PermissionRequestAccess(BasePermission):
     all_user_view_permission = "view_all_users"
 
     def has_permission(self, request, view):
-        request_id = view.kwargs.get("pk")
-        url_path = request.path
+        if not request.user.is_staff or not request.user.is_superuser:
+            request_id = view.kwargs.get("pk")
 
-        user_permission = True
-        if view.__class__.__name__ == "PermissionRequestResolve":
-            permission_request = PermissionRequest.objects.get(id=request_id)
-            permission = Permission.objects.get(codename="change_permissionrequest")
-            user_permission = UserPermission.objects.filter(
-                user=request.user,
-                shelter_id=permission_request.shelter,
-                permission_id=permission,
-            )
+            user_permission = True
+            if view.__class__.__name__ == "PermissionRequestResolve":
+                permission_request = PermissionRequest.objects.get(id=request_id)
+                permission = Permission.objects.get(codename="change_permissionrequest")
+                user_permission = UserPermission.objects.filter(
+                    user=request.user,
+                    shelter_id=permission_request.shelter,
+                    permission_id=permission,
+                )
 
-        elif view.__class__.__name__ == "PermissionRequestList":
-            permission = Permission.objects.get(codename="view_permissionrequest")
-            user_permission = UserPermission.objects.filter(
-                permission=permission, user=request.user
-            )
+            elif view.__class__.__name__ == "PermissionRequestList":
+                permission = Permission.objects.get(codename="view_permissionrequest")
+                user_permission = UserPermission.objects.filter(
+                    permission=permission, user=request.user
+                )
 
-        elif request.method == "DELETE":
-            permission_request = PermissionRequest.objects.get(id=request_id)
-            permission = Permission.objects.get(codename="delete_permissionrequest")
-            user_permission = UserPermission.objects.filter(
-                user=request.user,
-                shelter_id=permission_request.shelter,
-                permission_id=permission,
-            )
+            elif request.method == "DELETE":
+                permission_request = PermissionRequest.objects.get(id=request_id)
+                permission = Permission.objects.get(codename="delete_permissionrequest")
+                user_permission = UserPermission.objects.filter(
+                    user=request.user,
+                    shelter_id=permission_request.shelter,
+                    permission_id=permission,
+                )
 
-        elif request.method == "GET":
-            permission_request = PermissionRequest.objects.get(id=request_id)
-            permission = Permission.objects.get(codename="view_permissionrequest")
-            user_permission = UserPermission.objects.filter(
-                user=request.user,
-                shelter=permission_request.shelter,
-                permission_id=permission,
-            )
+            elif request.method == "GET":
+                permission_request = PermissionRequest.objects.get(id=request_id)
+                permission = Permission.objects.get(codename="view_permissionrequest")
+                user_permission = UserPermission.objects.filter(
+                    user=request.user,
+                    shelter=permission_request.shelter,
+                    permission_id=permission,
+                )
 
-        if user_permission:
-            return True
-        return False
+            if user_permission:
+                return True
+            return False
+        return True
