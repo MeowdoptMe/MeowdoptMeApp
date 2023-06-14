@@ -89,6 +89,29 @@ async function changeMail(email: string, token: string) {
   }
 }
 
+async function changePassword(
+  currentPassword: string,
+  newPassword: string,
+  token: string,
+) {
+  try {
+    await axios.post(
+      Database.changePasswordUrl,
+      {current_password: currentPassword, new_password: newPassword},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+  } catch (e) {
+    if (isAxiosError(e)) {
+      throw e.response?.data.detail;
+    }
+    throw e;
+  }
+}
+
 export default {
   sleep,
   login,
@@ -96,4 +119,5 @@ export default {
   resetPassword,
   isValidEmail,
   changeMail,
+  changePassword,
 };

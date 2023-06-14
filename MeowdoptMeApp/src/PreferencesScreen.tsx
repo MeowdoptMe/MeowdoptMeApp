@@ -1,12 +1,9 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-
-import {
-  ChangeMailModal,
-  ChangePasswordModal,
-  DeleteAccountModal,
-  LogoutModal,
-} from './AppSettings';
+import {ChangePasswordModal} from './AppSettings/ChangePasswordModal';
+import {ChangeMailModal} from './AppSettings/ChangeMailModal';
+import {DeleteAccountModal} from './AppSettings/DeleteAccountModal';
+import {LogoutModal} from './AppSettings/LogoutModal';
 import {GeneralButton} from './components/GeneralButton';
 
 function PreferencesScreen() {
