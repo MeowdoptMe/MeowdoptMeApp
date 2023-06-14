@@ -10,6 +10,9 @@ from .models import Photo, PhotoAlbum
 from .permissions import PhotoPermission, PhotoAlbumPermission
 from .serializers import PhotoSerializer, PhotoAlbumSerializer
 from .utils import convert_to_jpg
+from os import remove
+
+from BackendApp import settings
 
 
 class PhotoAlbumList(ListAPIView):
@@ -66,3 +69,9 @@ class PhotoDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = PhotoSerializer
     lookup_field = "pk"
     permission_classes = [PhotoPermission]
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        remove(f"{settings.MEDIA_ROOT}{instance.img.name}")
+        instance.delete()
+        return self.destroy(request, *args, **kwargs)
