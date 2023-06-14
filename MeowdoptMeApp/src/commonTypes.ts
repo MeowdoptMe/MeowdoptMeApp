@@ -16,7 +16,7 @@ export interface Shelter {
   x_cord: number;
   y_cord: number;
   user: number;
-  photoAlbum: PhotoAlbum;
+  photoAlbum: number;
   description: string;
 }
 

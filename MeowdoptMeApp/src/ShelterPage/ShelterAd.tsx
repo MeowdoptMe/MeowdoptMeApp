@@ -1,30 +1,69 @@
 import { FlashList } from '@shopify/flash-list';
 const { width, height } = Dimensions.get('window');
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { View, Text, StyleSheet, Pressable, SafeAreaView, Dimensions } from 'react-native';
 import { ShelterContext } from '../Context';
 import { shelters } from '../sampleData/sheltersPhotos';
 import FastImage from 'react-native-fast-image';
 import InfoScreen from './InfoScreen';
 import colorPalette from '../../assets/colors';
+import { Photo, Shelter } from '../commonTypes';
+import adUtils from '../AdsPage/adUtils';
+import Status from '../components/Status';
+
+async function fetchPhotos(
+    shelterPhotoAlbumId: number,
+    setPhotos: React.Dispatch<React.SetStateAction<Photo[]>>,
+    setLoading: Dispatch<React.SetStateAction<boolean>>,
+    setError: Dispatch<React.SetStateAction<string | undefined>>,
+) {
+    try {
+        const response = await adUtils.getPhotos(shelterPhotoAlbumId);
+        console.log(response);
+        setPhotos(response);
+        setError(undefined);
+        setLoading(false);
+    } catch (e) {
+        setError(e as string);
+        setLoading(false);
+    }
+}
 
 
 function ShelterAd() {
 
-    const { shelter } = React.useContext(ShelterContext);
+    const { shelter: contextShelter } = React.useContext(ShelterContext);
+    const shelter = contextShelter!;
+    const [photos, setPhotos] = React.useState<Photo[]>([]);
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState<string | undefined>(undefined);
+    const photo = React.useRef<Photo>(undefined as any);
+
 
     const data = shelters?.find(item => {
         return (item.id === shelter?.id)
     })!;
 
 
-    return (
+    React.useEffect(() => {
+        console.log("shelter", shelter);
+        console.log("contextShelter", contextShelter);
+
+        fetchPhotos(shelter.photoAlbum, setPhotos, setLoading, setError);
+    }, [shelter]);
+
+    console.log(photos);
+
+
+    return loading || error ? (
+        <Status loading={loading} error={error} style={styles.statusContainer} />
+    ) : (
         <View style={styles.innerListElementContainer}>
             <View style={styles.listElementHeader}>
                 <Text style={styles.listElementHeaderText}>{shelter?.name}</Text>
             </View>
             <FlashList
-                data={data.photoAlbum.photos}
+                data={photos}
                 estimatedItemSize={400}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
@@ -46,6 +85,12 @@ function ShelterAd() {
 
 
 const styles = StyleSheet.create({
+    statusContainer: {
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     listElementImage: {
         position: 'absolute',
         height: height * 0.71,

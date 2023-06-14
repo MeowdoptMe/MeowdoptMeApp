@@ -9,7 +9,7 @@ import AdsPage from '../AdsPage/AdsPage';
 function ShelterPage() {
 
   return (
-    <AdsPage  />
+    <AdsPage />
   );
 }
 
