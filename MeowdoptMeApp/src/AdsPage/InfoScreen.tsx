@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import InfoEdit from './InfoEdit';
 import InfoView from './InfoView';
 
@@ -8,6 +8,7 @@ interface InfoScreenProps {
 
 function InfoScreen({setNameVisible}: InfoScreenProps) {
   const [EditMode, setEditMode] = React.useState(false);
+
   function setEdit(edit: boolean) {
     setNameVisible(!edit);
     setEditMode(edit);
