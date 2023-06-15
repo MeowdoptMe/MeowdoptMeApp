@@ -8,26 +8,25 @@ import {
   Modal,
 } from 'react-native';
 import colorPalette from '../../assets/colors';
-import { GeneralButton } from '../components/GeneralButton';
-import { ShelterContext, AppContext, guestUser } from '../Context';
-import { Shelter } from '../commonTypes';
-import { editShelter, getShelterById } from './shelterUtils';
+import {GeneralButton} from '../components/GeneralButton';
+import {ShelterContext, AppContext, guestUser} from '../Context';
+import {Shelter} from '../commonTypes';
+import {editShelter, getShelterById} from './shelterUtils';
 import Status from '../components/Status';
 import authUtils from '../authUtils';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 interface InfoEditProps {
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function InfoEdit({ setEditMode }: InfoEditProps) {
-  const { shelter: _shelter, setShelter } = React.useContext(ShelterContext);
-  const shelter = _shelter!
+function InfoEdit({setEditMode}: InfoEditProps) {
+  const {shelter: _shelter, setShelter} = React.useContext(ShelterContext);
+  const shelter = _shelter!;
 
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>(undefined);
-
 
   const [editAboutModalVisible, setEditAboutModalVisible] =
     React.useState(false);
@@ -38,14 +37,14 @@ function InfoEdit({ setEditMode }: InfoEditProps) {
   const [email, setEmail] = React.useState(shelter.email);
   const [phone, setPhone] = React.useState(shelter.phone);
 
-  const { user } = React.useContext(AppContext);
+  const {user} = React.useContext(AppContext);
 
   async function putShelter(newShelter: Shelter) {
     try {
       const sleepPromise = authUtils.sleep();
       await editShelter(newShelter, user.token);
       await sleepPromise;
-      const updatedShelter = await getShelterById(shelter.id)
+      const updatedShelter = await getShelterById(shelter.id);
       setShelter(updatedShelter);
       setEditMode(false);
     } catch (e) {
@@ -55,11 +54,10 @@ function InfoEdit({ setEditMode }: InfoEditProps) {
     }
   }
 
-
   function onPressOut() {
     if (user === guestUser) {
-      setError('Cannot be performed as guest user :c')
-      return
+      setError('Cannot be performed as guest user :c');
+      return;
     }
     const newShelter: Shelter = {
       ...shelter,
@@ -125,7 +123,11 @@ function InfoEdit({ setEditMode }: InfoEditProps) {
             extraStyle={styles.editButtonStyle}
           />
         </View>
-        <GeneralButton disabled={loading} text={'Cancel'} onPressOut={() => setEditMode(false)} />
+        <GeneralButton
+          disabled={loading}
+          text={'Cancel'}
+          onPressOut={() => setEditMode(false)}
+        />
       </View>
       <Modal
         animationType="fade"
@@ -160,11 +162,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     top: height * 0,
   },
-  offsetBox:{
+  offsetBox: {
     flex: 1,
-    position: "absolute",
-    top: height*0.1,
-    alignItems: "center",
+    position: 'absolute',
+    top: height * 0.1,
+    alignItems: 'center',
   },
   informationScreenTextBubble: {
     width: width * 0.8,

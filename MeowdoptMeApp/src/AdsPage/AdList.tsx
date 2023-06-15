@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
-import type { Ad } from '../commonTypes';
-import { AdContext, AdListContext, ShelterContext } from '../Context';
+import React, {useEffect} from 'react';
+import {Dimensions, StyleSheet} from 'react-native';
+import {FlashList} from '@shopify/flash-list';
+import type {Ad} from '../commonTypes';
+import {AdContext, AdListContext, ShelterContext} from '../Context';
 import AdContainer from './AdContainer';
 import ShelterAd from '../ShelterPage/ShelterAd';
 import adUtils from './adUtils';
@@ -15,8 +15,7 @@ function AdList() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [data, setData] = React.useState<Ad[]>([]);
-  const { shelter } = React.useContext(ShelterContext);
-
+  const {shelter} = React.useContext(ShelterContext);
 
   async function refreshAd(adIndex: number) {
     setLoading(true);
@@ -40,17 +39,17 @@ function AdList() {
   async function fetchAds() {
     try {
       const ads = await adUtils.getAds();
-      let data: Ad[] = [];
+      let fetchedData: Ad[] = [];
       if (shelter !== undefined) {
         ads.forEach(ad => {
           if (Number(ad.shelter) === shelter.id) {
-            data.push(ad);
+            fetchedData.push(ad);
           }
-        })
+        });
       } else {
-        data = ads;
+        fetchedData = ads;
       }
-      setData(data);
+      setData(fetchedData);
       setError(undefined);
       setLoading(false);
     } catch (e) {
@@ -61,6 +60,7 @@ function AdList() {
 
   useEffect(() => {
     fetchAds();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shelter]);
 
   return loading || error ? (
@@ -76,8 +76,8 @@ function AdList() {
         decelerationRate={'fast'}
         snapToInterval={height}
         ListHeaderComponent={shelter ? <ShelterAd /> : null}
-        renderItem={({ item, index }) => (
-          <AdContext.Provider value={{ ad: item, adIndex: index }}>
+        renderItem={({item, index}) => (
+          <AdContext.Provider value={{ad: item, adIndex: index}}>
             <AdContainer />
           </AdContext.Provider>
         )}

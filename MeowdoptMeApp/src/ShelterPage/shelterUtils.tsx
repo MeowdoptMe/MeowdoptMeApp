@@ -2,7 +2,6 @@ import axios, { isAxiosError } from 'axios';
 import Database from '../Database';
 import { Shelter } from '../commonTypes';
 
-
 async function sleep() {
   return new Promise(resolve => setTimeout(resolve, 500));
 }
@@ -26,15 +25,24 @@ async function getShelters() {
 }
 
 async function editShelter(shelter: Shelter, token: string) {
-  const { name, email, phone, location } = shelter;
+
   try {
-    await axios.put(Database.getSheltersUrl + String(shelter.id) + '/', {
-      name, email, phone, location,
-    }, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const { name, email, phone, location } = shelter;
+    const url = `${Database.getSheltersUrl}${shelter.id}/`
+    await axios.put(
+      url,
+      {
+        name,
+        email,
+        phone,
+        location,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
   } catch (e: unknown) {
     if (isAxiosError(e)) {
       if (e.response?.data.detail) {
@@ -47,10 +55,9 @@ async function editShelter(shelter: Shelter, token: string) {
   }
 }
 
-
 async function getShelterById(id: number) {
   try {
-    const url = `${Database.getSheltersUrl}${id}/`
+    const url = `${Database.getSheltersUrl}${id}/`;
     const response = await axios.get(url);
     return response.data;
   } catch (e: unknown) {
@@ -65,5 +72,4 @@ async function getShelterById(id: number) {
   }
 }
 
-
-export { getShelters, editShelter, getShelterById};
+export {getShelters, editShelter, getShelterById};

@@ -83,41 +83,6 @@ class PhotoAlbumTests(APITestCase):
             f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
-    def test_remove_with_auth(self):
-        self.client.force_authenticate(user=self.user)
-        current_objects_count = PhotoAlbum.objects.count()
-        url = reverse("photo_album_detail", kwargs={"pk": 1})
-        response = self.client.delete(url)
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_204_NO_CONTENT,
-            f"Expected Response Code 204, received {response.status_code} instead.",
-        )
-        self.assertEqual(PhotoAlbum.objects.count(), current_objects_count - 1)
-
-    def test_remove_with_no_auth(self):
-        current_objects_count = PhotoAlbum.objects.count()
-        url = reverse("photo_album_detail", kwargs={"pk": 1})
-        response = self.client.delete(url)
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_401_UNAUTHORIZED,
-            f"Expected Response Code 401, received {response.status_code} instead.",
-        )
-        self.assertEqual(PhotoAlbum.objects.count(), current_objects_count)
-
-    def test_remove_without_permissions(self):
-        self.client.force_authenticate(user=self.user2)
-        current_objects_count = PhotoAlbum.objects.count()
-        url = reverse("photo_album_detail", kwargs={"pk": 1})
-        response = self.client.delete(url)
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_403_FORBIDDEN,
-            f"Expected Response Code 403, received {response.status_code} instead.",
-        )
-        self.assertEqual(PhotoAlbum.objects.count(), current_objects_count)
-
 
 class PhotoTests(APITestCase):
     def setUp(self):

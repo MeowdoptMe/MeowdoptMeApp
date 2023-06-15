@@ -7,7 +7,7 @@ import PreferencesScreen from './PreferencesScreen';
 import {ShelterContext} from './Context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colorPalette from '../assets/colors';
-import { Shelter } from './commonTypes';
+import {Shelter} from './commonTypes';
 
 const Tab = createMaterialBottomTabNavigator();
 

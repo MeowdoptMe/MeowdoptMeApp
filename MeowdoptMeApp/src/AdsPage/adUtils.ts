@@ -89,7 +89,7 @@ async function editPhotoPicture(
 ) {
   try {
     const url = `${Database.photoAlbumUrl}${photoAlbumId}/photos/${photoId}/`;
-    const response = await axios.put(
+    await axios.put(
       url,
       {img: asset},
       {
