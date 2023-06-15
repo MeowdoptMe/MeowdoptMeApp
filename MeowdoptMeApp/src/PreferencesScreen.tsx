@@ -1,64 +1,59 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
-import {useState} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {ChangePasswordModal} from './AppSettings/ChangePasswordModal';
+import {ChangeMailModal} from './AppSettings/ChangeMailModal';
+import {DeleteAccountModal} from './AppSettings/DeleteAccountModal';
+import {LogoutModal} from './AppSettings/LogoutModal';
+import {GeneralButton} from './components/GeneralButton';
 
 function PreferencesScreen() {
-  const [currentOption, setCurrentOption] = useState('none');
-  const state = {
-    currentOption: currentOption,
-    setCurrentOption: setCurrentOption,
-  };
+  const [changePasswordModalVisible, setChangePasswordModalVisible] =
+    React.useState(false);
+  const [changeMailModalVisible, setChangeMailModalVisible] =
+    React.useState(false);
+  const [deleteAccountModalVisible, setDeleteAccountModalVisible] =
+    React.useState(false);
+  const [logoutModalVisible, setLogoutModalVisible] = React.useState(false);
 
   return (
     <View style={styles.sectionContainer}>
-      <MyButton
-        title={'AdFilters'}
-        buttonText={'Set your filters'}
-        {...state}
+      <GeneralButton
+        text="Set your filters"
+        onPressOut={() => setChangePasswordModalVisible(false)}
       />
-      <MyButton
-        title={'setPassword'}
-        buttonText={'Set your password'}
-        {...state}
+      <ChangePasswordModal
+        changePasswordModalVisible={changePasswordModalVisible}
+        setChangePasswordModalVisible={setChangePasswordModalVisible}
       />
-      <MyButton
-        title={'setUsername'}
-        buttonText={'Set your username'}
-        {...state}
+      <GeneralButton
+        text={'Change your password'}
+        onPressOut={() => setChangePasswordModalVisible(true)}
       />
-      <MyButton title={'setMail'} buttonText={'Set your email'} {...state} />
-      <MyButton
-        title={'deleteAccount'}
-        buttonText={'Delete your account'}
-        {...state}
+      <ChangeMailModal
+        changeMailModalVisible={changeMailModalVisible}
+        setChangeMailModalVisible={setChangeMailModalVisible}
       />
-      <MyButton title={'logout'} buttonText={'Logout'} {...state} />
+      <GeneralButton
+        text={'Change your mail'}
+        onPressOut={() => setChangeMailModalVisible(true)}
+      />
+      <DeleteAccountModal
+        deleteAccountModalVisible={deleteAccountModalVisible}
+        setDeleteAccountModalVisible={setDeleteAccountModalVisible}
+      />
+      <GeneralButton
+        text="Delete your account"
+        onPressOut={() => setDeleteAccountModalVisible(true)}
+      />
+      <LogoutModal
+        logoutModalVisible={logoutModalVisible}
+        setLogoutModalVisible={setLogoutModalVisible}
+      />
+      <GeneralButton
+        text="Logout"
+        onPressOut={() => setLogoutModalVisible(true)}
+      />
     </View>
-  );
-}
-
-interface myButtonProps {
-  title: string;
-  buttonText: string;
-  currentOption: string;
-  setCurrentOption: React.Dispatch<React.SetStateAction<string>>;
-}
-function MyButton({
-  title,
-  buttonText,
-  currentOption,
-  setCurrentOption,
-}: myButtonProps) {
-  return currentOption !== title ? (
-    <Pressable
-      style={styles.button}
-      onPressOut={() => {
-        setCurrentOption(title);
-      }}>
-      <Text style={styles.buttonText}>{buttonText}</Text>
-    </Pressable>
-  ) : (
-    <Text style={styles.noButtonText}>{buttonText}</Text>
   );
 }
 
@@ -67,7 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'grey',
   },
   noButtonText: {
     color: 'black',
@@ -89,6 +84,19 @@ const styles = StyleSheet.create({
     maxHeight: 40,
     minWidth: 160,
     margin: 5,
+  },
+  modalText: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modal: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    maxHeight: 300,
   },
 });
 
