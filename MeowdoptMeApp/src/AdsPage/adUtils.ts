@@ -4,13 +4,14 @@ import {Ad, Photo} from '../commonTypes';
 import type {Asset} from 'react-native-image-picker';
 
 async function sleep() {
-  return new Promise(resolve => setTimeout(resolve, 1000));
+  return new Promise(resolve => setTimeout(resolve, 500));
 }
 
 async function getAds(): Promise<Ad[]> {
   try {
-    await sleep();
+    const sleepPromise = sleep();
     const response = await axios.get(Database.adsUrl);
+    await sleepPromise;
     return response.data;
   } catch (e: unknown) {
     if (isAxiosError(e)) {

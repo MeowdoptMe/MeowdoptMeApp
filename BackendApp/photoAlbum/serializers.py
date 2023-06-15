@@ -6,7 +6,16 @@ from .models import PhotoAlbum, Photo
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
-        fields = ["id", "img", "description"]
+        fields = ["id", "img", "description", "photo_album"]
+
+    def create(self, validated_data):
+        validated_data["photo_album"] = PhotoAlbum.objects.get(
+            id=self.context.get("photo_album")
+        )
+        validated_data["img"] = self.context.get("img")
+        if "description" in self.context:
+            validated_data["description"] = self.context.get("description")
+        return Photo.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         if "description" in validated_data:
