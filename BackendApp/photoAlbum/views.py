@@ -1,3 +1,5 @@
+import os
+
 from rest_framework import status
 from rest_framework.generics import (
     ListAPIView,
@@ -79,6 +81,5 @@ class PhotoDetail(RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
-        remove(f"{settings.MEDIA_ROOT}{instance.img.name}")
-        instance.delete()
-        return self.destroy(request, *args, **kwargs)
+        remove(f"{os.path.join(settings.MEDIA_ROOT, instance.img.name)}")
+        return super().delete(request, *args, **kwargs)
