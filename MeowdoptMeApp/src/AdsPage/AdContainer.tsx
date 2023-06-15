@@ -13,7 +13,7 @@ import FastImage from 'react-native-fast-image';
 import {AdContext} from '../Context';
 import InfoScreen from './InfoScreen';
 import EditModal from './EditModal';
-import AddPhotoScreen from './AddPhotoScreen';
+// import AddPhotoScreen from './AddPhotoScreen';
 import {Ad, Photo} from '../commonTypes';
 import adUtils from './adUtils';
 import Status from '../components/Status';
@@ -75,7 +75,7 @@ function AdContainer() {
         estimatedFirstItemOffset={width * -0.02}
         ListHeaderComponent={<InfoScreen setNameVisible={setNameVisible} />}
         // ListFooterComponent={<AddPhotoScreen />}
-        renderItem={({item, index}) => (
+        renderItem={({item}) => (
           <View style={styles.innerListElementContainer}>
             {/* @ts-ignore */}
             <FastImage

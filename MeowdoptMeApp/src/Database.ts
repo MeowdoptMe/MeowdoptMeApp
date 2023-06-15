@@ -16,7 +16,7 @@ const Database = {
   changePasswordUrl,
   adsUrl,
   photoAlbumUrl,
-  getSheltersUrl
+  getSheltersUrl,
 };
 
 export default Database;

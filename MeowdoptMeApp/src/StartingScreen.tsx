@@ -227,7 +227,7 @@ function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
     setError(undefined);
     setLoading(true);
     try {
-      const sleepPromise =  authUtils.sleep();
+      const sleepPromise = authUtils.sleep();
       await authUtils.register(login, email, password);
       await sleepPromise;
     } catch (e) {

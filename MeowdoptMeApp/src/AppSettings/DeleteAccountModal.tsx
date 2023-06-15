@@ -1,18 +1,12 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   TextInput,
   ScrollView,
   SafeAreaView,
   Modal,
-  Text,
 } from 'react-native';
 import {GeneralButton} from '../components/GeneralButton';
-import {AppContext, guestUser} from '../Context';
-import authUtils from '../authUtils';
-import {useState} from 'react';
-import {Stats} from 'fs';
-import Status from '../components/Status';
 
 interface DeleteAccountModalProps {
   deleteAccountModalVisible: boolean;

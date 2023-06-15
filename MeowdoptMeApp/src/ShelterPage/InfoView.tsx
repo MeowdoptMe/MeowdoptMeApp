@@ -1,21 +1,20 @@
-import React, { useContext } from 'react';
-import { View, StyleSheet, Text, Dimensions } from 'react-native';
+import React, {useContext} from 'react';
+import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import colorPalette from '../../assets/colors';
-import { GeneralButton } from '../components/GeneralButton';
-import { ShelterContext } from '../Context';
-import { Modal } from 'react-native';
+import {GeneralButton} from '../components/GeneralButton';
+import {ShelterContext} from '../Context';
+import {Modal} from 'react-native';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 interface InfoViewProps {
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function InfoView({ setEditMode }: InfoViewProps) {
-  const { shelter } = useContext(ShelterContext);
+function InfoView({setEditMode}: InfoViewProps) {
+  const {shelter} = useContext(ShelterContext);
 
   const [aboutModalVisible, setAboutModalVisible] = React.useState(false);
-
 
   return (
     <View style={styles.informationScreenContainer}>
@@ -47,22 +46,24 @@ function InfoView({ setEditMode }: InfoViewProps) {
           setEditMode(true);
         }}
       />
-      {<Modal
-        animationType="fade"
-        visible={aboutModalVisible}
-        transparent={true}>
-        <View style={styles.aboutModalContainer}>
-          <View style={styles.aboutModalContent}>
-            <Text style={styles.aboutModalText}>{shelter?.name}</Text>
-            <GeneralButton
-              text={'Close'}
-              onPressOut={() => {
-                setAboutModalVisible(false);
-              }}
-            />
+      {
+        <Modal
+          animationType="fade"
+          visible={aboutModalVisible}
+          transparent={true}>
+          <View style={styles.aboutModalContainer}>
+            <View style={styles.aboutModalContent}>
+              <Text style={styles.aboutModalText}>{shelter?.name}</Text>
+              <GeneralButton
+                text={'Close'}
+                onPressOut={() => {
+                  setAboutModalVisible(false);
+                }}
+              />
+            </View>
           </View>
-        </View>
-      </Modal>}
+        </Modal>
+      }
     </View>
   );
 }

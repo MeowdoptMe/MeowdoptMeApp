@@ -20,7 +20,6 @@ export interface Shelter {
   description: string;
 }
 
-
 export interface PhotoAlbum {
   id: number;
   photos: Photo[];

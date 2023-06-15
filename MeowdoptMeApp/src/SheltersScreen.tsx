@@ -1,28 +1,25 @@
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet, Pressable, SafeAreaView, Dimensions } from 'react-native';
-import { WebView } from 'react-native-webview';
+import {useState, useEffect, useContext} from 'react';
+import {View, Text, StyleSheet, Pressable, Dimensions} from 'react-native';
+import {WebView} from 'react-native-webview';
 import map from './WebMap';
-import { FlashList } from '@shopify/flash-list';
-import { getShelters } from './ShelterPage/shelterUtils';
+import {FlashList} from '@shopify/flash-list';
+import {getShelters} from './ShelterPage/shelterUtils';
 import colorPalette from '../assets/colors';
-import { ShelterContext } from './Context';
+import {ShelterContext} from './Context';
 import HomeScreen from './HomeScreen';
-import type { Shelter } from './commonTypes';
+import type {Shelter} from './commonTypes';
 import Status from './components/Status';
 
-
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 // @ts-expect-error
-function SheltersScreen({ navigation }) {
-
+function SheltersScreen({navigation}) {
   const [page, setPage] = useState('list');
-  const [shelters, setShelters] = useState<Shelter[]>([])
-  const { shelter, setShelter } = useContext(ShelterContext);
+  const [shelters, setShelters] = useState<Shelter[]>([]);
+  const {shelter, setShelter} = useContext(ShelterContext);
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
-
 
   async function loadShelters() {
     try {
@@ -31,21 +28,20 @@ function SheltersScreen({ navigation }) {
       setError(undefined);
       setLoading(false);
     } catch (e) {
-      console.log(e)
+      console.log(e);
       setError(e as string);
       setLoading(false);
     }
   }
 
   function onPressOut(shelter: Shelter) {
-    setShelter(shelter)
+    setShelter(shelter);
     navigation.navigate(HomeScreen);
   }
 
-
   useEffect(() => {
     loadShelters();
-  }, [shelter])
+  }, [shelter]);
 
   return loading || error ? (
     <Status loading={loading} error={error} style={styles.statusContainer} />
@@ -55,20 +51,22 @@ function SheltersScreen({ navigation }) {
         data={shelters}
         estimatedItemSize={60}
         ListHeaderComponent={<ShelterTitle setPage={setPage} />}
-        renderItem={({ item }) => (<View style={styles.listElement}>
-          <Pressable
-            onPressOut={() => {
-              onPressOut(item)
-            }}>
-            <Text style={styles.titleText}>{item.name}</Text>
-            <Text style={styles.text}>{item.location}</Text>
-          </Pressable>
-        </View>)}
+        renderItem={({item}) => (
+          <View style={styles.listElement}>
+            <Pressable
+              onPressOut={() => {
+                onPressOut(item);
+              }}>
+              <Text style={styles.titleText}>{item.name}</Text>
+              <Text style={styles.text}>{item.location}</Text>
+            </Pressable>
+          </View>
+        )}
       />
     </View>
   ) : (
     <View style={styles.mapContainer}>
-      <WebView source={{ html: map }} />
+      <WebView source={{html: map}} />
       <View style={styles.button}>
         <Pressable
           onPressOut={() => {
@@ -78,15 +76,14 @@ function SheltersScreen({ navigation }) {
         </Pressable>
       </View>
     </View>
-  )
+  );
 }
-
 
 interface ShelterTitleProps {
-  setPage: React.Dispatch<React.SetStateAction<string>>
+  setPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function ShelterTitle({ setPage }: ShelterTitleProps) {
+function ShelterTitle({setPage}: ShelterTitleProps) {
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.shelterTitle}>Shelters</Text>
@@ -99,7 +96,7 @@ function ShelterTitle({ setPage }: ShelterTitleProps) {
         </Pressable>
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -117,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerContainer: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   shelterTitle: {
     color: 'black',
@@ -162,14 +159,12 @@ const styles = StyleSheet.create({
     margin: 5,
     alignItems: 'center',
     justifyContent: 'center',
-
-
   },
   buttonText: {
     color: 'white',
     fontSize: 30,
     textShadowRadius: 4,
-    textShadowOffset: { width: 2, height: 2 },
+    textShadowOffset: {width: 2, height: 2},
     textShadowColor: 'black',
   },
 });

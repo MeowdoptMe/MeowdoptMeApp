@@ -31,7 +31,6 @@ async function getPhotos(id: number): Promise<Photo[]> {
     const response = await axios.get(url);
     return response.data;
   } catch (e: unknown) {
-  
     if (isAxiosError(e)) {
       if (e.response?.data) {
         throw e.response.data;
@@ -89,7 +88,7 @@ async function editPhotoPicture(
 ) {
   try {
     const url = `${Database.photoAlbumUrl}${photoAlbumId}/photos/${photoId}/`;
-    const response = await axios.put(
+    await axios.put(
       url,
       {img: asset},
       {
@@ -97,7 +96,6 @@ async function editPhotoPicture(
       },
     );
   } catch (e: unknown) {
-  
     if (isAxiosError(e)) {
       if (e.response?.data.detail) {
         throw e.response.data.detail;
