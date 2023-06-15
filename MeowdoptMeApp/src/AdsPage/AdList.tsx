@@ -2,8 +2,9 @@ import React, {useEffect} from 'react';
 import {Dimensions, StyleSheet} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
 import type {Ad} from '../commonTypes';
-import {AdContext, AdListContext} from '../Context';
+import {AdContext, AdListContext, ShelterContext} from '../Context';
 import AdContainer from './AdContainer';
+import ShelterAd from '../ShelterPage/ShelterAd';
 import adUtils from './adUtils';
 import Status from '../components/Status';
 
@@ -13,6 +14,7 @@ function AdList() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [data, setData] = React.useState<Ad[]>([]);
+  const {shelter} = React.useContext(ShelterContext);
 
   async function refreshAd(adIndex: number) {
     setLoading(true);
@@ -36,7 +38,17 @@ function AdList() {
   async function fetchAds() {
     try {
       const ads = await adUtils.getAds();
-      setData(ads);
+      let fetchedData: Ad[] = [];
+      if (shelter !== undefined) {
+        ads.forEach(ad => {
+          if (Number(ad.shelter) === shelter.id) {
+            fetchedData.push(ad);
+          }
+        });
+      } else {
+        fetchedData = ads;
+      }
+      setData(fetchedData);
       setError(undefined);
       setLoading(false);
     } catch (e) {
@@ -47,7 +59,8 @@ function AdList() {
 
   useEffect(() => {
     fetchAds();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shelter]);
 
   return loading || error ? (
     <Status loading={loading} error={error} style={styles.statusContainer} />
@@ -61,6 +74,7 @@ function AdList() {
         snapToAlignment={'start'}
         decelerationRate={'fast'}
         snapToInterval={height}
+        ListHeaderComponent={shelter ? <ShelterAd /> : null}
         renderItem={({item, index}) => (
           <AdContext.Provider value={{ad: item, adIndex: index}}>
             <AdContainer />
