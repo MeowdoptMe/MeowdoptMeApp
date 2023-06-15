@@ -42,8 +42,9 @@ function InfoEdit({ setEditMode }: InfoEditProps) {
 
   async function putShelter(newShelter: Shelter) {
     try {
-      await authUtils.sleep();
+      const sleepPromise = authUtils.sleep();
       await editShelter(newShelter, user.token);
+      await sleepPromise;
       const updatedShelter = await getShelterById(shelter.id)
       setShelter(updatedShelter);
       setEditMode(false);
