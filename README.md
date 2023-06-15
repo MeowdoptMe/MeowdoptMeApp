@@ -4,9 +4,9 @@ This repository will hold our adoption app.
 
 ## Install
 
-1. Clone repo with: `git clone https://github.com/tjzel/MeowdoptMe <directory>`
+1. Clone repo with: `git clone https://github.com/MeowdoptMe/MeowdoptMeApp <directory>`
 1. Make sure you have [Node.JS](https://nodejs.org/en) installed!
-1. Run `yarn` in project's root directory.
+1. Run `yarn` in project's root directory and `MeowdoptMeApp/`.
 
 ## Connecting to local server on android
 
