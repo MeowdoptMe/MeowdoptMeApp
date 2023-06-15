@@ -13,6 +13,7 @@ import authUtils from '../authUtils';
 import {useState} from 'react';
 import {Stats} from 'fs';
 import Status from '../components/Status';
+import colorPalette from '../../assets/colors';
 
 interface DeleteAccountModalProps {
   deleteAccountModalVisible: boolean;
@@ -40,11 +41,12 @@ function DeleteAccountScreen({
   setDeleteAccountModalVisible,
 }: DeleteAccountScreenProps) {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.scrollViewContainer}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <TextInput
           placeholder="password"
           placeholderTextColor={'navy'}
+          secureTextEntry={true}
           style={styles.inputBox}
         />
         <GeneralButton text="Delete account" onPressOut={() => {}} />
@@ -58,33 +60,34 @@ function DeleteAccountScreen({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'black',
+  scrollViewContainer: {
+    backgroundColor: colorPalette.backgroundColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  // container: {
+  //   backgroundColor: 'black',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
   scrollContent: {
-    backgroundColor: 'purple',
-    justifyContent: 'center',
+    // backgroundColor: 'purple',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // flexGrow: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     flexGrow: 1,
   },
-
-  // sectionContainer: {
-  //   //flexGrow: 1,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   backgroundColor: 'white',
-  //   // maxWidth: 200,
-  //   // maxHeight: 200,
-  // },
   inputContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
   },
   inputBox: {
+    backgroundColor: colorPalette.lightAccentColor,
     width: 200,
+    height: 50,
     margin: 5,
     color: 'black',
     borderWidth: 2,

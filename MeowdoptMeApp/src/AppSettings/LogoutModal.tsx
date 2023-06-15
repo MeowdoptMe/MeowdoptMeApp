@@ -1,18 +1,8 @@
-import React, {useContext} from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  ScrollView,
-  SafeAreaView,
-  Modal,
-  Text,
-} from 'react-native';
+import React from 'react';
+import {StyleSheet, ScrollView, SafeAreaView, Modal, Text} from 'react-native';
 import {GeneralButton} from '../components/GeneralButton';
 import {AppContext, guestUser} from '../Context';
-import authUtils from '../authUtils';
-import {useState} from 'react';
-import {Stats} from 'fs';
-import Status from '../components/Status';
+import colorPalette from '../../assets/colors';
 
 interface LogoutModalProps {
   logoutModalVisible: boolean;
@@ -36,9 +26,8 @@ interface LogoutScreenProps {
 
 function LogoutScreen({setLogoutModalVisible}: LogoutScreenProps) {
   const {setIsStartingScreen, setUser} = React.useContext(AppContext);
-  // useContext(AppContext).setIsStartingScreen(false);
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.scrollViewContainer}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text> "Do you want to logout for sure?"</Text>
         <GeneralButton
@@ -58,33 +47,25 @@ function LogoutScreen({setLogoutModalVisible}: LogoutScreenProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'black',
+  scrollViewContainer: {
+    backgroundColor: colorPalette.backgroundColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
   scrollContent: {
-    backgroundColor: 'purple',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     flexGrow: 1,
   },
-
-  // sectionContainer: {
-  //   //flexGrow: 1,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   backgroundColor: 'white',
-  //   // maxWidth: 200,
-  //   // maxHeight: 200,
-  // },
   inputContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
   },
   inputBox: {
+    backgroundColor: colorPalette.lightAccentColor,
     width: 200,
+    height: 50,
     margin: 5,
     color: 'black',
     borderWidth: 2,

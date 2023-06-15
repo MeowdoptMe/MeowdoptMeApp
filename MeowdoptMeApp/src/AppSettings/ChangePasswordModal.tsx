@@ -11,6 +11,7 @@ import {AppContext} from '../Context';
 import authUtils from '../authUtils';
 import {useState} from 'react';
 import Status from '../components/Status';
+import colorPalette from '../../assets/colors';
 
 interface ChangePasswordModalProps {
   changePasswordModalVisible: boolean;
@@ -81,11 +82,12 @@ function ChangePasswordScreen({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.scrollViewContainer}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <TextInput
           placeholder="current password"
           placeholderTextColor={'navy'}
+          secureTextEntry={true}
           style={styles.inputBox}
           value={currentPassword}
           onChangeText={text => {
@@ -95,6 +97,7 @@ function ChangePasswordScreen({
         <TextInput
           placeholder="new password"
           placeholderTextColor={'navy'}
+          secureTextEntry={true}
           style={styles.inputBox}
           value={newPassword}
           onChangeText={text => {
@@ -104,6 +107,7 @@ function ChangePasswordScreen({
         <TextInput
           placeholder="repeat new password"
           placeholderTextColor={'navy'}
+          secureTextEntry={true}
           style={styles.inputBox}
           value={repeatedPassword}
           onChangeText={text => {
@@ -127,15 +131,14 @@ function ChangePasswordScreen({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'black',
+  scrollViewContainer: {
+    backgroundColor: colorPalette.backgroundColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
   scrollContent: {
-    backgroundColor: 'purple',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     flexGrow: 1,
   },
   inputContainer: {
@@ -144,7 +147,9 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   inputBox: {
+    backgroundColor: colorPalette.lightAccentColor,
     width: 200,
+    height: 50,
     margin: 5,
     color: 'black',
     borderWidth: 2,
