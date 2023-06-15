@@ -19,8 +19,6 @@ const AppContext: Context<AppContextType> = createContext<
   AppContextType | undefined
 >(undefined) as Context<AppContextType>;
 
-
-
 interface ShelterContextType {
   shelter: Shelter | undefined;
   setShelter: React.Dispatch<React.SetStateAction<Shelter | undefined>>;

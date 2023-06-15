@@ -8,8 +8,7 @@ import ShelterAd from '../ShelterPage/ShelterAd';
 import adUtils from './adUtils';
 import Status from '../components/Status';
 
-const { width, height } = Dimensions.get('window');
-
+const {width, height} = Dimensions.get('window');
 
 function AdList() {
   const [loading, setLoading] = React.useState(true);
@@ -66,7 +65,7 @@ function AdList() {
   return loading || error ? (
     <Status loading={loading} error={error} style={styles.statusContainer} />
   ) : (
-    <AdListContext.Provider value={{ refreshAd }}>
+    <AdListContext.Provider value={{refreshAd}}>
       <FlashList
         data={data}
         extraData={data}

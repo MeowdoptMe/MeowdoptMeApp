@@ -31,7 +31,6 @@ async function getPhotos(id: number): Promise<Photo[]> {
     const response = await axios.get(url);
     return response.data;
   } catch (e: unknown) {
-  
     if (isAxiosError(e)) {
       if (e.response?.data) {
         throw e.response.data;
@@ -97,7 +96,6 @@ async function editPhotoPicture(
       },
     );
   } catch (e: unknown) {
-  
     if (isAxiosError(e)) {
       if (e.response?.data.detail) {
         throw e.response.data.detail;
@@ -109,8 +107,8 @@ async function editPhotoPicture(
   }
 }
 
-async function getShelterData(id: number){
-  try{
+async function getShelterData(id: number) {
+  try {
     const url = `${Database.getSheltersUrl}${id}/`;
     const response = await axios.get(url);
     return response.data;

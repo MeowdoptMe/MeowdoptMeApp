@@ -1,6 +1,6 @@
-import axios, { isAxiosError } from 'axios';
+import axios, {isAxiosError} from 'axios';
 import Database from '../Database';
-import { Shelter } from '../commonTypes';
+import {Shelter} from '../commonTypes';
 
 async function sleep() {
   return new Promise(resolve => setTimeout(resolve, 500));
@@ -25,10 +25,9 @@ async function getShelters() {
 }
 
 async function editShelter(shelter: Shelter, token: string) {
-
   try {
-    const { name, email, phone, location } = shelter;
-    const url = `${Database.getSheltersUrl}${shelter.id}/`
+    const {name, email, phone, location} = shelter;
+    const url = `${Database.getSheltersUrl}${shelter.id}/`;
     await axios.put(
       url,
       {
