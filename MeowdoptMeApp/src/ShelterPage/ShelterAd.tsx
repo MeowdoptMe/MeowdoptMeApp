@@ -17,10 +17,8 @@ async function fetchPhotos(
     setLoading: Dispatch<React.SetStateAction<boolean>>,
     setError: Dispatch<React.SetStateAction<string | undefined>>,
 ) {
-    console.warn(shelterPhotoAlbumId);
     try {
         const response = await adUtils.getPhotos(shelterPhotoAlbumId);
-        console.log(response);
         setPhotos(response);
         setError(undefined);
         setLoading(false);
@@ -47,14 +45,9 @@ function ShelterAd() {
 
 
     React.useEffect(() => {
-        console.log("shelter", shelter);
-        console.log("contextShelter", contextShelter);
-        console.warn(shelter.photoAlbum);
 
         fetchPhotos(shelter.photoAlbum, setPhotos, setLoading, setError);
     }, [shelter]);
-
-    console.log(photos);
 
 
     return loading || error ? (
@@ -72,12 +65,11 @@ function ShelterAd() {
                 snapToAlignment={'center'}
                 decelerationRate={'normal'}
                 snapToInterval={width}
-                initialScrollIndex={1}
-                ListHeaderComponent={InfoScreen}
+                initialScrollIndex={0}
+                ListHeaderComponent={<InfoScreen />}
                 renderItem={({ item }) => (
                     <View style={styles.innerListElementContainer}>
-                        {/* @ts-expect-error Source is defined as string but we hax */}
-                        <FastImage style={styles.listElementImage} source={item.img} />
+                        <FastImage style={styles.listElementImage} source={{ uri: item.img }} />
                     </View>
                 )}
             />
@@ -108,6 +100,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         position: 'absolute',
         top: height * 0.05,
+        zIndex: 1,
     },
     listElementHeaderText: {
         fontSize: 27,

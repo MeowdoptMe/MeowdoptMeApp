@@ -75,55 +75,57 @@ function InfoEdit({ setEditMode }: InfoEditProps) {
 
   return (
     <View style={styles.informationScreenContainer}>
-      <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Name:</Text>
-        <TextInput
-          style={styles.informationDataChange}
-          value={name}
-          onChangeText={text => setName(text)}
-        />
-      </View>
-      <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Location:</Text>
-        <TextInput
-          style={styles.informationDataChange}
-          value={location}
-          onChangeText={text => setLocation(text)}
-        />
-      </View>
-      <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Email:</Text>
-        <TextInput
-          style={styles.informationDataChange}
-          value={email}
-          onChangeText={text => setEmail(text)}
-        />
-      </View>
-      <View style={styles.informationScreenTextBubble}>
-        <Text style={styles.informationKeyText}>Phone:</Text>
-        <TextInput
-          style={styles.informationDataChange}
-          value={String(phone)}
-          onChangeText={text => setPhone(Number(text))}
-        />
-      </View>
+      <View style={styles.offsetBox}>
+        <View style={styles.informationScreenTextBubble}>
+          <Text style={styles.informationKeyText}>Name:</Text>
+          <TextInput
+            style={styles.informationDataChange}
+            value={name}
+            onChangeText={text => setName(text)}
+          />
+        </View>
+        <View style={styles.informationScreenTextBubble}>
+          <Text style={styles.informationKeyText}>Location:</Text>
+          <TextInput
+            style={styles.informationDataChange}
+            value={location}
+            onChangeText={text => setLocation(text)}
+          />
+        </View>
+        <View style={styles.informationScreenTextBubble}>
+          <Text style={styles.informationKeyText}>Email:</Text>
+          <TextInput
+            style={styles.informationDataChange}
+            value={email}
+            onChangeText={text => setEmail(text)}
+          />
+        </View>
+        <View style={styles.informationScreenTextBubble}>
+          <Text style={styles.informationKeyText}>Phone:</Text>
+          <TextInput
+            style={styles.informationDataChange}
+            value={String(phone)}
+            onChangeText={text => setPhone(Number(text))}
+          />
+        </View>
 
-      <Status error={error} loading={loading} />
-      <View style={styles.editButtonsContainer}>
-        <GeneralButton
-          disabled={loading}
-          text={'Save'}
-          onPressOut={onPressOut}
-          extraStyle={styles.editButtonStyle}
-        />
-        <GeneralButton
-          disabled={loading}
-          text={'About'}
-          onPressOut={() => setEditAboutModalVisible(true)}
-          extraStyle={styles.editButtonStyle}
-        />
+        <Status error={error} loading={loading} />
+        <View style={styles.editButtonsContainer}>
+          <GeneralButton
+            disabled={loading}
+            text={'Save'}
+            onPressOut={onPressOut}
+            extraStyle={styles.editButtonStyle}
+          />
+          <GeneralButton
+            disabled={loading}
+            text={'About'}
+            onPressOut={() => setEditAboutModalVisible(true)}
+            extraStyle={styles.editButtonStyle}
+          />
+        </View>
+        <GeneralButton disabled={loading} text={'Cancel'} onPressOut={() => setEditMode(false)} />
       </View>
-      <GeneralButton disabled={loading} text={'Cancel'} onPressOut={() => setEditMode(false)} />
       <Modal
         animationType="fade"
         visible={editAboutModalVisible}
@@ -156,6 +158,12 @@ const styles = StyleSheet.create({
     width: width,
     alignItems: 'center',
     top: height * 0,
+  },
+  offsetBox:{
+    flex: 1,
+    position: "absolute",
+    top: height*0.1,
+    alignItems: "center",
   },
   informationScreenTextBubble: {
     width: width * 0.8,
