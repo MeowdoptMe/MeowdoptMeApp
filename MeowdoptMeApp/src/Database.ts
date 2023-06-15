@@ -1,4 +1,4 @@
-const databaseUrl = 'http://localhost:8000/';
+const databaseUrl = 'https://gochad.pythonanywhere.com/';
 const loginUrl = databaseUrl + 'user-auth/login/';
 const registerUrl = databaseUrl + 'user-auth/register/';
 const resetPasswordUrl = databaseUrl + 'user-auth/request-password-reset/';
