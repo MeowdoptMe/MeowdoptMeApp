@@ -71,7 +71,6 @@ function ChangeMailScreen({setChangeMailModalVisible}: ChangeMailScreenProps) {
       });
       setChangeMailModalVisible(false);
     } catch (e) {
-      console.log(e);
       setError(e as string);
     } finally {
       setLoading(false);

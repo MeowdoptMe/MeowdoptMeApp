@@ -43,7 +43,6 @@ function InfoView({ setEdit }: InfoViewProps) {
 
   async function fetchShelterInfo() {
     try {
-      console.log('getting shelter info');
       const response = await adUtils.getShelterData(Number(ad.shelter));
       setShelterInfo(response);
     } catch (e) {
