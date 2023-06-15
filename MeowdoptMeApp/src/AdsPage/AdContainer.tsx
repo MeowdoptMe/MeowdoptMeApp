@@ -63,19 +63,17 @@ function AdContainer() {
       )}
       <FlashList
         data={photos}
-        extraData={true}
         estimatedItemSize={400}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         snapToAlignment={'center'}
         decelerationRate={'fast'}
         snapToInterval={width}
-        scrollEnabled
         initialScrollIndex={1}
         estimatedFirstItemOffset={width * -0.02}
         ListHeaderComponent={<InfoScreen setNameVisible={setNameVisible} />}
         // ListFooterComponent={<AddPhotoScreen />}
-        renderItem={({item, index}) => (
+        renderItem={({item}) => (
           <View style={styles.innerListElementContainer}>
             {/* @ts-ignore */}
             <FastImage
