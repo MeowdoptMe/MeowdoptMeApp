@@ -21,7 +21,7 @@ function SheltersScreen({ navigation }) {
   const [shelters, setShelters] = useState<Shelter[]>([])
   const { shelter, setShelter } = useContext(ShelterContext);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
 
   async function loadShelters() {

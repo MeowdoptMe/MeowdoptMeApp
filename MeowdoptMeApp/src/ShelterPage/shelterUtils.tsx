@@ -3,9 +3,15 @@ import Database from '../Database';
 import { Shelter } from '../commonTypes';
 
 
+async function sleep() {
+  return new Promise(resolve => setTimeout(resolve, 500));
+}
+
 async function getShelters() {
   try {
+    const sleepPromise = sleep();
     const response = await axios.get(Database.getSheltersUrl);
+    await sleepPromise;
     return response.data;
   } catch (e: unknown) {
     if (isAxiosError(e)) {
