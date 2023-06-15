@@ -6,6 +6,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from os import remove
 
+from BackendApp import settings
+
 
 def create_jpg_file(id):
     image = Image.new("RGB", (100, 100), (255, 0, 0, 255))
@@ -18,11 +20,10 @@ def create_jpg_file(id):
 
 
 def convert_to_jpg(image_field):
-    media_path = "/home/gocha/apka/BackendApp/media/"
-    old_filename = f"{media_path}{image_field.name}"
+    old_filename = f"{settings.MEDIA_ROOT}{image_field.name}"
     image = Image.open(old_filename)
     image = image.convert("RGB")
-    jpg_path = f"{media_path}photos/{str(uuid4())}.jpg"
+    jpg_path = f"{settings.MEDIA_ROOT}photos/{str(uuid4())}.jpg"
     image.save(jpg_path, "JPEG")
     remove(old_filename)
     return image
