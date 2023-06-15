@@ -1,7 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Ad } from '../commonTypes';
-import { ShelterContext } from '../Context';
 import AdsPage from '../AdsPage/AdsPage';
 
 

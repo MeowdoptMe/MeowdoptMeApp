@@ -46,7 +46,6 @@ async function getShelterById(id: number) {
   try {
     const url = `${Database.getSheltersUrl}${id}/`
     const response = await axios.get(url);
-    //console.log(response.data)
     return response.data;
   } catch (e: unknown) {
     if (isAxiosError(e)) {

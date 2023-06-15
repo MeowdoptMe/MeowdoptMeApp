@@ -3,7 +3,6 @@ const { width, height } = Dimensions.get('window');
 import React, { Dispatch } from 'react';
 import { View, Text, StyleSheet, Pressable, SafeAreaView, Dimensions } from 'react-native';
 import { ShelterContext } from '../Context';
-import { shelters } from '../sampleData/sheltersPhotos';
 import FastImage from 'react-native-fast-image';
 import InfoScreen from './InfoScreen';
 import colorPalette from '../../assets/colors';
@@ -36,12 +35,6 @@ function ShelterAd() {
     const [photos, setPhotos] = React.useState<Photo[]>([]);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState<string | undefined>(undefined);
-    const photo = React.useRef<Photo>(undefined as any);
-
-
-    const data = shelters?.find(item => {
-        return (item.id === shelter?.id)
-    })!;
 
 
     React.useEffect(() => {

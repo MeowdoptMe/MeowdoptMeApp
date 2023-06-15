@@ -30,7 +30,7 @@ async function getPhotos(id: number): Promise<Photo[]> {
     const response = await axios.get(url);
     return response.data;
   } catch (e: unknown) {
-    console.log(e.response);
+  
     if (isAxiosError(e)) {
       if (e.response?.data) {
         throw e.response.data;
@@ -96,7 +96,7 @@ async function editPhotoPicture(
       },
     );
   } catch (e: unknown) {
-    console.log(e.response);
+  
     if (isAxiosError(e)) {
       if (e.response?.data.detail) {
         throw e.response.data.detail;

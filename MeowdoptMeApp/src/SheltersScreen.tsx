@@ -9,6 +9,7 @@ import colorPalette from '../assets/colors';
 import { ShelterContext } from './Context';
 import HomeScreen from './HomeScreen';
 import type { Shelter } from './commonTypes';
+import Status from './components/Status';
 
 
 const { width, height } = Dimensions.get('window');
@@ -19,14 +20,20 @@ function SheltersScreen({ navigation }) {
   const [page, setPage] = useState('list');
   const [shelters, setShelters] = useState<Shelter[]>([])
   const { shelter, setShelter } = useContext(ShelterContext);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
 
 
   async function loadShelters() {
     try {
       const shelters = await getShelters();
       setShelters(shelters);
+      setError(undefined);
+      setLoading(false);
     } catch (e) {
       console.log(e)
+      setError(e as string);
+      setLoading(false);
     }
   }
 
@@ -36,16 +43,14 @@ function SheltersScreen({ navigation }) {
   }
 
 
-
   useEffect(() => {
     loadShelters();
   }, [shelter])
 
-
-
-  return page === 'list' ? (
+  return loading || error ? (
+    <Status loading={loading} error={error} style={styles.statusContainer} />
+  ) : page === 'list' ? (
     <View style={styles.sectionContainer}>
-
       <FlashList
         data={shelters}
         estimatedItemSize={60}
@@ -73,7 +78,7 @@ function SheltersScreen({ navigation }) {
         </Pressable>
       </View>
     </View>
-  );
+  )
 }
 
 
@@ -98,6 +103,12 @@ function ShelterTitle({ setPage }: ShelterTitleProps) {
 }
 
 const styles = StyleSheet.create({
+  statusContainer: {
+    width: width,
+    height: height,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   sectionContainer: {
     width: width,
     height: height,
