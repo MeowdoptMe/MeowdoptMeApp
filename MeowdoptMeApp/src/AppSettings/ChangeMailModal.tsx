@@ -125,16 +125,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // container: {
-  //   backgroundColor: 'black',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
   scrollContent: {
-    // backgroundColor: 'purple',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
