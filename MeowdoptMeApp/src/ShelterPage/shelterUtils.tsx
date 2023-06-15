@@ -25,10 +25,11 @@ async function getShelters() {
 }
 
 async function editShelter(shelter: Shelter, token: string) {
-  const {name, email, phone, location} = shelter;
   try {
+    const {name, email, phone, location} = shelter;
+    const url = `${Database.getSheltersUrl}${shelter.id}/`;
     await axios.put(
-      Database.getSheltersUrl + String(shelter.id) + '/',
+      url,
       {
         name,
         email,
