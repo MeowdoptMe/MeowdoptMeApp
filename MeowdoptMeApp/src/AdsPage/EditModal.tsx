@@ -39,9 +39,6 @@ function EditModal({photo, visible, setVisible}: EditModalProps) {
         return;
       }
       const newPhoto = response.assets![0];
-      console.log(ad.photoAlbum);
-      console.log(photo.id);
-      console.log(ad);
       await adUtils.editPhotoPicture(
         user.token,
         newPhoto,

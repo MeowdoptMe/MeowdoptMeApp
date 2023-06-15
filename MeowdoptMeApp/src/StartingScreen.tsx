@@ -227,8 +227,9 @@ function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
     setError(undefined);
     setLoading(true);
     try {
-      await authUtils.sleep();
+      const sleepPromise = authUtils.sleep();
       await authUtils.register(login, email, password);
+      await sleepPromise;
     } catch (e) {
       setError(e as string);
       setLoading(false);
@@ -336,8 +337,9 @@ function ForgotPasswordModal({
     setError(undefined);
     setLoading(true);
     try {
-      await authUtils.sleep();
+      const sleepPromise = authUtils.sleep();
       await authUtils.resetPassword(email);
+      await sleepPromise;
       setError(undefined);
       setRequestSent(true);
     } catch (e) {

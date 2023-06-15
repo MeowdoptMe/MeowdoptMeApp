@@ -2,6 +2,7 @@ const databaseUrl = 'http://localhost:8000/';
 const loginUrl = databaseUrl + 'user-auth/login/';
 const registerUrl = databaseUrl + 'user-auth/register/';
 const resetPasswordUrl = databaseUrl + 'user-auth/request-password-reset/';
+const getSheltersUrl = databaseUrl + 'shelters/';
 const changeMailUrl = databaseUrl + 'user-auth/change-email/';
 const changePasswordUrl = databaseUrl + 'user-auth/change-password/';
 const usersUrl = databaseUrl + '/users/';
@@ -17,6 +18,7 @@ const Database = {
   usersUrl,
   adsUrl,
   photoAlbumUrl,
+  getSheltersUrl,
 };
 
 export default Database;

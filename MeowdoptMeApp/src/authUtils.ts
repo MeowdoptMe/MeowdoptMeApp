@@ -9,7 +9,7 @@ const isValidEmail = (email: string) => {
 };
 
 async function sleep() {
-  return new Promise(resolve => setTimeout(resolve, 2000));
+  return new Promise(resolve => setTimeout(resolve, 500));
 }
 
 async function login(username: string, password: string) {
