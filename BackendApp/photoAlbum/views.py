@@ -25,7 +25,6 @@ class PhotoAlbumCreate(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-
         photos = request.FILES.getlist("photos")
         for photo in photos:
             image = Photo.objects.create(photo_album=serializer.instance, img=photo)
@@ -59,6 +58,14 @@ class PhotoCreate(CreateAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
     permission_classes = [PhotoPermission]
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["photo_album"] = self.kwargs.get("id")
+        if "description" in self.request.data:
+            context["description"] = self.request.data["description"]
+        context["img"] = self.request.FILES.get("img")
+        return context
 
 
 class PhotoDetail(RetrieveUpdateDestroyAPIView):
