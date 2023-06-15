@@ -54,6 +54,5 @@ export interface User {
   username: string;
   mail: string;
   token: string;
-  // permissions: PermissionsList;
-  // requests: PermissionRequest[];
+  id: number;
 }
