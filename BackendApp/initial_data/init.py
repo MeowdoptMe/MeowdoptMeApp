@@ -44,7 +44,7 @@ def add_shelters(shelters):
             location=shelter["location"],
             x_cord=shelter["x_cord"],
             y_cord=shelter["y_cord"],
-            photoAlbum=photo_album
+            photoAlbum=photo_album,
         )
 
 
