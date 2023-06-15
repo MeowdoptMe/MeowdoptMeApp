@@ -108,7 +108,7 @@ interface LoginScreenProps {
 }
 
 function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
-  const {user, setUser, setIsStartingScreen} = useContext(AppContext);
+  const {setUser, setIsStartingScreen} = useContext(AppContext);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -123,12 +123,13 @@ function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
     setLoading(true);
     try {
       await authUtils.sleep();
-      const token = await authUtils.login(username, password);
+      const {access, email, id} = await authUtils.login(username, password);
       setError(undefined);
       setUser({
-        username: username,
-        mail: user.mail, // TODO: get mail from server
-        token,
+        username,
+        mail: email,
+        token: access,
+        id,
       });
       setIsStartingScreen(false);
     } catch (e) {
@@ -226,19 +227,21 @@ function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
     setError(undefined);
     setLoading(true);
     try {
-      await authUtils.sleep();
+      const sleepPromise = authUtils.sleep();
       await authUtils.register(login, email, password);
+      await sleepPromise;
     } catch (e) {
       setError(e as string);
       setLoading(false);
       return;
     }
     try {
-      const token = await authUtils.login(login, password);
+      const {access, id} = await authUtils.login(login, password);
       setUser({
         username: login,
         mail: email,
-        token,
+        token: access,
+        id,
       });
       setIsStartingScreen(false);
     } catch (e) {
@@ -334,8 +337,9 @@ function ForgotPasswordModal({
     setError(undefined);
     setLoading(true);
     try {
-      await authUtils.sleep();
+      const sleepPromise = authUtils.sleep();
       await authUtils.resetPassword(email);
+      await sleepPromise;
       setError(undefined);
       setRequestSent(true);
     } catch (e) {

@@ -9,7 +9,7 @@ const isValidEmail = (email: string) => {
 };
 
 async function sleep() {
-  return new Promise(resolve => setTimeout(resolve, 2000));
+  return new Promise(resolve => setTimeout(resolve, 500));
 }
 
 async function login(username: string, password: string) {
@@ -18,7 +18,8 @@ async function login(username: string, password: string) {
       username,
       password,
     });
-    return response.data.access;
+    console.log(response.data);
+    return response.data;
   } catch (e: unknown) {
     if (isAxiosError(e)) {
       if (e.response?.data?.detail) {
@@ -112,6 +113,22 @@ async function changePassword(
   }
 }
 
+async function deleteAccount(id: number, token: string) {
+  const url = `${Database.usersUrl}${id}/`;
+  try {
+    await axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (e) {
+    if (isAxiosError(e)) {
+      throw e.response?.data.detail;
+    }
+    throw e;
+  }
+}
+
 export default {
   sleep,
   login,
@@ -120,4 +137,5 @@ export default {
   isValidEmail,
   changeMail,
   changePassword,
+  deleteAccount,
 };

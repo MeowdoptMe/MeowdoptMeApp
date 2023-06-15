@@ -14,7 +14,7 @@ const map = `
 </head>
 
 <body>
-    <div id="map" style="width: 345px; height: 625px;"></div>
+    <div id="map" style="width: 100%; height: 97vh;"></div>
 
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
         integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="

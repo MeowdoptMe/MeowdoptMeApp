@@ -64,14 +64,16 @@ function ChangePasswordScreen({
     try {
       const username = user.username;
       const mail = user.mail;
-      const token = await authUtils.login(username, currentPassword);
+      const {access} = await authUtils.login(username, currentPassword);
+      const id = user.id;
       setUser({
-        username: username,
-        mail: mail,
-        token,
+        username,
+        mail,
+        token: access,
+        id,
       });
 
-      await authUtils.changePassword(currentPassword, newPassword, token);
+      await authUtils.changePassword(currentPassword, newPassword, access);
       setError(undefined);
       setChangePasswordModalVisible(false);
     } catch (e) {

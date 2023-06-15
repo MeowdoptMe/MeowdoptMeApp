@@ -13,10 +13,10 @@ import FastImage from 'react-native-fast-image';
 import {AdContext} from '../Context';
 import InfoScreen from './InfoScreen';
 import EditModal from './EditModal';
-import AddPhotoScreen from './AddPhotoScreen';
 import {Ad, Photo} from '../commonTypes';
 import adUtils from './adUtils';
 import Status from '../components/Status';
+import AddPhotoScreen from './AddPhotoScreen';
 
 // "https://icons8.com";
 const editIcon = require('../../assets/edit-icon.png');
@@ -63,19 +63,17 @@ function AdContainer() {
       )}
       <FlashList
         data={photos}
-        extraData={true}
         estimatedItemSize={400}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         snapToAlignment={'center'}
         decelerationRate={'fast'}
         snapToInterval={width}
-        scrollEnabled
         initialScrollIndex={1}
         estimatedFirstItemOffset={width * -0.02}
         ListHeaderComponent={<InfoScreen setNameVisible={setNameVisible} />}
-        // ListFooterComponent={<AddPhotoScreen />}
-        renderItem={({item, index}) => (
+        ListFooterComponent={<AddPhotoScreen />}
+        renderItem={({item}) => (
           <View style={styles.innerListElementContainer}>
             {/* @ts-ignore */}
             <FastImage

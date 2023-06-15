@@ -56,23 +56,25 @@ function ChangeMailScreen({setChangeMailModalVisible}: ChangeMailScreenProps) {
       const oldMail = user.mail;
       const newMail = mail;
       const username = user.username;
-      const token = await authUtils.login(username, password);
+      const {access} = await authUtils.login(username, password);
+      const id = user.id;
       setUser({
-        username: username,
+        username,
         mail: oldMail,
-        token,
+        token: access,
+        id,
       });
 
-      await authUtils.changeMail(newMail, token);
+      await authUtils.changeMail(newMail, access);
       setError(undefined);
       setUser({
-        username: username,
+        username,
         mail: newMail,
-        token,
+        token: access,
+        id,
       });
       setChangeMailModalVisible(false);
     } catch (e) {
-      console.log(e);
       setError(e as string);
     } finally {
       setLoading(false);

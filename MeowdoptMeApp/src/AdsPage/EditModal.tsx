@@ -21,7 +21,7 @@ function EditModal({photo, visible, setVisible}: EditModalProps) {
   const [error, setError] = React.useState<string | undefined>(undefined);
 
   const {refreshAd} = useContext(AdListContext);
-  const {ad, adIndex} = useContext(AdContext);
+  const {ad} = useContext(AdContext);
   const {user} = useContext(AppContext);
 
   const [description, setDescription] = React.useState(photo?.description);
@@ -33,46 +33,46 @@ function EditModal({photo, visible, setVisible}: EditModalProps) {
       setError('Cannot be performed as a guest user');
       return;
     }
+    setLoading(true);
     try {
       const response = await launchImageLibrary({mediaType: 'photo'});
       if (response.didCancel) {
         return;
       }
       const newPhoto = response.assets![0];
-      console.log(ad.photoAlbum);
-      console.log(photo.id);
-      console.log(ad);
       await adUtils.editPhotoPicture(
         user.token,
         newPhoto,
         ad.photoAlbum,
         photo.id,
       );
-      // setVisible(false);
-      // await refreshAd(ad.id);
+      setVisible(false);
+      await refreshAd(ad.id);
     } catch (e) {
       setError(e as string);
     }
+    setLoading(false);
   }
 
-  function changeDescription() {
-    // const newAd = {
-    //   ...ad,
-    //   photoAlbum: {
-    //     ...ad.photoAlbum,
-    //     photos: ad.photoAlbum.photos.map((photo, index) => {
-    //       if (index === photoIndex) {
-    //         return {
-    //           ...photo,
-    //           description,
-    //         };
-    //       }
-    //       return photo;
-    //     }),
-    //   },
-    // };
-    // changeAd(newAd, adIndex);
-    // setVisible(false);
+  async function changeDescription() {
+    if (user === guestUser) {
+      setError('Cannot be performed as a guest user');
+      return;
+    }
+    setLoading(true);
+    try {
+      await adUtils.editPhotoDescription(
+        user.token,
+        description,
+        ad.photoAlbum,
+        photo.id,
+      );
+      setVisible(false);
+      await refreshAd(ad.id);
+    } catch (e) {
+      setError(e as string);
+    }
+    setLoading(false);
   }
 
   return (

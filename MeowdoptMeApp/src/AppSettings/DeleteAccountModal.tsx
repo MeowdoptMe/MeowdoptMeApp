@@ -1,17 +1,15 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   TextInput,
   ScrollView,
   SafeAreaView,
   Modal,
-  Text,
 } from 'react-native';
 import {GeneralButton} from '../components/GeneralButton';
 import {AppContext, guestUser} from '../Context';
 import authUtils from '../authUtils';
-import {useState} from 'react';
-import {Stats} from 'fs';
+import {useState, useContext} from 'react';
 import Status from '../components/Status';
 import colorPalette from '../../assets/colors';
 
@@ -40,6 +38,38 @@ interface DeleteAccountScreenProps {
 function DeleteAccountScreen({
   setDeleteAccountModalVisible,
 }: DeleteAccountScreenProps) {
+  const {user, setUser, setIsStartingScreen} = useContext(AppContext);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [password, setPassword] = useState<string>('');
+
+  async function onPressOut() {
+    if (password === '') {
+      setError('Please fill in all fields');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const username = user.username;
+      const {access} = await authUtils.login(username, password);
+      setUser({
+        ...user,
+        token: access,
+      });
+      await authUtils.deleteAccount(user.id, access);
+      setUser(guestUser);
+      setError(undefined);
+      setDeleteAccountModalVisible(false);
+      setIsStartingScreen(true);
+    } catch (e) {
+      setError(e as string);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.scrollViewContainer}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -48,15 +78,22 @@ function DeleteAccountScreen({
           placeholderTextColor={'navy'}
           secureTextEntry={true}
           style={styles.inputBox}
+          value={password}
+          onChangeText={text => {
+            setPassword(text);
+          }}
         />
+        <Status error={error} loading={loading} />
         <GeneralButton
           text="Delete account"
           textStyle={styles.buttonText}
-          onPressOut={() => {}}
+          onPressOut={onPressOut}
+          disabled={loading}
         />
         <GeneralButton
           text="Cancel"
           onPressOut={() => setDeleteAccountModalVisible(false)}
+          disabled={loading}
         />
       </ScrollView>
     </SafeAreaView>
