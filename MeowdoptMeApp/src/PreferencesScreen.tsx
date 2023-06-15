@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import {ChangePasswordModal} from './AppSettings/ChangePasswordModal';
 import {ChangeMailModal} from './AppSettings/ChangeMailModal';
 import {DeleteAccountModal} from './AppSettings/DeleteAccountModal';
 import {LogoutModal} from './AppSettings/LogoutModal';
 import {GeneralButton} from './components/GeneralButton';
+import colorPalette from '../assets/colors';
 
 function PreferencesScreen() {
   const [changePasswordModalVisible, setChangePasswordModalVisible] =
@@ -16,74 +17,75 @@ function PreferencesScreen() {
   const [logoutModalVisible, setLogoutModalVisible] = React.useState(false);
 
   return (
-    <View style={styles.sectionContainer}>
-      <GeneralButton
-        text="Set your filters"
-        onPressOut={() => setChangePasswordModalVisible(false)}
-      />
-      <ChangePasswordModal
-        changePasswordModalVisible={changePasswordModalVisible}
-        setChangePasswordModalVisible={setChangePasswordModalVisible}
-      />
-      <GeneralButton
-        text={'Change your password'}
-        onPressOut={() => setChangePasswordModalVisible(true)}
-      />
-      <ChangeMailModal
-        changeMailModalVisible={changeMailModalVisible}
-        setChangeMailModalVisible={setChangeMailModalVisible}
-      />
-      <GeneralButton
-        text={'Change your mail'}
-        onPressOut={() => setChangeMailModalVisible(true)}
-      />
-      <DeleteAccountModal
-        deleteAccountModalVisible={deleteAccountModalVisible}
-        setDeleteAccountModalVisible={setDeleteAccountModalVisible}
-      />
-      <GeneralButton
-        text="Delete your account"
-        onPressOut={() => setDeleteAccountModalVisible(true)}
-      />
-      <LogoutModal
-        logoutModalVisible={logoutModalVisible}
-        setLogoutModalVisible={setLogoutModalVisible}
-      />
-      <GeneralButton
-        text="Logout"
-        onPressOut={() => setLogoutModalVisible(true)}
-      />
-    </View>
+    <SafeAreaView style={styles.scrollViewContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <GeneralButton
+          text="Set your filters"
+          textStyle={styles.buttonText}
+          onPressOut={() => setChangePasswordModalVisible(false)}
+        />
+        <ChangePasswordModal
+          changePasswordModalVisible={changePasswordModalVisible}
+          setChangePasswordModalVisible={setChangePasswordModalVisible}
+        />
+        <GeneralButton
+          text={'Change your password'}
+          extraStyle={styles.button}
+          textStyle={styles.buttonText}
+          onPressOut={() => setChangePasswordModalVisible(true)}
+        />
+        <ChangeMailModal
+          changeMailModalVisible={changeMailModalVisible}
+          setChangeMailModalVisible={setChangeMailModalVisible}
+        />
+        <GeneralButton
+          text={'Change your mail'}
+          textStyle={styles.buttonText}
+          onPressOut={() => setChangeMailModalVisible(true)}
+        />
+        <DeleteAccountModal
+          deleteAccountModalVisible={deleteAccountModalVisible}
+          setDeleteAccountModalVisible={setDeleteAccountModalVisible}
+        />
+        <GeneralButton
+          text="Delete your account"
+          extraStyle={styles.button}
+          textStyle={styles.buttonText}
+          onPressOut={() => setDeleteAccountModalVisible(true)}
+        />
+        <LogoutModal
+          logoutModalVisible={logoutModalVisible}
+          setLogoutModalVisible={setLogoutModalVisible}
+        />
+        <GeneralButton
+          text="Logout"
+          onPressOut={() => setLogoutModalVisible(true)}
+        />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    flex: 1,
+  scrollViewContainer: {
+    backgroundColor: colorPalette.backgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  scrollContent: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'grey',
+    flexGrow: 1,
   },
   noButtonText: {
     color: 'black',
     textAlign: 'center',
   },
   buttonText: {
-    color: 'white',
-    textAlign: 'center',
-    maxHeight: 40,
-    minWidth: 160,
-    margin: 5,
+    fontSize: 24,
   },
   button: {
-    backgroundColor: 'royalblue',
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
-    borderBottomEndRadius: 20,
-    borderBottomStartRadius: 20,
-    maxHeight: 40,
-    minWidth: 160,
-    margin: 5,
+    height: 70,
   },
   modalText: {
     flex: 1,

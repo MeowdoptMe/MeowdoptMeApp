@@ -49,7 +49,11 @@ function DeleteAccountScreen({
           secureTextEntry={true}
           style={styles.inputBox}
         />
-        <GeneralButton text="Delete account" onPressOut={() => {}} />
+        <GeneralButton
+          text="Delete account"
+          textStyle={styles.buttonText}
+          onPressOut={() => {}}
+        />
         <GeneralButton
           text="Cancel"
           onPressOut={() => setDeleteAccountModalVisible(false)}
@@ -65,16 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // container: {
-  //   backgroundColor: 'black',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
   scrollContent: {
-    // backgroundColor: 'purple',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
@@ -93,6 +88,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     textAlign: 'center',
+  },
+  buttonText: {
+    fontSize: 26,
   },
 });
 

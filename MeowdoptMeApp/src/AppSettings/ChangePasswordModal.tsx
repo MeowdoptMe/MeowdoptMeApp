@@ -117,6 +117,7 @@ function ChangePasswordScreen({
         <Status error={error} loading={loading} />
         <GeneralButton
           text="Change password"
+          textStyle={styles.buttonText}
           onPressOut={onPressOut}
           disabled={loading}
         />
@@ -155,6 +156,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     textAlign: 'center',
+  },
+  buttonText: {
+    fontSize: 24,
   },
 });
 
