@@ -1,20 +1,31 @@
-import React, {useContext} from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import React, { useContext } from 'react';
+import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import colorPalette from '../../assets/colors';
-import {GeneralButton} from '../components/GeneralButton';
-import {AdContext} from '../Context';
-import {Modal} from 'react-native';
+import { GeneralButton } from '../components/GeneralButton';
+import { AdContext, ShelterContext } from '../Context';
+import { Modal } from 'react-native';
+import { Shelter } from '../commonTypes';
+import adUtils from './adUtils';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 interface InfoViewProps {
   setEdit: (edit: boolean) => void;
 }
 
-function InfoView({setEdit}: InfoViewProps) {
-  const {ad} = useContext(AdContext);
-  const {gender, breed, color, dateOfBirth} = ad.pet.petCharacteristics;
+
+function InfoView({ setEdit }: InfoViewProps) {
+  const { ad } = useContext(AdContext);
+  const { gender, breed, color, dateOfBirth } = ad.pet.petCharacteristics;
   const [aboutModalVisible, setAboutModalVisible] = React.useState(false);
+  const [contactModalVisible, setContactModalVisible] = React.useState(false);
+  const [shelterInfo, setShelterInfo] = React.useState<Shelter>(undefined as any);
+  //const {shelter} = useContext(ShelterContext);
+
+  React.useEffect(() => {
+    fetchShelterInfo()
+  }, []);
+
 
   function getAge() {
     const date = new Date();
@@ -28,6 +39,16 @@ function InfoView({setEdit}: InfoViewProps) {
     return age;
   }
   const age = getAge();
+
+
+  async function fetchShelterInfo() {
+    try {
+      console.log('getting shelter info');
+      const response = await adUtils.getShelterData(Number(ad.shelter));
+      setShelterInfo(response);
+    } catch (e) {
+    }
+  }
 
   return (
     <View style={styles.informationScreenContainer}>
@@ -54,11 +75,38 @@ function InfoView({setEdit}: InfoViewProps) {
         }}
       />
       <GeneralButton
+        text={'Contact'}
+        onPressOut={() => {
+          fetchShelterInfo();
+          setContactModalVisible(true);
+        }}
+      />
+      <GeneralButton
         text={'Edit'}
         onPressOut={() => {
           setEdit(true);
         }}
       />
+      <Modal
+        animationType="fade"
+        visible={contactModalVisible}
+        transparent={true}>
+        <View style={styles.aboutModalContainer}>
+          <View style={styles.aboutModalContent}>
+            <Text style={styles.aboutModalText}>{ad.pet.name}</Text>
+            <Text style={styles.aboutModalText}>{shelterInfo?.name}</Text>
+            <Text style={styles.aboutModalText}>{shelterInfo?.location}</Text>
+            <Text style={styles.aboutModalText}>{shelterInfo?.email}</Text>
+            <Text style={styles.aboutModalText}>{shelterInfo?.phone}</Text>
+            <GeneralButton
+              text={'Close'}
+              onPressOut={() => {
+                setContactModalVisible(false);
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
       <Modal
         animationType="fade"
         visible={aboutModalVisible}
@@ -124,7 +172,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     textAlign: 'justify',
-    margin: 30,
+    margin: 10,
   },
 });
 

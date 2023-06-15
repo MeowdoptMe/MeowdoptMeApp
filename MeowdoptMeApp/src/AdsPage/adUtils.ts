@@ -109,6 +109,23 @@ async function editPhotoPicture(
   }
 }
 
+async function getShelterData(id: number){
+  try{
+    const url = `${Database.getSheltersUrl}${id}/`;
+    const response = await axios.get(url);
+    return response.data;
+  } catch (e: unknown) {
+    if (isAxiosError(e)) {
+      if (e.response?.data.detail) {
+        throw e.response.data.detail;
+      } else {
+        throw e.message;
+      }
+    }
+    throw e;
+  }
+}
+
 async function deletePhoto() {}
 
 export default {
@@ -119,4 +136,5 @@ export default {
   editPhotoDescription,
   editPhotoPicture,
   deletePhoto,
+  getShelterData,
 };
