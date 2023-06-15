@@ -18,7 +18,6 @@ async function login(username: string, password: string) {
       username,
       password,
     });
-    console.log(response.data);
     return response.data;
   } catch (e: unknown) {
     if (isAxiosError(e)) {
