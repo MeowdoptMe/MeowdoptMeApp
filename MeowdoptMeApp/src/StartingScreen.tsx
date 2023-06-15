@@ -108,7 +108,7 @@ interface LoginScreenProps {
 }
 
 function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
-  const {user, setUser, setIsStartingScreen} = useContext(AppContext);
+  const {setUser, setIsStartingScreen} = useContext(AppContext);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -122,14 +122,14 @@ function LoginScreen({setLoginModalVisible}: LoginScreenProps) {
     }
     setLoading(true);
     try {
-      const sleepPromise = authUtils.sleep();
-      const token = await authUtils.login(username, password);
-      await sleepPromise;
+      await authUtils.sleep();
+      const {access, email, id} = await authUtils.login(username, password);
       setError(undefined);
       setUser({
-        username: username,
-        mail: user.mail, // TODO: get mail from server
-        token,
+        username,
+        mail: email,
+        token: access,
+        id,
       });
       setIsStartingScreen(false);
     } catch (e) {
@@ -236,11 +236,12 @@ function RegisterScreen({setRegisterModalVisible}: RegisterScreenProps) {
       return;
     }
     try {
-      const token = await authUtils.login(login, password);
+      const {access, id} = await authUtils.login(login, password);
       setUser({
         username: login,
         mail: email,
-        token,
+        token: access,
+        id,
       });
       setIsStartingScreen(false);
     } catch (e) {

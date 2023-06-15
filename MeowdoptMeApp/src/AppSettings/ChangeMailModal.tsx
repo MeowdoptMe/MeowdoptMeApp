@@ -11,6 +11,7 @@ import {AppContext} from '../Context';
 import authUtils from '../authUtils';
 import {useState} from 'react';
 import Status from '../components/Status';
+import colorPalette from '../../assets/colors';
 
 interface ChangeMailModalProps {
   changeMailModalVisible: boolean;
@@ -55,19 +56,22 @@ function ChangeMailScreen({setChangeMailModalVisible}: ChangeMailScreenProps) {
       const oldMail = user.mail;
       const newMail = mail;
       const username = user.username;
-      const token = await authUtils.login(username, password);
+      const {access} = await authUtils.login(username, password);
+      const id = user.id;
       setUser({
-        username: username,
+        username,
         mail: oldMail,
-        token,
+        token: access,
+        id,
       });
 
-      await authUtils.changeMail(newMail, token);
+      await authUtils.changeMail(newMail, access);
       setError(undefined);
       setUser({
-        username: username,
+        username,
         mail: newMail,
-        token,
+        token: access,
+        id,
       });
       setChangeMailModalVisible(false);
     } catch (e) {
@@ -78,7 +82,7 @@ function ChangeMailScreen({setChangeMailModalVisible}: ChangeMailScreenProps) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.scrollViewContainer}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <TextInput
           placeholder="new mail"
@@ -92,6 +96,7 @@ function ChangeMailScreen({setChangeMailModalVisible}: ChangeMailScreenProps) {
         <TextInput
           placeholder="password"
           placeholderTextColor={'navy'}
+          secureTextEntry={true}
           style={styles.inputBox}
           value={password}
           onChangeText={text => {
@@ -115,15 +120,23 @@ function ChangeMailScreen({setChangeMailModalVisible}: ChangeMailScreenProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'black',
+  scrollViewContainer: {
+    backgroundColor: colorPalette.backgroundColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  // container: {
+  //   backgroundColor: 'black',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
   scrollContent: {
-    backgroundColor: 'purple',
-    justifyContent: 'center',
+    // backgroundColor: 'purple',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // flexGrow: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     flexGrow: 1,
   },
   inputContainer: {
@@ -132,7 +145,9 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   inputBox: {
+    backgroundColor: colorPalette.lightAccentColor,
     width: 200,
+    height: 50,
     margin: 5,
     color: 'black',
     borderWidth: 2,

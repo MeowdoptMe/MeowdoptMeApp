@@ -7,6 +7,7 @@ const guestUser: User = {
   username: 'Guest',
   mail: 'guest@guest.guest',
   token: '__guest-token__',
+  id: -1,
 };
 
 interface AppContextType {
