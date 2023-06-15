@@ -17,6 +17,7 @@ async function fetchPhotos(
     setLoading: Dispatch<React.SetStateAction<boolean>>,
     setError: Dispatch<React.SetStateAction<string | undefined>>,
 ) {
+    console.warn(shelterPhotoAlbumId);
     try {
         const response = await adUtils.getPhotos(shelterPhotoAlbumId);
         console.log(response);
@@ -48,6 +49,7 @@ function ShelterAd() {
     React.useEffect(() => {
         console.log("shelter", shelter);
         console.log("contextShelter", contextShelter);
+        console.warn(shelter.photoAlbum);
 
         fetchPhotos(shelter.photoAlbum, setPhotos, setLoading, setError);
     }, [shelter]);
