@@ -48,8 +48,15 @@ class LoginView(TokenObtainPairView):
         response.data["email"] = User.objects.get(
             username=request.data["username"]
         ).email
-        response.data["username"] = request.data["username"]
 
+        if request.data["username"]:
+            try:
+                user = User.objects.get(username=request.data["username"])
+                response.data["id"] = user.id
+            except User.DoesNotExist:
+                response.data["id"] = None
+        else:
+            response.data["id"] = None
         return response
 
 
