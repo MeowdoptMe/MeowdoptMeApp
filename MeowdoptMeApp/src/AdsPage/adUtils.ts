@@ -138,6 +138,37 @@ async function editPhotoPicture(
   }
 }
 
+async function addPhotoToAlbum(
+  token: string,
+  asset: Asset,
+  photoAlbumId: number,
+) {
+  try {
+    const url = `${Database.photoAlbumUrl}${photoAlbumId}/photos/add/`;
+    const data = new FormData();
+    data.append('img', {
+      name: asset.fileName,
+      type: asset.type,
+      uri: asset.uri,
+    });
+    await axios.post(url, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  } catch (e: unknown) {
+    if (isAxiosError(e)) {
+      if (e.response?.data.detail) {
+        throw e.response.data.detail;
+      } else {
+        throw e.message;
+      }
+    }
+    throw e;
+  }
+}
+
 async function deletePhoto() {}
 
 export default {
@@ -148,4 +179,5 @@ export default {
   editPhotoDescription,
   editPhotoPicture,
   deletePhoto,
+  addPhotoToAlbum,
 };
