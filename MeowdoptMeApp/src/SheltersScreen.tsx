@@ -23,8 +23,8 @@ function SheltersScreen({navigation}) {
 
   async function loadShelters() {
     try {
-      const shelters = await getShelters();
-      setShelters(shelters);
+      const fetchedShelters = await getShelters();
+      setShelters(fetchedShelters);
       setError(undefined);
       setLoading(false);
     } catch (e) {
@@ -33,8 +33,8 @@ function SheltersScreen({navigation}) {
     }
   }
 
-  function onPressOut(shelter: Shelter) {
-    setShelter(shelter);
+  function onPressOut(shelterFromList: Shelter) {
+    setShelter(shelterFromList);
     navigation.navigate(HomeScreen);
   }
 
@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     backgroundColor: colorPalette.backgroundColor,
-    //alignItems: 'center',
     justifyContent: 'center',
   },
   headerContainer: {
@@ -131,8 +130,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mapContainer: {
-    //flex: 1,
-    //top: height * 0.01,
     backgroundColor: colorPalette.backgroundColor,
     height: height * 0.89,
     width: width,
@@ -144,7 +141,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'black',
-    //backgroundColor: 'white',
     flex: 1,
   },
   button: {

@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import colorPalette from '../../assets/colors';
 import {GeneralButton} from '../components/GeneralButton';
-import {AdContext, ShelterContext} from '../Context';
+import {AdContext} from '../Context';
 import {Modal} from 'react-native';
 import {Shelter} from '../commonTypes';
 import adUtils from './adUtils';
@@ -21,10 +21,10 @@ function InfoView({setEdit}: InfoViewProps) {
   const [shelterInfo, setShelterInfo] = React.useState<Shelter>(
     undefined as any,
   );
-  //const {shelter} = useContext(ShelterContext);
 
   React.useEffect(() => {
     fetchShelterInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function getAge() {
