@@ -5,6 +5,7 @@ from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
     RetrieveUpdateDestroyAPIView,
+    RetrieveUpdateAPIView,
 )
 from rest_framework.response import Response
 
@@ -41,7 +42,7 @@ class PhotoAlbumCreate(CreateAPIView):
         )
 
 
-class PhotoAlbumDetail(RetrieveUpdateDestroyAPIView):
+class PhotoAlbumDetail(RetrieveUpdateAPIView):
     queryset = PhotoAlbum.objects.all()
     serializer_class = PhotoAlbumSerializer
     permission_classes = [PhotoAlbumPermission]
