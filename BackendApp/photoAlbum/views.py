@@ -1,8 +1,11 @@
+import os
+
 from rest_framework import status
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
     RetrieveUpdateDestroyAPIView,
+    RetrieveUpdateAPIView,
 )
 from rest_framework.response import Response
 
@@ -10,6 +13,9 @@ from .models import Photo, PhotoAlbum
 from .permissions import PhotoPermission, PhotoAlbumPermission
 from .serializers import PhotoSerializer, PhotoAlbumSerializer
 from .utils import convert_to_jpg
+from os import remove
+
+from BackendApp import settings
 
 
 class PhotoAlbumList(ListAPIView):
@@ -36,7 +42,7 @@ class PhotoAlbumCreate(CreateAPIView):
         )
 
 
-class PhotoAlbumDetail(RetrieveUpdateDestroyAPIView):
+class PhotoAlbumDetail(RetrieveUpdateAPIView):
     queryset = PhotoAlbum.objects.all()
     serializer_class = PhotoAlbumSerializer
     permission_classes = [PhotoAlbumPermission]
@@ -73,3 +79,8 @@ class PhotoDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = PhotoSerializer
     lookup_field = "pk"
     permission_classes = [PhotoPermission]
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        remove(f"{os.path.join(settings.MEDIA_ROOT, instance.img.name)}")
+        return super().delete(request, *args, **kwargs)
