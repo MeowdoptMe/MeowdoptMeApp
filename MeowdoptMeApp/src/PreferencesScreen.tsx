@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import {ChangePasswordModal} from './AppSettings/ChangePasswordModal';
 import {ChangeMailModal} from './AppSettings/ChangeMailModal';
 import {DeleteAccountModal} from './AppSettings/DeleteAccountModal';
@@ -19,11 +19,6 @@ function PreferencesScreen() {
   return (
     <SafeAreaView style={styles.scrollViewContainer}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <GeneralButton
-          text="Set your filters"
-          textStyle={styles.buttonText}
-          onPressOut={() => setChangePasswordModalVisible(false)}
-        />
         <ChangePasswordModal
           changePasswordModalVisible={changePasswordModalVisible}
           setChangePasswordModalVisible={setChangePasswordModalVisible}
@@ -83,6 +78,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 24,
+    textAlign: 'center',
   },
   button: {
     height: 70,

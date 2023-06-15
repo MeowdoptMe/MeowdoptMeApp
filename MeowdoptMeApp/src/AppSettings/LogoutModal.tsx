@@ -29,7 +29,7 @@ function LogoutScreen({setLogoutModalVisible}: LogoutScreenProps) {
   return (
     <SafeAreaView style={styles.scrollViewContainer}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text> "Do you want to logout for sure?"</Text>
+        <Text> Do you want to logout for sure?</Text>
         <GeneralButton
           text="Logout"
           onPressOut={() => {
