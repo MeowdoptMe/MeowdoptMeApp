@@ -60,6 +60,11 @@ class PhotoCreate(CreateAPIView):
     serializer_class = PhotoSerializer
     permission_classes = [PhotoPermission]
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["photo_album"] = self.kwargs.get("id")
+        return context
+
 
 class PhotoDetail(RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
